@@ -1,8 +1,13 @@
 ///|
 /// Boundary FSM lifecycle states.
+/// `Crossing` is entered when a Locus Crossing Passport is presented
+/// at the membrane. It is distinct from `Walking` (scalar inspection)
+/// because crossings carry authority material that must be validated,
+/// not merely scanned.
 pub(all) enum BoundaryFsmState {
   Idle
   Walking
+  Crossing
   Marked
   Emitted
   Failed
@@ -32,6 +37,16 @@ pub(all) struct BoundaryFinding {
 } derive(Show)
 
 ///|
+/// Per-passport crossing outcome recorded by the FSM.
+pub(all) struct CrossingReport {
+  passport_id : String
+  actor_overlay : String
+  target_locus : String
+  admitted : Bool
+  rejection : String?
+} derive(Show)
+
+///|
 /// Deterministic boundary walker + marker FSM.
 pub(all) struct BoundaryWalkerFsm {
   actor_overlay : String
@@ -45,6 +60,7 @@ pub(all) struct BoundaryWalkerFsm {
   ghost_ufeff : UInt
   bidi_controls : UInt
   ascii_controls : UInt
+  crossings : Array[CrossingReport]
 } derive(Show)
 
 ///|
@@ -64,6 +80,7 @@ pub fn BoundaryWalkerFsm::new(
     ghost_ufeff: 0U,
     bidi_controls: 0U,
     ascii_controls: 0U,
+    crossings: [],
   }
 }
 
@@ -96,6 +113,7 @@ pub fn BoundaryWalkerFsm::walk_scalar(
   let state = match self.state {
     Idle => Walking
     Walking => Walking
+    Crossing => Walking
     Marked => Marked
     Emitted => Walking
     Failed => Failed
@@ -138,6 +156,72 @@ pub fn BoundaryWalkerFsm::mark(self : BoundaryWalkerFsm) -> BoundaryWalkerFsm {
     _ => BoundaryFsmState::Marked
   }
   { ..self, state, }
+}
+
+///|
+/// Evaluate a Locus Crossing Passport at the membrane. The FSM:
+///   1. Walks every textual scalar of the passport so hidden ghost
+///      bytes or bidi controls in authority material are surfaced
+///      as findings (they cannot sneak past because they are scanned
+///      exactly as any other string).
+///   2. Runs `Passport::validate` to check shape and cross-field
+///      invariants.
+///   3. Records a `CrossingReport` regardless of outcome so replay
+///      always sees every attempted crossing.
+///
+/// This method does not issue a command; it only produces posture.
+/// Router policy evaluates `crossings` + `findings` and decides
+/// allow/narrow/sandbox/quarantine/deny downstream.
+pub fn BoundaryWalkerFsm::cross(
+  self : BoundaryWalkerFsm,
+  passport : Passport,
+) -> BoundaryWalkerFsm {
+  let walked = self.walk_scalars([
+    ("passport.kind", passport.kind),
+    ("passport.passport_id", passport.passport_id),
+    ("passport.who.overlay", passport.who.overlay),
+    ("passport.who.family", passport.who.family),
+    ("passport.who.session_surface", passport.who.session_surface),
+    ("passport.what.artifact_ref", passport.what.artifact_ref),
+    ("passport.why.note", passport.why.note),
+    ("passport.where.source_locus", passport.where_.source_locus),
+    ("passport.where.target_locus", passport.where_.target_locus),
+    ("passport.how_far.budget_class", passport.how_far.budget_class),
+    ("passport.trace.context_ref", passport.trace.context_ref),
+    ("passport.trace.lineage_ref", passport.trace.lineage_ref),
+  ])
+  let (admitted, rejection) = match passport.validate() {
+    Ok(_) => (true, None)
+    Err(e) => (false, Some(passport_error_tag(e)))
+  }
+  let report : CrossingReport = {
+    passport_id: sanitize_line(passport.passport_id),
+    actor_overlay: sanitize_line(passport.who.overlay),
+    target_locus: sanitize_line(passport.where_.target_locus),
+    admitted,
+    rejection,
+  }
+  let state = match walked.state {
+    BoundaryFsmState::Failed => BoundaryFsmState::Failed
+    _ => BoundaryFsmState::Crossing
+  }
+  { ..walked, state, crossings: walked.crossings + [report] }
+}
+
+///|
+/// Deterministic textual tag for a passport validation error.
+pub fn passport_error_tag(e : PassportError) -> String {
+  match e {
+    BadKind => "BAD_KIND"
+    BadVersion => "BAD_VERSION"
+    MissingSection(section) => "MISSING_SECTION:" + section
+    InvalidArtifactType => "INVALID_ARTIFACT_TYPE"
+    InvalidIntent => "INVALID_INTENT"
+    EmptyAllowedSurfaces => "EMPTY_ALLOWED_SURFACES"
+    InvalidBoundaryMode => "INVALID_BOUNDARY_MODE"
+    CapabilityIntentMismatch => "CAPABILITY_INTENT_MISMATCH"
+    MissingSeal(field) => "MISSING_SEAL:" + field
+  }
 }
 
 ///|
@@ -240,8 +324,26 @@ pub fn BoundaryWalkerFsm::emit_stigmergy(
   out.write_string(if attention_saturated { "1" } else { "0" })
   out.write_string("\nboundary_status=")
   out.write_string(status)
+  out.write_string("\ncrossings=")
+  out.write_string(self.crossings.length().to_string())
   out.write_string("\nnote=")
   out.write_string(note_value)
+
+  for crossing in self.crossings {
+    out.write_string("\n- crossing passport_id=")
+    out.write_string(sanitize_line(crossing.passport_id))
+    out.write_string(" actor_overlay=")
+    out.write_string(sanitize_line(crossing.actor_overlay))
+    out.write_string(" target_locus=")
+    out.write_string(sanitize_line(crossing.target_locus))
+    out.write_string(" admitted=")
+    out.write_string(if crossing.admitted { "1" } else { "0" })
+    out.write_string(" rejection=")
+    match crossing.rejection {
+      Some(tag) => out.write_string(sanitize_line(tag))
+      None => out.write_string("none")
+    }
+  }
 
   for finding in self.findings {
     out.write_string("\n- field=")

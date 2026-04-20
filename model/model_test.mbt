@@ -189,6 +189,33 @@ test "AI substrate fingerprint v2 can be APP-masked" {
 }
 
 ///|
+test "AI substrate fingerprint exposes the five-tuple identity surface" {
+  let context_hash = @hash.Hash::of_bytes(b"\x20")
+  let capability_hash = @hash.Hash::of_bytes(b"\x21")
+  let substrate_hash = @hash.Hash::of_bytes(b"\x22")
+  let semantics_hash = @hash.Hash::of_bytes(b"\x23")
+  let base = @model.AiSubstrateFingerprintV2::new(
+    "anthropic", "opus", "claude-code", "tool",
+    context_hash, capability_hash, substrate_hash, "issuer://merkin",
+  )
+  let tuple = base.tuple5()
+  assert_eq(tuple.0, "anthropic")
+  assert_eq(tuple.1, "opus")
+  assert_eq(tuple.2, "claude-code")
+  assert_eq(tuple.3, context_hash)
+  assert_eq(tuple.4, None)
+  let sealed = base.with_semantics_hash(semantics_hash)
+  assert_eq(sealed.tuple5().4, Some(semantics_hash))
+  // Folding semantics_hash must change the fingerprint_id: the 5-tuple
+  // identity surface is now locked against a semantic commitment.
+  assert_true(sealed.fingerprint_id != base.fingerprint_id)
+  // Determinism: re-sealing with the same semantics_hash yields the
+  // same fingerprint_id.
+  let sealed_again = base.with_semantics_hash(semantics_hash)
+  assert_eq(sealed.fingerprint_id, sealed_again.fingerprint_id)
+}
+
+///|
 test "Genius procsi attestation derives session identity" {
   let fingerprint_commitment = @hash.Hash::of_bytes(b"\x21")
   let ciphertext_hash = @hash.Hash::of_bytes(b"\x22")
