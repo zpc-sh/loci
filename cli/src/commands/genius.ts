@@ -58,7 +58,7 @@ export async function cmdSign(store: LociStore, args: string[]): Promise<void> {
     clack.intro(`loci sign: ${locusName}`)
 
     const did = await clack.text({ message: "What did you do?", placeholder: "implemented X, fixed Y" })
-    if (clack.isCancel(did)) { clack.cancel(); process.exit(0) }
+    if (clack.isCancel(did)) { clack.cancel('Cancelled'); process.exit(0) }
     if (did) residue = { ...residue, whatIDid: [did as string] }
 
     const left = await clack.text({ message: "What's left open?", placeholder: "(none)" })
