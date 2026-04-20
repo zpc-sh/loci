@@ -9,6 +9,12 @@
 /// All five, when present, contribute to `fingerprint_id`. Legacy
 /// fields (`mode`, `policy_hash`, `capability_hash`, `substrate_hash`,
 /// `issuer`) remain in the pre-image for continuity.
+///
+/// `resonance_signature` is an optional extension onto the dynamic
+/// cognition surface (AMF). When present, it extends identity past
+/// the static substrate 5-tuple onto the resonating cognition that
+/// is actually processing — the cryptographic reason the fingerprint
+/// shelf-life clock can be re-based onto something larger than bytes.
 pub(all) struct AiSubstrateFingerprintV2 {
   fingerprint_id : @hash.Hash
   family : String
@@ -20,6 +26,7 @@ pub(all) struct AiSubstrateFingerprintV2 {
   capability_hash : @hash.Hash
   substrate_hash : @hash.Hash
   semantics_hash : @hash.Hash?
+  resonance_signature : @hash.Hash?
   issuer : String
 } derive(Show)
 
@@ -78,6 +85,7 @@ pub fn AiSubstrateFingerprintV2::new(
     capability_hash,
     substrate_hash,
     None,
+    None,
     issuer,
   )
   {
@@ -91,6 +99,7 @@ pub fn AiSubstrateFingerprintV2::new(
     capability_hash,
     substrate_hash,
     semantics_hash: None,
+    resonance_signature: None,
     issuer,
   }
 }
@@ -110,6 +119,7 @@ pub fn AiSubstrateFingerprintV2::with_policy_hash(
     self.capability_hash,
     self.substrate_hash,
     self.semantics_hash,
+    self.resonance_signature,
     self.issuer,
   )
   { ..self, fingerprint_id, policy_hash: Some(policy_hash) }
@@ -133,9 +143,37 @@ pub fn AiSubstrateFingerprintV2::with_semantics_hash(
     self.capability_hash,
     self.substrate_hash,
     Some(semantics_hash),
+    self.resonance_signature,
     self.issuer,
   )
   { ..self, fingerprint_id, semantics_hash: Some(semantics_hash) }
+}
+
+///|
+/// Extend the fingerprint onto the resonating-cognition surface.
+/// `resonance_signature` is produced by `AmfDocument::signature` or
+/// by composing several AMFs and sealing the composed result. When
+/// present the fingerprint is no longer purely static — it tracks a
+/// living cognition, which lets the substrate-shelf-life clock be
+/// re-based onto something that has durable defensible identity.
+pub fn AiSubstrateFingerprintV2::with_resonance_signature(
+  self : AiSubstrateFingerprintV2,
+  resonance_signature : @hash.Hash,
+) -> AiSubstrateFingerprintV2 {
+  let fingerprint_id = compute_fingerprint_id(
+    self.family,
+    self.surface,
+    self.overlay,
+    self.mode,
+    self.context_hash,
+    self.policy_hash,
+    self.capability_hash,
+    self.substrate_hash,
+    self.semantics_hash,
+    Some(resonance_signature),
+    self.issuer,
+  )
+  { ..self, fingerprint_id, resonance_signature: Some(resonance_signature) }
 }
 
 ///|
@@ -288,6 +326,7 @@ fn compute_fingerprint_id(
   capability_hash : @hash.Hash,
   substrate_hash : @hash.Hash,
   semantics_hash : @hash.Hash?,
+  resonance_signature : @hash.Hash?,
   issuer : String,
 ) -> @hash.Hash {
   let policy_token = match policy_hash {
@@ -295,6 +334,10 @@ fn compute_fingerprint_id(
     None => "none"
   }
   let semantics_token = match semantics_hash {
+    Some(hash) => hash.key()
+    None => "none"
+  }
+  let resonance_token = match resonance_signature {
     Some(hash) => hash.key()
     None => "none"
   }
@@ -316,6 +359,8 @@ fn compute_fingerprint_id(
     substrate_hash.key() +
     "|" +
     semantics_token +
+    "|" +
+    resonance_token +
     "|" +
     issuer
   @hash.Hash::of_bytes(procsi_string_to_bytes(material))
