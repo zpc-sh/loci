@@ -23,6 +23,8 @@ This document is a release-preparation snapshot for `zpc/merkin` and is intended
 | Resonance layer (AMF v0.1) | `docs/RESONANCE_LAYER_SPEC_v0.1.md`, `docs/new/prior-art-ai-music-format.md` | `model/resonance.mbt`, `model/resonance_composition.mbt`, `model/procsi_identity.mbt` (`with_resonance_signature`) |
 | Locus adjoin composability | `docs/packets/LOCUS_ADJOIN_CONTRACT_v0.1.md` | `model/adjoin.mbt` |
 | News codecave boot-hook ingest | `docs/packets/LOCI_NEWS_CODECAVE_SPEC_v0.1.md`, `docs/packets/NEWS_CODECAVE_BOOT_HOOK_v0.1.md` | `model/news_edition.mbt`, `daemon/codecave.mbt` |
+| Mu/SLL build contract (envelope) | `docs/MU_SLL_BUILD_CONTRACT_v0.1.md`, `docs/SLL_REFERENCE_v0.1.md` | `model/sll_build_contract.mbt` |
+| Semantic router contract (stub) | `docs/SEMANTIC_ROUTER_CONTRACT_v0.1.md` | `model/semantic_router.mbt` |
 
 Coverage status: **broadly complete for an initial release candidate**, with some docs still explicitly marked as drafts or `v0.1`.
 
