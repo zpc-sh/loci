@@ -58,7 +58,7 @@ It targets reproducible artifact behavior and portable execution (wasm-gc, wasm,
 ## 🚀 3) Setup & Installation
 
 ### Prerequisites
-1. Install MoonBit (`moon`) via https://www.moonbitlang.com/ or (for Unix-like systems) run: `curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash`
+1. Install MoonBit (`moon`) via https://www.moonbitlang.com/ or (for Unix-like systems) download and review the installer first: `curl -fsSL -o moon-install.sh https://cli.moonbitlang.com/install/unix.sh && less moon-install.sh` then run `bash moon-install.sh`
 2. Install Bun via https://bun.sh/
 3. (Optional for release tasks) Install Zig via https://ziglang.org/download/
 
