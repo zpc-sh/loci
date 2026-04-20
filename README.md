@@ -58,7 +58,7 @@ It targets reproducible artifact behavior and portable execution (wasm-gc, wasm,
 ## 🚀 3) Setup & Installation
 
 ### Prerequisites
-1. Install MoonBit (`moon`) via https://www.moonbitlang.com/ or run: `curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash`
+1. Install MoonBit (`moon`) via https://www.moonbitlang.com/ or (for Unix-like systems) run: `curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash`
 2. Install Bun via https://bun.sh/
 3. (Optional for release tasks) Install Zig via https://ziglang.org/download/
 
@@ -230,7 +230,7 @@ _Optional additions you may want:_ MoonBit, Bun, WASM target badges.
 ### License
 - `moon.mod.json` declares: **Apache-2.0**
 - Repository includes:
-  - `LICENSE` (symbolic “Superposition License” text)
+  - `LICENSE` (emoji/symbol-heavy “Superposition License” text file)
   - `LICENSE.mbt.md` (SPDX collapse state to Apache-2.0)
   - `LICENSE-EXECUTABLE.md`
 
