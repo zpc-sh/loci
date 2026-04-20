@@ -1,0 +1,13 @@
+import {
+  "zpc/merkin/api" @api,
+  "moonbitlang/core/env" @env,
+  "zpc/merkin/daemon" @daemon,
+  "zpc/merkin/hash" @hash,
+  "zpc/merkin/locus" @locus,
+  "zpc/merkin/model" @model,
+  "zpc/merkin/storage" @storage,
+}
+
+options(
+  "is-main": true,
+)

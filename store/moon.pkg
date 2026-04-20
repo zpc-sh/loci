@@ -1,0 +1,4 @@
+import {
+  "zpc/merkin/hash" @hash,
+  "zpc/merkin/model" @model,
+}

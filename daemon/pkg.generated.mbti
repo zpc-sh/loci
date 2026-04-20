@@ -1,0 +1,217 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "zpc/merkin/daemon"
+
+import {
+  "zpc/merkin/hash",
+  "zpc/merkin/storage",
+  "zpc/merkin/tree",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) enum ConversationActorRole {
+  Ai
+  Human
+  System
+} derive(Eq, Show)
+
+pub(all) enum ConversationEmbeddingAction {
+  Observe
+  FlipAot
+  Purge
+} derive(Eq, Show)
+
+pub(all) struct ConversationHost {
+  mut halls : Array[SabaHall]
+  mut threads : Array[SabaThread]
+  mut turns : Array[SabaTurn]
+  mut checkpoints : Array[SabaCheckpoint]
+  mut embedding_records : Array[ThreadEmbeddingRecord]
+  mut next_hall_seq : UInt
+  mut next_thread_seq : UInt
+  mut next_turn_seq : UInt
+  mut next_checkpoint_seq : UInt
+  mut next_embedding_seq : UInt
+} derive(Show)
+pub fn ConversationHost::append_turn(Self, String, TurnRequest) -> TurnOutcome
+pub fn ConversationHost::create_checkpoint(Self, String, String) -> SabaCheckpoint?
+pub fn ConversationHost::create_hall(Self, String, String) -> SabaHall
+pub fn ConversationHost::create_thread(Self, String, String, ConversationTrack) -> SabaThread?
+pub fn ConversationHost::embedding_timeline(Self, String) -> Array[ThreadEmbeddingRecord]
+pub fn ConversationHost::emit_embedding_plan(Self, String, String, String, String, String, String) -> String?
+pub fn ConversationHost::new() -> Self
+pub fn ConversationHost::purge_embedding_records(Self, String, UInt) -> UInt
+pub fn ConversationHost::record_embedding(Self, String, String, String, String, Bool, UInt, ConversationEmbeddingAction, Bool, UInt, String) -> ThreadEmbeddingRecord?
+pub fn ConversationHost::replay(Self, String, ReplayRequest) -> ReplayOutcome
+pub fn ConversationHost::timeline(Self, String, UInt, UInt) -> Array[SabaTurn]
+
+pub(all) struct ConversationIssue {
+  code : String
+  message : String
+} derive(Show)
+
+pub(all) enum ConversationTrack {
+  Program
+  Git
+} derive(Eq, Show)
+
+pub(all) enum DaemonMode {
+  Receiver
+  Proxy
+  PassThrough
+  Hybrid
+} derive(Eq, Show)
+
+pub(all) struct DaemonNode {
+  node_id : String
+  mode : DaemonMode
+  oci : OciFacility
+  union_store : @storage.UnionStore
+  mut index_tree : @tree.MerkinTree
+  mut policy : @storage.ReplicationPolicy
+  mut queue_stats : @storage.QueueStats
+  mut live_replicas : UInt
+}
+pub fn DaemonNode::add_store(Self, &@storage.StoreNode) -> Unit
+pub fn DaemonNode::can_passthrough_oci(Self) -> Bool
+pub fn DaemonNode::can_proxy_oci(Self) -> Bool
+pub fn DaemonNode::can_receive_oci(Self) -> Bool
+pub fn DaemonNode::capabilities(Self) -> OciFacility
+pub fn DaemonNode::diff_from_sparse(Self, @tree.SparseMerkinTree, Array[String]) -> @tree.TreeDiff
+pub fn DaemonNode::diff_views(Self, Array[String], Array[String]) -> @tree.TreeDiff
+pub fn DaemonNode::handle_get(Self, @hash.Hash, lane? : @storage.ReplicationLane) -> Bytes?
+pub fn DaemonNode::handle_oci_put(Self, OciPutRequest) -> OciPutResult
+pub fn DaemonNode::indexed_node_count(Self) -> Int
+pub fn DaemonNode::new(String, DaemonMode, @storage.ReplicationPolicy, oci? : OciFacility?, live_replicas? : UInt) -> Self
+pub fn DaemonNode::set_live_replicas(Self, UInt) -> Unit
+pub fn DaemonNode::set_policy(Self, @storage.ReplicationPolicy) -> Unit
+pub fn DaemonNode::set_queue_stats(Self, @storage.QueueStats) -> Unit
+pub fn DaemonNode::sparse_view(Self, Array[String]) -> @tree.SparseMerkinTree
+
+pub(all) struct LengthEnvelope {
+  input_len_min : UInt
+  input_len_max : UInt
+  output_len_min : UInt
+  output_len_max : UInt
+} derive(Show)
+pub fn LengthEnvelope::default() -> Self
+
+pub(all) enum OciDisposition {
+  Stored
+  Forwarded
+  Bypassed
+  Rejected
+} derive(Eq, Show)
+
+pub(all) struct OciFacility {
+  receiver : Bool
+  proxy : Bool
+  passthrough : Bool
+} derive(Eq, Show)
+pub fn OciFacility::from_mode(DaemonMode) -> Self
+
+pub(all) struct OciPutRequest {
+  payload : Bytes
+  lane : @storage.ReplicationLane
+  event : @storage.ReplicationEvent
+  path : Array[String]
+  sealed_epoch : Bool
+} derive(Show)
+pub fn OciPutRequest::default(Bytes) -> Self
+
+pub(all) struct OciPutResult {
+  disposition : OciDisposition
+  digest : @hash.Hash
+  receipt : @storage.ReplicationReceipt?
+  reason : String?
+} derive(Show)
+
+pub(all) struct ReplayOutcome {
+  ok : Bool
+  replayed_count : UInt
+  non_replayable_count : UInt
+  issues : Array[ConversationIssue]
+} derive(Show)
+
+pub(all) struct ReplayRequest {
+  from_seq : UInt
+  to_seq : UInt?
+  length_guard_enforced : Bool
+} derive(Show)
+pub fn ReplayRequest::default() -> Self
+
+pub(all) struct SabaCheckpoint {
+  checkpoint_id : String
+  thread_id : String
+  turn_seq : UInt
+  label : String
+} derive(Show)
+
+pub(all) struct SabaHall {
+  hall_id : String
+  name : String
+  policy_profile : String
+  created_at_seq : UInt
+} derive(Show)
+
+pub(all) struct SabaThread {
+  thread_id : String
+  hall_id : String
+  topic : String
+  track : ConversationTrack
+  head_checkpoint : String
+} derive(Show)
+
+pub(all) struct SabaTurn {
+  turn_id : String
+  thread_id : String
+  turn_seq : UInt
+  actor_overlay : String
+  actor_role : ConversationActorRole
+  content : String
+  length_envelope : LengthEnvelope
+  idempotency_key : String
+  non_replayable : Bool
+  checkpoint_id : String
+} derive(Show)
+
+pub(all) struct ThreadEmbeddingRecord {
+  record_id : String
+  thread_id : String
+  file_ref : String
+  file_type : String
+  mime_type : String
+  found : Bool
+  count : UInt
+  action : ConversationEmbeddingAction
+  ephemeral : Bool
+  purge_after_turns : UInt
+  recorded_turn_seq : UInt
+  note : String
+} derive(Show)
+
+pub(all) struct TurnOutcome {
+  accepted : Bool
+  turn_id : String?
+  turn_seq : UInt?
+  checkpoint_id : String?
+  issues : Array[ConversationIssue]
+  canonical_addresses : Array[String]
+} derive(Show)
+
+pub(all) struct TurnRequest {
+  actor_overlay : String
+  actor_role : ConversationActorRole
+  content : String
+  length_envelope : LengthEnvelope
+  idempotency_key : String
+} derive(Show)
+pub fn TurnRequest::default(String) -> Self
+
+// Type aliases
+
+// Traits
+
