@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/zpc-sh/loci/actions/workflows/ci.yml/badge.svg)](https://github.com/zpc-sh/loci/actions/workflows/ci.yml)
 [![Release](https://github.com/zpc-sh/loci/actions/workflows/release.yml/badge.svg)](https://github.com/zpc-sh/loci/actions/workflows/release.yml)
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE.mbt.md)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE)
 [![Stars](https://img.shields.io/github/stars/zpc-sh/loci)](https://github.com/zpc-sh/loci/stargazers)
 [![Forks](https://img.shields.io/github/forks/zpc-sh/loci)](https://github.com/zpc-sh/loci/network/members)
 [![Issues](https://img.shields.io/github/issues/zpc-sh/loci)](https://github.com/zpc-sh/loci/issues)
@@ -14,7 +14,7 @@
 ### Project Name
 - **Repository:** `zpc-sh/loci`
 - **MoonBit module:** `zpc/merkin`
-- **CLI package:** `@zpc/loci`
+- **CLI package name (from `cli/package.json`):** `@zpc/loci`
 
 ### Short Description
 `loci` is a MoonBit-first, OCI-aligned substrate for deterministic hashing, tree sealing, storage policy control, daemon workflows, and Yata graph semantics.
@@ -58,7 +58,7 @@ It targets reproducible artifact behavior and portable execution (wasm-gc, wasm,
 ## 🚀 3) Setup & Installation
 
 ### Prerequisites
-1. Install MoonBit: `moon`
+1. Install MoonBit (`moon`) via https://www.moonbitlang.com/ (CI uses: `curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash`)
 2. Install Bun
 3. (Optional for release tasks) Install Zig
 
