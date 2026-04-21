@@ -262,7 +262,7 @@ fn run_pack_command(args : Array[String]) -> Unit {
       println("  1. Serialize sparse tree for " + locus_name)
       println("  2. Embed tree state into merkin WASM runtime")
       println(
-        "  3. Build: moon build --target wasm-gc --package zpc/merkin/wasm_entry",
+        "  3. Build: moon build --target wasm-gc --package zpc/genius/wasm_entry",
       )
       println("  4. Output: .merkin/packs/" + locus_name + ".wasm")
       println("")
@@ -468,7 +468,7 @@ fn print_genius_usage() -> Unit {
     "  --app-hash <hash-token>                            APP payload commitment",
   )
   println(
-    "  [--project <id>] [--ratio-loci <id>]               defaults: zpc/merkin, repo-root",
+    "  [--project <id>] [--ratio-loci <id>]               defaults: zpc/genius, repo-root",
   )
   println(
     "  [--app-protocol <name>] [--app-audience <name>]    defaults: app/v1, genius-loci",
@@ -533,7 +533,7 @@ fn build_genius_attestation(
   if fingerprint == "" || surface == "" || app_ref == "" {
     return None
   }
-  let project = value_after(args, "--project", "zpc/merkin")
+  let project = value_after(args, "--project", "zpc/genius")
   let ratio_loci = value_after(args, "--ratio-loci", "repo-root")
   let fingerprint_hash = hash_token_to_hash(fingerprint)
   match resolve_app_envelope_record(args, app_ref) {
@@ -587,7 +587,7 @@ fn print_genius_attestation_requirement() -> Unit {
   println("  --app-hash <hash-token> (required if ref is not in APP store)")
   println("")
   println("Optional flags:")
-  println("  --project zpc/merkin")
+  println("  --project zpc/genius")
   println("  --ratio-loci repo-root")
   println("  --app-protocol app/v1")
   println("  --app-audience genius-loci")
@@ -672,7 +672,7 @@ fn run_ratio_app_command(args : Array[String]) -> Unit {
           let fingerprint_hash = hash_token_to_hash(fingerprint)
           let attestation = @model.GeniusProcsiAttestation::new(
             optional_value_after(args, "--locus"),
-            value_after(args, "--project", "zpc/merkin"),
+            value_after(args, "--project", "zpc/genius"),
             value_after(args, "--ratio-loci", "repo-root"),
             surface,
             fingerprint_hash,

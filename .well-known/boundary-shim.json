@@ -1,5 +1,5 @@
 {
-  "kind": "merkin.boundary.shim.mirror",
+  "kind": "genius.boundary.shim.mirror",
   "version": "0.1-draft",
   "canonical_spec": "docs/RATIO_BOUNDARY_SHIM_SPEC_v0.1.md",
   "primary_surface": "finger.plan.wasm",

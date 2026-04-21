@@ -1,5 +1,5 @@
 {
-  "kind": "merkin.sat_smt.offload.status",
+  "kind": "genius.sat_smt.offload.status",
   "sat_smt_offloaded": true,
   "solve_kind": "smt",
   "solve_report_offloaded_to": "mu.local.z3",

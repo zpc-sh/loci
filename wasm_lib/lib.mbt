@@ -4,11 +4,11 @@
 /// This package produces the canonical merkin.wasm for host runtimes that
 /// call exports by name (WasmEdge CLI, wasmex NIF, Popcorn on AtomVM).
 ///
-/// All logic lives in zpc/merkin/api. This package is the link surface only.
+/// All logic lives in zpc/genius/api. This package is the link surface only.
 ///
 /// Build:
-///   moon build --target wasm-gc --release --package zpc/merkin/wasm_lib
-///   moon build --target wasm   --release --package zpc/merkin/wasm_lib
+///   moon build --target wasm-gc --release --package zpc/genius/wasm_lib
+///   moon build --target wasm   --release --package zpc/genius/wasm_lib
 
 // --- Bloom ---
 
