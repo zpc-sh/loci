@@ -18,6 +18,13 @@ This document is a release-preparation snapshot for `zpc/merkin` and is intended
 | Storage and metadata semantics | `docs/STORAGE_LAYER_DRAFT.md`, `docs/EMBEDDING_EPHEMERAL_METADATA_SPEC.md` | `storage/`, `store/`, `model/embedding_metadata.mbt` |
 | Yata graph and governance semantics | `docs/YATA_FRAMEWORK.md`, `docs/YATA_PLAN_SPEC.md`, `docs/YATA_PLAN_GOVERNANCE.md` | `model/yata*.mbt`, `model/imprint*.mbt` |
 | Hash/tree determinism and parity concepts | `docs/PACTIS_GIT_PARITY_FUNCTION_MAP.md`, `docs/IMPRINT_MIRAGE_FRAMEWORK.md` | `hash/`, `tree/`, `model/imprint.mbt` |
+| Locus crossing authority (passport v0.1) | `docs/packets/LOCUS_CROSSING_PASSPORT_v0.1.md` | `model/passport.mbt`, `model/boundary_fsm.mbt` (`cross`) |
+| Five-tuple substrate identity | `docs/AI_SUBSTRATE_FINGERPRINTS_v0.2.md` | `model/procsi_identity.mbt` (`tuple5`, `with_semantics_hash`) |
+| Resonance layer (AMF v0.1) | `docs/RESONANCE_LAYER_SPEC_v0.1.md`, `docs/new/prior-art-ai-music-format.md` | `model/resonance.mbt`, `model/resonance_composition.mbt`, `model/procsi_identity.mbt` (`with_resonance_signature`) |
+| Locus adjoin composability | `docs/packets/LOCUS_ADJOIN_CONTRACT_v0.1.md` | `model/adjoin.mbt` |
+| News codecave boot-hook ingest | `docs/packets/LOCI_NEWS_CODECAVE_SPEC_v0.1.md`, `docs/packets/NEWS_CODECAVE_BOOT_HOOK_v0.1.md` | `model/news_edition.mbt`, `daemon/codecave.mbt` |
+| Mu/SLL build contract (envelope) | `docs/MU_SLL_BUILD_CONTRACT_v0.1.md`, `docs/SLL_REFERENCE_v0.1.md` | `model/sll_build_contract.mbt` |
+| Semantic router contract (stub) | `docs/SEMANTIC_ROUTER_CONTRACT_v0.1.md` | `model/semantic_router.mbt` |
 
 Coverage status: **broadly complete for an initial release candidate**, with some docs still explicitly marked as drafts or `v0.1`.
 
