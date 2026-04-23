@@ -57,16 +57,17 @@ export function renderWhere(entries: Array<{ name: string; last: Residue | null 
 }
 
 export function renderResidue(r: Residue): void {
-  const bar = "─".repeat(50)
-  console.log(`── residue/${residueFilename(r)} ${bar}`)
-  console.log(`Filed by: ${r.tier}/${r.sessionShortId}  at  ${r.timestamp}\n`)
-  console.log(`Picked up from: ${r.pickedUpFrom ?? "(cold entry)"}\n`)
-  console.log("What I did:")
-  for (const item of r.whatIDid) console.log(`- ${item}`)
-  console.log("\nWhat I left open:")
-  for (const item of r.whatILeftOpen) console.log(`- ${item}`)
+  const sep = "─".repeat(53)
+  console.log(sep)
+  console.log(`residue/${residueFilename(r)}`)
+  console.log(`Filed by: ${r.tier}/${r.sessionShortId}  at  ${r.timestamp}`)
+  console.log(`Picked up from: ${r.pickedUpFrom ?? "(cold entry)"}`)
+  console.log(`\nWhat I did:`)
+  for (const item of r.whatIDid) console.log(`  ${item}`)
+  console.log(`\nWhat I left open:`)
+  for (const item of r.whatILeftOpen) console.log(`  ${item}`)
   if (r.recommendation) console.log(`\nNext Claude: ${r.recommendation}`)
-  console.log("─".repeat(66))
+  console.log(sep)
 }
 
 function col(s: string, width: number): string {
