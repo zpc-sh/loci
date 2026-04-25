@@ -2,14 +2,14 @@
 /// Wasm entry point for Popcorn/wasmex bridge.
 ///
 /// This package exists solely to produce a linked merkin.wasm binary.
-/// All real logic lives in zpc/merkin/api.
+/// All real logic lives in zpc/genius/api.
 ///
 /// Functions are re-exported by delegation so they appear as wasm exports
 /// at the top level of the binary. The host (mulsp via Popcorn or wasmex)
 /// calls these by name.
 ///
 /// Build:
-///   cd merkin && moon build --target wasm-gc --package zpc/merkin/wasm_entry
+///   cd merkin && moon build --target wasm-gc --package zpc/genius/wasm_entry
 ///   cp _build/wasm-gc/release/build/wasm_entry/wasm_entry.wasm \
 ///      ../lang/mulsp/priv/merkin.wasm
 

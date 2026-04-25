@@ -1,5 +1,5 @@
 {
-  "kind": "merkin.mu.interface",
+  "kind": "genius.mu.interface",
   "version": "0.4-draft",
   "canonical_spec": "docs/MU_RUNTIME_SPEC.md",
   "primary_drift_surface": "finger.plan.wasm",

@@ -1,5 +1,5 @@
 {
-  "kind": "merkin.sat_smt.offload",
+  "kind": "genius.sat_smt.offload",
   "version": "0.1-draft",
   "sat_smt_offloaded": true,
   "solve_kind": "smt",

@@ -1,13 +1,13 @@
 {
   "name": "@zpc/loci",
   "version": "0.1.0",
-  "description": "L-OCI content-addressed locus CLI/TUI (host-side storage surface for merkin/loci)",
+  "description": "L-OCI content-addressed locus CLI/TUI (host-side storage surface for genius/loci)",
   "type": "module",
   "bin": { "loci": "./bin/loci" },
   "scripts": {
     "dev": "bun run src/index.ts",
     "build": "bun build src/index.ts --outfile dist/loci --target bun --minify",
-    "wasm": "cd .. && moon build --target wasm --package zpc/merkin/wasm_entry",
+    "wasm": "cd .. && moon build --target wasm --package zpc/genius/wasm_entry",
     "link": "bun link",
     "demo:init": "bun run src/index.ts init",
     "demo:status": "bun run src/index.ts status"

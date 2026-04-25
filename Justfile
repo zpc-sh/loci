@@ -1,4 +1,4 @@
-# loci (merkin) — build system
+# loci (genius) — build system
 # https://just.systems
 #
 # Usage:
@@ -25,25 +25,25 @@ default: wasm-gc
 # wasm-gc: entry (_start + exports) and lib (no _start)
 [group('build')]
 wasm-gc:
-    moon build --target wasm-gc --release --package zpc/merkin/wasm_entry
-    moon build --target wasm-gc --release --package zpc/merkin/wasm_lib
+    moon build --target wasm-gc --release --package zpc/genius/wasm_entry
+    moon build --target wasm-gc --release --package zpc/genius/wasm_lib
 
 # Standard wasm (WasmEdge / wasmex linear-memory)
 [group('build')]
 wasm:
-    moon build --target wasm --release --package zpc/merkin/wasm_entry
-    moon build --target wasm --release --package zpc/merkin/wasm_lib
+    moon build --target wasm --release --package zpc/genius/wasm_entry
+    moon build --target wasm --release --package zpc/genius/wasm_lib
 
 # Both wasm variants
 [group('build')]
 wasm-all: wasm-gc wasm
 
-# Native CLI binary → ./merkin
+# Native CLI binary → ./loci
 [group('build')]
 cli:
-    moon build --target native --release --package zpc/merkin/cmd/main
-    cp {{native_exe}} merkin
-    @echo "CLI: ./merkin  ($(du -sh merkin | cut -f1))"
+    moon build --target native --release --package zpc/genius/cmd/main
+    cp {{native_exe}} loci
+    @echo "CLI: ./loci  ($(du -sh loci | cut -f1))"
 
 # Bun CLI bundle → ./dist/loci (single-file, no node_modules)
 [group('build')]
@@ -70,12 +70,12 @@ test-wasm:
 # Native SIMD package only
 [group('test')]
 test-simd:
-    moon test --target native --package zpc/merkin/simd
+    moon test --target native --package zpc/genius/simd
 
 # Focused Yata verification suite
 [group('test')]
 test-yata:
-    moon test --target wasm-gc --package zpc/merkin/model
+    moon test --target wasm-gc --package zpc/genius/model
 
 # Type-check all packages (no link step)
 [group('test')]
@@ -135,7 +135,7 @@ mu-lang-handoff:
 wasm-plan-drift:
     docs/archive/tools/yata-wasm-plan-drift-sync.sh
 
-# Emit triad contract JSON + ABI/branch drift summary across merkin/mu/lang
+# Emit triad contract JSON + ABI/branch drift summary across genius/mu/lang
 [group('tools')]
 triad-contract-sync:
     docs/archive/tools/yata-triad-contract-sync.sh
@@ -145,4 +145,4 @@ triad-contract-sync:
 [group('misc')]
 clean:
     moon clean
-    rm -f merkin
+    rm -f loci

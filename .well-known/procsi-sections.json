@@ -1,5 +1,5 @@
 {
-  "kind": "merkin.procsi.sections",
+  "kind": "genius.procsi.sections",
   "version": "0.2-draft",
   "canonical_spec": "docs/MU_RUNTIME_SPEC.md",
   "sections": [

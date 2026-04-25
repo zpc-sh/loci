@@ -1,5 +1,5 @@
 {
-  "kind": "merkin.triad.contract.mirror",
+  "kind": "genius.triad.contract.mirror",
   "version": "0.1-draft",
   "canonical_spec": "docs/TRIAD_CONTRACT_SPEC.md",
   "primary_surface": "finger.plan.wasm",

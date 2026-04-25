@@ -22,7 +22,7 @@ const rest = argv.slice(1)
 
 const store = LociStore.fromCwd({
   lociRoot: flag(argv, "--loci-root") ?? "loci",
-  storePath: flag(argv, "--store") ?? ".merkin/store",
+  storePath: flag(argv, "--store") ?? ".loci/store",
 })
 const core = LociCore.discover()
 
@@ -59,7 +59,7 @@ async function main(): Promise<void> {
     case "where":   return cmdWhere(store)
     case "status":  return cmdStatus(store)
 
-    // Delegate to native merkin binary (tree / bloom / OCI daemon ops)
+    // Delegate to native genius binary (tree / bloom / OCI daemon ops)
     case "daemon":
     case "pack":
     case "app": {
@@ -109,7 +109,7 @@ ENV
   LOCI_LOCUS          Current locus name (set via: eval \$(loci enter <name> --export))
   LOCI_TIER           Claude tier for this session
   LOCI_SESSION        tier/shortId for signing
-  LOCI_MERKIN_ROOT    Path to merkin source root (for daemon delegation)
+  LOCI_GENIUS_ROOT    Path to genius loci source root (for daemon delegation)
 `.trim())
 }
 

@@ -16,14 +16,14 @@ export async function cmdEnter(locusName: string, store: LociStore, args: string
   const shortId = randomBytes(3).toString("hex")
 
   if (hasFlag(args, "--export")) {
-    console.log(`export LOCI_LOCUS=${locusName}`)
-    console.log(`export LOCI_TIER=${tier}`)
-    console.log(`export LOCI_SESSION=${tier}/${shortId}`)
+    console.log(`export LOCI_LOCUS=${sh(locusName)}`)
+    console.log(`export LOCI_TIER=${sh(tier)}`)
+    console.log(`export LOCI_SESSION=${sh(tier + "/" + shortId)}`)
   } else {
     console.log(`LOCI_LOCUS=${locusName}`)
     console.log(`LOCI_TIER=${tier}`)
     console.log(`LOCI_SESSION=${tier}/${shortId}`)
-    console.log(`\n# eval $(loci genius enter ${locusName} --export)`)
+    console.log(`\n# eval $(loci genius enter ${sh(locusName)} --export)`)
   }
 }
 
@@ -117,4 +117,9 @@ function flag(args: string[], name: string): string | null {
 
 function hasFlag(args: string[], name: string): boolean {
   return args.includes(name)
+}
+
+// Single-quote wrap for eval-safe shell output; handles embedded single quotes.
+function sh(s: string): string {
+  return "'" + s.replace(/'/g, "'\\''") + "'"
 }

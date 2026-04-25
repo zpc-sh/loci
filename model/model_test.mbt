@@ -221,7 +221,7 @@ test "Genius procsi attestation derives session identity" {
   let ciphertext_hash = @hash.Hash::of_bytes(b"\x22")
   let attestation = @model.GeniusProcsiAttestation::from_masked_refs(
     Some("adversary"),
-    "zpc/merkin",
+    "zpc/genius",
     "repo-root",
     "codex",
     fingerprint_commitment,
@@ -259,7 +259,7 @@ test "PR1 custom section roundtrips" {
   )
   let attestation = @model.GeniusProcsiAttestation::new(
     Some("adversary"),
-    "zpc/merkin",
+    "zpc/genius",
     "repo-root",
     "codex",
     fingerprint_commitment,
@@ -271,7 +271,7 @@ test "PR1 custom section roundtrips" {
   let bytes = section.emit_pr1_custom_section()
   match @model.ProcsiAttestedSectionV1::parse_pr1_custom_section(bytes) {
     Some(parsed) => {
-      assert_eq(parsed.attestation.project, "zpc/merkin")
+      assert_eq(parsed.attestation.project, "zpc/genius")
       assert_eq(parsed.attestation.ratio_loci, "repo-root")
       assert_eq(parsed.attestation.session_surface, "codex")
       assert_eq(parsed.attestation.locus, Some("adversary"))
