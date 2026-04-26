@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/merkin/wasm_lib"
+package "zpc/genius/wasm_lib"
 
 // Values
 pub fn bloom_add(String) -> Unit

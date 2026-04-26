@@ -50,3 +50,25 @@ pub fn Artifact::verify(self : Artifact) -> Bool {
     }
   }
 }
+
+///|
+/// Scan artifact payload for hostile byte patterns (BiDi, ZWSP, ANSI, missing EOF newline).
+/// Returns all findings; empty array means clean.
+pub fn Artifact::scan(self : Artifact) -> Array[@scan.ScanFinding] {
+  match self.payload_ref {
+    Inline(data) => @scan.scan_bytes(data)
+  }
+}
+
+///|
+/// True if the artifact payload contains no hostile byte patterns.
+pub fn Artifact::is_clean(self : Artifact) -> Bool {
+  self.scan().length() == 0
+}
+
+///|
+/// True if the artifact payload contains active hostile content (Bidi, Zwsp, or Ansi).
+/// Does not flag missing trailing newline alone as hostile.
+pub fn Artifact::has_hostile(self : Artifact) -> Bool {
+  @scan.has_hostile(self.scan())
+}

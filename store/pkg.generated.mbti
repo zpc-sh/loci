@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/merkin/store"
+package "zpc/genius/store"
 
 import {
-  "zpc/merkin/hash",
-  "zpc/merkin/model",
+  "zpc/genius/hash",
+  "zpc/genius/model",
 }
 
 // Values

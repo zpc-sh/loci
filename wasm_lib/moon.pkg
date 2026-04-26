@@ -1,5 +1,5 @@
 import {
-  "zpc/merkin/api" @api,
+  "zpc/genius/api" @api,
 }
 
 options(

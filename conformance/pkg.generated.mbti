@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/merkin/conformance"
+package "zpc/genius/conformance"
 
 // Values
 pub fn core_packages_linked() -> Bool

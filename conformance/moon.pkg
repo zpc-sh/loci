@@ -1,9 +1,10 @@
 import {
   "moonbitlang/core/bench" @bench,
-  "zpc/merkin/hash" @hash,
-  "zpc/merkin/model" @model,
-  "zpc/merkin/store" @store,
-  "zpc/merkin/tree" @tree,
-  "zpc/merkin/bloom" @bloom,
-  "zpc/merkin/gaussian" @gaussian,
+  "zpc/genius/hash" @hash,
+  "zpc/genius/model" @model,
+  "zpc/genius/scan" @scan,
+  "zpc/genius/store" @store,
+  "zpc/genius/tree" @tree,
+  "zpc/genius/bloom" @bloom,
+  "zpc/genius/gaussian" @gaussian,
 }

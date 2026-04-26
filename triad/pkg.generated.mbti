@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/merkin/triad"
+package "zpc/genius/triad"
 
 import {
   "moonbitlang/core/debug",

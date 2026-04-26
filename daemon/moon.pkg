@@ -1,6 +1,6 @@
 import {
-  "zpc/merkin/hash" @hash,
-  "zpc/merkin/model" @model,
-  "zpc/merkin/storage" @storage,
-  "zpc/merkin/tree" @tree,
+  "zpc/genius/hash" @hash,
+  "zpc/genius/model" @model,
+  "zpc/genius/storage" @storage,
+  "zpc/genius/tree" @tree,
 }

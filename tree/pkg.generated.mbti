@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/merkin/tree"
+package "zpc/genius/tree"
 
 import {
-  "zpc/merkin/bloom",
-  "zpc/merkin/gaussian",
-  "zpc/merkin/hash",
+  "zpc/genius/bloom",
+  "zpc/genius/gaussian",
+  "zpc/genius/hash",
 }
 
 // Values

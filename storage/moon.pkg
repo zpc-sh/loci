@@ -1,7 +1,7 @@
 import {
-  "zpc/merkin/hash" @hash,
-  "zpc/merkin/model" @model,
-  "zpc/merkin/store" @store,
+  "zpc/genius/hash" @hash,
+  "zpc/genius/model" @model,
+  "zpc/genius/store" @store,
 }
 
 options(

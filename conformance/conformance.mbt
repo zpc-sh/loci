@@ -10,5 +10,6 @@ pub fn core_packages_linked() -> Bool {
   ignore(@bloom.BloomSketch::new())
   ignore(@gaussian.GaussianField::new())
   ignore(@bench.Bench::new())
+  ignore(@scan.scan_bytes(b"\n"))
   true
 }
