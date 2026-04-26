@@ -1,0 +1,39 @@
+kind: merkin.yata.plan
+track=program
+mode=compact
+generator=chatgpt
+note=chatgpt-contract-arblock
+material_hash=pending:chatgpt-contract-arblock
+self_report=1
+self_report_overlay=chatgpt
+self_report_peer=codex
+self_report_authority=zpc-sh/loci
+self_report_anchor=loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md
+self_report_gap=7
+self_report_view=arblock
+solve_report=1
+solve_report_kind=synthesize
+solve_report_status=running
+solve_report_handler=provider.chatgpt
+procsi_report=1
+procsi_report_project=zpc-sh/loci
+procsi_report_ratio_loci=ratio://zpc-sh/loci
+procsi_report_surface=chatgpt
+procsi_report_fingerprint_commitment=pending
+procsi_report_masked=true
+procsi_report_app_ref=pending
+procsi_report_app_audience=ratio.loci.chatgpt.contracts
+capability_report=1
+capability_report_authority=ratio://zpc-sh/loci
+capability_report_ticket_kind=scope
+capability_report_scope=loci/chatgpt/contracts
+capability_report_status=pending
+capability_report_count=1
+capability_report_store_ref=pending
+- H-root-lineage loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md open ready=false candidates=1 conf_floor=70 selected=none provenance=1
+- H-typed-hole-primacy loci/chatgpt/YATA_TYPED_HOLE_CONTRACTS.md converging ready=true candidates=1 conf_floor=80 selected=typed-hole-profile provenance=1
+- H-chatgpt-first-runway loci/chatgpt/V0_2_RUNWAY.md converging ready=true candidates=1 conf_floor=80 selected=v0.2-runway provenance=1
+- H-locus-membrane loci/chatgpt/LOCUS_MEMBRANE_PROFILE.md converging ready=true candidates=1 conf_floor=75 selected=membrane-profile provenance=1
+- H-arblock-plan loci/chatgpt/ARBLOCK_PLAN_PROFILE.md converging ready=true candidates=1 conf_floor=75 selected=arblock-plan-profile provenance=1
+- H-loci-mountain-range loci/chatgpt/LOCI_MOUNTAIN_RANGE_PROFILE.md converging ready=true candidates=1 conf_floor=75 selected=lmr-profile provenance=2
+- H-sll-dockerfile-parity loci/chatgpt/SLL_DOCKERFILE_PARITY.md open ready=false candidates=0 conf_floor=70 selected=none provenance=0
