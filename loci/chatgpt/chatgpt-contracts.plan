@@ -9,7 +9,7 @@ self_report_overlay=chatgpt
 self_report_peer=codex
 self_report_authority=zpc-sh/loci
 self_report_anchor=loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md
-self_report_gap=9
+self_report_gap=10
 self_report_view=arblock
 solve_report=1
 solve_report_kind=synthesize
@@ -39,3 +39,4 @@ capability_report_store_ref=pending
 - H-sll-dockerfile-parity loci/chatgpt/SLL_DOCKERFILE_PARITY.md open ready=false candidates=0 conf_floor=70 selected=none provenance=0
 - H-cross-conversation-primitive loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md open ready=false candidates=1 conf_floor=80 selected=contract-surface provenance=1
 - H-visual-graph-grammar loci/chatgpt/VISUAL_GRAPH_GRAMMAR_PROFILE.md converging ready=true candidates=3 conf_floor=80 selected=contract-graph-ir provenance=3
+- H-contract-test-emit-grammar loci/chatgpt/CONTRACT_TEST_EMIT_GRAMMAR.md converging ready=true candidates=2 conf_floor=80 selected=test-manifest-and-results provenance=2
