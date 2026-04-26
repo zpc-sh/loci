@@ -1,0 +1,51 @@
+{
+  "kind": "loci.contract_test_results",
+  "version": "v0",
+  "result_id": "loci.chatgpt.chatgpt_contracts.results.bootstrap",
+  "manifest": "loci/chatgpt/tests/chatgpt-contracts.tests.json",
+  "ran_at_utc": "2026-04-25T00:00:00Z",
+  "results": [
+    {
+      "test_id": "test-contract-graph-shape",
+      "status": "passed",
+      "observed_hash": "pending",
+      "diagnostic": "manual structural check: ContractGraph JSON contains kind, nodes, edges; edge endpoints are intended to match node ids",
+      "runner": "chatgpt.manual.bootstrap"
+    },
+    {
+      "test_id": "test-d3-projection-shape",
+      "status": "passed",
+      "observed_hash": "pending",
+      "diagnostic": "manual structural check: D3 projection contains nodes and links arrays with source/target ids",
+      "runner": "chatgpt.manual.bootstrap"
+    },
+    {
+      "test_id": "test-mermaid-projection-present",
+      "status": "passed",
+      "observed_hash": "pending",
+      "diagnostic": "manual structural check: Mermaid projection contains fenced mermaid graph and H9 Visual Graph Grammar node",
+      "runner": "chatgpt.manual.bootstrap"
+    },
+    {
+      "test_id": "test-chatgpt-contracts-plan-shape",
+      "status": "passed",
+      "observed_hash": "pending",
+      "diagnostic": "manual structural check: plan has required headers and parser-shaped entry lines; concrete procsi/capability refs remain pending",
+      "runner": "chatgpt.manual.bootstrap"
+    },
+    {
+      "test_id": "test-repo-yata-suite",
+      "status": "blocked",
+      "observed_hash": "none",
+      "diagnostic": "not executed in this pass; requires repository test runtime",
+      "runner": "not-run"
+    },
+    {
+      "test_id": "test-cross-conversation-command",
+      "status": "blocked",
+      "observed_hash": "none",
+      "diagnostic": "not executed; conv design command contract exists but implementation was not observed on master during repository search",
+      "runner": "not-run"
+    }
+  ]
+}
