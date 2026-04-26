@@ -87,30 +87,22 @@ impl @loci_fsm.Crosser for StubCrosser with scalars(self : StubCrosser) -> Array
 }
 
 ///|
-impl @loci_fsm.Crosser for StubCrosser with validate(
-  self : StubCrosser,
-) -> @loci_fsm.CrossResult {
+impl @loci_fsm.Crosser for StubCrosser with validate(self : StubCrosser) -> @loci_fsm.CrossResult {
   self.outcome
 }
 
 ///|
-impl @loci_fsm.Crosser for StubCrosser with passport_id(
-  self : StubCrosser,
-) -> String {
+impl @loci_fsm.Crosser for StubCrosser with passport_id(self : StubCrosser) -> String {
   self.passport_id
 }
 
 ///|
-impl @loci_fsm.Crosser for StubCrosser with actor_overlay(
-  self : StubCrosser,
-) -> String {
+impl @loci_fsm.Crosser for StubCrosser with actor_overlay(self : StubCrosser) -> String {
   self.actor_overlay
 }
 
 ///|
-impl @loci_fsm.Crosser for StubCrosser with target_locus(
-  self : StubCrosser,
-) -> String {
+impl @loci_fsm.Crosser for StubCrosser with target_locus(self : StubCrosser) -> String {
   self.target_locus
 }
 
@@ -175,8 +167,9 @@ test "BoundaryWalkerFSM cave records every walked scalar and finding" {
 
 ///|
 test "BoundaryWalkerFSM cave drains and resets but preserves seq monotonicity" {
-  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root")
-    .walk_scalar("a", "alpha")
+  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root").walk_scalar(
+    "a", "alpha",
+  )
   let initial_depth = fsm.cave.depth()
   let (drained_cave, entries) = fsm.cave.drain()
   assert_eq(entries.length(), initial_depth.reinterpret_as_int())

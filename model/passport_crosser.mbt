@@ -22,12 +22,10 @@ impl @loci_fsm.Crosser for Passport with scalars(self : Passport) -> Array[
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with validate(
-  self : Passport,
-) -> @loci_fsm.CrossResult {
+impl @loci_fsm.Crosser for Passport with validate(self : Passport) -> @loci_fsm.CrossResult {
   match self.validate() {
-    Ok(_) => Admitted
-    Err(e) => Rejected(passport_error_tag(e))
+    Ok(_) => @loci_fsm.Admitted
+    Err(e) => @loci_fsm.Rejected(passport_error_tag(e))
   }
 }
 
@@ -37,16 +35,12 @@ impl @loci_fsm.Crosser for Passport with passport_id(self : Passport) -> String 
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with actor_overlay(
-  self : Passport,
-) -> String {
+impl @loci_fsm.Crosser for Passport with actor_overlay(self : Passport) -> String {
   self.who.overlay
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with target_locus(
-  self : Passport,
-) -> String {
+impl @loci_fsm.Crosser for Passport with target_locus(self : Passport) -> String {
   self.where_.target_locus
 }
 

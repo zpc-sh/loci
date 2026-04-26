@@ -246,12 +246,7 @@ pub fn BoundaryWalkerFsm::cross(
     from_state~,
     to_state~,
   )
-  {
-    ..walked,
-    state: next_state,
-    crossings: walked.crossings + [report],
-    cave,
-  }
+  { ..walked, state: next_state, crossings: walked.crossings + [report], cave }
 }
 
 ///|

@@ -1,0 +1,206 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "zpc/genius/loci_fsm"
+
+// Values
+pub fn boundary_status_text(BoundaryStatus) -> String
+
+pub fn boundary_walk_wire(String, String, String, String) -> String
+
+pub fn boundary_walker_personality() -> Personality
+
+pub fn cross_result_tag(CrossResult) -> String
+
+pub fn parse_scalar_csv(String) -> Array[(String, String)]
+
+pub fn parse_submissions_csv(String) -> Array[Submission]
+
+pub fn personality_by_name(String) -> Personality?
+
+pub fn personality_registry() -> Array[Personality]
+
+pub fn reporter_event_parse(String) -> ReporterEvent?
+
+pub fn reporter_event_text(ReporterEvent) -> String
+
+pub fn reporter_personality() -> Personality
+
+pub fn reporter_run_wire(String, String, String) -> String
+
+pub fn reporter_state_text(ReporterState) -> String
+
+pub fn reporter_summary_wire(String, String, String) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct BoundaryFinding {
+  field_key : String
+  raw_value : String
+  canonical_value : String
+  raw_hex : String
+  ghost_u200b : UInt
+  ghost_u200c : UInt
+  ghost_ufeff : UInt
+  bidi_controls : UInt
+  ascii_controls : UInt
+  suspicious : Bool
+} derive(Show)
+
+pub(all) enum BoundaryFsmState {
+  Idle
+  Walking
+  Crossing
+  Marked
+  Emitted
+  Failed
+} derive(Eq, Show)
+
+pub(all) enum BoundaryStatus {
+  Clean
+  Attention
+  Containment
+} derive(Eq, Show)
+
+pub(all) struct BoundaryWalkerFsm {
+  actor_overlay : String
+  ratio_loci : String
+  state : BoundaryFsmState
+  walked_scalars : UInt
+  findings : Array[BoundaryFinding]
+  sanitized_scalars : UInt
+  ghost_u200b : UInt
+  ghost_u200c : UInt
+  ghost_ufeff : UInt
+  bidi_controls : UInt
+  ascii_controls : UInt
+  crossings : Array[CrossingReport]
+  cave : FsmCave
+} derive(Show)
+pub fn BoundaryWalkerFsm::attention_gradient(Self) -> String
+pub fn BoundaryWalkerFsm::attention_saturated(Self) -> Bool
+pub fn BoundaryWalkerFsm::attention_score(Self) -> UInt
+pub fn BoundaryWalkerFsm::attention_ticks(Self) -> UInt
+pub fn BoundaryWalkerFsm::cross(Self, &Crosser) -> Self
+pub fn BoundaryWalkerFsm::emit_stigmergy(Self, note? : String) -> String
+pub fn BoundaryWalkerFsm::mark(Self) -> Self
+pub fn BoundaryWalkerFsm::new(String, String) -> Self
+pub fn BoundaryWalkerFsm::status(Self) -> BoundaryStatus
+pub fn BoundaryWalkerFsm::walk_scalar(Self, String, String) -> Self
+pub fn BoundaryWalkerFsm::walk_scalars(Self, Array[(String, String)]) -> Self
+
+pub(all) struct CaveEntry {
+  seq : UInt
+  tick : UInt
+  from_state : String
+  to_state : String
+  kind : String
+  key : String
+  value : String
+  hash : String
+} derive(Eq, Show)
+
+pub(all) enum CrossResult {
+  Admitted
+  Rejected(String)
+} derive(Eq, Show)
+
+pub(all) struct CrossingReport {
+  passport_id : String
+  actor_overlay : String
+  target_locus : String
+  admitted : Bool
+  rejection : String?
+} derive(Show)
+
+pub(all) struct FsmCave {
+  fsm_id : String
+  personality : String
+  entries : Array[CaveEntry]
+  next_seq : UInt
+  current_tick : UInt
+} derive(Show)
+pub fn FsmCave::collect(Self, String) -> Array[CaveEntry]
+pub fn FsmCave::deposit(Self, kind~ : String, key~ : String, value~ : String, from_state? : String, to_state? : String) -> Self
+pub fn FsmCave::depth(Self) -> UInt
+pub fn FsmCave::drain(Self) -> (Self, Array[CaveEntry])
+pub fn FsmCave::emit(Self) -> String
+pub fn FsmCave::material_hash(Self) -> String
+pub fn FsmCave::new(String, String) -> Self
+pub fn FsmCave::since(Self, UInt) -> Array[CaveEntry]
+pub fn FsmCave::snapshot(Self) -> Array[CaveEntry]
+pub fn FsmCave::tick(Self) -> Self
+
+pub(all) struct Personality {
+  name : String
+  version : String
+  description : String
+  states : Array[String]
+  events : Array[String]
+  cave_kinds : Array[String]
+  initial_state : String
+  terminal_states : Array[String]
+} derive(Show)
+
+pub(all) enum ReporterEvent {
+  Tick
+  SignalDetected
+  SubmissionReceived
+  InsufficientDelta
+  CompositionReady
+  VerifyOk
+  VerifyFail
+  PublishOk
+  PublishFail
+  CooldownElapsed
+  ManualPause
+  ManualResume
+} derive(Eq, Show)
+
+pub(all) struct ReporterFsm {
+  fsm_id : String
+  topic : String
+  state : ReporterState
+  cave : FsmCave
+  pending : Array[Submission]
+  collected : Array[Submission]
+  composed : String
+  verified : Bool
+  published : Bool
+} derive(Show)
+pub fn ReporterFsm::drain(Self) -> (Self, Array[CaveEntry])
+pub fn ReporterFsm::drive_to_archive(Self) -> Self
+pub fn ReporterFsm::emit_summary(Self) -> String
+pub fn ReporterFsm::new(String, String) -> Self
+pub fn ReporterFsm::send(Self, ReporterEvent) -> Self
+pub fn ReporterFsm::submit(Self, Submission) -> Self
+
+pub(all) enum ReporterState {
+  RIdle
+  RObserve
+  RCollect
+  RSift
+  RCompose
+  RVerify
+  RPublish
+  RArchive
+  RDefer
+  RFailed
+} derive(Eq, Show)
+
+pub(all) struct Submission {
+  source : String
+  kind : String
+  content : String
+} derive(Show)
+
+// Type aliases
+
+// Traits
+pub(open) trait Crosser {
+  scalars(Self) -> Array[(String, String)]
+  validate(Self) -> CrossResult
+  passport_id(Self) -> String
+  actor_overlay(Self) -> String
+  target_locus(Self) -> String
+}
+

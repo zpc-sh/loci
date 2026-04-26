@@ -209,22 +209,6 @@ pub fn BoundaryWalkerFsm::cross(
 }
 
 ///|
-/// Deterministic textual tag for a passport validation error.
-pub fn passport_error_tag(e : PassportError) -> String {
-  match e {
-    BadKind => "BAD_KIND"
-    BadVersion => "BAD_VERSION"
-    MissingSection(section) => "MISSING_SECTION:" + section
-    InvalidArtifactType => "INVALID_ARTIFACT_TYPE"
-    InvalidIntent => "INVALID_INTENT"
-    EmptyAllowedSurfaces => "EMPTY_ALLOWED_SURFACES"
-    InvalidBoundaryMode => "INVALID_BOUNDARY_MODE"
-    CapabilityIntentMismatch => "CAPABILITY_INTENT_MISMATCH"
-    MissingSeal(field) => "MISSING_SEAL:" + field
-  }
-}
-
-///|
 pub fn BoundaryWalkerFsm::status(self : BoundaryWalkerFsm) -> BoundaryStatus {
   if self.bidi_controls > 0U || self.ascii_controls > 0U {
     Containment

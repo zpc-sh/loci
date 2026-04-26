@@ -26,7 +26,9 @@ test "create_thread returns Some anchored to hall with head checkpoint set" {
 ///|
 test "create_thread returns None for unknown hall" {
   let host = @daemon.ConversationHost::new()
-  assert_true(host.create_thread("no-such-hall", "topic", @daemon.Program) is None)
+  assert_true(
+    host.create_thread("no-such-hall", "topic", @daemon.Program) is None,
+  )
 }
 
 ///|
@@ -110,9 +112,15 @@ test "replay returns correct counts for a clean three-turn window" {
   let hall = host.create_hall("h", "p")
   match host.create_thread(hall.hall_id, "t", @daemon.Program) {
     Some(thread) => {
-      ignore(host.append_turn(thread.thread_id, @daemon.TurnRequest::default("a")))
-      ignore(host.append_turn(thread.thread_id, @daemon.TurnRequest::default("b")))
-      ignore(host.append_turn(thread.thread_id, @daemon.TurnRequest::default("c")))
+      ignore(
+        host.append_turn(thread.thread_id, @daemon.TurnRequest::default("a")),
+      )
+      ignore(
+        host.append_turn(thread.thread_id, @daemon.TurnRequest::default("b")),
+      )
+      ignore(
+        host.append_turn(thread.thread_id, @daemon.TurnRequest::default("c")),
+      )
       let result = host.replay(
         thread.thread_id,
         @daemon.ReplayRequest::default(),
@@ -204,14 +212,15 @@ test "emit_embedding_plan returns Some wire for thread with embeddings" {
           "plan test",
         ),
       )
-      match host.emit_embedding_plan(
-        thread.thread_id,
-        "chatgpt",
-        "shared",
-        "substrate://loc/chatgpt",
-        "test-gen",
-        "test note",
-      ) {
+      match
+        host.emit_embedding_plan(
+          thread.thread_id,
+          "chatgpt",
+          "shared",
+          "substrate://loc/chatgpt",
+          "test-gen",
+          "test note",
+        ) {
         Some(wire) => {
           assert_true(wire.contains("kind:"))
           assert_true(wire.contains("embedding"))

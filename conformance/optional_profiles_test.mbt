@@ -9,7 +9,11 @@ test "Optional Semantic: embedding generation profile" {
 ///|
 test "Optional Proof: proof round-trip via ContractBinding::can_seal" {
   let obligations = [
-    @chatgpt.ProofObligation::new("obl-proof-1", true, @chatgpt.CoveredByEvidence),
+    @chatgpt.ProofObligation::new(
+      "obl-proof-1",
+      true,
+      @chatgpt.CoveredByEvidence,
+    ),
   ]
   let binding = @chatgpt.ContractBinding::new(
     "H-contract-coverage-proof-binding",

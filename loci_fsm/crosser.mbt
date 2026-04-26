@@ -18,16 +18,16 @@ pub(open) trait Crosser {
   /// All textual scalars the FSM should walk before validation.
   /// Each pair is `(field_key, value)`. Field keys should be stable
   /// dotted identifiers so downstream consumers can grep them.
-  scalars(Self) -> Array[(String, String)]
+  scalars(self : Self) -> Array[(String, String)]
   /// Validate the credential. Return a stable rejection tag on failure
   /// so replay always yields the same posture.
-  validate(Self) -> CrossResult
+  validate(self : Self) -> CrossResult
   /// Stable id used in crossing reports.
-  passport_id(Self) -> String
+  passport_id(self : Self) -> String
   /// Actor overlay (who is presenting the credential).
-  actor_overlay(Self) -> String
+  actor_overlay(self : Self) -> String
   /// Target locus (what the actor is trying to enter).
-  target_locus(Self) -> String
+  target_locus(self : Self) -> String
 }
 
 ///|

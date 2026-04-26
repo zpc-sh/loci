@@ -59,8 +59,8 @@ pub fn FsmCave::deposit(
   kind~ : String,
   key~ : String,
   value~ : String,
-  from_state~ : String = "",
-  to_state~ : String = "",
+  from_state? : String = "",
+  to_state? : String = "",
 ) -> FsmCave {
   let value_hash = cave_value_hash(value)
   let entry : CaveEntry = {
@@ -124,7 +124,7 @@ pub fn FsmCave::since(self : FsmCave, after_seq : UInt) -> Array[CaveEntry] {
 
 ///|
 pub fn FsmCave::depth(self : FsmCave) -> UInt {
-  self.entries.length().to_uint()
+  self.entries.length().reinterpret_as_uint()
 }
 
 ///|
@@ -180,12 +180,12 @@ pub fn FsmCave::emit(self : FsmCave) -> String {
   }
   let prefix = out.to_string()
   let mat = @hash.Hash::of_bytes(cave_string_to_bytes(prefix)).key()
-  let final = StringBuilder::new(size_hint=prefix.length() + 96)
-  final.write_string(prefix)
-  final.write_string("\nmaterial_hash=")
-  final.write_string(mat)
-  final.write_char('\n')
-  final.to_string()
+  let final_content = StringBuilder::new(size_hint=prefix.length() + 96)
+  final_content.write_string(prefix)
+  final_content.write_string("\nmaterial_hash=")
+  final_content.write_string(mat)
+  final_content.write_char('\n')
+  final_content.to_string()
 }
 
 ///|

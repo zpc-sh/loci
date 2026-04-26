@@ -151,9 +151,9 @@ pub fn ReporterFsm::send(
 ///   Archive  -> "archive"     (final summary)
 pub fn ReporterFsm::drive_to_archive(self : ReporterFsm) -> ReporterFsm {
   let mut cur = self
-  let mut guard = 0
-  while guard < 32 {
-    guard = guard + 1
+  let mut loop_guard = 0
+  while loop_guard < 32 {
+    loop_guard = loop_guard + 1
     match cur.state {
       RArchive | RFailed | RDefer => break
       RIdle =>
@@ -204,7 +204,7 @@ pub fn ReporterFsm::drain(
   self : ReporterFsm,
 ) -> (ReporterFsm, Array[CaveEntry]) {
   let (cave, entries) = self.cave.drain()
-  ({ ..self, cave }, entries)
+  ({ ..self, cave, }, entries)
 }
 
 ///|
@@ -270,7 +270,7 @@ fn ReporterFsm::reject_event(
     from_state~,
     to_state=from_state,
   )
-  { ..self, cave }
+  { ..self, cave, }
 }
 
 ///|
@@ -311,7 +311,7 @@ fn ReporterFsm::deposit_sift_summary(self : ReporterFsm) -> ReporterFsm {
     from_state="sift",
     to_state="sift",
   )
-  { ..self, cave }
+  { ..self, cave, }
 }
 
 ///|
@@ -377,15 +377,15 @@ fn ReporterFsm::deposit_archive_summary(self : ReporterFsm) -> ReporterFsm {
     kind="archive",
     key=self.topic,
     value="items=" +
-    self.collected.length().to_string() +
-    ";verified=" +
-    (if self.verified { "1" } else { "0" }) +
-    ";published=" +
-    (if self.published { "1" } else { "0" }),
+      self.collected.length().to_string() +
+      ";verified=" +
+      (if self.verified { "1" } else { "0" }) +
+      ";published=" +
+      (if self.published { "1" } else { "0" }),
     from_state="archive",
     to_state="archive",
   )
-  { ..self, cave }
+  { ..self, cave, }
 }
 
 ///|

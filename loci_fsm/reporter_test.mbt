@@ -64,8 +64,7 @@ test "ReporterFsm with no submissions defers from observe" {
 
 ///|
 test "ReporterFsm rejects unknown event but records it in cave" {
-  let r = @loci_fsm.ReporterFsm::new("docs-3", "topic")
-    .send(@loci_fsm.VerifyOk) // not legal from RIdle
+  let r = @loci_fsm.ReporterFsm::new("docs-3", "topic").send(@loci_fsm.VerifyOk) // not legal from RIdle
   assert_eq(r.state, @loci_fsm.RIdle)
   let rejects = r.cave.collect("rejected_event")
   assert_eq(rejects.length(), 1)
