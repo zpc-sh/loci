@@ -421,6 +421,77 @@ fn main {
         None => println("thread=create_failed")
       }
     }
+    "conv-design" => {
+      let host = @daemon.ConversationHost::new()
+      let hall = host.create_hall(
+        value_after(args, "--hall", "saba"),
+        value_after(args, "--policy-profile", "debate-default"),
+      )
+      let topic = value_after(args, "--topic", "fsm-primitive")
+      let track = parse_conv_track(value_after(args, "--track", "program"))
+      match host.create_thread(hall.hall_id, topic, track) {
+        Some(thread) => {
+          let chatgpt_outcome = host.append_turn(thread.thread_id, {
+            actor_overlay: "chatgpt",
+            actor_role: @daemon.Ai,
+            content: value_after(
+              args, "--chatgpt-content", "propose policy primitive",
+            ),
+            length_envelope: @daemon.LengthEnvelope::default(),
+            idempotency_key: value_after(args, "--chatgpt-idempotency", ""),
+          })
+          let codex_outcome = host.append_turn(thread.thread_id, {
+            actor_overlay: "codex",
+            actor_role: @daemon.Ai,
+            content: value_after(
+              args, "--codex-content", "propose enforcement mapping",
+            ),
+            length_envelope: @daemon.LengthEnvelope::default(),
+            idempotency_key: value_after(args, "--codex-idempotency", ""),
+          })
+
+          let design_out = value_after(args, "--design-out", "")
+          println("hall_id=\{hall.hall_id}")
+          println("thread_id=\{thread.thread_id}")
+          println("topic=\{topic}")
+          println("chatgpt_accepted=\{chatgpt_outcome.accepted}")
+          println("codex_accepted=\{codex_outcome.accepted}")
+
+          match
+            host.emit_embedding_plan(
+              thread.thread_id,
+              value_after(args, "--plan-overlay", "chatgpt"),
+              value_after(args, "--plan-peer", "codex"),
+              value_after(args, "--plan-authority", "substrate://loc/chatgpt"),
+              value_after(
+                args, "--plan-generator", "daemon.conversation.cross-design",
+              ),
+              value_after(args, "--plan-note", "cross-agent design discussion"),
+            ) {
+            Some(wire) => {
+              println("design_plan_emitted=true")
+              if design_out != "" {
+                println("design_plan_saved=false")
+                println("design_plan_out=\{design_out}")
+                println(
+                  "note=design-out persistence is not wired in this command path yet; wire emitted to stdout.",
+                )
+              } else {
+                println("design_plan_saved=false")
+                println("design_plan_out=")
+              }
+              println(wire)
+            }
+            None => {
+              println("design_plan_emitted=false")
+              println("design_plan_saved=false")
+              println("design_plan_out=\{design_out}")
+            }
+          }
+        }
+        None => println("thread=create_failed")
+      }
+    }
     "conv-plan" => {
       let host = @daemon.ConversationHost::new()
       let hall = host.create_hall(
@@ -578,7 +649,9 @@ fn print_usage() -> Unit {
   println("Categories:")
   println("  oci: capabilities | put")
   println("  tree: sparse | diff")
-  println("  conv: turn | replay | embed | embed-purge | append-dialogue")
+  println(
+    "  conv: turn | replay | embed | embed-purge | append-dialogue | design",
+  )
   println("  yata: topology | wasm-plan | triad-contract | contract-bind")
   println("  cognitive: compile | distributed | measure")
   println("  adapter: validate")
@@ -607,7 +680,10 @@ fn print_usage() -> Unit {
     "  moon run cmd/main -- daemon conv embed-purge --purge-after-turns 1 --current-turn-seq 2",
   )
   println(
-    "  moon run cmd/main -- daemon conv append-dialogue --speaker codex --topic meta-codex --content-file /tmp/msg.txt",
+    "  moon run cmd/main -- daemon conv append-dialogue --topic meta-codex --nucleant-id N-loci-ide-socket --content-file /tmp/msg.txt",
+  )
+  println(
+    "  moon run cmd/main -- daemon conv design --topic fsm-primitive --chatgpt-content \"propose policy primitive\" --codex-content \"propose enforcement mapping\"",
   )
   println(
     "  moon run cmd/main -- daemon yata topology --yata-branch-factor 5 --yata-max-children 3",
@@ -658,7 +734,10 @@ fn print_usage() -> Unit {
     "  moon run cmd/main -- daemon --action conv-embed-purge --purge-after-turns 1 --current-turn-seq 2",
   )
   println(
-    "  moon run cmd/main -- daemon --action conv-append-dialogue --speaker codex --topic meta-codex --content meta-codex-iteration",
+    "  moon run cmd/main -- daemon --action conv-append-dialogue --topic meta-codex --nucleant-id N-loci-ide-socket --content meta-codex-iteration",
+  )
+  println(
+    "  moon run cmd/main -- daemon --action conv-design --topic fsm-primitive --chatgpt-content \"propose policy primitive\" --codex-content \"propose enforcement mapping\"",
   )
   println(
     "  moon run cmd/main -- daemon --action conv-plan --file-ref docs/sample.bin --embedding-action observe",
@@ -677,7 +756,7 @@ fn print_usage() -> Unit {
   )
   println("Flags:")
   println(
-    "  --action capabilities|put|sparse|diff|conv-turn|conv-replay|conv-embed|conv-embed-purge|conv-append-dialogue|conv-plan|yata-topology|yata-wasm-plan|yata-triad-contract|yata-contract-bind|demo",
+    "  --action capabilities|put|sparse|diff|conv-turn|conv-replay|conv-embed|conv-embed-purge|conv-append-dialogue|conv-design|conv-plan|yata-topology|yata-wasm-plan|yata-triad-contract|yata-contract-bind|demo",
   )
   println("  --mode receiver|proxy|passthrough|hybrid")
   println("  --node-id <id>")
@@ -718,13 +797,24 @@ fn print_usage() -> Unit {
   println("  --purge-after-turns <uint> (for conv-embed*)")
   println("  --embedding-note <text> (for conv-embed)")
   println("  --current-turn-seq <uint> (for conv-embed-purge)")
-  println("  --speaker chatgpt|codex (for conv-append-dialogue)")
   println(
     "  --dialogue-kind <atom-ish> (for conv-append-dialogue; default: contract_spec_proof_design)",
   )
   println("  --refs <csv> (for conv-append-dialogue)")
   println("  --content <text> (for conv-append-dialogue)")
   println("  --content-file <path> (for conv-append-dialogue)")
+  println(
+    "  --nucleant-id <id> (for conv-append-dialogue; PR/MR replacement chain key)",
+  )
+  println(
+    "  --nucleant-status <status> (for conv-append-dialogue; proposal|in_progress|resolved|blocked)",
+  )
+  println(
+    "  --repo-mark <repo> (for conv-append-dialogue; loci marks actor origin)",
+  )
+  println("  --chatgpt-content <text> (for conv-design)")
+  println("  --codex-content <text> (for conv-design)")
+  println("  --design-out <path> (for conv-design; optional)")
   println("  --plan-overlay <name> (for conv-plan)")
   println("  --plan-peer <name> (for conv-plan)")
   println("  --plan-authority <uri> (for conv-plan)")
@@ -855,6 +945,7 @@ fn map_conv_action(value : String) -> String {
     "embed" => "conv-embed"
     "embed-purge" => "conv-embed-purge"
     "append-dialogue" => "conv-append-dialogue"
+    "design" => "conv-design"
     _ => "conv-turn"
   }
 }
@@ -900,6 +991,7 @@ fn normalize_direct_action(value : String) -> String {
     "conv-embed" => "conv-embed"
     "conv-embed-purge" => "conv-embed-purge"
     "conv-append-dialogue" => "conv-append-dialogue"
+    "conv-design" => "conv-design"
     "yata-topology" => "yata-topology"
     "yata-wasm-plan" => "yata-wasm-plan"
     "yata-triad-contract" => "yata-triad-contract"
@@ -913,6 +1005,7 @@ fn normalize_direct_action(value : String) -> String {
     "embed" => "conv-embed"
     "embed-purge" => "conv-embed-purge"
     "append-dialogue" => "conv-append-dialogue"
+    "design" => "conv-design"
     "topology" => "yata-topology"
     "wasm-plan" => "yata-wasm-plan"
     "triad-contract" => "yata-triad-contract"
@@ -1171,18 +1264,18 @@ fn build_yata_contract_bind_bridge_command(args : Array[String]) -> String {
 ///|
 fn build_conv_append_dialogue_bridge_command(args : Array[String]) -> String {
   let out_root = value_after(args, "--out-root", "loci/chatgpt")
-  let speaker = value_after(args, "--speaker", "codex")
   let kind = value_after(args, "--dialogue-kind", "contract_spec_proof_design")
   let topic = value_after(args, "--topic", "meta-codex")
   let refs = value_after(args, "--refs", "")
   let content = value_after(args, "--content", "meta-codex-iteration")
   let content_file = value_after(args, "--content-file", "")
   let ts = value_after(args, "--generated-at-utc", "")
+  let nucleant_id = value_after(args, "--nucleant-id", "")
+  let nucleant_status = value_after(args, "--nucleant-status", "proposal")
+  let repo_mark = value_after(args, "--repo-mark", "")
 
   let mut cmd = "docs/archive/tools/chatgpt-codex-dialogue-append.sh --out-root " +
     out_root +
-    " --speaker " +
-    speaker +
     " --kind " +
     kind +
     " --topic " +
@@ -1194,6 +1287,13 @@ fn build_conv_append_dialogue_bridge_command(args : Array[String]) -> String {
     cmd = cmd + " --content-file " + content_file
   } else {
     cmd = cmd + " --content " + content
+  }
+  if nucleant_id != "" {
+    cmd = cmd + " --nucleant-id " + nucleant_id
+    cmd = cmd + " --nucleant-status " + nucleant_status
+  }
+  if repo_mark != "" {
+    cmd = cmd + " --repo-mark " + repo_mark
   }
   if ts != "" {
     cmd = cmd + " --ts " + ts

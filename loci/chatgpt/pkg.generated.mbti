@@ -32,10 +32,28 @@ pub(all) struct ContractBinding {
   side_effect_status : SideEffectStatus
   obligations : Array[ProofObligation]
 } derive(Eq, @debug.Debug)
+pub fn ContractBinding::actionable_obligations(Self) -> Array[ProofObligation]
 pub fn ContractBinding::can_seal(Self) -> Bool
+pub fn ContractBinding::can_seal_with_solver(Self, SolverReceipt?) -> Bool
 pub fn ContractBinding::is_bound(Self) -> Bool
 pub fn ContractBinding::new(String, String?, String?, String?, CoverageStatus, SideEffectStatus, Array[ProofObligation]) -> Self
 pub fn ContractBinding::required_open_count(Self) -> Int
+
+pub(all) struct ContractDirectiveMini {
+  contract_id : String
+  pattern : String
+  claim : String
+  ready : Bool
+  oracle : String
+  solver : String?
+  solver_job : String?
+  solver_status : SolverStatus
+  solver_receipt : String?
+} derive(Eq, @debug.Debug)
+pub fn ContractDirectiveMini::from_directive_lines(Array[String]) -> Self?
+pub fn ContractDirectiveMini::new(String, String, String, Bool, String, solver? : String?, solver_job? : String?, solver_status? : SolverStatus, solver_receipt? : String?) -> Self
+pub fn ContractDirectiveMini::ready_gate(Self) -> Bool
+pub fn ContractDirectiveMini::to_solver_receipt(Self, String?) -> SolverReceipt?
 
 pub(all) enum CoverageStatus {
   Covered
@@ -79,6 +97,65 @@ pub(all) enum SideEffectStatus {
   Observed
   BlockedEffect
   NotRequired
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SolverClientResult {
+  contract_id : String
+  solver : String
+  solver_job : String
+  solver_status : SolverStatus
+  solver_receipt_ref : String?
+  proof_artifact_ref : String?
+} derive(Eq, @debug.Debug)
+pub fn SolverClientResult::from_koan_payload(Array[(String, String)], contract_id? : String?) -> Self?
+pub fn SolverClientResult::new(String, String, String, SolverStatus, String?, String?) -> Self
+pub fn SolverClientResult::to_solver_receipt(Self) -> SolverReceipt
+
+pub(all) struct SolverIngestResult {
+  accepted : Bool
+  can_seal_now : Bool
+  reason : String?
+  kv_key : String?
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SolverReceipt {
+  solver : String
+  solver_job : String
+  status : SolverStatus
+  receipt_ref : String?
+  proof_artifact_ref : String?
+} derive(Eq, @debug.Debug)
+pub fn SolverReceipt::is_verified(Self) -> Bool
+pub fn SolverReceipt::new(String, String, SolverStatus, String?, String?) -> Self
+
+pub(all) struct SolverResultHandler {
+  dropbox : Array[SolverReceipt]
+  kv_store : Array[(String, SolverReceipt)]
+} derive(Eq, @debug.Debug)
+pub fn SolverResultHandler::dropbox_count(Self) -> Int
+pub fn SolverResultHandler::ingest(Self, ContractBinding, String, SolverReceipt, route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::ingest_client_result(Self, ContractBinding, SolverClientResult, route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::ingest_http_directive_lines(Self, ContractBinding, Array[String], route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::ingest_koan_payload(Self, ContractBinding, Array[(String, String)], contract_id? : String?, route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::kv_count(Self) -> Int
+pub fn SolverResultHandler::kv_get(Self, String) -> SolverReceipt?
+pub fn SolverResultHandler::new() -> Self
+
+pub(all) enum SolverResultRoute {
+  DropboxOnly
+  KvOnly
+  DropboxAndKv
+} derive(Eq, @debug.Debug)
+
+pub(all) enum SolverStatus {
+  NotRequested
+  Queued
+  Running
+  Completed
+  Failed
+  TimedOut
+  InvalidInput
+  Unsupported
 } derive(Eq, @debug.Debug)
 
 pub(all) struct WorkCycle {

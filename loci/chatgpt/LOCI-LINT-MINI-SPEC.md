@@ -9,6 +9,91 @@ kind: "loci.chatgpt.spec"
 
 # Loci Lint Mini Spec v0.1
 
+## 0. Merge-Safe Mini Block (Current Priority)
+
+This is the smallest deployable surface for merge resolution work.
+
+Use directive lines instead of fenced blocks:
+
+```text
+@contract <id>
+@pattern <name>
+@locus <selector>
+@claim <text>
+@prob <0.0..1.0>
+@entropy <float>
+@expected_type <yata-type>
+@hole_id <stable-id>
+@ready <true|false>
+@selected <candidate-id?>
+@oracle <name>
+@solver <name?>
+@solver_job <job-id?>
+@solver_status <none|queued|running|completed|failed|timed_out|invalid_input|unsupported>
+@solver_receipt <cas-or-path?>
+@state <draft|unborn|born|stale|ghost|folded|quarantine>
+```
+
+Rules:
+
+- one directive per line
+- no parser-core changes required at v0
+- parser macro prepass MAY lower these lines into existing internal contract objects
+- unknown `@...` keys are preserved as extension fields, not hard errors
+- this mode is append-only and can coexist with existing prose and existing fenced forms
+
+MoonBit lowering profile (proof-first):
+
+- each `@contract` block lowers to a MoonBit function/method with a `where { ... }` clause
+- `@claim` becomes one or more `proof_require` / `proof_ensure` obligations
+- probabilistic posture fields (`@prob`, `@entropy`) are preserved as model metadata and do not weaken hard proof obligations
+- `@ready=true` is only accepted when proof obligations and oracle checks pass
+- if solver offload is requested (`@solver` set), `@ready=true` also requires `@solver_status=completed` plus `@solver_receipt`
+- implementation-level bridge facts should be emitted as `proof_assert(...)` checkpoints inside executable blocks
+
+Example:
+
+```text
+@contract firmament.cache.intent.v0
+@pattern cache.intent
+@locus src/firmament/cache.ts:put
+@claim cache intent continuity
+@prob 0.78
+@entropy 0.41
+@expected_type patch+test
+@hole_id H(cache-intent-v0)
+@ready false
+@selected none
+@oracle test.firmament.cache
+@solver z3
+@solver_job solve-job-001
+@solver_status queued
+@solver_receipt none
+@state unborn
+```
+
+Parser-macro binding intent:
+
+- phase 1: line scanner tags `@contract` blocks
+- phase 2: macro lowers tagged lines into canonical NUC/Kernel structures plus MoonBit proof-bearing `where` clauses
+- phase 2b: optional solver-oracle envelope is emitted for external solve execution and receipt binding
+- phase 3: existing verify/receipt/plant pipeline runs unchanged
+
+FSM behavior for hands-off flow:
+
+- discover + segment basic blocks
+- classify probabilistically (`@prob`, `@entropy`)
+- materialize Yata contract target (`@hole_id`, `@expected_type`)
+- choose candidate when converged (`@selected`)
+- auto-advance only when policy + `@ready=true` passes
+- emit receipt and fold into parent kernel
+
+Repository organization (for arblock evolution):
+
+- keep all local mini-spec and related artifacts under `./loci/chatgpt`
+- treat this document as the seed profile for future arblock codex work
+- do not require parser-core format changes until macro-prepass behavior is stable
+
 ```text
 Name: Loci Lint
 Kind: repository-local semantic linter / kernel walker

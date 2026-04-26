@@ -3,22 +3,21 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 OUT_ROOT="$ROOT_DIR/loci/chatgpt"
-SPEAKER="codex"
 KIND="contract_spec_proof_design"
 TOPIC="meta-codex"
 REFS=""
 CONTENT="meta-codex-iteration"
 TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 CONTENT_FILE=""
+NUCLEANT_ID=""
+NUCLEANT_STATUS="proposal"
+REPO_MARK=""
+LOCI_SURFACE="${LOCI_SURFACE:-codex}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --out-root)
       OUT_ROOT="$2"
-      shift 2
-      ;;
-    --speaker)
-      SPEAKER="$2"
       shift 2
       ;;
     --kind)
@@ -45,6 +44,22 @@ while [[ $# -gt 0 ]]; do
       TS="$2"
       shift 2
       ;;
+    --nucleant-id)
+      NUCLEANT_ID="$2"
+      shift 2
+      ;;
+    --nucleant-status)
+      NUCLEANT_STATUS="$2"
+      shift 2
+      ;;
+    --repo-mark)
+      REPO_MARK="$2"
+      shift 2
+      ;;
+    --loci-surface)
+      LOCI_SURFACE="$2"
+      shift 2
+      ;;
     *)
       echo "unknown arg: $1" >&2
       exit 2
@@ -54,6 +69,14 @@ done
 
 if [[ -n "$CONTENT_FILE" ]]; then
   CONTENT="$(cat "$CONTENT_FILE")"
+fi
+
+if [[ -z "$REPO_MARK" ]]; then
+  if git_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    REPO_MARK="$(basename "$git_root")"
+  else
+    REPO_MARK="$(basename "$(pwd)")"
+  fi
 fi
 
 DIALOGUE_DIR="$OUT_ROOT/dialogue"
@@ -68,6 +91,7 @@ locus: "loci/chatgpt"
 participants: [:chatgpt :codex]
 branching: :forbidden
 policy: :append_only
+identity_policy: :loci_marks_actor
 MUON
 fi
 
@@ -88,6 +112,10 @@ escape_muon_string() {
   value="${value//\"/\\\"}"
   value="${value//$'\n'/\\n}"
   printf '%s' "$value"
+}
+
+sanitize_atom() {
+  printf '%s' "$1" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_-' '_'
 }
 
 build_refs_muon() {
@@ -114,24 +142,38 @@ build_refs_muon() {
 }
 
 refs_muon="$(build_refs_muon "$REFS")"
-speaker_atom="$(printf '%s' "$SPEAKER" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_-' '_')"
-kind_atom="$(printf '%s' "$KIND" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9_-' '_')"
+loci_surface_atom="$(sanitize_atom "$LOCI_SURFACE")"
+kind_atom="$(sanitize_atom "$KIND")"
+repo_mark_escaped="$(escape_muon_string "$REPO_MARK")"
 
 {
   echo
   echo "entry: {"
   echo "  seq: $next_seq"
   echo "  ts: \"$(escape_muon_string "$TS")\""
-  echo "  speaker: :$speaker_atom"
+  echo "  speaker: :$loci_surface_atom"
+  echo "  loci_mark: { actor: :$loci_surface_atom repo: \"$repo_mark_escaped\" source: :loci }"
   echo "  kind: :$kind_atom"
   echo "  topic: \"$(escape_muon_string "$TOPIC")\""
   echo "  refs: $refs_muon"
   echo "  content: \"$(escape_muon_string "$CONTENT")\""
+
+  if [[ -n "$NUCLEANT_ID" ]]; then
+    nucleant_status_atom="$(sanitize_atom "$NUCLEANT_STATUS")"
+    chain_key="$(escape_muon_string "$NUCLEANT_ID:$REPO_MARK:$next_seq")"
+    echo "  nucleant: { id: \"$(escape_muon_string "$NUCLEANT_ID")\" repo: \"$repo_mark_escaped\" status: :$nucleant_status_atom }"
+    echo "  merge_replacement: { mode: :nucleant_chain key: \"$chain_key\" }"
+  fi
+
   echo "}"
 } >>"$LOG_FILE"
 
 echo "appended=1"
 echo "log_file=$LOG_FILE"
 echo "seq=$next_seq"
-echo "speaker=$speaker_atom"
-echo "kind=$kind_atom"
+echo "loci_actor=$loci_surface_atom"
+echo "repo_mark=$REPO_MARK"
+if [[ -n "$NUCLEANT_ID" ]]; then
+  echo "nucleant_id=$NUCLEANT_ID"
+  echo "nucleant_status=$(sanitize_atom "$NUCLEANT_STATUS")"
+fi

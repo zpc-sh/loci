@@ -48,6 +48,8 @@ test "contract cannot seal with open required obligations" {
     obligations,
   )
   @test.assert_eq(binding.required_open_count(), 1)
+  @test.assert_eq(binding.actionable_obligations().length(), 1)
+  @test.assert_eq(binding.actionable_obligations()[0].obligation_id, "obl-open")
   assert_true(!binding.can_seal())
 }
 
@@ -81,4 +83,73 @@ test "blocked side effects prevent seal even with discharged obligations" {
     obligations,
   )
   assert_true(ready.can_seal())
+}
+
+///|
+test "solver receipt can seal when completed and receipt is present" {
+  let obligations = [
+    @chatgpt.ProofObligation::new(
+      "obl-covered",
+      true,
+      @chatgpt.CoveredByEvidence,
+    ),
+  ]
+  let binding = @chatgpt.ContractBinding::new(
+    "H-solver-offload-typed-hole",
+    Some("loci/chatgpt/tests/chatgpt-contracts.results.muon"),
+    Some("loci/chatgpt/coverage/chatgpt-contracts.coverage.muon"),
+    Some("loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+    @chatgpt.Covered,
+    @chatgpt.Observed,
+    obligations,
+  )
+  let solver = @chatgpt.SolverReceipt::new(
+    "z3",
+    "solve-job-001",
+    @chatgpt.Completed,
+    Some("loci/chatgpt/proofs/solve-job-001.receipt.muon"),
+    Some("loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+  )
+  assert_true(solver.is_verified())
+  assert_true(binding.can_seal_with_solver(Some(solver)))
+}
+
+///|
+test "solver receipt blocks seal when not completed or missing receipt" {
+  let obligations = [
+    @chatgpt.ProofObligation::new(
+      "obl-covered",
+      true,
+      @chatgpt.CoveredByEvidence,
+    ),
+  ]
+  let binding = @chatgpt.ContractBinding::new(
+    "H-solver-offload-typed-hole",
+    Some("loci/chatgpt/tests/chatgpt-contracts.results.muon"),
+    Some("loci/chatgpt/coverage/chatgpt-contracts.coverage.muon"),
+    Some("loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+    @chatgpt.Covered,
+    @chatgpt.Observed,
+    obligations,
+  )
+
+  let running = @chatgpt.SolverReceipt::new(
+    "z3",
+    "solve-job-002",
+    @chatgpt.Running,
+    Some("loci/chatgpt/proofs/solve-job-002.receipt.muon"),
+    Some("loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+  )
+  assert_true(!running.is_verified())
+  assert_true(!binding.can_seal_with_solver(Some(running)))
+
+  let missing_receipt = @chatgpt.SolverReceipt::new(
+    "z3",
+    "solve-job-003",
+    @chatgpt.Completed,
+    None,
+    Some("loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+  )
+  assert_true(!missing_receipt.is_verified())
+  assert_true(!binding.can_seal_with_solver(Some(missing_receipt)))
 }

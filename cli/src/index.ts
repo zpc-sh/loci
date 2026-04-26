@@ -15,6 +15,7 @@ import { cmdInit } from "./commands/init.ts"
 import { cmdLocusNew, cmdLocusLs } from "./commands/locus.ts"
 import { cmdEnter, cmdSign, cmdTrail, cmdResidue, cmdWhere } from "./commands/genius.ts"
 import { cmdStatus } from "./commands/status.ts"
+import { cmdIde } from "./commands/ide.ts"
 
 const argv = process.argv.slice(2)
 const cmd = argv[0]
@@ -58,6 +59,7 @@ async function main(): Promise<void> {
     case "residue": return cmdResidue(rest[0], store)
     case "where":   return cmdWhere(store)
     case "status":  return cmdStatus(store)
+    case "ide":     return cmdIde(rest)
 
     // Delegate to native genius binary (tree / bloom / OCI daemon ops)
     case "daemon":
@@ -92,6 +94,7 @@ USAGE
   loci genius trail <locus> [--depth N]   Show session trail
   loci genius residue <locus>             Show latest residue
   loci genius where                       Overview of all loci + last sessions
+  loci ide <subcmd>                       Cross-repo search + codex dropbox messaging
   loci status                             Repository overview
   loci daemon <subcmd>                    Delegate to native merkin (tree/bloom/OCI)
 

@@ -65,11 +65,83 @@ pub(all) enum SideEffectStatus {
 } derive(Eq, Debug)
 
 ///|
+/// Solver offload lifecycle status.
+pub(all) enum SolverStatus {
+  NotRequested
+  Queued
+  Running
+  Completed
+  Failed
+  TimedOut
+  InvalidInput
+  Unsupported
+} derive(Eq, Debug)
+
+///|
 /// One formal proof obligation under a contract.
 pub(all) struct ProofObligation {
   obligation_id : String
   required : Bool
   status : ProofStatus
+} derive(Eq, Debug)
+
+///|
+/// External solver receipt bound to one contract solve attempt.
+pub(all) struct SolverReceipt {
+  solver : String
+  solver_job : String
+  status : SolverStatus
+  receipt_ref : String?
+  proof_artifact_ref : String?
+} derive(Eq, Debug)
+
+///|
+/// Directive-level mini block lowered before parser-core changes.
+pub(all) struct ContractDirectiveMini {
+  contract_id : String
+  pattern : String
+  claim : String
+  ready : Bool
+  oracle : String
+  solver : String?
+  solver_job : String?
+  solver_status : SolverStatus
+  solver_receipt : String?
+} derive(Eq, Debug)
+
+///|
+/// Sink route for solver result ingestion.
+pub(all) enum SolverResultRoute {
+  DropboxOnly
+  KvOnly
+  DropboxAndKv
+} derive(Eq, Debug)
+
+///|
+/// Generic handler state for solver receipts.
+pub(all) struct SolverResultHandler {
+  dropbox : Array[SolverReceipt]
+  kv_store : Array[(String, SolverReceipt)]
+} derive(Eq, Debug)
+
+///|
+/// Ingest attempt output.
+pub(all) struct SolverIngestResult {
+  accepted : Bool
+  can_seal_now : Bool
+  reason : String?
+  kv_key : String?
+} derive(Eq, Debug)
+
+///|
+/// Result payload shape expected from external solver client implementations.
+pub(all) struct SolverClientResult {
+  contract_id : String
+  solver : String
+  solver_job : String
+  solver_status : SolverStatus
+  solver_receipt_ref : String?
+  proof_artifact_ref : String?
 } derive(Eq, Debug)
 
 ///|
@@ -139,6 +211,166 @@ pub fn ProofObligation::is_discharged(self : ProofObligation) -> Bool {
 
 ///|
 #declaration_only
+pub fn SolverReceipt::new(
+  solver : String,
+  solver_job : String,
+  status : SolverStatus,
+  receipt_ref : String?,
+  proof_artifact_ref : String?,
+) -> SolverReceipt {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverReceipt::is_verified(self : SolverReceipt) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractDirectiveMini::new(
+  contract_id : String,
+  pattern : String,
+  claim : String,
+  ready : Bool,
+  oracle : String,
+  solver? : String? = None,
+  solver_job? : String? = None,
+  solver_status? : SolverStatus = NotRequested,
+  solver_receipt? : String? = None,
+) -> ContractDirectiveMini {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractDirectiveMini::to_solver_receipt(
+  self : ContractDirectiveMini,
+  proof_artifact_ref : String?,
+) -> SolverReceipt? {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractDirectiveMini::ready_gate(self : ContractDirectiveMini) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractDirectiveMini::from_directive_lines(
+  lines : Array[String],
+) -> ContractDirectiveMini? {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::new() -> SolverResultHandler {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::dropbox_count(self : SolverResultHandler) -> Int {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::kv_count(self : SolverResultHandler) -> Int {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::kv_get(
+  self : SolverResultHandler,
+  key : String,
+) -> SolverReceipt? {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverClientResult::new(
+  contract_id : String,
+  solver : String,
+  solver_job : String,
+  solver_status : SolverStatus,
+  solver_receipt_ref : String?,
+  proof_artifact_ref : String?,
+) -> SolverClientResult {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverClientResult::to_solver_receipt(
+  self : SolverClientResult,
+) -> SolverReceipt {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverClientResult::from_koan_payload(
+  payload : Array[(String, String)],
+  contract_id? : String? = None,
+) -> SolverClientResult? {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::ingest(
+  self : SolverResultHandler,
+  binding : ContractBinding,
+  contract_id : String,
+  receipt : SolverReceipt,
+  route? : SolverResultRoute = DropboxAndKv,
+) -> (SolverResultHandler, SolverIngestResult) {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::ingest_client_result(
+  self : SolverResultHandler,
+  binding : ContractBinding,
+  client_result : SolverClientResult,
+  route? : SolverResultRoute = DropboxAndKv,
+) -> (SolverResultHandler, SolverIngestResult) {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::ingest_koan_payload(
+  self : SolverResultHandler,
+  binding : ContractBinding,
+  payload : Array[(String, String)],
+  contract_id? : String? = None,
+  route? : SolverResultRoute = DropboxAndKv,
+) -> (SolverResultHandler, SolverIngestResult) {
+  ...
+}
+
+///|
+#declaration_only
+pub fn SolverResultHandler::ingest_http_directive_lines(
+  self : SolverResultHandler,
+  binding : ContractBinding,
+  lines : Array[String],
+  route? : SolverResultRoute = DropboxAndKv,
+) -> (SolverResultHandler, SolverIngestResult) {
+  ...
+}
+
+///|
+#declaration_only
 pub fn ContractBinding::new(
   contract_id : String,
   test_result_ref : String?,
@@ -165,6 +397,23 @@ pub fn ContractBinding::required_open_count(self : ContractBinding) -> Int {
 
 ///|
 #declaration_only
+pub fn ContractBinding::actionable_obligations(
+  self : ContractBinding,
+) -> Array[ProofObligation] {
+  ...
+}
+
+///|
+#declaration_only
 pub fn ContractBinding::can_seal(self : ContractBinding) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractBinding::can_seal_with_solver(
+  self : ContractBinding,
+  solver_receipt : SolverReceipt?,
+) -> Bool {
   ...
 }

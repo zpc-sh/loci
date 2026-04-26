@@ -41,3 +41,4 @@ capability_report_store_ref=pending
 - H-visual-graph-grammar loci/chatgpt/VISUAL_GRAPH_GRAMMAR_PROFILE.md converging ready=true candidates=3 conf_floor=80 selected=contract-graph-ir provenance=3
 - H-contract-test-emit-grammar loci/chatgpt/CONTRACT_TEST_EMIT_GRAMMAR.md converging ready=true candidates=2 conf_floor=80 selected=test-manifest-and-results provenance=2
 - H-contract-coverage-proof-binding loci/chatgpt/CONTRACT_COVERAGE_PROOF_BINDING.md converging ready=true candidates=2 conf_floor=80 selected=coverage-and-proof-bindings provenance=2
+- H-solver-offload-receipt-binding loci/chatgpt/SOLVER_OFFLOAD_TYPED_HOLE_CONTRACTS.md converging ready=true candidates=3 conf_floor=80 selected=solver-receipt-binding provenance=2
