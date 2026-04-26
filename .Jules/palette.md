@@ -1,0 +1,3 @@
+## 2024-05-18 - Graceful CLI Cancellation Handing
+**Learning:** In multi-prompt CLI sequences using `@clack/prompts`, failing to check `clack.isCancel()` at each step can lead to a poor user experience where Ctrl+C cancels the current prompt but incorrectly proceeds to the next steps or final action with incomplete data. Also, `clack.cancel()` should always be called with a string message (e.g. "Cancelled.") to prevent strict typing runtime errors and provide clear feedback.
+**Action:** Always check `clack.isCancel(result)` immediately after *every* `clack.text()` or similar prompt, and if true, call `clack.cancel("Cancelled."); process.exit(0)` to cleanly exit the entire sequence.
