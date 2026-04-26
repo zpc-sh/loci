@@ -15,11 +15,11 @@ import { cmdInit } from "./commands/init.ts"
 import { cmdLocusNew, cmdLocusLs } from "./commands/locus.ts"
 import { cmdEnter, cmdSign, cmdTrail, cmdResidue, cmdWhere } from "./commands/genius.ts"
 import { cmdStatus } from "./commands/status.ts"
-<<<<<<< HEAD
+
 import { cmdIde } from "./commands/ide.ts"
-=======
+
 import { cmdSpec } from "./commands/spec.ts"
->>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
+
 
 const argv = process.argv.slice(2)
 const cmd = argv[0]
