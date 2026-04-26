@@ -825,5 +825,5 @@ fn yata_track_token(track : YataTrack) -> String {
 /// Split a string by a separator, returning Array[String].
 /// This adapts String::split (which returns Iter[StringView]) into Array[String].
 fn str_split(s : String, sep : String) -> Array[String] {
-  s.split(sep).map(fn(sv) { sv.to_string() }).collect()
+  s.split(sep).map(fn(sv) { sv.to_owned() }).collect()
 }

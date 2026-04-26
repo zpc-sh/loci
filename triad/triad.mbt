@@ -20,7 +20,7 @@ pub(all) struct TriadRepoPins {
   merkin_branch_raw : String
   mu_branch_raw : String
   lang_branch_raw : String
-} derive(Debug)
+} derive(Show)
 
 ///|
 pub fn TriadRepoPins::new(
@@ -57,7 +57,7 @@ pub(all) struct TriadContractInput {
   generated_at_utc : String
   contract_version : String
   pins : TriadRepoPins
-} derive(Debug)
+} derive(Show)
 
 ///|
 pub fn TriadContractInput::new(

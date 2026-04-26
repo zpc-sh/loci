@@ -26,6 +26,8 @@ pub(all) enum ScanKind {
 } derive(Eq, Show)
 
 ///|
+
+///|
 /// A single hostile byte sequence found by scan_bytes.
 pub(all) struct ScanFinding {
   /// What class of hostile pattern this is.

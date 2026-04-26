@@ -204,15 +204,15 @@ test "AI substrate fingerprint exposes the five-tuple identity surface" {
   assert_eq(tuple.2, "claude-code")
   assert_eq(tuple.3, context_hash)
   assert_eq(tuple.4, None)
-  let sealed = base.with_semantics_hash(semantics_hash)
-  assert_eq(sealed.tuple5().4, Some(semantics_hash))
+  let sealed_fingerprint = base.with_semantics_hash(semantics_hash)
+  assert_eq(sealed_fingerprint.tuple5().4, Some(semantics_hash))
   // Folding semantics_hash must change the fingerprint_id: the 5-tuple
   // identity surface is now locked against a semantic commitment.
-  assert_true(sealed.fingerprint_id != base.fingerprint_id)
+  assert_true(sealed_fingerprint.fingerprint_id != base.fingerprint_id)
   // Determinism: re-sealing with the same semantics_hash yields the
   // same fingerprint_id.
   let sealed_again = base.with_semantics_hash(semantics_hash)
-  assert_eq(sealed.fingerprint_id, sealed_again.fingerprint_id)
+  assert_eq(sealed_fingerprint.fingerprint_id, sealed_again.fingerprint_id)
 }
 
 ///|

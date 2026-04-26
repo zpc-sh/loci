@@ -6,7 +6,7 @@ fn build_deep_tree(depth : Int) -> MerkinTree {
 
   let mut parent_id = root
   for i = 0; i < depth; i = i + 1 {
-    let child_seed = i.to_string().to_bytes()
+    let child_seed = @utf8.encode(i.to_string())
     let child_id = @hash.Hash::of_bytes(child_seed)
     let env_id = @hash.Hash::of_bytes(b"env")
     let child_node = MerkinNode::leaf(child_id).attach_envelope(env_id, [
