@@ -1,5 +1,6 @@
 import { clack } from "../tui.ts"
 import { LociStore } from "../store.ts"
+import { initVcs } from "../vcs.ts"
 import { mkdir, exists } from "fs/promises"
 import { join } from "path"
 
@@ -15,6 +16,7 @@ export async function cmdInit(store: LociStore, args: string[]): Promise<void> {
 
   await mkdir(store.lociRoot, { recursive: true })
   await store.initStore()
+  await initVcs(store)
   await Bun.write(marker, JSON.stringify({
     version: "0.1.0",
     storePath: store.storePath,
@@ -23,9 +25,10 @@ export async function cmdInit(store: LociStore, args: string[]): Promise<void> {
 
   clack.outro([
     `Initialized.`,
-    `  loci root: ${store.lociRoot}/`,
-    `  store:     ${store.storePath}/`,
+    `  loci root:  ${store.lociRoot}/`,
+    `  store:      ${store.storePath}/`,
+    `  branch:     main`,
     ``,
-    `Next: loci loci new <name>`,
+    `Next: loci add <files> && loci commit -m "initial commit"`,
   ].join("\n"))
 }

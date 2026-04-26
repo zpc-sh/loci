@@ -11,7 +11,8 @@ mulsp_priv  := "../lang/mulsp/priv"
 muyata_priv := "../lang/muyata/priv"
 
 wasm_gc_entry := "_build/wasm-gc/release/build/wasm_entry/wasm_entry.wasm"
-wasm_entry    := "_build/wasm/release/build/wasm_entry/wasm_entry.wasm"
+wasm_entry    := "_build/wa
+m/release/build/wasm_entry/wasm_entry.wasm"
 wasm_gc_lib   := "_build/wasm-gc/release/build/wasm_lib/wasm_lib.wasm"
 wasm_lib_wasm := "_build/wasm/release/build/wasm_lib/wasm_lib.wasm"
 native_exe    := "_build/native/release/build/cmd/main/main.exe"
