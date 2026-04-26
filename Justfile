@@ -77,6 +77,20 @@ test-simd:
 test-yata:
     moon test --target wasm-gc --package zpc/genius/model
 
+# Contract-focused suite: chatgpt + daemon + locus + conformance
+[group('test')]
+test-contracts:
+    moon test --target wasm-gc --package zpc/genius/loci/chatgpt
+    moon test --target wasm-gc --package zpc/genius/daemon
+    moon test --target wasm-gc --package zpc/genius/locus
+    moon test --target wasm-gc --package zpc/genius/conformance
+
+# Coverage analysis: instrument run then emit report
+[group('test')]
+coverage:
+    moon test --target wasm-gc --enable-coverage
+    moon coverage analyze
+
 # Type-check all packages (no link step)
 [group('test')]
 check:

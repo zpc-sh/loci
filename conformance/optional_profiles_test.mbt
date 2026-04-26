@@ -7,9 +7,20 @@ test "Optional Semantic: embedding generation profile" {
 }
 
 ///|
-#skip("Proof profile runtime hooks not implemented in this repository")
-test "Optional Proof: proof round-trip profile" {
-  assert_true(true)
+test "Optional Proof: proof round-trip via ContractBinding::can_seal" {
+  let obligations = [
+    @chatgpt.ProofObligation::new("obl-proof-1", true, @chatgpt.CoveredByEvidence),
+  ]
+  let binding = @chatgpt.ContractBinding::new(
+    "H-contract-coverage-proof-binding",
+    Some("loci/chatgpt/tests/chatgpt-contracts.results.muon"),
+    Some("loci/chatgpt/coverage/chatgpt-contracts.coverage.muon"),
+    Some("loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+    @chatgpt.Covered,
+    @chatgpt.NotRequired,
+    obligations,
+  )
+  assert_true(binding.can_seal())
 }
 
 ///|
