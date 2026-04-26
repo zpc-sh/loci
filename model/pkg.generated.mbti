@@ -3,6 +3,7 @@ package "zpc/genius/model"
 
 import {
   "zpc/genius/hash",
+  "zpc/genius/loci_fsm",
   "zpc/genius/scan",
 }
 
@@ -338,66 +339,12 @@ pub(all) enum ArtifactType {
   Bundle
 } derive(Eq, Show)
 
-pub(all) struct BoundaryFinding {
-  field_key : String
-  raw_value : String
-  canonical_value : String
-  raw_hex : String
-  ghost_u200b : UInt
-  ghost_u200c : UInt
-  ghost_ufeff : UInt
-  bidi_controls : UInt
-  ascii_controls : UInt
-  suspicious : Bool
-} derive(Show)
-
-pub(all) enum BoundaryFsmState {
-  Idle
-  Walking
-  Crossing
-  Marked
-  Emitted
-  Failed
-} derive(Eq, Show)
-
 pub(all) enum BoundaryMode {
   Observe_
   Sanitize
   Strict
   Quarantine
 } derive(Eq, Show)
-
-pub(all) enum BoundaryStatus {
-  Clean
-  Attention
-  Containment
-} derive(Eq, Show)
-
-pub(all) struct BoundaryWalkerFsm {
-  actor_overlay : String
-  ratio_loci : String
-  state : BoundaryFsmState
-  walked_scalars : UInt
-  findings : Array[BoundaryFinding]
-  sanitized_scalars : UInt
-  ghost_u200b : UInt
-  ghost_u200c : UInt
-  ghost_ufeff : UInt
-  bidi_controls : UInt
-  ascii_controls : UInt
-  crossings : Array[CrossingReport]
-} derive(Show)
-pub fn BoundaryWalkerFsm::attention_gradient(Self) -> String
-pub fn BoundaryWalkerFsm::attention_saturated(Self) -> Bool
-pub fn BoundaryWalkerFsm::attention_score(Self) -> UInt
-pub fn BoundaryWalkerFsm::attention_ticks(Self) -> UInt
-pub fn BoundaryWalkerFsm::cross(Self, Passport) -> Self
-pub fn BoundaryWalkerFsm::emit_stigmergy(Self, note? : String) -> String
-pub fn BoundaryWalkerFsm::mark(Self) -> Self
-pub fn BoundaryWalkerFsm::new(String, String) -> Self
-pub fn BoundaryWalkerFsm::status(Self) -> BoundaryStatus
-pub fn BoundaryWalkerFsm::walk_scalar(Self, String, String) -> Self
-pub fn BoundaryWalkerFsm::walk_scalars(Self, Array[(String, String)]) -> Self
 
 pub(all) struct BuildDiagnostic {
   level : DiagnosticLevel
@@ -457,14 +404,6 @@ pub(all) enum CompositionError {
   CompositionEmpty
   CompositionInvalid(AmfError)
 } derive(Eq, Show)
-
-pub(all) struct CrossingReport {
-  passport_id : String
-  actor_overlay : String
-  target_locus : String
-  admitted : Bool
-  rejection : String?
-} derive(Show)
 
 pub(all) enum DiagnosticLevel {
   DiagInfo

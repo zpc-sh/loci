@@ -1457,7 +1457,7 @@ fn run_yata_wasm_plan(args : Array[String]) -> Unit {
   let raw_peers = split_csv_raw(drift_peers)
   let peer_a = drift_peer_or_none(raw_peers, 0)
   let peer_b = drift_peer_or_none(raw_peers, 1)
-  let boundary_fsm = @model.BoundaryWalkerFsm::new(
+  let boundary_fsm = @loci_fsm.BoundaryWalkerFsm::new(
       "daemon.yata.wasm-plan", "ratio://merkin/cmd/main",
     )
     .walk_scalars([("peer_a", peer_a), ("peer_b", peer_b)])
