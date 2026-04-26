@@ -6,6 +6,16 @@ pub(all) enum ConversationTrack {
 } derive(Eq, Debug)
 
 ///|
+pub impl Show for ConversationTrack with output(self, logger) {
+  logger.write_string(
+    match self {
+      Program => "Program"
+      Git => "Git"
+    },
+  )
+}
+
+///|
 /// Actor role within one conversational turn.
 pub(all) enum ConversationActorRole {
   Ai

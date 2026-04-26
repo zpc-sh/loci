@@ -12,7 +12,12 @@ pub(all) enum BoundaryFsmState {
   Marked
   Emitted
   Failed
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for BoundaryFsmState with output(self, logger) {
+  logger.write_string(boundary_state_text(self))
+}
 
 ///|
 /// Boundary posture outcome emitted by the FSM.
@@ -20,7 +25,12 @@ pub(all) enum BoundaryStatus {
   Clean
   Attention
   Containment
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for BoundaryStatus with output(self, logger) {
+  logger.write_string(boundary_status_text(self))
+}
 
 ///|
 /// One scalar finding produced while walking Merkin-boundary fields.
@@ -35,7 +45,7 @@ pub(all) struct BoundaryFinding {
   bidi_controls : UInt
   ascii_controls : UInt
   suspicious : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Per-crossing outcome recorded by the FSM.
@@ -45,7 +55,7 @@ pub(all) struct CrossingReport {
   target_locus : String
   admitted : Bool
   rejection : String?
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Deterministic boundary walker + marker FSM with attached cave.
@@ -67,7 +77,7 @@ pub(all) struct BoundaryWalkerFsm {
   ascii_controls : UInt
   crossings : Array[CrossingReport]
   cave : FsmCave
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn BoundaryWalkerFsm::new(

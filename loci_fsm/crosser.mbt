@@ -3,7 +3,7 @@
 pub(all) enum CrossResult {
   Admitted
   Rejected(String)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Crosser is the abstraction over membrane-crossing credentials

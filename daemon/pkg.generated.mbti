@@ -84,6 +84,7 @@ pub(all) enum ConversationTrack {
   Program
   Git
 } derive(Eq, @debug.Debug)
+pub impl Show for ConversationTrack
 
 pub(all) enum DaemonMode {
   Receiver

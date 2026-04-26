@@ -22,7 +22,7 @@ pub(all) struct CaveEntry {
   key : String
   value : String
   hash : String
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 pub(all) struct FsmCave {
@@ -31,7 +31,7 @@ pub(all) struct FsmCave {
   entries : Array[CaveEntry]
   next_seq : UInt
   current_tick : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn FsmCave::new(fsm_id : String, personality : String) -> FsmCave {

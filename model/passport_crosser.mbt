@@ -2,7 +2,7 @@
 /// Adapter: implement the loci_fsm.Crosser trait for `Passport`. This
 /// is the only place where the passport contract meets the FSM module,
 /// so loci_fsm stays free of host-specific credential schemas.
-impl @loci_fsm.Crosser for Passport with scalars(self : Passport) -> Array[
+pub impl @loci_fsm.Crosser for Passport with scalars(self : Passport) -> Array[
   (String, String),
 ] {
   [
@@ -22,7 +22,7 @@ impl @loci_fsm.Crosser for Passport with scalars(self : Passport) -> Array[
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with validate(self : Passport) -> @loci_fsm.CrossResult {
+pub impl @loci_fsm.Crosser for Passport with validate(self : Passport) -> @loci_fsm.CrossResult {
   match self.validate() {
     Ok(_) => @loci_fsm.Admitted
     Err(e) => @loci_fsm.Rejected(passport_error_tag(e))
@@ -30,17 +30,17 @@ impl @loci_fsm.Crosser for Passport with validate(self : Passport) -> @loci_fsm.
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with passport_id(self : Passport) -> String {
+pub impl @loci_fsm.Crosser for Passport with passport_id(self : Passport) -> String {
   self.passport_id
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with actor_overlay(self : Passport) -> String {
+pub impl @loci_fsm.Crosser for Passport with actor_overlay(self : Passport) -> String {
   self.who.overlay
 }
 
 ///|
-impl @loci_fsm.Crosser for Passport with target_locus(self : Passport) -> String {
+pub impl @loci_fsm.Crosser for Passport with target_locus(self : Passport) -> String {
   self.where_.target_locus
 }
 

@@ -7,9 +7,9 @@ import {
   "zpc/genius/tree" @tree,
   "zpc/genius/bloom" @bloom,
   "zpc/genius/gaussian" @gaussian,
-  "zpc/genius/loci/chatgpt" @chatgpt,
 }
 
 import {
   "moonbitlang/core/test" @test,
+  "zpc/genius/loci/chatgpt" @chatgpt,
 } for "test"

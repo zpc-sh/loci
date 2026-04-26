@@ -14,7 +14,7 @@ pub(all) struct Personality {
   cave_kinds : Array[String]
   initial_state : String
   terminal_states : Array[String]
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn boundary_walker_personality() -> Personality {

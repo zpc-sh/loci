@@ -4,6 +4,7 @@ package "zpc/genius/model"
 import {
   "moonbitlang/core/debug",
   "zpc/genius/hash",
+  "zpc/genius/loci_fsm",
   "zpc/genius/scan",
 }
 
@@ -691,6 +692,7 @@ pub(all) struct Passport {
 pub fn Passport::new(String, PassportWho, PassportWhat, PassportWhy, PassportWhere, PassportHowFar, PassportTrace) -> Self
 pub fn Passport::seal_material(Self) -> @hash.Hash
 pub fn Passport::validate(Self) -> Result[Unit, PassportError]
+pub impl @loci_fsm.Crosser for Passport
 
 pub(all) enum PassportError {
   BadKind

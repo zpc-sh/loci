@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "zpc/genius/loci_fsm"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
 pub fn boundary_status_text(BoundaryStatus) -> String
 
@@ -44,7 +48,7 @@ pub(all) struct BoundaryFinding {
   bidi_controls : UInt
   ascii_controls : UInt
   suspicious : Bool
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum BoundaryFsmState {
   Idle
@@ -53,13 +57,15 @@ pub(all) enum BoundaryFsmState {
   Marked
   Emitted
   Failed
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
+pub impl Show for BoundaryFsmState
 
 pub(all) enum BoundaryStatus {
   Clean
   Attention
   Containment
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
+pub impl Show for BoundaryStatus
 
 pub(all) struct BoundaryWalkerFsm {
   actor_overlay : String
@@ -75,7 +81,7 @@ pub(all) struct BoundaryWalkerFsm {
   ascii_controls : UInt
   crossings : Array[CrossingReport]
   cave : FsmCave
-} derive(Show)
+} derive(@debug.Debug)
 pub fn BoundaryWalkerFsm::attention_gradient(Self) -> String
 pub fn BoundaryWalkerFsm::attention_saturated(Self) -> Bool
 pub fn BoundaryWalkerFsm::attention_score(Self) -> UInt
@@ -97,12 +103,12 @@ pub(all) struct CaveEntry {
   key : String
   value : String
   hash : String
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) enum CrossResult {
   Admitted
   Rejected(String)
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct CrossingReport {
   passport_id : String
@@ -110,7 +116,7 @@ pub(all) struct CrossingReport {
   target_locus : String
   admitted : Bool
   rejection : String?
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct FsmCave {
   fsm_id : String
@@ -118,7 +124,7 @@ pub(all) struct FsmCave {
   entries : Array[CaveEntry]
   next_seq : UInt
   current_tick : UInt
-} derive(Show)
+} derive(@debug.Debug)
 pub fn FsmCave::collect(Self, String) -> Array[CaveEntry]
 pub fn FsmCave::deposit(Self, kind~ : String, key~ : String, value~ : String, from_state? : String, to_state? : String) -> Self
 pub fn FsmCave::depth(Self) -> UInt
@@ -139,7 +145,7 @@ pub(all) struct Personality {
   cave_kinds : Array[String]
   initial_state : String
   terminal_states : Array[String]
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum ReporterEvent {
   Tick
@@ -154,7 +160,8 @@ pub(all) enum ReporterEvent {
   CooldownElapsed
   ManualPause
   ManualResume
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
+pub impl Show for ReporterEvent
 
 pub(all) struct ReporterFsm {
   fsm_id : String
@@ -166,7 +173,7 @@ pub(all) struct ReporterFsm {
   composed : String
   verified : Bool
   published : Bool
-} derive(Show)
+} derive(@debug.Debug)
 pub fn ReporterFsm::drain(Self) -> (Self, Array[CaveEntry])
 pub fn ReporterFsm::drive_to_archive(Self) -> Self
 pub fn ReporterFsm::emit_summary(Self) -> String
@@ -185,13 +192,14 @@ pub(all) enum ReporterState {
   RArchive
   RDefer
   RFailed
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
+pub impl Show for ReporterState
 
 pub(all) struct Submission {
   source : String
   kind : String
   content : String
-} derive(Show)
+} derive(@debug.Debug)
 
 // Type aliases
 

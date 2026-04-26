@@ -22,7 +22,12 @@ pub(all) enum ReporterState {
   RArchive
   RDefer
   RFailed
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for ReporterState with output(self, logger) {
+  logger.write_string(reporter_state_text(self))
+}
 
 ///|
 pub(all) enum ReporterEvent {
@@ -38,7 +43,12 @@ pub(all) enum ReporterEvent {
   CooldownElapsed
   ManualPause
   ManualResume
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for ReporterEvent with output(self, logger) {
+  logger.write_string(reporter_event_text(self))
+}
 
 ///|
 /// One unit of work for the reporter. `source` is opaque (e.g. a file
@@ -49,7 +59,7 @@ pub(all) struct Submission {
   source : String
   kind : String
   content : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct ReporterFsm {
@@ -62,7 +72,7 @@ pub(all) struct ReporterFsm {
   composed : String
   verified : Bool
   published : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn ReporterFsm::new(fsm_id : String, topic : String) -> ReporterFsm {
