@@ -4,6 +4,7 @@ package "zpc/genius/model"
 import {
   "moonbitlang/core/debug",
   "zpc/genius/hash",
+  "zpc/genius/loci_fsm",
   "zpc/genius/scan",
 }
 
@@ -339,6 +340,7 @@ pub(all) enum ArtifactType {
   Bundle
 } derive(Eq, @debug.Debug)
 
+<<<<<<< HEAD
 pub(all) struct BoundaryFinding {
   field_key : String
   raw_value : String
@@ -361,6 +363,8 @@ pub(all) enum BoundaryFsmState {
   Failed
 } derive(Eq, @debug.Debug)
 
+=======
+>>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
 pub(all) enum BoundaryMode {
   Observe_
   Sanitize
@@ -368,6 +372,7 @@ pub(all) enum BoundaryMode {
   Quarantine
 } derive(Eq, @debug.Debug)
 
+<<<<<<< HEAD
 pub(all) enum BoundaryStatus {
   Clean
   Attention
@@ -400,6 +405,8 @@ pub fn BoundaryWalkerFsm::status(Self) -> BoundaryStatus
 pub fn BoundaryWalkerFsm::walk_scalar(Self, String, String) -> Self
 pub fn BoundaryWalkerFsm::walk_scalars(Self, Array[(String, String)]) -> Self
 
+=======
+>>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
 pub(all) struct BuildDiagnostic {
   level : DiagnosticLevel
   span : String
@@ -459,6 +466,7 @@ pub(all) enum CompositionError {
   CompositionInvalid(AmfError)
 } derive(Eq, @debug.Debug)
 
+<<<<<<< HEAD
 pub(all) struct CrossingReport {
   passport_id : String
   actor_overlay : String
@@ -467,6 +475,8 @@ pub(all) struct CrossingReport {
   rejection : String?
 } derive(@debug.Debug)
 
+=======
+>>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
 pub(all) enum DiagnosticLevel {
   DiagInfo
   DiagWarning

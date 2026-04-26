@@ -3,6 +3,7 @@ import {
   "zpc/genius/bloom" @bloom,
   "zpc/genius/tree" @tree,
   "zpc/genius/model" @model,
+  "zpc/genius/loci_fsm" @loci_fsm,
 }
 
 import {

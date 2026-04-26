@@ -17,6 +17,7 @@ Current-state anchors:
 - `docs/BOUNDARY_WALKER_FSM_v0.1.md` — first bottom-up boundary FSM and stigmergy emission profile
 - `docs/ATTENTION_FORENSICS_v0.1.md` — typed attention-pressure/forensics schema and policy mapping
 - `docs/MERKIN_CLI_TUI_DEMONSTRATIONS_v0.1.md` — Bun/TS + MoonBit demo flows and CI/release artifact usage
+- `docs/CLI_SPEC_v0.1.md` — machine-generated CLI spec (commands, flags, args, env vars); source: `cli/src/spec.ts`; regenerate with `just loci-spec-docs`
 
 ## 1) Start here by intent
 

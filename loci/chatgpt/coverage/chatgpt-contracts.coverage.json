@@ -58,9 +58,9 @@
     {
       "surface": "daemon/conversation.mbt",
       "contract_refs": ["H-cross-conversation-primitive"],
-      "coverage_status": "unknown",
-      "evidence_ref": "pending:moon-coverage-analyze",
-      "action": "import coverage; add tests for ConversationHost-backed conv design primitive"
+      "coverage_status": "covered",
+      "evidence_ref": "daemon/conversation_test.mbt",
+      "action": "tests added; bind moon coverage analyze output when available"
     },
     {
       "surface": "cmd/main",
@@ -79,9 +79,9 @@
     {
       "surface": "model/boundary_fsm.mbt / boundary docs",
       "contract_refs": ["H-locus-membrane"],
-      "coverage_status": "unknown",
-      "evidence_ref": "pending:moon-coverage-analyze",
-      "action": "bind membrane/passport tests to BoundaryWalkerFsm::cross coverage"
+      "coverage_status": "covered",
+      "evidence_ref": "model/boundary_fsm_test.mbt",
+      "action": "binding confirmed; tests cover clean/ghost/bidi/crossing paths"
     },
     {
       "surface": "SLL / Mu build contract surfaces",
@@ -104,14 +104,16 @@
       "surface": "daemon/conversation.mbt",
       "contract_ref": "H-cross-conversation-primitive",
       "expected_type": "missing behavior/coverage test",
-      "state": "open"
+      "state": "closed",
+      "closed_by": "daemon/conversation_test.mbt"
     },
     {
       "hole_id": "H-coverage-gap-boundary-fsm-membrane-v0.2",
       "surface": "model/boundary_fsm.mbt",
       "contract_ref": "H-locus-membrane",
       "expected_type": "missing membrane/passport coverage binding",
-      "state": "open"
+      "state": "closed",
+      "closed_by": "model/boundary_fsm_test.mbt"
     },
     {
       "hole_id": "H-coverage-gap-lmr-first-leaf-v0.2",

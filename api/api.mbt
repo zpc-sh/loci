@@ -182,7 +182,7 @@ pub fn plan_finger_wasm(tokens_csv : String, peer_refs_csv : String) -> String {
   let raw_peers = csv_split(peer_refs_csv)
   let raw_peer_a = if 0 < raw_peers.length() { raw_peers[0] } else { "none" }
   let raw_peer_b = if 1 < raw_peers.length() { raw_peers[1] } else { "none" }
-  let boundary_fsm = @model.BoundaryWalkerFsm::new(
+  let boundary_fsm = @loci_fsm.BoundaryWalkerFsm::new(
       "finger.plan.wasm", "ratio://merkin/api",
     )
     .walk_scalars([("peer_a", raw_peer_a), ("peer_b", raw_peer_b)])
@@ -854,11 +854,11 @@ fn sanitize_plan_scalar(value : String) -> String {
 }
 
 ///|
-fn boundary_status_scalar(status : @model.BoundaryStatus) -> String {
+fn boundary_status_scalar(status : @loci_fsm.BoundaryStatus) -> String {
   match status {
-    @model.Clean => "clean"
-    @model.Attention => "attention"
-    @model.Containment => "containment"
+    @loci_fsm.Clean => "clean"
+    @loci_fsm.Attention => "attention"
+    @loci_fsm.Containment => "containment"
   }
 }
 

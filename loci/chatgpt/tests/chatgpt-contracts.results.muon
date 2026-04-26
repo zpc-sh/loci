@@ -8,5 +8,6 @@ results: [
   { test_id: "test-d3-projection-shape", status: :passed, runner: "chatgpt.autogen" }
   { test_id: "test-mermaid-projection-present", status: :passed, runner: "chatgpt.autogen" }
   { test_id: "test-chatgpt-contracts-plan-shape", status: :passed, runner: "chatgpt.autogen" }
-  { test_id: "test-repo-yata-suite", status: :blocked, runner: "not-run" }
+  { test_id: "test-repo-yata-suite", status: :passed, runner: "just.test-yata" }
+  { test_id: "test-cross-conversation-command", status: :blocked, runner: "not-run", diagnostic: "conv design CLI wrapper not implemented; ConversationHost unit tests are primary coverage evidence" }
 ]

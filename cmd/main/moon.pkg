@@ -4,6 +4,7 @@ import {
   "moonbitlang/core/env" @env,
   "zpc/genius/daemon" @daemon,
   "zpc/genius/hash" @hash,
+  "zpc/genius/loci_fsm" @loci_fsm,
   "zpc/genius/locus" @locus,
   "zpc/genius/model" @model,
   "zpc/genius/storage" @storage,

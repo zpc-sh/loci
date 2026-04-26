@@ -9,6 +9,10 @@
     "build": "bun build src/index.ts --outfile dist/loci --target bun --minify",
     "wasm": "cd .. && moon build --target wasm --package zpc/genius/wasm_entry",
     "link": "bun link",
+    "test": "bun test",
+    "spec": "bun run src/index.ts spec",
+    "spec:md": "bun run src/index.ts spec --format markdown",
+    "spec:site": "bun run src/index.ts spec --format markdown --out ../docs/CLI_SPEC_v0.1.md",
     "demo:init": "bun run src/index.ts init",
     "demo:status": "bun run src/index.ts status"
   },

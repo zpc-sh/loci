@@ -15,7 +15,11 @@ import { cmdInit } from "./commands/init.ts"
 import { cmdLocusNew, cmdLocusLs } from "./commands/locus.ts"
 import { cmdEnter, cmdSign, cmdTrail, cmdResidue, cmdWhere } from "./commands/genius.ts"
 import { cmdStatus } from "./commands/status.ts"
+<<<<<<< HEAD
 import { cmdIde } from "./commands/ide.ts"
+=======
+import { cmdSpec } from "./commands/spec.ts"
+>>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
 
 const argv = process.argv.slice(2)
 const cmd = argv[0]
@@ -69,6 +73,9 @@ async function main(): Promise<void> {
       process.exit(code)
     }
 
+    case "spec":
+      return cmdSpec(rest)
+
     case "help":
     case "--help":
     case "-h":
@@ -96,6 +103,7 @@ USAGE
   loci genius where                       Overview of all loci + last sessions
   loci ide <subcmd>                       Cross-repo search + codex dropbox messaging
   loci status                             Repository overview
+  loci spec [--format json|markdown]      Emit the CLI spec (self-describing surface)
   loci daemon <subcmd>                    Delegate to native merkin (tree/bloom/OCI)
 
   Short aliases: loci enter|sign|trail|residue|where|status

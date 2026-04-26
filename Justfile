@@ -58,9 +58,14 @@ loci:
 
 # ── test ──────────────────────────────────────────────────────────────────────
 
-# Full suite: wasm-gc + native SIMD
+# Full suite: wasm-gc + native SIMD + CLI
 [group('test')]
-test: test-wasm test-simd
+test: test-wasm test-simd test-cli
+
+# Bun/TS CLI test suite (spec conformance + command integration)
+[group('test')]
+test-cli:
+    cd cli && bun test
 
 # wasm-gc only (fast)
 [group('test')]
@@ -76,6 +81,20 @@ test-simd:
 [group('test')]
 test-yata:
     moon test --target wasm-gc --package zpc/genius/model
+
+# Contract-focused suite: chatgpt + daemon + locus + conformance
+[group('test')]
+test-contracts:
+    moon test --target wasm-gc --package zpc/genius/loci/chatgpt
+    moon test --target wasm-gc --package zpc/genius/daemon
+    moon test --target wasm-gc --package zpc/genius/locus
+    moon test --target wasm-gc --package zpc/genius/conformance
+
+# Coverage analysis: instrument run then emit report
+[group('test')]
+coverage:
+    moon test --target wasm-gc --enable-coverage
+    moon coverage analyze
 
 # Type-check all packages (no link step)
 [group('test')]
@@ -122,6 +141,19 @@ priv-wasm: wasm
     mkdir -p {{mulsp_priv}} {{muyata_priv}}
     cp {{wasm_entry}} {{mulsp_priv}}/merkin.wasm
     cp {{wasm_entry}} {{muyata_priv}}/merkin.wasm
+
+# ── CLI spec ──────────────────────────────────────────────────────────────────
+
+# Emit the CLI spec as JSON to stdout
+[group('cli')]
+loci-spec:
+    cd cli && bun run src/index.ts spec
+
+# Regenerate docs/CLI_SPEC_v0.1.md from the live spec
+[group('cli')]
+loci-spec-docs:
+    cd cli && bun run src/index.ts spec --format markdown --out ../docs/CLI_SPEC_v0.1.md
+    @echo "Updated: docs/CLI_SPEC_v0.1.md"
 
 # ── tools (archived — see docs/archive/tools/) ────────────────────────────────
 
