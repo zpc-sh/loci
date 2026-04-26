@@ -1,0 +1,119 @@
+{
+  "kind": "loci.proof_obligation_set",
+  "version": "v0",
+  "obligation_set_id": "loci.chatgpt.chatgpt_contracts.proof_obligations.v0",
+  "source_arblock": "loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md",
+  "source_plan": "loci/chatgpt/chatgpt-contracts.plan",
+  "obligations": [
+    {
+      "id": "obl-root-lineage-stands-alone",
+      "contract": "H-root-lineage",
+      "statement": "The root lineage N-Merkle-FSM -> Merkin -> Loci is documented clearly enough for future agents without chat context.",
+      "kind": "documentation",
+      "required": true,
+      "status": "open",
+      "discharged_by": [],
+      "blocked_by": ["canonical lineage doc not emitted yet"]
+    },
+    {
+      "id": "obl-typed-holes-primary",
+      "contract": "H-typed-hole-primacy",
+      "statement": "Typed Yata holes are the primary contract unit and all ChatGPT arblock contract holes are listed in the plan.",
+      "kind": "structural",
+      "required": true,
+      "status": "covered",
+      "discharged_by": ["loci/chatgpt/YATA_TYPED_HOLE_CONTRACTS.md", "loci/chatgpt/chatgpt-contracts.plan"],
+      "blocked_by": []
+    },
+    {
+      "id": "obl-chatgpt-first-runway-order",
+      "contract": "H-chatgpt-first-runway",
+      "statement": "The ChatGPT/Codex-first operating order and anti-flood rule are documented for future agents.",
+      "kind": "operational",
+      "required": true,
+      "status": "covered",
+      "discharged_by": ["loci/chatgpt/V0_2_RUNWAY.md", "loci/chatgpt/AGENTS.md"],
+      "blocked_by": []
+    },
+    {
+      "id": "obl-locus-membrane-crossing-posture",
+      "contract": "H-locus-membrane",
+      "statement": "Cross-locus movement requires source, target, artifact ref, intent, boundary mode, and seal posture.",
+      "kind": "boundary",
+      "required": true,
+      "status": "open",
+      "discharged_by": ["loci/chatgpt/LOCUS_MEMBRANE_PROFILE.md"],
+      "blocked_by": ["first canonical move-out passport not emitted yet"]
+    },
+    {
+      "id": "obl-arblock-lowers-to-plan",
+      "contract": "H-arblock-plan",
+      "statement": "The ChatGPT contract arblock lowers into a parser-shaped Yata plan without introducing a separate arblock service.",
+      "kind": "structural",
+      "required": true,
+      "status": "covered",
+      "discharged_by": ["loci/chatgpt/ARBLOCK_PLAN_PROFILE.md", "loci/chatgpt/chatgpt-contracts.plan"],
+      "blocked_by": []
+    },
+    {
+      "id": "obl-lmr-kyozo-oci-profile",
+      "contract": "H-loci-mountain-range",
+      "statement": "The Loci Mountain Range is defined as an OCI/CAS artifact profile over Kyozo Store rather than a new storage substrate.",
+      "kind": "storage-profile",
+      "required": true,
+      "status": "covered",
+      "discharged_by": ["loci/chatgpt/LOCI_MOUNTAIN_RANGE_PROFILE.md", "loci/chatgpt/AKASHIC_TO_KYOZO_PARTITION.md", "zpc-sh/kyozo_store:docs/specification/LOCI_MOUNTAIN_RANGE_OCI_PROFILE.md"],
+      "blocked_by": []
+    },
+    {
+      "id": "obl-sll-dockerfile-parity",
+      "contract": "H-sll-dockerfile-parity",
+      "statement": "A readable SLL/Semanticfile blueprint can map 1:1 to a Dockerfile-shaped build surface through the Mu/SLL build contract.",
+      "kind": "build-contract",
+      "required": true,
+      "status": "open",
+      "discharged_by": [],
+      "blocked_by": ["SLL_DOCKERFILE_PARITY.md not emitted yet"]
+    },
+    {
+      "id": "obl-cross-conversation-emits-plan",
+      "contract": "H-cross-conversation-primitive",
+      "statement": "conv design emits one replayable .plan wire from ChatGPT and Codex design content using ConversationHost.",
+      "kind": "behavioral",
+      "required": true,
+      "status": "blocked",
+      "discharged_by": ["loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md"],
+      "blocked_by": ["conv design command implementation not observed on master"]
+    },
+    {
+      "id": "obl-visual-graph-emits-d3-mermaid",
+      "contract": "H-visual-graph-grammar",
+      "statement": "The contract graph emits semantic graph IR, D3 projection, and Mermaid projection without making D3 the root semantics.",
+      "kind": "visual-emission",
+      "required": true,
+      "status": "covered",
+      "discharged_by": ["loci/chatgpt/VISUAL_GRAPH_GRAMMAR_PROFILE.md", "loci/chatgpt/graphs/chatgpt-contracts.graph.json", "loci/chatgpt/graphs/chatgpt-contracts.d3.json", "loci/chatgpt/graphs/chatgpt-contracts.mermaid.md"],
+      "blocked_by": []
+    },
+    {
+      "id": "obl-contract-test-emit-bounded",
+      "contract": "H-contract-test-emit-grammar",
+      "statement": "The contract test/emission grammar is finite, bounded, and has a manifest/results ledger.",
+      "kind": "test-grammar",
+      "required": true,
+      "status": "covered",
+      "discharged_by": ["loci/chatgpt/CONTRACT_TEST_EMIT_GRAMMAR.md", "loci/chatgpt/tests/chatgpt-contracts.tests.json", "loci/chatgpt/tests/chatgpt-contracts.results.json"],
+      "blocked_by": []
+    },
+    {
+      "id": "obl-coverage-proof-binding",
+      "contract": "H-contract-coverage-proof-binding",
+      "statement": "Contracts bind to tests, coverage, proof obligations, and seal posture without treating coverage as semantic correctness.",
+      "kind": "coverage-binding",
+      "required": true,
+      "status": "open",
+      "discharged_by": ["loci/chatgpt/CONTRACT_COVERAGE_PROOF_BINDING.md"],
+      "blocked_by": ["structured coverage report not imported yet"]
+    }
+  ]
+}
