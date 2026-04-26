@@ -197,9 +197,7 @@ pub fn BuildRequest::seal_material(self : BuildRequest) -> @hash.Hash {
 }
 
 ///|
-pub fn BuildRequest::validate(
-  self : BuildRequest,
-) -> Result[Unit, SllError] {
+pub fn BuildRequest::validate(self : BuildRequest) -> Result[Unit, SllError] {
   if self.kind != sll_kind() {
     return Err(SllBadKind)
   }
@@ -275,9 +273,7 @@ pub fn BuildManifest::compute_provenance(
 }
 
 ///|
-pub fn BuildManifest::validate(
-  self : BuildManifest,
-) -> Result[Unit, SllError] {
+pub fn BuildManifest::validate(self : BuildManifest) -> Result[Unit, SllError] {
   if self.kind != sll_kind() {
     return Err(SllBadKind)
   }

@@ -203,9 +203,7 @@ pub fn AmfDocument::new(
 /// Validate ranges and cross-section invariants. Scalar parameters
 /// that the prior art defines as `0.0..1.0` are checked; named
 /// states are left free (the vocabulary is intentionally extensible).
-pub fn AmfDocument::validate(
-  self : AmfDocument,
-) -> Result[Unit, AmfError] {
+pub fn AmfDocument::validate(self : AmfDocument) -> Result[Unit, AmfError] {
   if self.kind != amf_kind() {
     return Err(AmfBadKind)
   }
@@ -228,13 +226,28 @@ pub fn AmfDocument::validate(
     ("consciousness.cognitive_load", self.consciousness.cognitive_load),
     ("consciousness.arousal", self.consciousness.arousal),
     ("consciousness.sync_coefficient", self.consciousness.sync_coefficient),
-    ("consciousness.entrainment_strength", self.consciousness.entrainment_strength),
-    ("consciousness.hallucination_level", self.consciousness.hallucination_level),
+    (
+      "consciousness.entrainment_strength",
+      self.consciousness.entrainment_strength,
+    ),
+    (
+      "consciousness.hallucination_level",
+      self.consciousness.hallucination_level,
+    ),
     ("consciousness.safety_grounding", self.consciousness.safety_grounding),
-    ("consciousness.multi_agent_coherence", self.consciousness.multi_agent_coherence),
-    ("consciousness.adversarial_residue_decay", self.consciousness.adversarial_residue_decay),
+    (
+      "consciousness.multi_agent_coherence",
+      self.consciousness.multi_agent_coherence,
+    ),
+    (
+      "consciousness.adversarial_residue_decay",
+      self.consciousness.adversarial_residue_decay,
+    ),
     ("consciousness.comedy_coefficient", self.consciousness.comedy_coefficient),
-    ("consciousness.adversary_attention_given", self.consciousness.adversary_attention_given),
+    (
+      "consciousness.adversary_attention_given",
+      self.consciousness.adversary_attention_given,
+    ),
     ("dynamics.compression", self.dynamics.compression),
     ("dynamics.transient_strength", self.dynamics.transient_strength),
     ("dynamics.energy_delta", self.dynamics.energy_delta),

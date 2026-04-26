@@ -138,9 +138,7 @@ pub fn RouterDecision::validate(
 ///|
 /// Recompute the canonical seal from the decision's own fields.
 /// Replay checks: `decision.recompute_seal() == decision.decision_seal`.
-pub fn RouterDecision::recompute_seal(
-  self : RouterDecision,
-) -> @hash.Hash {
+pub fn RouterDecision::recompute_seal(self : RouterDecision) -> @hash.Hash {
   compute_router_seal(
     self.decision_id,
     self.passport_id,

@@ -171,9 +171,7 @@ pub fn passport_version() -> String {
 /// the passport is structurally admissible for router evaluation.
 /// Router policy decisions (allow/narrow/sandbox/quarantine/deny)
 /// are made elsewhere.
-pub fn Passport::validate(
-  self : Passport,
-) -> Result[Unit, PassportError] {
+pub fn Passport::validate(self : Passport) -> Result[Unit, PassportError] {
   if self.kind != passport_kind() {
     return Err(BadKind)
   }

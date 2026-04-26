@@ -161,10 +161,7 @@ pub fn has_hostile(findings : Array[ScanFinding]) -> Bool {
 
 ///|
 /// Count findings by kind.
-pub fn count_by_kind(
-  findings : Array[ScanFinding],
-  kind : ScanKind,
-) -> Int {
+pub fn count_by_kind(findings : Array[ScanFinding], kind : ScanKind) -> Int {
   let mut n = 0
   for f in findings {
     if f.kind == kind {

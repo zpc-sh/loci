@@ -32,24 +32,18 @@ fn sample_contract() -> @model.AdjoinContract {
   let root = locus_leaf_fixture("genius://repo/root", b'\xa1')
   let agent = locus_leaf_fixture("genius://repo/agent", b'\xa2')
   let void14 = void_leaf_fixture("merkin.yata.plan#hole-attn-14", b'\xa3', 72U)
-  let consume_node = @model.Op(
-    @model.Consume,
-    root,
-    agent,
-    [("policy_mode", "sanitize")],
-  )
+  let consume_node = @model.Op(@model.Consume, root, agent, [
+    ("policy_mode", "sanitize"),
+  ])
   let yata_node = @model.Op(
     @model.YataUnion,
     locus_leaf_fixture("genius://repo/root", b'\xa1'),
     void14,
     [("route_hint", "mu-fsm-observe")],
   )
-  let root_expr = @model.Op(
-    @model.Union,
-    consume_node,
-    yata_node,
-    [("federation", "pactis")],
-  )
+  let root_expr = @model.Op(@model.Union, consume_node, yata_node, [
+    ("federation", "pactis"),
+  ])
   @model.AdjoinContract::new(
     "adjoin-20260419-001",
     "ratio://merkin/root",
@@ -82,12 +76,9 @@ test "Adjoin seal changes when a leaf changes" {
   let a = sample_contract()
   let alt_root = locus_leaf_fixture("genius://repo/root", b'\xb1')
   let alt_agent = locus_leaf_fixture("genius://repo/agent", b'\xa2')
-  let alt_consume = @model.Op(
-    @model.Consume,
-    alt_root,
-    alt_agent,
-    [("policy_mode", "sanitize")],
-  )
+  let alt_consume = @model.Op(@model.Consume, alt_root, alt_agent, [
+    ("policy_mode", "sanitize"),
+  ])
   let b = @model.AdjoinContract::new(
     "adjoin-20260419-001",
     "ratio://merkin/root",
@@ -112,12 +103,10 @@ test "Adjoin seal changes when a leaf changes" {
 test "Adjoin meta ordering is canonicalized" {
   let leaf_a = locus_leaf_fixture("genius://a", b'\x01')
   let leaf_b = locus_leaf_fixture("genius://b", b'\x02')
-  let first = @model.Op(
-    @model.Union,
-    leaf_a,
-    leaf_b,
-    [("alpha", "1"), ("beta", "2")],
-  )
+  let first = @model.Op(@model.Union, leaf_a, leaf_b, [
+    ("alpha", "1"),
+    ("beta", "2"),
+  ])
   let second = @model.Op(
     @model.Union,
     locus_leaf_fixture("genius://a", b'\x01'),
@@ -129,10 +118,7 @@ test "Adjoin meta ordering is canonicalized" {
 
 ///|
 test "Adjoin rejects missing ratio_loci" {
-  let contract = @model.AdjoinContract::{
-    ..sample_contract(),
-    ratio_loci: "",
-  }
+  let contract = @model.AdjoinContract::{ ..sample_contract(), ratio_loci: "" }
   match contract.validate() {
     Err(@model.AdjoinMissingRatioLoci) => assert_true(true)
     _ => assert_true(false)

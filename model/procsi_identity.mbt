@@ -184,7 +184,13 @@ pub fn AiSubstrateFingerprintV2::with_resonance_signature(
 pub fn AiSubstrateFingerprintV2::tuple5(
   self : AiSubstrateFingerprintV2,
 ) -> (String, String, String, @hash.Hash, @hash.Hash?) {
-  (self.family, self.surface, self.overlay, self.context_hash, self.semantics_hash)
+  (
+    self.family,
+    self.surface,
+    self.overlay,
+    self.context_hash,
+    self.semantics_hash,
+  )
 }
 
 ///|

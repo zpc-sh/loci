@@ -208,10 +208,7 @@ fn adjoin_expr_write(b : StringBuilder, e : AdjoinExpr) -> Unit {
 }
 
 ///|
-fn adjoin_meta_write(
-  b : StringBuilder,
-  meta : Array[(String, String)],
-) -> Unit {
+fn adjoin_meta_write(b : StringBuilder, meta : Array[(String, String)]) -> Unit {
   // Sort meta by key for canonical ordering. Array is small so a
   // simple insertion sort is fine.
   let sorted = adjoin_meta_sorted(meta)
@@ -368,9 +365,7 @@ pub fn AdjoinContract::validate(
 
 ///|
 /// Recursively validate an adjoin expression subtree.
-pub fn validate_adjoin_expr(
-  expr : AdjoinExpr,
-) -> Result[Unit, AdjoinError] {
+pub fn validate_adjoin_expr(expr : AdjoinExpr) -> Result[Unit, AdjoinError] {
   match expr {
     LocusLeaf(leaf) => {
       if leaf.locus_id == "" {

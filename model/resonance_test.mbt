@@ -102,10 +102,7 @@ test "Resonance composition unions inhibit lists" {
       inhibit: ["conclusion_jumping", "urgency"],
     },
   }
-  let comp = @model.ResonanceComposition::{
-    op: @model.Layer,
-    active: [a, b],
-  }
+  let comp = @model.ResonanceComposition::{ op: @model.Layer, active: [a, b] }
   match comp.compose() {
     Ok(merged) => {
       assert_eq(merged.attention.inhibit.length(), 3)
@@ -139,10 +136,7 @@ test "Resonance composition intersects next_recommended prohibitions" {
       minimum_duration: 45U,
     },
   }
-  let comp = @model.ResonanceComposition::{
-    op: @model.Layer,
-    active: [a, b],
-  }
+  let comp = @model.ResonanceComposition::{ op: @model.Layer, active: [a, b] }
   match comp.compose() {
     Ok(merged) => {
       // Intersection: only creative is in both.
@@ -158,10 +152,7 @@ test "Resonance composition intersects next_recommended prohibitions" {
 
 ///|
 test "Resonance composition rejects empty active set" {
-  let comp = @model.ResonanceComposition::{
-    op: @model.Layer,
-    active: [],
-  }
+  let comp = @model.ResonanceComposition::{ op: @model.Layer, active: [] }
   match comp.compose() {
     Err(@model.CompositionEmpty) => assert_true(true)
     _ => assert_true(false)
@@ -199,8 +190,8 @@ test "Fingerprint with resonance signature differs from static fingerprint" {
   let capability_hash = @hash.Hash::of_bytes(b"\x31")
   let substrate_hash = @hash.Hash::of_bytes(b"\x32")
   let base = @model.AiSubstrateFingerprintV2::new(
-    "anthropic", "opus", "claude-code", "tool",
-    context_hash, capability_hash, substrate_hash, "issuer://merkin",
+    "anthropic", "opus", "claude-code", "tool", context_hash, capability_hash, substrate_hash,
+    "issuer://merkin",
   )
   let amf = @model.AmfDocument::grounded("doc-ident")
   let resonance_sig = amf.signature()

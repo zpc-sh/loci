@@ -1,0 +1,44 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "zpc/genius/loci/chatgpt"
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) enum BoundaryMode {
+  Local
+  Canonical
+  PublicMirror
+} derive(Eq, Show)
+
+pub(all) enum ChatgptStage {
+  Form
+  Fruition
+  Aperture
+  Seal
+} derive(Eq, Show)
+
+pub(all) struct CrossingRecord {
+  source_locus : String
+  target_locus : String
+  artifact_ref : String
+  intent : String
+  mode : BoundaryMode
+  seal : String?
+} derive(Eq, Show)
+pub fn CrossingRecord::is_complete(Self) -> Bool
+pub fn CrossingRecord::new(String, String, String, String, BoundaryMode, seal? : String?) -> Self
+
+pub(all) struct WorkCycle {
+  stage : ChatgptStage
+  history : Array[ChatgptStage]
+} derive(Eq, Show)
+pub fn WorkCycle::advance(Self) -> Self
+pub fn WorkCycle::is_cycle_closed(Self) -> Bool
+pub fn WorkCycle::new() -> Self
+
+// Type aliases
+
+// Traits
+

@@ -108,16 +108,32 @@ test "Router narrow action seals sorted surfaces" {
 test "Router actions produce distinct seals" {
   let passport = router_sample_passport()
   let allow = @model.RouterDecision::emit(
-    "dec-all", passport, None, @model.RouteAllow, "ok",
+    "dec-all",
+    passport,
+    None,
+    @model.RouteAllow,
+    "ok",
   )
   let deny = @model.RouterDecision::emit(
-    "dec-all", passport, None, @model.RouteDeny("policy"), "ok",
+    "dec-all",
+    passport,
+    None,
+    @model.RouteDeny("policy"),
+    "ok",
   )
   let sandbox = @model.RouterDecision::emit(
-    "dec-all", passport, None, @model.RouteSandbox("lane-a"), "ok",
+    "dec-all",
+    passport,
+    None,
+    @model.RouteSandbox("lane-a"),
+    "ok",
   )
   let quarantine = @model.RouterDecision::emit(
-    "dec-all", passport, None, @model.RouteQuarantine("needs-review"), "ok",
+    "dec-all",
+    passport,
+    None,
+    @model.RouteQuarantine("needs-review"),
+    "ok",
   )
   assert_true(allow.decision_seal != deny.decision_seal)
   assert_true(allow.decision_seal != sandbox.decision_seal)

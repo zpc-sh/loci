@@ -302,9 +302,7 @@ fn collect_inhibit(active : Array[AmfDocument]) -> Array[Array[String]] {
 }
 
 ///|
-fn collect_focus_points(
-  active : Array[AmfDocument],
-) -> Array[Array[String]] {
+fn collect_focus_points(active : Array[AmfDocument]) -> Array[Array[String]] {
   let out : Array[Array[String]] = []
   for doc in active {
     out.push(doc.attention.focus_points)
@@ -344,9 +342,7 @@ fn merge_string_union(groups : Array[Array[String]]) -> Array[String] {
 }
 
 ///|
-fn intersect_next_recommended(
-  active : Array[AmfDocument],
-) -> Array[String] {
+fn intersect_next_recommended(active : Array[AmfDocument]) -> Array[String] {
   if active.length() == 0 {
     return []
   }

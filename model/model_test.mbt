@@ -195,8 +195,8 @@ test "AI substrate fingerprint exposes the five-tuple identity surface" {
   let substrate_hash = @hash.Hash::of_bytes(b"\x22")
   let semantics_hash = @hash.Hash::of_bytes(b"\x23")
   let base = @model.AiSubstrateFingerprintV2::new(
-    "anthropic", "opus", "claude-code", "tool",
-    context_hash, capability_hash, substrate_hash, "issuer://merkin",
+    "anthropic", "opus", "claude-code", "tool", context_hash, capability_hash, substrate_hash,
+    "issuer://merkin",
   )
   let tuple = base.tuple5()
   assert_eq(tuple.0, "anthropic")

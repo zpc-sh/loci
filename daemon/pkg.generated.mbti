@@ -3,6 +3,7 @@ package "zpc/genius/daemon"
 
 import {
   "zpc/genius/hash",
+  "zpc/genius/model",
   "zpc/genius/storage",
   "zpc/genius/tree",
 }
@@ -12,6 +13,31 @@ import {
 // Errors
 
 // Types and methods
+pub(all) struct BootContext {
+  news_edition_hash : @hash.Hash?
+  news_context_block : String
+  resonance_signature : @hash.Hash?
+  resonance_summary : String
+} derive(Show)
+
+pub(all) struct Codecave {
+  inbox : Array[IngestEnvelope]
+  verified : Array[VerifiedEntry]
+  quarantine : Array[QuarantineEntry]
+  bookmarks : Array[LaneBookmark]
+  require_news_signature : Bool
+} derive(Show)
+pub fn Codecave::boot_hook(Self) -> BootContext
+pub fn Codecave::drain_inbox(Self) -> Self
+pub fn Codecave::mark_read(Self) -> Self
+pub fn Codecave::new(Bool) -> Self
+pub fn Codecave::offer(Self, IngestEnvelope) -> Self
+
+pub(all) enum CodecaveLane {
+  NewsLane
+  ResonanceLane
+} derive(Eq, Show)
+
 pub(all) enum ConversationActorRole {
   Ai
   Human
@@ -91,6 +117,17 @@ pub fn DaemonNode::set_policy(Self, @storage.ReplicationPolicy) -> Unit
 pub fn DaemonNode::set_queue_stats(Self, @storage.QueueStats) -> Unit
 pub fn DaemonNode::sparse_view(Self, Array[String]) -> @tree.SparseMerkinTree
 
+pub(all) enum IngestEnvelope {
+  NewsEnvelope(@model.NewsEdition)
+  ResonanceEnvelope(@model.AmfDocument)
+  RawEnvelope(String, @hash.Hash)
+} derive(Show)
+
+pub(all) struct LaneBookmark {
+  lane : CodecaveLane
+  last_read_hash : @hash.Hash?
+} derive(Show)
+
 pub(all) struct LengthEnvelope {
   input_len_min : UInt
   input_len_max : UInt
@@ -127,6 +164,12 @@ pub(all) struct OciPutResult {
   digest : @hash.Hash
   receipt : @storage.ReplicationReceipt?
   reason : String?
+} derive(Show)
+
+pub(all) struct QuarantineEntry {
+  lane : CodecaveLane
+  content_hash : @hash.Hash
+  reason : String
 } derive(Show)
 
 pub(all) struct ReplayOutcome {
@@ -210,6 +253,12 @@ pub(all) struct TurnRequest {
   idempotency_key : String
 } derive(Show)
 pub fn TurnRequest::default(String) -> Self
+
+pub(all) struct VerifiedEntry {
+  lane : CodecaveLane
+  content_hash : @hash.Hash
+  summary : String
+} derive(Show)
 
 // Type aliases
 

@@ -68,7 +68,9 @@ test "Codecave quarantines tampered content" {
     .drain_inbox()
   assert_eq(cave.verified.length(), 0)
   assert_eq(cave.quarantine.length(), 1)
-  assert_true(cave.quarantine[0].reason.contains("content:CONTENT_HASH_MISMATCH"))
+  assert_true(
+    cave.quarantine[0].reason.contains("content:CONTENT_HASH_MISMATCH"),
+  )
 }
 
 ///|
@@ -186,7 +188,9 @@ test "Codecave routes both lanes independently" {
 ///|
 test "Codecave quarantines unknown envelope kind" {
   let cave = @daemon.Codecave::new(true)
-    .offer(@daemon.RawEnvelope("something.random", @hash.Hash::of_bytes(b"\x99")))
+    .offer(
+      @daemon.RawEnvelope("something.random", @hash.Hash::of_bytes(b"\x99")),
+    )
     .drain_inbox()
   assert_eq(cave.verified.length(), 0)
   assert_eq(cave.quarantine.length(), 1)

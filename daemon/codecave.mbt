@@ -87,10 +87,7 @@ pub fn Codecave::new(guarded : Bool) -> Codecave {
 ///|
 /// Offer an envelope to the inbox. This does not verify yet; the
 /// boot sweep calls `drain_inbox` to process all inbox entries.
-pub fn Codecave::offer(
-  self : Codecave,
-  env : IngestEnvelope,
-) -> Codecave {
+pub fn Codecave::offer(self : Codecave, env : IngestEnvelope) -> Codecave {
   let next = self.inbox
   next.push(env)
   { ..self, inbox: next }
@@ -163,20 +160,13 @@ pub fn Codecave::mark_read(self : Codecave) -> Codecave {
 }
 
 ///|
-fn codecave_process(
-  state : Codecave,
-  env : IngestEnvelope,
-) -> Codecave {
+fn codecave_process(state : Codecave, env : IngestEnvelope) -> Codecave {
   match env {
     NewsEnvelope(edition) => codecave_process_news(state, edition)
     ResonanceEnvelope(doc) => codecave_process_resonance(state, doc)
     RawEnvelope(kind, h) => {
       let q = state.quarantine
-      q.push({
-        lane: NewsLane,
-        content_hash: h,
-        reason: "unknown_kind:" + kind,
-      })
+      q.push({ lane: NewsLane, content_hash: h, reason: "unknown_kind:" + kind })
       { ..state, quarantine: q }
     }
   }
@@ -240,11 +230,7 @@ fn codecave_process_resonance(
     }
     Ok(_) => {
       let v = state.verified
-      v.push({
-        lane: ResonanceLane,
-        content_hash,
-        summary: amf_summary(doc),
-      })
+      v.push({ lane: ResonanceLane, content_hash, summary: amf_summary(doc) })
       { ..state, verified: v }
     }
   }
