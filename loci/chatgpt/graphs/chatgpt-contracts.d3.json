@@ -1,0 +1,32 @@
+{
+  "nodes": [
+    {"id": "arblock-chatgpt-contracts", "group": "arblock", "label": "ChatGPT Contract Arblock", "state": "forming", "anchor": "loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md"},
+    {"id": "plan-chatgpt-contracts", "group": "plan", "label": "chatgpt-contracts.plan", "state": "running", "anchor": "loci/chatgpt/chatgpt-contracts.plan"},
+    {"id": "H-root-lineage", "group": "hole", "label": "Root Lineage", "state": "open", "anchor": "loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md"},
+    {"id": "H-typed-hole-primacy", "group": "hole", "label": "Typed Hole Primacy", "state": "converging", "anchor": "loci/chatgpt/YATA_TYPED_HOLE_CONTRACTS.md"},
+    {"id": "H-chatgpt-first-runway", "group": "hole", "label": "ChatGPT-First Runway", "state": "converging", "anchor": "loci/chatgpt/V0_2_RUNWAY.md"},
+    {"id": "H-locus-membrane", "group": "hole", "label": "Locus Membrane", "state": "converging", "anchor": "loci/chatgpt/LOCUS_MEMBRANE_PROFILE.md"},
+    {"id": "H-arblock-plan", "group": "hole", "label": "Arblock Plan", "state": "converging", "anchor": "loci/chatgpt/ARBLOCK_PLAN_PROFILE.md"},
+    {"id": "H-loci-mountain-range", "group": "hole", "label": "Loci Mountain Range", "state": "converging", "anchor": "loci/chatgpt/LOCI_MOUNTAIN_RANGE_PROFILE.md"},
+    {"id": "H-sll-dockerfile-parity", "group": "hole", "label": "SLL / Dockerfile Parity", "state": "open", "anchor": "loci/chatgpt/SLL_DOCKERFILE_PARITY.md"},
+    {"id": "H-cross-conversation-primitive", "group": "hole", "label": "Cross Conversation Primitive", "state": "open", "anchor": "loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md"},
+    {"id": "H-visual-graph-grammar", "group": "hole", "label": "Visual Graph Grammar", "state": "open", "anchor": "loci/chatgpt/VISUAL_GRAPH_GRAMMAR_PROFILE.md"},
+    {"id": "future-lmr-leaf", "group": "lmr_leaf", "label": "Future LMR Leaf", "state": "pending", "anchor": "loci/chatgpt/LOCI_MOUNTAIN_RANGE_PROFILE.md"}
+  ],
+  "links": [
+    {"source": "arblock-chatgpt-contracts", "target": "plan-chatgpt-contracts", "type": "emits"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-root-lineage", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-typed-hole-primacy", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-chatgpt-first-runway", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-locus-membrane", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-arblock-plan", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-loci-mountain-range", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-sll-dockerfile-parity", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-cross-conversation-primitive", "type": "contains"},
+    {"source": "arblock-chatgpt-contracts", "target": "H-visual-graph-grammar", "type": "contains"},
+    {"source": "H-typed-hole-primacy", "target": "plan-chatgpt-contracts", "type": "lowers_to"},
+    {"source": "H-arblock-plan", "target": "plan-chatgpt-contracts", "type": "lowers_to"},
+    {"source": "H-loci-mountain-range", "target": "future-lmr-leaf", "type": "commits"},
+    {"source": "arblock-chatgpt-contracts", "target": "future-lmr-leaf", "type": "commits"}
+  ]
+}
