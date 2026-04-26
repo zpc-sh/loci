@@ -34,6 +34,57 @@ pub(all) struct WorkCycle {
 } derive(Eq, Show)
 
 ///|
+/// Coverage evidence state for contract surfaces.
+pub(all) enum CoverageStatus {
+  Covered
+  Uncovered
+  Unreachable
+  Exempt
+  Unknown
+  Partial
+} derive(Eq, Show)
+
+///|
+/// Proof-obligation discharge status.
+pub(all) enum ProofStatus {
+  Open
+  Proved
+  CoveredByEvidence
+  Reviewed
+  Waived
+  Blocked
+  Failed
+} derive(Eq, Show)
+
+///|
+/// Operational side-effect posture (e.g. command checks).
+pub(all) enum SideEffectStatus {
+  Observed
+  BlockedEffect
+  NotRequired
+} derive(Eq, Show)
+
+///|
+/// One formal proof obligation under a contract.
+pub(all) struct ProofObligation {
+  obligation_id : String
+  required : Bool
+  status : ProofStatus
+} derive(Eq, Show)
+
+///|
+/// Contract-level binding to tests, coverage, proof, and side-effects.
+pub(all) struct ContractBinding {
+  contract_id : String
+  test_result_ref : String?
+  coverage_ref : String?
+  proof_ref : String?
+  coverage_status : CoverageStatus
+  side_effect_status : SideEffectStatus
+  obligations : Array[ProofObligation]
+} derive(Eq, Show)
+
+///|
 #declaration_only
 pub fn WorkCycle::new() -> WorkCycle {
   ...
@@ -67,5 +118,53 @@ pub fn CrossingRecord::new(
 ///|
 #declaration_only
 pub fn CrossingRecord::is_complete(self : CrossingRecord) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ProofObligation::new(
+  obligation_id : String,
+  required : Bool,
+  status : ProofStatus,
+) -> ProofObligation {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ProofObligation::is_discharged(self : ProofObligation) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractBinding::new(
+  contract_id : String,
+  test_result_ref : String?,
+  coverage_ref : String?,
+  proof_ref : String?,
+  coverage_status : CoverageStatus,
+  side_effect_status : SideEffectStatus,
+  obligations : Array[ProofObligation],
+) -> ContractBinding {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractBinding::is_bound(self : ContractBinding) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractBinding::required_open_count(self : ContractBinding) -> Int {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ContractBinding::can_seal(self : ContractBinding) -> Bool {
   ...
 }

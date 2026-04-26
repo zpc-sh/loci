@@ -1,0 +1,9 @@
+kind: :loci_proof_obligation_set
+version: "v0"
+obligation_set_id: "loci.chatgpt.chatgpt_contracts.proof_obligations.v1.muon"
+source_plan: "loci/chatgpt/chatgpt-contracts.plan"
+obligations: [
+  { id: "obl-cross-conversation-emits-plan", contract: "H-cross-conversation-primitive", required: true, status: :blocked }
+  { id: "obl-contract-test-emit-bounded", contract: "H-contract-test-emit-grammar", required: true, status: :covered }
+  { id: "obl-coverage-proof-binding", contract: "H-contract-coverage-proof-binding", required: true, status: :open }
+]

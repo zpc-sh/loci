@@ -140,6 +140,21 @@ wasm-plan-drift:
 triad-contract-sync:
     docs/archive/tools/yata-triad-contract-sync.sh
 
+# Generate ChatGPT-locus contract binding artifacts in MuON + docs
+[group('tools')]
+chatgpt-contract-bind:
+    docs/archive/tools/chatgpt-contract-binding-generate.sh
+
+# Append one entry into ChatGPT/Codex append-only MuON dialogue log
+[group('tools')]
+chatgpt-dialogue-append:
+    docs/archive/tools/chatgpt-codex-dialogue-append.sh
+
+# Verify strict mulsp handoff passport + bundle seals for codex pickup
+[group('tools')]
+chatgpt-mulsp-handoff-verify:
+    docs/archive/tools/chatgpt-mulsp-handoff-verify.sh
+
 # ── misc ──────────────────────────────────────────────────────────────────────
 
 [group('misc')]

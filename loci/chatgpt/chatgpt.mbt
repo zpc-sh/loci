@@ -14,6 +14,22 @@ fn non_blank(value : String) -> Bool {
 }
 
 ///|
+fn has_ref(value : String?) -> Bool {
+  match value {
+    Some(v) => non_blank(v)
+    None => false
+  }
+}
+
+///|
+fn coverage_bound(status : CoverageStatus, coverage_ref : String?) -> Bool {
+  match status {
+    Unknown => false
+    _ => has_ref(coverage_ref)
+  }
+}
+
+///|
 pub fn WorkCycle::new() -> WorkCycle {
   { stage: Form, history: [Form] }
 }
@@ -61,4 +77,78 @@ pub fn CrossingRecord::is_complete(self : CrossingRecord) -> Bool {
         None => false
       }
   }
+}
+
+///|
+pub fn ProofObligation::new(
+  obligation_id : String,
+  required : Bool,
+  status : ProofStatus,
+) -> ProofObligation {
+  { obligation_id, required, status }
+}
+
+///|
+pub fn ProofObligation::is_discharged(self : ProofObligation) -> Bool {
+  match self.status {
+    Proved | CoveredByEvidence | Reviewed | Waived => true
+    Open | Blocked | Failed => false
+  }
+}
+
+///|
+pub fn ContractBinding::new(
+  contract_id : String,
+  test_result_ref : String?,
+  coverage_ref : String?,
+  proof_ref : String?,
+  coverage_status : CoverageStatus,
+  side_effect_status : SideEffectStatus,
+  obligations : Array[ProofObligation],
+) -> ContractBinding {
+  {
+    contract_id,
+    test_result_ref,
+    coverage_ref,
+    proof_ref,
+    coverage_status,
+    side_effect_status,
+    obligations,
+  }
+}
+
+///|
+pub fn ContractBinding::is_bound(self : ContractBinding) -> Bool {
+  if !non_blank(self.contract_id) {
+    return false
+  }
+  if !has_ref(self.test_result_ref) {
+    return false
+  }
+  if !has_ref(self.proof_ref) {
+    return false
+  }
+  if !coverage_bound(self.coverage_status, self.coverage_ref) {
+    return false
+  }
+  match self.side_effect_status {
+    Observed | NotRequired => true
+    BlockedEffect => false
+  }
+}
+
+///|
+pub fn ContractBinding::required_open_count(self : ContractBinding) -> Int {
+  let mut count = 0
+  for obligation in self.obligations {
+    if obligation.required && !obligation.is_discharged() {
+      count = count + 1
+    }
+  }
+  count
+}
+
+///|
+pub fn ContractBinding::can_seal(self : ContractBinding) -> Bool {
+  self.is_bound() && self.required_open_count() == 0
 }

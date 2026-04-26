@@ -1,3 +1,4 @@
 import {
+  "zpc/genius/loci/chatgpt" @chatgpt,
   "zpc/genius/model" @model,
 }

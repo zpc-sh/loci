@@ -229,8 +229,8 @@ Use command checks as test cases only when the environment supports them.
 Recommended local files:
 
 ```text
-loci/chatgpt/tests/chatgpt-contracts.tests.json
-loci/chatgpt/tests/chatgpt-contracts.results.json
+loci/chatgpt/tests/chatgpt-contracts.tests.muon
+loci/chatgpt/tests/chatgpt-contracts.results.muon
 ```
 
 The manifest declares tests. Results record observed outcomes.
@@ -309,8 +309,8 @@ Invariants:
 Candidate outputs:
 
 - this profile
-- `tests/chatgpt-contracts.tests.json`
-- `tests/chatgpt-contracts.results.json`
+- `tests/chatgpt-contracts.tests.muon`
+- `tests/chatgpt-contracts.results.muon`
 - future generator command that emits docs/specs/proofs/visuals/plans/tests from ContractGraph IR
 
 Verification:

@@ -101,12 +101,12 @@ ProofObligation
 
 ### Test binding
 
-```json
+```muon
 {
   "test_id": "test-cross-conversation-command",
   "binds": ["obl-cross-conversation-emits-plan"],
   "coverage_surfaces": ["cmd/main", "daemon/conversation.mbt"],
-  "result_ref": "loci/chatgpt/tests/chatgpt-contracts.results.json"
+  "result_ref": "loci/chatgpt/tests/chatgpt-contracts.results.muon"
 }
 ```
 
@@ -189,7 +189,8 @@ moon coverage analyze --format json > _build/coverage/loci.coverage.json
 loci coverage bind \
   --contracts loci/chatgpt/chatgpt-contracts.plan \
   --coverage _build/coverage/loci.coverage.json \
-  --out loci/chatgpt/coverage/chatgpt-contracts.coverage.json
+  --out loci/chatgpt/coverage/chatgpt-contracts.coverage.muon
+just chatgpt-contract-bind
 ```
 
 The exact command can change. The important point is that coverage output becomes structured evidence, not a screenshot or vibes report.
@@ -265,8 +266,8 @@ Invariants:
 Candidate outputs:
 
 - this profile
-- `coverage/chatgpt-contracts.coverage.json`
-- `proofs/chatgpt-contracts.proof-obligations.json`
+- `coverage/chatgpt-contracts.coverage.muon`
+- `proofs/chatgpt-contracts.proof-obligations.muon`
 - future coverage importer/binder command
 
 Verification:

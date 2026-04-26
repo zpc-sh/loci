@@ -1,0 +1,9 @@
+kind: :loci_contract_binding_spec
+version: "v1"
+contract_id: "H-contract-coverage-proof-binding"
+binding_model: "contract -> tests -> coverage -> proof obligations -> seal posture"
+test_result_ref: "loci/chatgpt/tests/chatgpt-contracts.results.muon"
+coverage_ref: "loci/chatgpt/coverage/chatgpt-contracts.coverage.muon"
+proof_ref: "loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"
+side_effect_policy: :observed_or_not_required
+seal_rule: :all_required_obligations_discharged

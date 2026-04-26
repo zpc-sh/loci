@@ -313,6 +313,21 @@ pub fn format_residue(r : @model.Residue) -> String {
   b.to_string()
 }
 
+///|
+/// Move-out from a locus is ready only when contract evidence is sealable.
+pub fn move_out_ready(binding : @chatgpt.ContractBinding) -> Bool {
+  binding.can_seal()
+}
+
+///|
+/// Canonical/public crossing requires both complete crossing posture and sealable binding.
+pub fn crossing_ready(
+  crossing : @chatgpt.CrossingRecord,
+  binding : @chatgpt.ContractBinding,
+) -> Bool {
+  crossing.is_complete() && binding.can_seal()
+}
+
 // --- Internal helpers ---
 
 ///|

@@ -19,6 +19,29 @@ pub(all) enum ChatgptStage {
   Seal
 } derive(Eq, Show)
 
+pub(all) struct ContractBinding {
+  contract_id : String
+  test_result_ref : String?
+  coverage_ref : String?
+  proof_ref : String?
+  coverage_status : CoverageStatus
+  side_effect_status : SideEffectStatus
+  obligations : Array[ProofObligation]
+} derive(Eq, Show)
+pub fn ContractBinding::can_seal(Self) -> Bool
+pub fn ContractBinding::is_bound(Self) -> Bool
+pub fn ContractBinding::new(String, String?, String?, String?, CoverageStatus, SideEffectStatus, Array[ProofObligation]) -> Self
+pub fn ContractBinding::required_open_count(Self) -> Int
+
+pub(all) enum CoverageStatus {
+  Covered
+  Uncovered
+  Unreachable
+  Exempt
+  Unknown
+  Partial
+} derive(Eq, Show)
+
 pub(all) struct CrossingRecord {
   source_locus : String
   target_locus : String
@@ -29,6 +52,30 @@ pub(all) struct CrossingRecord {
 } derive(Eq, Show)
 pub fn CrossingRecord::is_complete(Self) -> Bool
 pub fn CrossingRecord::new(String, String, String, String, BoundaryMode, seal? : String?) -> Self
+
+pub(all) struct ProofObligation {
+  obligation_id : String
+  required : Bool
+  status : ProofStatus
+} derive(Eq, Show)
+pub fn ProofObligation::is_discharged(Self) -> Bool
+pub fn ProofObligation::new(String, Bool, ProofStatus) -> Self
+
+pub(all) enum ProofStatus {
+  Open
+  Proved
+  CoveredByEvidence
+  Reviewed
+  Waived
+  Blocked
+  Failed
+} derive(Eq, Show)
+
+pub(all) enum SideEffectStatus {
+  Observed
+  BlockedEffect
+  NotRequired
+} derive(Eq, Show)
 
 pub(all) struct WorkCycle {
   stage : ChatgptStage

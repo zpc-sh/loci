@@ -41,6 +41,8 @@ Do not leave stabilized material in `loci/chatgpt` forever.
 | `ARBLOCK_PLAN_PROFILE.md` | profile draft | `docs/` near Yata/muyata | after `.plan` example validates against parser constraints |
 | `LOCUS_MEMBRANE_PROFILE.md` | profile draft | `docs/` near boundary docs | after passport fields align with model code |
 | `chatgpt.plan` | bootstrap plan | generated/mirrored later | once material hash/seals become real |
+| `chatgpt_spec.mbt` / `chatgpt.mbt` | local executable contract gate | `model/*.mbt` or `daemon/*.mbt` consumers | after first repo lane consumes `ContractBinding::can_seal` |
+| `specs/mulsp-handoff-passport.muon` | active crossing passport | `../lang` (`mulsp`) | after `just chatgpt-mulsp-handoff-verify` passes and reciprocal verify passport is received |
 
 ## Move-out checklist
 

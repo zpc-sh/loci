@@ -16,3 +16,11 @@ test "local crossing can be complete without seal" {
   )
   assert_true(record.is_complete())
 }
+
+///|
+test "proof obligation discharged statuses are accepted" {
+  let proved = @chatgpt.ProofObligation::new("obl-1", true, @chatgpt.Proved)
+  let reviewed = @chatgpt.ProofObligation::new("obl-2", true, @chatgpt.Reviewed)
+  assert_true(proved.is_discharged())
+  assert_true(reviewed.is_discharged())
+}

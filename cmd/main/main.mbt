@@ -578,8 +578,8 @@ fn print_usage() -> Unit {
   println("Categories:")
   println("  oci: capabilities | put")
   println("  tree: sparse | diff")
-  println("  conv: turn | replay | embed | embed-purge")
-  println("  yata: topology | wasm-plan | triad-contract")
+  println("  conv: turn | replay | embed | embed-purge | append-dialogue")
+  println("  yata: topology | wasm-plan | triad-contract | contract-bind")
   println("  cognitive: compile | distributed | measure")
   println("  adapter: validate")
   println("")
@@ -607,6 +607,9 @@ fn print_usage() -> Unit {
     "  moon run cmd/main -- daemon conv embed-purge --purge-after-turns 1 --current-turn-seq 2",
   )
   println(
+    "  moon run cmd/main -- daemon conv append-dialogue --speaker codex --topic meta-codex --content-file /tmp/msg.txt",
+  )
+  println(
     "  moon run cmd/main -- daemon yata topology --yata-branch-factor 5 --yata-max-children 3",
   )
   println(
@@ -614,6 +617,9 @@ fn print_usage() -> Unit {
   )
   println(
     "  moon run cmd/main -- daemon yata triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --merkin-head aaa --mu-head bbb --lang-head ccc",
+  )
+  println(
+    "  moon run cmd/main -- daemon yata contract-bind --out-root loci/chatgpt",
   )
   println(
     "  moon run cmd/main -- daemon cognitive compile --mode markup --emit-distributed true",
@@ -652,6 +658,9 @@ fn print_usage() -> Unit {
     "  moon run cmd/main -- daemon --action conv-embed-purge --purge-after-turns 1 --current-turn-seq 2",
   )
   println(
+    "  moon run cmd/main -- daemon --action conv-append-dialogue --speaker codex --topic meta-codex --content meta-codex-iteration",
+  )
+  println(
     "  moon run cmd/main -- daemon --action conv-plan --file-ref docs/sample.bin --embedding-action observe",
   )
   println(
@@ -663,9 +672,12 @@ fn print_usage() -> Unit {
   println(
     "  moon run cmd/main -- daemon --action yata-triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --merkin-head aaa --mu-head bbb --lang-head ccc",
   )
+  println(
+    "  moon run cmd/main -- daemon --action yata-contract-bind --out-root loci/chatgpt",
+  )
   println("Flags:")
   println(
-    "  --action capabilities|put|sparse|diff|conv-turn|conv-replay|conv-embed|conv-embed-purge|conv-plan|yata-topology|yata-wasm-plan|yata-triad-contract|demo",
+    "  --action capabilities|put|sparse|diff|conv-turn|conv-replay|conv-embed|conv-embed-purge|conv-append-dialogue|conv-plan|yata-topology|yata-wasm-plan|yata-triad-contract|yata-contract-bind|demo",
   )
   println("  --mode receiver|proxy|passthrough|hybrid")
   println("  --node-id <id>")
@@ -706,6 +718,13 @@ fn print_usage() -> Unit {
   println("  --purge-after-turns <uint> (for conv-embed*)")
   println("  --embedding-note <text> (for conv-embed)")
   println("  --current-turn-seq <uint> (for conv-embed-purge)")
+  println("  --speaker chatgpt|codex (for conv-append-dialogue)")
+  println(
+    "  --dialogue-kind <atom-ish> (for conv-append-dialogue; default: contract_spec_proof_design)",
+  )
+  println("  --refs <csv> (for conv-append-dialogue)")
+  println("  --content <text> (for conv-append-dialogue)")
+  println("  --content-file <path> (for conv-append-dialogue)")
   println("  --plan-overlay <name> (for conv-plan)")
   println("  --plan-peer <name> (for conv-plan)")
   println("  --plan-authority <uri> (for conv-plan)")
@@ -738,6 +757,10 @@ fn print_usage() -> Unit {
   println("  --wasm-exports <csv> (for yata-triad-contract)")
   println("  --generated-at-utc <rfc3339> (for yata-triad-contract)")
   println("  --contract-version <text> (for yata-triad-contract)")
+  println("  --out-root <path> (for yata-contract-bind; default: loci/chatgpt)")
+  println(
+    "  --generated-at-utc <rfc3339> (for yata-contract-bind stamp override)",
+  )
   println("  --emit-distributed true|false (for cognitive compile bridge)")
   println("  --distributed-out-dir <dir> (for cognitive compile bridge)")
   println("  --distributed-cluster-name <name> (for cognitive compile bridge)")
@@ -831,6 +854,7 @@ fn map_conv_action(value : String) -> String {
     "replay" => "conv-replay"
     "embed" => "conv-embed"
     "embed-purge" => "conv-embed-purge"
+    "append-dialogue" => "conv-append-dialogue"
     _ => "conv-turn"
   }
 }
@@ -841,6 +865,7 @@ fn map_yata_action(value : String) -> String {
     "topology" => "yata-topology"
     "wasm-plan" => "yata-wasm-plan"
     "triad-contract" => "yata-triad-contract"
+    "contract-bind" => "yata-contract-bind"
     _ => "yata-topology"
   }
 }
@@ -874,9 +899,11 @@ fn normalize_direct_action(value : String) -> String {
     "conv-replay" => "conv-replay"
     "conv-embed" => "conv-embed"
     "conv-embed-purge" => "conv-embed-purge"
+    "conv-append-dialogue" => "conv-append-dialogue"
     "yata-topology" => "yata-topology"
     "yata-wasm-plan" => "yata-wasm-plan"
     "yata-triad-contract" => "yata-triad-contract"
+    "yata-contract-bind" => "yata-contract-bind"
     "cognitive-compile" => "cognitive-compile"
     "cognitive-distributed" => "cognitive-distributed"
     "cognitive-measure" => "cognitive-measure"
@@ -885,9 +912,11 @@ fn normalize_direct_action(value : String) -> String {
     "replay" => "conv-replay"
     "embed" => "conv-embed"
     "embed-purge" => "conv-embed-purge"
+    "append-dialogue" => "conv-append-dialogue"
     "topology" => "yata-topology"
     "wasm-plan" => "yata-wasm-plan"
     "triad-contract" => "yata-triad-contract"
+    "contract-bind" => "yata-contract-bind"
     "compile" => "cognitive-compile"
     "distributed" => "cognitive-distributed"
     "measure" => "cognitive-measure"
@@ -903,6 +932,8 @@ fn action_is_bridge_only(action : String) -> Bool {
     "cognitive-distributed" => true
     "cognitive-measure" => true
     "adapter-validate" => true
+    "yata-contract-bind" => true
+    "conv-append-dialogue" => true
     _ => false
   }
 }
@@ -932,6 +963,28 @@ fn bool_flag(args : Array[String], flag : String, default : Bool) -> Bool {
 ///|
 fn run_bridge_action(args : Array[String], action : String) -> Unit {
   match action {
+    "conv-append-dialogue" => {
+      let cmd = build_conv_append_dialogue_bridge_command(args)
+      println("status=bridge_only")
+      println("category=conv")
+      println("command=append-dialogue")
+      println("tool=docs/archive/tools/chatgpt-codex-dialogue-append.sh")
+      println("bridge_command=\{cmd}")
+      println(
+        "note=Run the bridge_command in shell; this CLI mode is orchestration-first for now.",
+      )
+    }
+    "yata-contract-bind" => {
+      let cmd = build_yata_contract_bind_bridge_command(args)
+      println("status=bridge_only")
+      println("category=yata")
+      println("command=contract-bind")
+      println("tool=docs/archive/tools/chatgpt-contract-binding-generate.sh")
+      println("bridge_command=\{cmd}")
+      println(
+        "note=Run the bridge_command in shell; this CLI mode is orchestration-first for now.",
+      )
+    }
     "cognitive-compile" => {
       let mode = value_after(args, "--mode", "markup")
       let out_dir = value_after(
@@ -1101,6 +1154,51 @@ fn run_bridge_action(args : Array[String], action : String) -> Unit {
       println("action=\{action}")
     }
   }
+}
+
+///|
+fn build_yata_contract_bind_bridge_command(args : Array[String]) -> String {
+  let out_root = value_after(args, "--out-root", "loci/chatgpt")
+  let generated_at_utc = value_after(args, "--generated-at-utc", "")
+  let mut cmd = "docs/archive/tools/chatgpt-contract-binding-generate.sh " +
+    out_root
+  if generated_at_utc != "" {
+    cmd = cmd + " " + generated_at_utc
+  }
+  cmd
+}
+
+///|
+fn build_conv_append_dialogue_bridge_command(args : Array[String]) -> String {
+  let out_root = value_after(args, "--out-root", "loci/chatgpt")
+  let speaker = value_after(args, "--speaker", "codex")
+  let kind = value_after(args, "--dialogue-kind", "contract_spec_proof_design")
+  let topic = value_after(args, "--topic", "meta-codex")
+  let refs = value_after(args, "--refs", "")
+  let content = value_after(args, "--content", "meta-codex-iteration")
+  let content_file = value_after(args, "--content-file", "")
+  let ts = value_after(args, "--generated-at-utc", "")
+
+  let mut cmd = "docs/archive/tools/chatgpt-codex-dialogue-append.sh --out-root " +
+    out_root +
+    " --speaker " +
+    speaker +
+    " --kind " +
+    kind +
+    " --topic " +
+    topic
+  if refs != "" {
+    cmd = cmd + " --refs " + refs
+  }
+  if content_file != "" {
+    cmd = cmd + " --content-file " + content_file
+  } else {
+    cmd = cmd + " --content " + content
+  }
+  if ts != "" {
+    cmd = cmd + " --ts " + ts
+  }
+  cmd
 }
 
 ///|

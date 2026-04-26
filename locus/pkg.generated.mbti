@@ -2,10 +2,13 @@
 package "zpc/genius/locus"
 
 import {
+  "zpc/genius/loci/chatgpt",
   "zpc/genius/model",
 }
 
 // Values
+pub fn crossing_ready(@chatgpt.CrossingRecord, @chatgpt.ContractBinding) -> Bool
+
 pub fn format_enter_preamble(String, @model.Residue?) -> String
 
 pub fn format_residue(@model.Residue) -> String
@@ -13,6 +16,8 @@ pub fn format_residue(@model.Residue) -> String
 pub fn format_trail(String, Array[@model.Residue]) -> String
 
 pub fn format_where(Array[(String, @model.Residue?)]) -> String
+
+pub fn move_out_ready(@chatgpt.ContractBinding) -> Bool
 
 // Errors
 
