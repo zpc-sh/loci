@@ -23,6 +23,11 @@ Not exhaustive. Add items as holes open; tick them as they land.
 - [x] `ConversationHost` scaffold (`daemon/conversation.mbt`)
 - [x] Dialogue append-only spec + append script
 - [x] `daemon conv append-dialogue` bridge command
+- [x] CLI spec emitter: `cli/src/spec.ts` → `loci spec [--format json|markdown]`
+- [x] CLI spec conformance tests: `cli/tests/spec.test.ts` (53 tests, shape + surface coverage)
+- [x] CLI command integration tests: `cli/tests/commands/genius.test.ts` (24 tests, per-command exit codes + output)
+- [x] Site doc: `docs/CLI_SPEC_v0.1.md` — generated from live spec via `just loci-spec-docs`
+- [x] `test-cli` task in Justfile; included in default `just test`
 - [ ] `daemon conv design` command wrapper (emits `.plan` from ChatGPT + Codex content)
 - [ ] Wire `ConversationHost` into `cmd/main` for `conv design --topic ... --design-out`
 - [ ] Tests for accepted/rejected turns saved as plan output
