@@ -1,0 +1,13 @@
+import {
+  "zpc/genius/api" @api,
+  "moonbitlang/core/env" @env,
+  "zpc/genius/daemon" @daemon,
+  "zpc/genius/hash" @hash,
+  "zpc/genius/locus" @locus,
+  "zpc/genius/model" @model,
+  "zpc/genius/storage" @storage,
+}
+
+options(
+  "is-main": true,
+)

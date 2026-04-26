@@ -1,0 +1,91 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "zpc/genius/tree"
+
+import {
+  "zpc/genius/bloom",
+  "zpc/genius/gaussian",
+  "zpc/genius/hash",
+}
+
+// Values
+pub fn diff_sparse_trees(SparseMerkinTree, SparseMerkinTree) -> TreeDiff
+
+pub fn diff_trees(MerkinTree, MerkinTree) -> TreeDiff
+
+// Errors
+
+// Types and methods
+pub(all) struct EnvelopeRef {
+  envelope_id : @hash.Hash
+} derive(Eq, Show)
+
+pub(all) struct MerkinNode {
+  node_id : @hash.Hash
+  children : Array[NodeRef]
+  routing_sketch : @bloom.BloomSketch
+  salience_field : @gaussian.GaussianField
+  mass : UInt64
+  heat : UInt64
+  state : NodeState
+  envelope_refs : Array[EnvelopeRef]
+  work_queue_refs : Array[WorkPromiseRef]
+} derive(Show)
+pub fn MerkinNode::add_child(Self, @hash.Hash) -> Self
+pub fn MerkinNode::attach_envelope(Self, @hash.Hash, Array[String]) -> Self
+pub fn MerkinNode::enqueue_work(Self, @hash.Hash) -> Self
+pub fn MerkinNode::is_sealed(Self) -> Bool
+pub fn MerkinNode::leaf(@hash.Hash) -> Self
+pub fn MerkinNode::maybe_routes(Self, String) -> Bool
+pub fn MerkinNode::seal(Self, Array[@bloom.BloomSketch]) -> Self
+
+pub(all) struct MerkinTree {
+  nodes : Map[String, MerkinNode]
+  mut hot_root_id : String?
+  mut epoch : UInt64
+}
+pub fn MerkinTree::active_root_key(Self) -> String?
+pub fn MerkinTree::add_child_edge(Self, @hash.Hash, @hash.Hash) -> Bool
+pub fn MerkinTree::current_epoch(Self) -> UInt64
+pub fn MerkinTree::get_node(Self, @hash.Hash) -> MerkinNode?
+pub fn MerkinTree::ingest(Self, @hash.Hash, Array[String]) -> String
+pub fn MerkinTree::new() -> Self
+pub fn MerkinTree::seal(Self) -> String?
+pub fn MerkinTree::sparse(Self, Array[String]) -> SparseMerkinTree
+pub fn MerkinTree::upsert_node(Self, MerkinNode) -> Unit
+
+pub(all) struct NodeRef {
+  node_id : @hash.Hash
+} derive(Eq, Show)
+
+pub(all) enum NodeState {
+  FRESH
+  DIRTY
+  DEFERRED
+  SEALED
+} derive(Eq, Show)
+
+pub(all) struct SparseMerkinTree {
+  root_key : String?
+  nodes : Map[String, MerkinNode]
+} derive(Show)
+pub fn SparseMerkinTree::get_node(Self, @hash.Hash) -> MerkinNode?
+pub fn SparseMerkinTree::has_node(Self, @hash.Hash) -> Bool
+pub fn SparseMerkinTree::node_count(Self) -> Int
+pub fn SparseMerkinTree::root(Self) -> String?
+
+pub(all) struct TreeDiff {
+  added : Array[String]
+  removed : Array[String]
+  changed : Array[String]
+  unchanged : UInt
+} derive(Show)
+pub fn TreeDiff::is_empty(Self) -> Bool
+
+pub(all) struct WorkPromiseRef {
+  promise_id : @hash.Hash
+} derive(Eq, Show)
+
+// Type aliases
+
+// Traits
+

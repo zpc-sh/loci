@@ -1,0 +1,6 @@
+import {
+  "zpc/genius/hash" @hash,
+  "zpc/genius/bloom" @bloom,
+  "zpc/genius/tree" @tree,
+  "zpc/genius/model" @model,
+}

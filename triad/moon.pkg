@@ -1,0 +1,3 @@
+import {
+  "zpc/genius/api" @api,
+}

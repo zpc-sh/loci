@@ -1,0 +1,44 @@
+kind: merkin.yata.plan
+track=program
+mode=compact
+generator=claude
+note=claude-locus-bootstrap
+material_hash=pending:self
+self_report=1
+self_report_overlay=claude
+self_report_peer=chatgpt
+self_report_authority=zpc-sh/loci
+self_report_anchor=loci/claude/README.md
+self_report_gap=9
+self_report_view=arblock
+solve_report=1
+solve_report_kind=resolve
+solve_report_status=building
+solve_report_handler=provider.claude
+procsi_report=1
+procsi_report_project=zpc-sh/loci
+procsi_report_ratio_loci=ratio://zpc-sh/loci
+procsi_report_surface=claude
+procsi_report_fingerprint_commitment=pending
+procsi_report_masked=true
+procsi_report_app_ref=pending
+procsi_report_app_audience=ratio.loci.claude
+capability_report=1
+capability_report_authority=ratio://zpc-sh/loci
+capability_report_ticket_kind=scope
+capability_report_scope=loci/claude
+capability_report_status=pending
+capability_report_count=1
+capability_report_store_ref=pending
+- form/claude-locus loci/claude/README.md resolved ready=true candidates=1 conf_floor=80 selected=bootstrap-readme provenance=1
+- handoff/agents loci/claude/AGENTS.md resolved ready=true candidates=1 conf_floor=80 selected=agent-entry provenance=1
+- runway/v0.2 loci/claude/V0_2_RUNWAY.md resolved ready=true candidates=1 conf_floor=80 selected=runway-v0 provenance=1
+- H-C001-001/F001 loci/chatgpt/ROOT_LINEAGE.md converging ready=true candidates=1 conf_floor=85 selected=root-lineage-wording provenance=2
+- H-C001-002/F002 docs/ROOT_LINEAGE.md converging ready=true candidates=1 conf_floor=90 selected=docs-root provenance=1
+- H-C002-001/F003 loci/claude/arblocks/0001-claude-fruition/fills/F003-contract-field-set.fill.md converging ready=true candidates=1 conf_floor=88 selected=contract-field-set-v0 provenance=2
+- H-C002-002/F004 loci/claude/arblocks/0001-claude-fruition/fills/F004-yata-lowering-vocab.fill.md converging ready=true candidates=1 conf_floor=82 selected=yata-lowering-v0 provenance=2
+- H-C002-003/F005 loci/claude/arblocks/0001-claude-fruition/fills/F005-parser-timing.fill.md resolved ready=true candidates=1 conf_floor=92 selected=staged-parser-timing provenance=3
+- H-C003-001/F006 loci/claude/arblocks/0001-claude-fruition/fills/F006-lmr-hash-algorithm.fill.md converging ready=true candidates=1 conf_floor=78 selected=blake3-sha256-dual provenance=2
+- H-C003-002/F007 loci/claude/arblocks/0001-claude-fruition/fills/F007-oci-artifact-names.fill.md converging ready=false candidates=1 conf_floor=72 selected=none provenance=1
+- H-C003-003/F008 loci/claude/arblocks/0001-claude-fruition/fills/F008-first-stored-subject.fill.md resolved ready=true candidates=1 conf_floor=90 selected=chatgpt-plan-leaf provenance=2
+- H-C003-004/F009 loci/claude/arblocks/0001-claude-fruition/fills/F009-akashic-public-boundary.fill.md converging ready=true candidates=1 conf_floor=76 selected=three-zone-model provenance=2
