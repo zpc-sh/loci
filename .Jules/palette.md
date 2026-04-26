@@ -1,0 +1,3 @@
+## 2024-05-18 - Always Provide String to `clack.cancel()` and Handle All Cancels
+**Learning:** Calling `@clack/prompts` `cancel()` without an argument leads to a strict typing runtime error in some versions. Additionally, in multi-prompt sequences, ignoring `clack.isCancel(result)` will cause the sequence to continue rather than exiting, frustrating users trying to exit with Ctrl-C.
+**Action:** Always provide a message to `clack.cancel` (e.g., `clack.cancel("Cancelled")`), and ensure every prompt in a sequence checks for cancellation and calls `process.exit(0)` if `isCancel` is true.
