@@ -7,7 +7,7 @@ pub(all) struct YataParseIssue {
   code : String
   /// Human description.
   message : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Parse result for strict `.plan` wire ingestion.
@@ -18,7 +18,7 @@ pub(all) struct YataParseOutcome {
   issues : Array[YataParseIssue]
   /// `false` when parse errors prevent materialization.
   ok : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Surface schema for `.plan`.
@@ -33,7 +33,7 @@ pub(all) struct YataPlanCursor {
   unresolved_count : UInt
   /// Parse warnings captured by consumer.
   warnings : Array[YataParseIssue]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Parse `.plan` wire in strict mode.

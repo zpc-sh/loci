@@ -24,7 +24,7 @@ test "ReplicationQueue upsert/get/mark_state" {
 
   q.mark_state(key, @storage.InFlight)
   match q.get(key) {
-    Some(item) => assert_eq(item.state, @storage.InFlight)
+    Some(item) => @test.assert_eq(item.state, @storage.InFlight)
     None => assert_true(false)
   }
 }
@@ -37,10 +37,10 @@ test "ReplicationQueue stats" {
   q.upsert(mk_item(@hash.Hash::of_bytes(b"op-c"), @storage.Done, 9UL))
 
   let s = q.stats()
-  assert_eq(s.pending_ops, 1UL)
-  assert_eq(s.pending_bytes, 5UL)
-  assert_eq(s.inflight_ops, 1UL)
-  assert_eq(s.inflight_bytes, 7UL)
+  @test.assert_eq(s.pending_ops, 1UL)
+  @test.assert_eq(s.pending_bytes, 5UL)
+  @test.assert_eq(s.inflight_ops, 1UL)
+  @test.assert_eq(s.inflight_bytes, 7UL)
 }
 
 ///|

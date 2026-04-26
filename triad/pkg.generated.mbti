@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "zpc/genius/triad"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
 pub fn abi_expected_exports() -> Array[String]
 
@@ -20,7 +24,7 @@ pub(all) struct TriadContractInput {
   generated_at_utc : String
   contract_version : String
   pins : TriadRepoPins
-} derive(Show)
+} derive(@debug.Debug)
 pub fn TriadContractInput::default() -> Self
 pub fn TriadContractInput::new(Array[String], Array[String], Array[String], String, String, TriadRepoPins) -> Self
 
@@ -31,7 +35,7 @@ pub(all) struct TriadRepoPins {
   merkin_branch_raw : String
   mu_branch_raw : String
   lang_branch_raw : String
-} derive(Show)
+} derive(@debug.Debug)
 pub fn TriadRepoPins::new(String, String, String, String, String, String) -> Self
 pub fn TriadRepoPins::unknown() -> Self
 

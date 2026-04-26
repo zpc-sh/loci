@@ -38,8 +38,7 @@ pub fn simd_has_ne_convert() -> Bool {
 /// b: signed byte buffer  (32 bytes)
 /// Returns a single int32 sum.
 /// Requires AVX-VNNI (simd_has_vnni()).
-#borrow(a)
-#borrow(b)
+#borrow(a, b)
 extern "C" fn merkin_vnni_dot32(a : Bytes, b : Bytes) -> Int = "merkin_vnni_dot32"
 
 ///|
@@ -50,9 +49,7 @@ pub fn vnni_dot32(a : Bytes, b : Bytes) -> Int {
 ///|
 /// Dot product over 32 bytes, raw 8-lane output (no horizontal sum).
 /// out must be a 32-byte (8 × int32) Bytes buffer — written in place.
-#borrow(a)
-#borrow(b)
-#borrow(out)
+#borrow(a, b, out)
 extern "C" fn merkin_vnni_dot32_lanes(
   a : Bytes,
   b : Bytes,
@@ -68,9 +65,7 @@ pub fn vnni_dot32_lanes(a : Bytes, b : Bytes, out : Bytes) -> Unit {
 /// Multi-block accumulate: accumulate `blocks` × 32-byte chunks.
 /// acc: int32_t[8] as 32-byte Bytes — caller initialises (e.g. to seeds).
 /// a, b: each must be blocks×32 bytes long.
-#borrow(a)
-#borrow(b)
-#borrow(acc)
+#borrow(a, b, acc)
 extern "C" fn merkin_vnni_accumulate(
   a : Bytes,
   b : Bytes,
@@ -103,8 +98,7 @@ pub fn vnni_fnv_x8(data : Bytes) -> Bytes {
 /// hashes: 32-byte buffer from vnni_fnv_x8
 /// bit_count: total bits in bloom filter (must be power of 2, e.g. 256)
 /// Returns 32-byte buffer of int32[8] positions, each in [0, bit_count).
-#borrow(hashes)
-#borrow(out)
+#borrow(hashes, out)
 extern "C" fn merkin_vnni_bloom_positions(
   hashes : Bytes,
   bit_count : Int,
@@ -125,8 +119,7 @@ pub fn vnni_bloom_positions(hashes : Bytes, bit_count : Int) -> Bytes {
 /// src: 32-byte buffer of 16 × uint16 bf16 values
 /// dst: 32-byte buffer for 8 × float32 output
 /// Falls back to scalar shift on non-NE-CONVERT hardware.
-#borrow(src)
-#borrow(dst)
+#borrow(src, dst)
 extern "C" fn merkin_ne_bf16_to_f32_even(src : Bytes, dst : Bytes) -> Unit = "merkin_ne_bf16_to_f32_even"
 
 ///|
@@ -136,8 +129,7 @@ pub fn ne_bf16_to_f32_even(src : Bytes, dst : Bytes) -> Unit {
 
 ///|
 /// Convert 8 bfloat16 values (odd-indexed) to 8 floats.
-#borrow(src)
-#borrow(dst)
+#borrow(src, dst)
 extern "C" fn merkin_ne_bf16_to_f32_odd(src : Bytes, dst : Bytes) -> Unit = "merkin_ne_bf16_to_f32_odd"
 
 ///|

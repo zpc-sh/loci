@@ -22,7 +22,7 @@ pub(all) struct NewsEdition {
   sections : Array[NewsSection]
   continuity : NewsContinuity
   confidence : NewsConfidence
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// The reporter network a given edition came from.
@@ -30,7 +30,7 @@ pub(all) enum NewsNetwork {
   NetworkCni
   NetworkCgn
   NetworkCustom(String)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// A typed section inside an edition. `slug` is a short identifier
@@ -39,7 +39,7 @@ pub(all) enum NewsNetwork {
 pub(all) struct NewsSection {
   slug : String
   body : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Continuity counters describe how much of the edition is new vs.
@@ -49,7 +49,7 @@ pub(all) struct NewsContinuity {
   continuing_count : UInt
   resolved_count : UInt
   quiet_count : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Confidence shape describes how much of the edition is directly
@@ -58,7 +58,7 @@ pub(all) struct NewsConfidence {
   observed_count : UInt
   inferred_count : UInt
   unconfirmed_count : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// News edition validation errors.
@@ -69,7 +69,7 @@ pub(all) enum NewsError {
   NewsMissingSignatureInGuardedMode
   NewsSectionOversize(String)
   NewsContentHashMismatch
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Canonical kind tag.

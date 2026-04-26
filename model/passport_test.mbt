@@ -55,7 +55,7 @@ test "Passport validates the packet example" {
 test "Passport seal is deterministic across reconstruction" {
   let a = valid_passport_fixture()
   let b = valid_passport_fixture()
-  assert_eq(a.seal_material(), b.seal_material())
+  @test.assert_eq(a.seal_material(), b.seal_material())
 }
 
 ///|
@@ -188,23 +188,23 @@ test "Passport wire tags round-trip through parse helpers" {
     ("bundle", @model.Bundle),
   ]
   for pair in tags {
-    assert_eq(@model.artifact_type_tag(pair.1), pair.0)
+    @test.assert_eq(@model.artifact_type_tag(pair.1), pair.0)
     match @model.artifact_type_parse(pair.0) {
-      Some(v) => assert_eq(v, pair.1)
+      Some(v) => @test.assert_eq(v, pair.1)
       None => assert_true(false)
     }
   }
-  assert_eq(@model.artifact_type_parse("unknown"), None)
+  @test.assert_eq(@model.artifact_type_parse("unknown"), None)
 }
 
 ///|
 test "Passport boundary_mode and capability_class parse round-trip" {
-  assert_eq(@model.boundary_mode_tag(@model.Sanitize), "sanitize")
-  assert_eq(@model.boundary_mode_parse("sanitize"), Some(@model.Sanitize))
-  assert_eq(@model.boundary_mode_parse("nonsense"), None)
-  assert_eq(@model.capability_class_tag(@model.Full), "full")
-  assert_eq(@model.capability_class_parse("full"), Some(@model.Full))
-  assert_eq(@model.capability_class_parse("god-mode"), None)
+  @test.assert_eq(@model.boundary_mode_tag(@model.Sanitize), "sanitize")
+  @test.assert_eq(@model.boundary_mode_parse("sanitize"), Some(@model.Sanitize))
+  @test.assert_eq(@model.boundary_mode_parse("nonsense"), None)
+  @test.assert_eq(@model.capability_class_tag(@model.Full), "full")
+  @test.assert_eq(@model.capability_class_parse("full"), Some(@model.Full))
+  @test.assert_eq(@model.capability_class_parse("god-mode"), None)
 }
 
 ///|

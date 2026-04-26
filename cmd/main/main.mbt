@@ -111,7 +111,7 @@ fn main {
         path,
         sealed_epoch: false,
       })
-      println("disposition=\{result.disposition}")
+      println("disposition=\{@debug.to_string(result.disposition)}")
       println("digest=\{result.digest.key()}")
       match result.receipt {
         Some(r) => {
@@ -156,8 +156,8 @@ fn main {
 
       let growth = daemon.diff_from_sparse(baseline, [])
       let token_diff = daemon.diff_views(left_tokens, right_tokens)
-      println("growth=\{growth}")
-      println("token_diff=\{token_diff}")
+      println("growth=\{@debug.to_string(growth)}")
+      println("token_diff=\{@debug.to_string(token_diff)}")
     }
     "conv-turn" => {
       let host = @daemon.ConversationHost::new()
@@ -533,7 +533,7 @@ fn main {
       // demo: put then read
       let payload = b"demo-payload"
       let put = daemon.handle_oci_put(@daemon.OciPutRequest::default(payload))
-      println("demo disposition=\{put.disposition}")
+      println("demo disposition=\{@debug.to_string(put.disposition)}")
       println("demo digest=\{put.digest.key()}")
       match daemon.handle_get(put.digest) {
         Some(bytes) => println("demo get=\{bytes.length()} bytes")

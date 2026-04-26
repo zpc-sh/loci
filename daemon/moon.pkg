@@ -4,3 +4,7 @@ import {
   "zpc/genius/storage" @storage,
   "zpc/genius/tree" @tree,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"

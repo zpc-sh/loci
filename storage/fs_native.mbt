@@ -25,10 +25,6 @@ extern "c" fn c_mkdir(path : Bytes, mode : Int) -> Int = "mkdir"
 #borrow(path)
 extern "c" fn c_access(path : Bytes, mode : Int) -> Int = "access"
 
-///|
-#borrow(old_path, new_path)
-extern "c" fn c_rename(old_path : Bytes, new_path : Bytes) -> Int = "rename"
-
 // POSIX constants
 
 ///|

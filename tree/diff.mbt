@@ -4,7 +4,7 @@ pub(all) struct TreeDiff {
   removed : Array[String]
   changed : Array[String]
   unchanged : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn TreeDiff::is_empty(self : TreeDiff) -> Bool {

@@ -66,9 +66,9 @@ test "Adjoin packet sample validates" {
 test "Adjoin seal is deterministic across reconstruction" {
   let a = sample_contract()
   let b = sample_contract()
-  assert_eq(a.seal, b.seal)
+  @test.assert_eq(a.seal, b.seal)
   // Resealing is idempotent.
-  assert_eq(a.reseal().seal, a.seal)
+  @test.assert_eq(a.reseal().seal, a.seal)
 }
 
 ///|
@@ -113,7 +113,7 @@ test "Adjoin meta ordering is canonicalized" {
     locus_leaf_fixture("genius://b", b'\x02'),
     [("beta", "2"), ("alpha", "1")],
   )
-  assert_eq(first.seal(), second.seal())
+  @test.assert_eq(first.seal(), second.seal())
 }
 
 ///|
@@ -209,13 +209,13 @@ test "Adjoin op wire tags round-trip" {
     ("yata_union", @model.YataUnion),
   ]
   for pair in ops {
-    assert_eq(@model.adjoin_op_tag(pair.1), pair.0)
+    @test.assert_eq(@model.adjoin_op_tag(pair.1), pair.0)
     match @model.adjoin_op_parse(pair.0) {
-      Some(op) => assert_eq(op, pair.1)
+      Some(op) => @test.assert_eq(op, pair.1)
       None => assert_true(false)
     }
   }
-  assert_eq(@model.adjoin_op_parse("nonsense"), None)
+  @test.assert_eq(@model.adjoin_op_parse("nonsense"), None)
 }
 
 ///|
@@ -229,9 +229,9 @@ test "Adjoin expected-type wire tags round-trip" {
     ("Synthesis", @model.YataSynthesis),
   ]
   for pair in types {
-    assert_eq(@model.yata_expected_type_tag(pair.1), pair.0)
+    @test.assert_eq(@model.yata_expected_type_tag(pair.1), pair.0)
     match @model.yata_expected_type_parse(pair.0) {
-      Some(t) => assert_eq(t, pair.1)
+      Some(t) => @test.assert_eq(t, pair.1)
       None => assert_true(false)
     }
   }

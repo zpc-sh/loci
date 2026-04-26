@@ -8,3 +8,7 @@ import {
   "zpc/genius/bloom" @bloom,
   "zpc/genius/gaussian" @gaussian,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"

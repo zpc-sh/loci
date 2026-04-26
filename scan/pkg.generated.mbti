@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "zpc/genius/scan"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
 pub fn count_by_kind(Array[ScanFinding], ScanKind) -> Int
 
@@ -19,14 +23,14 @@ pub(all) struct ScanFinding {
   kind : ScanKind
   offset : Int
   context : Bytes
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum ScanKind {
   Bidi
   Zwsp
   Ansi
   MissingTrailingNewline
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 // Type aliases
 

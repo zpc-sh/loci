@@ -10,8 +10,8 @@ test "GaussianField should_execute" {
 ///|
 test "GaussianField default" {
   let g = @gaussian.GaussianField::new()
-  assert_eq(g.mu, 0.0)
-  assert_eq(g.sigma, 1.0)
+  @test.assert_eq(g.mu, 0.0)
+  @test.assert_eq(g.sigma, 1.0)
 }
 
 ///|

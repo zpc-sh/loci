@@ -52,9 +52,9 @@ test "Router decision seals the passport trail" {
     Ok(_) => assert_true(true)
     _ => assert_true(false)
   }
-  assert_eq(decision.recompute_seal(), decision.decision_seal)
-  assert_eq(decision.passport_id, passport.passport_id)
-  assert_eq(decision.passport_seal, passport.trace.passport_seal)
+  @test.assert_eq(decision.recompute_seal(), decision.decision_seal)
+  @test.assert_eq(decision.passport_id, passport.passport_id)
+  @test.assert_eq(decision.passport_seal, passport.trace.passport_seal)
 }
 
 ///|
@@ -69,7 +69,7 @@ test "Router decision carries the resonance signature" {
     @model.RouteAllow,
     "resonance-aware allow",
   )
-  assert_eq(decision.resonance_signature, Some(sig))
+  @test.assert_eq(decision.resonance_signature, Some(sig))
   // Recomputing without the resonance signature gives a different
   // seal — resonance is cryptographically inside the decision.
   let without = @model.RouterDecision::emit(
@@ -101,7 +101,7 @@ test "Router narrow action seals sorted surfaces" {
   )
   // Same narrowing set + same capability → same seal regardless of
   // surface ordering.
-  assert_eq(a.decision_seal, b.decision_seal)
+  @test.assert_eq(a.decision_seal, b.decision_seal)
 }
 
 ///|
@@ -144,14 +144,17 @@ test "Router actions produce distinct seals" {
 
 ///|
 test "Router action tags are stable" {
-  assert_eq(@model.router_action_tag(@model.RouteAllow), "allow")
-  assert_eq(
+  @test.assert_eq(@model.router_action_tag(@model.RouteAllow), "allow")
+  @test.assert_eq(
     @model.router_action_tag(@model.RouteNarrow([], @model.ReadOnly)),
     "narrow",
   )
-  assert_eq(@model.router_action_tag(@model.RouteSandbox("x")), "sandbox")
-  assert_eq(@model.router_action_tag(@model.RouteQuarantine("r")), "quarantine")
-  assert_eq(@model.router_action_tag(@model.RouteDeny("r")), "deny")
+  @test.assert_eq(@model.router_action_tag(@model.RouteSandbox("x")), "sandbox")
+  @test.assert_eq(
+    @model.router_action_tag(@model.RouteQuarantine("r")),
+    "quarantine",
+  )
+  @test.assert_eq(@model.router_action_tag(@model.RouteDeny("r")), "deny")
 }
 
 ///|

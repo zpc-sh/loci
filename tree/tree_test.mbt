@@ -7,7 +7,7 @@ test "MerkinTree ingest and seal" {
   let root_hash = @hash.Hash::of_bytes(b"\x00\x00\x00\x01")
   match tree.get_node(root_hash) {
     Some(node) => {
-      assert_eq(node.state, @tree.DIRTY)
+      @test.assert_eq(node.state, @tree.DIRTY)
       assert_true(node.maybe_routes("image"))
       assert_true(node.maybe_routes("photo"))
     }
@@ -16,8 +16,8 @@ test "MerkinTree ingest and seal" {
   // Seal
   match tree.seal() {
     Some(key) => {
-      assert_eq(key, root_key)
-      assert_eq(tree.current_epoch(), 1UL)
+      @test.assert_eq(key, root_key)
+      @test.assert_eq(tree.current_epoch(), 1UL)
     }
     None => assert_true(false)
   }
@@ -33,7 +33,7 @@ test "MerkinTree multiple ingests" {
   let root_hash = @hash.Hash::of_bytes(b"\x00\x00\x00\x01")
   match tree.get_node(root_hash) {
     Some(node) => {
-      assert_eq(node.envelope_refs.length(), 2)
+      @test.assert_eq(node.envelope_refs.length(), 2)
       assert_true(node.maybe_routes("doc"))
       assert_true(node.maybe_routes("video"))
     }
@@ -57,12 +57,12 @@ test "MerkinNode enqueue work marks dirty" {
   let promise_id = @hash.Hash::of_bytes(b"\x20")
   let node = @tree.MerkinNode::leaf(node_id)
   let node2 = node.enqueue_work(promise_id)
-  assert_eq(node2.work_queue_refs.length(), 1)
-  assert_eq(node2.state, @tree.DIRTY)
+  @test.assert_eq(node2.work_queue_refs.length(), 1)
+  @test.assert_eq(node2.state, @tree.DIRTY)
 }
 
 ///|
 test "MerkinTree active_root_key without hot_root" {
   let tree = @tree.MerkinTree::new()
-  assert_eq(tree.active_root_key(), None)
+  @test.assert_eq(tree.active_root_key(), None)
 }

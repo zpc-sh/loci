@@ -41,7 +41,7 @@ test "MerkinTree sparse projection keeps root and matching branch" {
   assert_true(sparse.has_node(root))
   assert_true(sparse.has_node(child_a.node_id))
   assert_true(!sparse.has_node(child_b.node_id))
-  assert_eq(sparse.node_count(), 2)
+  @test.assert_eq(sparse.node_count(), 2)
 }
 
 ///|
@@ -65,7 +65,7 @@ test "diff_trees reports added and changed nodes" {
   let diff = @tree.diff_trees(left, right)
   assert_true(array_contains(diff.added, child_b.node_id.key()))
   assert_true(array_contains(diff.changed, root.key()))
-  assert_eq(diff.removed.length(), 0)
+  @test.assert_eq(diff.removed.length(), 0)
 }
 
 ///|
@@ -87,5 +87,5 @@ test "diff_sparse_trees reports branch swap" {
 
   assert_true(array_contains(diff.removed, child_a.node_id.key()))
   assert_true(array_contains(diff.added, child_b.node_id.key()))
-  assert_eq(diff.changed.length(), 0)
+  @test.assert_eq(diff.changed.length(), 0)
 }

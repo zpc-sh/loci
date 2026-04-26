@@ -4,7 +4,7 @@
 test "Core: Hash key uses canonical alg prefix" {
   let h = @hash.Hash::of_bytes(b"\x01\x02")
   assert_true(h.key().contains("blake3:"))
-  assert_eq(h.digest_len(), 32)
+  @test.assert_eq(h.digest_len(), 32)
 }
 
 ///|
@@ -13,7 +13,7 @@ test "Core: Artifact hash verification is deterministic" {
   let a1 = @model.Artifact::from_bytes(payload)
   let a2 = @model.Artifact::from_bytes(payload)
   assert_true(a1.verify())
-  assert_eq(a1.content_hash, a2.content_hash)
+  @test.assert_eq(a1.content_hash, a2.content_hash)
 }
 
 ///|
@@ -22,13 +22,13 @@ test "Core: Envelope encoding and subject hash rules" {
   let grin = @model.Envelope::new(artifact_hash, [
     "a", "b", "c", "d", "e", "f", "g", "h",
   ])
-  assert_eq(grin.header_encoding, @model.ArbyteGrin)
-  assert_eq(grin.subject_hash(), artifact_hash)
+  @test.assert_eq(grin.header_encoding, @model.ArbyteGrin)
+  @test.assert_eq(grin.subject_hash(), artifact_hash)
 
   let coda = @model.Envelope::new(artifact_hash, ["x", "y"]).commit_semantic()
-  assert_eq(coda.header_encoding, @model.ChainCoda)
+  @test.assert_eq(coda.header_encoding, @model.ChainCoda)
   match coda.semantic_hash {
-    Some(h) => assert_eq(coda.subject_hash(), h)
+    Some(h) => @test.assert_eq(coda.subject_hash(), h)
     None => assert_true(false)
   }
 }
@@ -38,7 +38,7 @@ test "Core: Sealed envelope is immutable for semantic commit" {
   let artifact_hash = @hash.Hash::of_bytes(b"\x0B")
   let sealed_env = @model.Envelope::new(artifact_hash, ["x"]).seal()
   let after = sealed_env.commit_semantic()
-  assert_eq(after.state.freshness, @model.SEALED)
+  @test.assert_eq(after.state.freshness, @model.SEALED)
   assert_true(after.semantic_hash is None)
 }
 
@@ -64,11 +64,11 @@ test "Core: Anchor lifecycle data is persisted" {
     .set_temporash_ref("tempora://7")
     .set_time("2026-02-26T00:00:00Z")
     .add_replica("replica-a")
-  assert_eq(a.anchor_state, @model.ANCHORED)
+  @test.assert_eq(a.anchor_state, @model.ANCHORED)
   assert_true(a.mmr_proof_ref is Some(_))
   assert_true(a.temporash_ref is Some(_))
   assert_true(a.anchored_at is Some(_))
-  assert_eq(a.replication_vector.length(), 1)
+  @test.assert_eq(a.replication_vector.length(), 1)
 }
 
 ///|
@@ -99,10 +99,10 @@ test "Core: Tree ingest and seal progression" {
 
   let root_hash = @hash.Hash::of_bytes(b"\x00\x00\x00\x01")
   match tree.get_node(root_hash) {
-    Some(node) => assert_eq(node.state, @tree.DIRTY)
+    Some(node) => @test.assert_eq(node.state, @tree.DIRTY)
     None => assert_true(false)
   }
 
   assert_true(tree.seal() is Some(_))
-  assert_eq(tree.current_epoch(), 1UL)
+  @test.assert_eq(tree.current_epoch(), 1UL)
 }

@@ -6,9 +6,9 @@ test "bidi_rlo" {
     b'd', b'\n',
   ])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Bidi)
-  assert_eq(findings[0].offset, 5)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Bidi)
+  @test.assert_eq(findings[0].offset, 5)
 }
 
 ///|
@@ -16,8 +16,8 @@ test "bidi_rlo" {
 test "bidi_lro" {
   let data = Bytes::from_array([b'\xE2', b'\x80', b'\xAD', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Bidi)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Bidi)
 }
 
 ///|
@@ -25,9 +25,9 @@ test "bidi_lro" {
 test "bidi_rli" {
   let data = Bytes::from_array([b'a', b'\xE2', b'\x81', b'\xA7', b'b', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Bidi)
-  assert_eq(findings[0].offset, 1)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Bidi)
+  @test.assert_eq(findings[0].offset, 1)
 }
 
 ///|
@@ -35,8 +35,8 @@ test "bidi_rli" {
 test "bidi_alm" {
   let data = Bytes::from_array([b'x', b'\xD8', b'\x9C', b'y', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Bidi)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Bidi)
 }
 
 ///|
@@ -44,9 +44,9 @@ test "bidi_alm" {
 test "zwsp_line_start" {
   let data = Bytes::from_array([b'\xE2', b'\x80', b'\x8B', b'\t', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Zwsp)
-  assert_eq(findings[0].offset, 0)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Zwsp)
+  @test.assert_eq(findings[0].offset, 0)
 }
 
 ///|
@@ -54,8 +54,8 @@ test "zwsp_line_start" {
 test "zwsp_zwnj" {
   let data = Bytes::from_array([b'a', b'\xE2', b'\x80', b'\x8C', b'b', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Zwsp)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Zwsp)
 }
 
 ///|
@@ -63,9 +63,9 @@ test "zwsp_zwnj" {
 test "mid_bom_hostile" {
   let data = Bytes::from_array([b'a', b'\xEF', b'\xBB', b'\xBF', b'b', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Zwsp)
-  assert_eq(findings[0].offset, 1)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Zwsp)
+  @test.assert_eq(findings[0].offset, 1)
 }
 
 ///|
@@ -73,7 +73,7 @@ test "mid_bom_hostile" {
 test "leading_bom_clean" {
   let data = Bytes::from_array([b'\xEF', b'\xBB', b'\xBF', b'h', b'i', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 0)
+  @test.assert_eq(findings.length(), 0)
 }
 
 ///|
@@ -81,9 +81,9 @@ test "leading_bom_clean" {
 test "ansi_esc" {
   let data = Bytes::from_array([b'o', b'k', b'\x1B', b']', b'5', b'2', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::Ansi)
-  assert_eq(findings[0].offset, 2)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::Ansi)
+  @test.assert_eq(findings[0].offset, 2)
 }
 
 ///|
@@ -91,8 +91,8 @@ test "ansi_esc" {
 test "missing_trailing_newline" {
   let data = Bytes::from_array([b'h', b'i'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 1)
-  assert_eq(findings[0].kind, ScanKind::MissingTrailingNewline)
+  @test.assert_eq(findings.length(), 1)
+  @test.assert_eq(findings[0].kind, ScanKind::MissingTrailingNewline)
 }
 
 ///|
@@ -100,7 +100,7 @@ test "missing_trailing_newline" {
 test "trailing_newline_present" {
   let data = Bytes::from_array([b'h', b'i', b'\n'])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 0)
+  @test.assert_eq(findings.length(), 0)
 }
 
 ///|
@@ -108,7 +108,7 @@ test "trailing_newline_present" {
 test "empty_file_clean" {
   let data = Bytes::from_array([])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 0)
+  @test.assert_eq(findings.length(), 0)
 }
 
 ///|
@@ -120,10 +120,10 @@ test "compound_hostile" {
      b'x', // no trailing newline
   ])
   let findings = scan_bytes(data)
-  assert_eq(findings.length(), 3)
-  assert_eq(findings[0].kind, ScanKind::Bidi)
-  assert_eq(findings[1].kind, ScanKind::Ansi)
-  assert_eq(findings[2].kind, ScanKind::MissingTrailingNewline)
+  @test.assert_eq(findings.length(), 3)
+  @test.assert_eq(findings[0].kind, ScanKind::Bidi)
+  @test.assert_eq(findings[1].kind, ScanKind::Ansi)
+  @test.assert_eq(findings[2].kind, ScanKind::MissingTrailingNewline)
 }
 
 ///|
@@ -132,8 +132,8 @@ test "hostile_only_filter" {
   let data = Bytes::from_array([b'\xE2', b'\x80', b'\xAE', b'x'])
   let all = scan_bytes(data)
   let hostile = hostile_only(all)
-  assert_eq(hostile.length(), 1)
-  assert_eq(hostile[0].kind, ScanKind::Bidi)
+  @test.assert_eq(hostile.length(), 1)
+  @test.assert_eq(hostile[0].kind, ScanKind::Bidi)
 }
 
 ///|
@@ -141,7 +141,7 @@ test "hostile_only_filter" {
 test "has_hostile_newline_only" {
   let data = Bytes::from_array([b'x'])
   let findings = scan_bytes(data)
-  assert_eq(has_hostile(findings), false)
+  @test.assert_eq(has_hostile(findings), false)
 }
 
 ///|
@@ -151,10 +151,10 @@ test "count_by_kind" {
     b'\xE2', b'\x80', b'\xAE', b'\xE2', b'\x80', b'\xAD', b'\x1B', b'\n',
   ])
   let findings = scan_bytes(data)
-  assert_eq(count_by_kind(findings, ScanKind::Bidi), 2)
-  assert_eq(count_by_kind(findings, ScanKind::Ansi), 1)
-  assert_eq(count_by_kind(findings, ScanKind::Zwsp), 0)
-  assert_eq(count_by_kind(findings, ScanKind::MissingTrailingNewline), 0)
+  @test.assert_eq(count_by_kind(findings, ScanKind::Bidi), 2)
+  @test.assert_eq(count_by_kind(findings, ScanKind::Ansi), 1)
+  @test.assert_eq(count_by_kind(findings, ScanKind::Zwsp), 0)
+  @test.assert_eq(count_by_kind(findings, ScanKind::MissingTrailingNewline), 0)
 }
 
 ///|
@@ -163,5 +163,5 @@ test "clean_source" {
   let data = Bytes::from_array([
     b'p', b'u', b'b', b' ', b'f', b'n', b' ', b'm', b'a', b'i', b'n', b'\n',
   ])
-  assert_eq(is_clean(data), true)
+  @test.assert_eq(is_clean(data), true)
 }

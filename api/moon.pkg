@@ -4,3 +4,7 @@ import {
   "zpc/genius/tree" @tree,
   "zpc/genius/model" @model,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"

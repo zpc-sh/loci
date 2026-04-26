@@ -5,13 +5,13 @@ test "InMemoryOciRegistry blob and tag operations" {
   let digest = reg.put_blob("repo/a", payload)
   assert_true(reg.has_blob("repo/a", digest))
   match reg.get_blob("repo/a", digest) {
-    Some(bytes) => assert_eq(bytes, payload)
+    Some(bytes) => @test.assert_eq(bytes, payload)
     None => assert_true(false)
   }
 
   reg.put_tag("repo/a", "latest", digest)
   match reg.resolve_tag("repo/a", "latest") {
-    Some(d) => assert_eq(d, digest)
+    Some(d) => @test.assert_eq(d, digest)
     None => assert_true(false)
   }
 }
@@ -28,7 +28,7 @@ test "OciCasNode participates in StoreNode API" {
   assert_true(node.has_blob(digest))
 
   match node.get_blob(digest) {
-    Some(bytes) => assert_eq(bytes, payload)
+    Some(bytes) => @test.assert_eq(bytes, payload)
     None => assert_true(false)
   }
 }
@@ -70,6 +70,6 @@ test "OciCasNode latest tag mode publishes latest" {
 test "InMemoryOciRegistry non-existent blob and tag operations" {
   let reg = @storage.InMemoryOciRegistry::new()
   assert_false(reg.has_blob("repo/b", "non-existent-digest"))
-  assert_eq(reg.get_blob("repo/b", "non-existent-digest"), None)
-  assert_eq(reg.resolve_tag("repo/b", "non-existent-tag"), None)
+  @test.assert_eq(reg.get_blob("repo/b", "non-existent-digest"), None)
+  @test.assert_eq(reg.resolve_tag("repo/b", "non-existent-tag"), None)
 }

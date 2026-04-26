@@ -40,7 +40,7 @@ test "SLL build request validates" {
 test "SLL seal is deterministic" {
   let a = sample_build_request()
   let b = sample_build_request()
-  assert_eq(a.seal_material(), b.seal_material())
+  @test.assert_eq(a.seal_material(), b.seal_material())
 }
 
 ///|
@@ -94,9 +94,9 @@ test "SLL movement tags round-trip" {
     ("structured", @model.MovementStructured),
   ]
   for pair in tags {
-    assert_eq(@model.sll_movement_tag(pair.1), pair.0)
+    @test.assert_eq(@model.sll_movement_tag(pair.1), pair.0)
     match @model.sll_movement_parse(pair.0) {
-      Some(m) => assert_eq(m, pair.1)
+      Some(m) => @test.assert_eq(m, pair.1)
       None => assert_true(false)
     }
   }
@@ -110,9 +110,9 @@ test "SLL composition tags round-trip" {
     ("live", @model.SllLive),
   ]
   for pair in tags {
-    assert_eq(@model.sll_composition_tag(pair.1), pair.0)
+    @test.assert_eq(@model.sll_composition_tag(pair.1), pair.0)
     match @model.sll_composition_parse(pair.0) {
-      Some(m) => assert_eq(m, pair.1)
+      Some(m) => @test.assert_eq(m, pair.1)
       None => assert_true(false)
     }
   }
@@ -138,7 +138,7 @@ test "SLL build manifest provenance seal binds request + adjoin + wasm" {
     adjoin_seal,
     Some("wasm://build/a1b2c3"),
   )
-  assert_eq(prov_with_wasm, prov_again)
+  @test.assert_eq(prov_with_wasm, prov_again)
   // A different wasm_ref (or None) yields a different provenance.
   assert_true(prov_with_wasm != prov_without)
 }

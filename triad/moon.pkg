@@ -1,3 +1,7 @@
 import {
   "zpc/genius/api" @api,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"

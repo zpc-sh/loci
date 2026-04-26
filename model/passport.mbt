@@ -19,7 +19,7 @@ pub(all) struct Passport {
   where_ : PassportWhere
   how_far : PassportHowFar
   trace : PassportTrace
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// `who`: actor identity and attestation.
@@ -29,21 +29,21 @@ pub(all) struct PassportWho {
   session_surface : String
   fingerprint_commitment : @hash.Hash
   actor_seal : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// `what`: artifact class entering the target locus.
 pub(all) struct PassportWhat {
   artifact_type : ArtifactType
   artifact_ref : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// `why`: crossing intent.
 pub(all) struct PassportWhy {
   intent : Intent
   note : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// `where`: source/target loci plus allowed target surfaces.
@@ -51,7 +51,7 @@ pub(all) struct PassportWhere {
   source_locus : String
   target_locus : String
   allowed_surfaces : Array[String]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// `how_far`: capability budget and boundary policy.
@@ -59,7 +59,7 @@ pub(all) struct PassportHowFar {
   capability_class : CapabilityClass
   budget_class : String
   boundary_mode : BoundaryMode
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// `trace`: replay and provenance references.
@@ -67,7 +67,7 @@ pub(all) struct PassportTrace {
   context_ref : String
   lineage_ref : String
   passport_seal : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Artifact classes permitted to cross. Extensible at the contract
@@ -80,7 +80,7 @@ pub(all) enum ArtifactType {
   Signal
   Report
   Bundle
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Crossing intents. Intent `Implement` requires a capability class
@@ -93,7 +93,7 @@ pub(all) enum Intent {
   Verify
   Synthesize
   Audit
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Boundary policy modes the membrane will apply at crossing.
@@ -102,7 +102,7 @@ pub(all) enum BoundaryMode {
   Sanitize
   Strict
   Quarantine
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Capability classes. `ReadOnly` forbids `Implement` intent.
@@ -111,7 +111,7 @@ pub(all) enum CapabilityClass {
   ReadOnly
   PatchVerify
   Full
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Structured validation errors per `LOCUS_CROSSING_PASSPORT_v0.1`.
@@ -125,7 +125,7 @@ pub(all) enum PassportError {
   InvalidBoundaryMode
   CapabilityIntentMismatch
   MissingSeal(String)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Construct a passport and compute its seal from the material of

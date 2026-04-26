@@ -3,8 +3,8 @@ test "Hash::of_bytes determinism" {
   let data = b"\x01\x02\x03\x04"
   let h1 = @hash.Hash::of_bytes(data)
   let h2 = @hash.Hash::of_bytes(data)
-  assert_eq(h1, h2)
-  assert_eq(h1.alg, @hash.Blake3)
+  @test.assert_eq(h1, h2)
+  @test.assert_eq(h1.alg, @hash.Blake3)
 }
 
 ///|
@@ -17,7 +17,7 @@ test "Hash::of_bytes different inputs differ" {
 ///|
 test "Hash digest length is 32 bytes (blake3 width)" {
   let h = @hash.Hash::of_bytes(b"\xAA\xBB")
-  assert_eq(h.digest_len(), 32)
+  @test.assert_eq(h.digest_len(), 32)
 }
 
 ///|
@@ -29,7 +29,7 @@ test "Hash::semantic produces dual hash" {
   assert_true(sem != content)
   // deterministic
   let sem2 = @hash.Hash::semantic(content, header)
-  assert_eq(sem, sem2)
+  @test.assert_eq(sem, sem2)
 }
 
 ///|

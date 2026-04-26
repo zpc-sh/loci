@@ -5,7 +5,7 @@ pub(all) enum QueueItemState {
   InFlight
   Done
   Failed
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 pub(all) struct QueueItem {
@@ -16,13 +16,13 @@ pub(all) struct QueueItem {
   digest : @hash.Hash
   size_bytes : UInt64
   state : QueueItemState
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct QueueSnapshot {
   snapshot_id : @hash.Hash
   items : Array[QueueItem]
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct ReplicationQueue {

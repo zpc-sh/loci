@@ -4,6 +4,10 @@ import {
   "zpc/genius/store" @store,
 }
 
+import {
+  "moonbitlang/core/test" @test,
+} for "test"
+
 options(
   "proof-enabled": true,
   targets: {

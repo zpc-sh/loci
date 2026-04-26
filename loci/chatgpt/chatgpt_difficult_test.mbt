@@ -24,7 +24,7 @@ test "public mirror crossing validates all posture fields" {
 ///|
 test "history preserves deterministic stage order" {
   let cycle = @chatgpt.WorkCycle::new().advance().advance().advance()
-  assert_eq(cycle.history, [
+  @test.assert_eq(cycle.history, [
     @chatgpt.Form,
     @chatgpt.Fruition,
     @chatgpt.Aperture,
@@ -47,7 +47,7 @@ test "contract cannot seal with open required obligations" {
     @chatgpt.Observed,
     obligations,
   )
-  assert_eq(binding.required_open_count(), 1)
+  @test.assert_eq(binding.required_open_count(), 1)
   assert_true(!binding.can_seal())
 }
 

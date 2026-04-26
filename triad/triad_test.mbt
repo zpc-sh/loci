@@ -50,8 +50,8 @@ test "triad package emits contract with typed input" {
 
 ///|
 test "triad package ABI helper reports missing exports" {
-  assert_eq(@triad.abi_status(@triad.abi_expected_exports()), "ok")
-  assert_eq(
+  @test.assert_eq(@triad.abi_status(@triad.abi_expected_exports()), "ok")
+  @test.assert_eq(
     @triad.abi_status(["plan_finger_wasm"]),
     "missing:plan_drift_commitment,triad_contract_wasm",
   )

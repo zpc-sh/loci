@@ -2,5 +2,12 @@ import {
   "zpc/genius/hash" @hash,
   "zpc/genius/bloom" @bloom,
   "zpc/genius/gaussian" @gaussian,
-  "moonbitlang/core/encoding/utf8" @utf8,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"
+
+import {
+  "moonbitlang/core/encoding/utf8" @utf8,
+} for "wbtest"

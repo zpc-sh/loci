@@ -30,17 +30,17 @@ fn sample_policy_for(target_ids : Array[String]) -> @storage.ReplicationPolicy {
 
 ///|
 test "OciFacility defaults per daemon mode" {
-  assert_eq(@daemon.OciFacility::from_mode(@daemon.Receiver), {
+  @test.assert_eq(@daemon.OciFacility::from_mode(@daemon.Receiver), {
     receiver: true,
     proxy: false,
     passthrough: false,
   })
-  assert_eq(@daemon.OciFacility::from_mode(@daemon.Proxy), {
+  @test.assert_eq(@daemon.OciFacility::from_mode(@daemon.Proxy), {
     receiver: false,
     proxy: true,
     passthrough: false,
   })
-  assert_eq(@daemon.OciFacility::from_mode(@daemon.PassThrough), {
+  @test.assert_eq(@daemon.OciFacility::from_mode(@daemon.PassThrough), {
     receiver: false,
     proxy: false,
     passthrough: true,
@@ -55,10 +55,10 @@ test "Daemon receiver mode stores OCI payload through union store" {
   daemon.add_store(local_node.as_store_node())
 
   let result = daemon.handle_oci_put(@daemon.OciPutRequest::default(b"blob-1"))
-  assert_eq(result.disposition, @daemon.Stored)
+  @test.assert_eq(result.disposition, @daemon.Stored)
 
   match daemon.handle_get(result.digest) {
-    Some(bytes) => assert_eq(bytes, b"blob-1")
+    Some(bytes) => @test.assert_eq(bytes, b"blob-1")
     None => assert_true(false)
   }
 }
@@ -70,7 +70,7 @@ test "Daemon proxy mode forwards without local commit" {
   let result = daemon.handle_oci_put(
     @daemon.OciPutRequest::default(b"blob-proxy"),
   )
-  assert_eq(result.disposition, @daemon.Forwarded)
+  @test.assert_eq(result.disposition, @daemon.Forwarded)
   assert_true(result.receipt is None)
 }
 
@@ -81,7 +81,7 @@ test "Daemon pass-through mode bypasses local commit" {
   let result = daemon.handle_oci_put(
     @daemon.OciPutRequest::default(b"blob-pass"),
   )
-  assert_eq(result.disposition, @daemon.Bypassed)
+  @test.assert_eq(result.disposition, @daemon.Bypassed)
   assert_true(result.receipt is None)
 }
 
@@ -113,7 +113,7 @@ test "Daemon receiver supports OCI-backed store node" {
   let result = daemon.handle_oci_put(
     @daemon.OciPutRequest::default(b"blob-oci"),
   )
-  assert_eq(result.disposition, @daemon.Stored)
+  @test.assert_eq(result.disposition, @daemon.Stored)
   assert_true(daemon.handle_get(result.digest) is Some(_))
 }
 

@@ -2,6 +2,7 @@
 package "zpc/genius/daemon"
 
 import {
+  "moonbitlang/core/debug",
   "zpc/genius/hash",
   "zpc/genius/model",
   "zpc/genius/storage",
@@ -18,7 +19,7 @@ pub(all) struct BootContext {
   news_context_block : String
   resonance_signature : @hash.Hash?
   resonance_summary : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct Codecave {
   inbox : Array[IngestEnvelope]
@@ -26,7 +27,7 @@ pub(all) struct Codecave {
   quarantine : Array[QuarantineEntry]
   bookmarks : Array[LaneBookmark]
   require_news_signature : Bool
-} derive(Show)
+} derive(@debug.Debug)
 pub fn Codecave::boot_hook(Self) -> BootContext
 pub fn Codecave::drain_inbox(Self) -> Self
 pub fn Codecave::mark_read(Self) -> Self
@@ -36,19 +37,19 @@ pub fn Codecave::offer(Self, IngestEnvelope) -> Self
 pub(all) enum CodecaveLane {
   NewsLane
   ResonanceLane
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) enum ConversationActorRole {
   Ai
   Human
   System
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) enum ConversationEmbeddingAction {
   Observe
   FlipAot
   Purge
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct ConversationHost {
   mut halls : Array[SabaHall]
@@ -61,7 +62,7 @@ pub(all) struct ConversationHost {
   mut next_turn_seq : UInt
   mut next_checkpoint_seq : UInt
   mut next_embedding_seq : UInt
-} derive(Show)
+} derive(@debug.Debug)
 pub fn ConversationHost::append_turn(Self, String, TurnRequest) -> TurnOutcome
 pub fn ConversationHost::create_checkpoint(Self, String, String) -> SabaCheckpoint?
 pub fn ConversationHost::create_hall(Self, String, String) -> SabaHall
@@ -77,19 +78,19 @@ pub fn ConversationHost::timeline(Self, String, UInt, UInt) -> Array[SabaTurn]
 pub(all) struct ConversationIssue {
   code : String
   message : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum ConversationTrack {
   Program
   Git
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) enum DaemonMode {
   Receiver
   Proxy
   PassThrough
   Hybrid
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct DaemonNode {
   node_id : String
@@ -121,19 +122,19 @@ pub(all) enum IngestEnvelope {
   NewsEnvelope(@model.NewsEdition)
   ResonanceEnvelope(@model.AmfDocument)
   RawEnvelope(String, @hash.Hash)
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct LaneBookmark {
   lane : CodecaveLane
   last_read_hash : @hash.Hash?
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct LengthEnvelope {
   input_len_min : UInt
   input_len_max : UInt
   output_len_min : UInt
   output_len_max : UInt
-} derive(Show)
+} derive(@debug.Debug)
 pub fn LengthEnvelope::default() -> Self
 
 pub(all) enum OciDisposition {
@@ -141,13 +142,13 @@ pub(all) enum OciDisposition {
   Forwarded
   Bypassed
   Rejected
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct OciFacility {
   receiver : Bool
   proxy : Bool
   passthrough : Bool
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 pub fn OciFacility::from_mode(DaemonMode) -> Self
 
 pub(all) struct OciPutRequest {
@@ -156,7 +157,7 @@ pub(all) struct OciPutRequest {
   event : @storage.ReplicationEvent
   path : Array[String]
   sealed_epoch : Bool
-} derive(Show)
+} derive(@debug.Debug)
 pub fn OciPutRequest::default(Bytes) -> Self
 
 pub(all) struct OciPutResult {
@@ -164,26 +165,26 @@ pub(all) struct OciPutResult {
   digest : @hash.Hash
   receipt : @storage.ReplicationReceipt?
   reason : String?
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct QuarantineEntry {
   lane : CodecaveLane
   content_hash : @hash.Hash
   reason : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct ReplayOutcome {
   ok : Bool
   replayed_count : UInt
   non_replayable_count : UInt
   issues : Array[ConversationIssue]
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct ReplayRequest {
   from_seq : UInt
   to_seq : UInt?
   length_guard_enforced : Bool
-} derive(Show)
+} derive(@debug.Debug)
 pub fn ReplayRequest::default() -> Self
 
 pub(all) struct SabaCheckpoint {
@@ -191,14 +192,14 @@ pub(all) struct SabaCheckpoint {
   thread_id : String
   turn_seq : UInt
   label : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct SabaHall {
   hall_id : String
   name : String
   policy_profile : String
   created_at_seq : UInt
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct SabaThread {
   thread_id : String
@@ -206,7 +207,7 @@ pub(all) struct SabaThread {
   topic : String
   track : ConversationTrack
   head_checkpoint : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct SabaTurn {
   turn_id : String
@@ -219,7 +220,7 @@ pub(all) struct SabaTurn {
   idempotency_key : String
   non_replayable : Bool
   checkpoint_id : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct ThreadEmbeddingRecord {
   record_id : String
@@ -234,7 +235,7 @@ pub(all) struct ThreadEmbeddingRecord {
   purge_after_turns : UInt
   recorded_turn_seq : UInt
   note : String
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct TurnOutcome {
   accepted : Bool
@@ -243,7 +244,7 @@ pub(all) struct TurnOutcome {
   checkpoint_id : String?
   issues : Array[ConversationIssue]
   canonical_addresses : Array[String]
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct TurnRequest {
   actor_overlay : String
@@ -251,14 +252,14 @@ pub(all) struct TurnRequest {
   content : String
   length_envelope : LengthEnvelope
   idempotency_key : String
-} derive(Show)
+} derive(@debug.Debug)
 pub fn TurnRequest::default(String) -> Self
 
 pub(all) struct VerifiedEntry {
   lane : CodecaveLane
   content_hash : @hash.Hash
   summary : String
-} derive(Show)
+} derive(@debug.Debug)
 
 // Type aliases
 

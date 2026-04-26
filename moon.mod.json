@@ -2,8 +2,12 @@
   "name": "zpc/genius",
   "version": "0.1.0",
   "readme": "README.md",
-  "repository": "",
+  "repository": "https://github.com/zpc-sh/loci",
   "license": "Apache-2.0",
-  "keywords": [],
-  "description": ""
+  "keywords": [
+    "merkle"
+  ],
+  "description": "",
+  "preferred-target": "native",
+  "supported-targets": "+wasm+wasm-gc+js+native"
 }

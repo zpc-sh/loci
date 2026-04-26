@@ -8,10 +8,10 @@ test "FileAppEnvelopeStore put and resolve" {
   ignore(store.put(record))
   match store.resolve("app://mask/test-entry") {
     Some(resolved) => {
-      assert_eq(resolved.protocol, "app/v1")
-      assert_eq(resolved.audience, "genius-loci")
-      assert_eq(resolved.ciphertext_hash, record.ciphertext_hash)
-      assert_eq(resolved.ciphertext.length(), 3)
+      @test.assert_eq(resolved.protocol, "app/v1")
+      @test.assert_eq(resolved.audience, "genius-loci")
+      @test.assert_eq(resolved.ciphertext_hash, record.ciphertext_hash)
+      @test.assert_eq(resolved.ciphertext.length(), 3)
     }
     None => assert_true(false)
   }

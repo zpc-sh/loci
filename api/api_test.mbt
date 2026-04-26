@@ -113,7 +113,7 @@ test "WASM drift commitment is deterministic and peer-sensitive" {
   let c2 = @api.plan_drift_commitment("alpha", "mu:abc,muyata:def")
   let c3 = @api.plan_drift_commitment("alpha", "mu:abc,muyata:zzz")
 
-  assert_eq(c1, c2)
+  @test.assert_eq(c1, c2)
   assert_true(c1 != c3)
   assert_true(string_contains(c1, "blake3:"))
 
@@ -168,8 +168,10 @@ test "Triad ABI status helper and seal stability" {
     "plan_finger_wasm,plan_drift_commitment,triad_contract_wasm",
   )
   let status_missing = @api.triad_abi_status("plan_finger_wasm")
-  assert_eq(status_ok, "ok")
-  assert_eq(status_missing, "missing:plan_drift_commitment,triad_contract_wasm")
+  @test.assert_eq(status_ok, "ok")
+  @test.assert_eq(
+    status_missing, "missing:plan_drift_commitment,triad_contract_wasm",
+  )
 
   @api.reset()
   ignore(@api.tree_ingest("route://alpha/doc", "alpha,doc"))
@@ -189,6 +191,6 @@ test "Triad ABI status helper and seal stability" {
     "main", "main", "plan_finger_wasm,plan_drift_commitment,triad_contract_wasm",
     "2026-04-14T12:00:00Z", "v0.1",
   )
-  assert_eq(c1, c2)
+  @test.assert_eq(c1, c2)
   assert_true(c1 != c3)
 }

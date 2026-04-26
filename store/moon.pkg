@@ -2,3 +2,7 @@ import {
   "zpc/genius/hash" @hash,
   "zpc/genius/model" @model,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"

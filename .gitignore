@@ -1,5 +1,8 @@
-.DS_Store
+target/
+.mooncakes/
 _build/
+.DS_Store
+*.gen.mbt
 dist/
 .mooncakes/
 .moonagent/

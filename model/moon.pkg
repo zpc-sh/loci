@@ -3,3 +3,7 @@ import {
   "zpc/genius/hash" @hash,
   "zpc/genius/scan" @scan,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "test"

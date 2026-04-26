@@ -11,7 +11,7 @@ test "AMF grounded fixture validates" {
 test "AMF signature is deterministic" {
   let a = @model.AmfDocument::grounded("doc-a")
   let b = @model.AmfDocument::grounded("doc-a")
-  assert_eq(a.signature(), b.signature())
+  @test.assert_eq(a.signature(), b.signature())
 }
 
 ///|
@@ -74,11 +74,11 @@ test "Resonance composition enforces max on cognitive scalars" {
   }
   match comp.compose() {
     Ok(merged) => {
-      assert_eq(merged.consciousness.cognitive_load, 0.9)
-      assert_eq(merged.consciousness.arousal, 0.8)
-      assert_eq(merged.consciousness.entrainment_strength, 0.95)
+      @test.assert_eq(merged.consciousness.cognitive_load, 0.9)
+      @test.assert_eq(merged.consciousness.arousal, 0.8)
+      @test.assert_eq(merged.consciousness.entrainment_strength, 0.95)
       // The higher-entrainment document wins consciousness.state.
-      assert_eq(merged.consciousness.state, "hyperfocus")
+      @test.assert_eq(merged.consciousness.state, "hyperfocus")
     }
     _ => assert_true(false)
   }
@@ -105,12 +105,12 @@ test "Resonance composition unions inhibit lists" {
   let comp = @model.ResonanceComposition::{ op: @model.Layer, active: [a, b] }
   match comp.compose() {
     Ok(merged) => {
-      assert_eq(merged.attention.inhibit.length(), 3)
+      @test.assert_eq(merged.attention.inhibit.length(), 3)
       // Order preserved by insertion: urgency, pattern_matching,
       // conclusion_jumping.
-      assert_eq(merged.attention.inhibit[0], "urgency")
-      assert_eq(merged.attention.inhibit[1], "pattern_matching")
-      assert_eq(merged.attention.inhibit[2], "conclusion_jumping")
+      @test.assert_eq(merged.attention.inhibit[0], "urgency")
+      @test.assert_eq(merged.attention.inhibit[1], "pattern_matching")
+      @test.assert_eq(merged.attention.inhibit[2], "conclusion_jumping")
     }
     _ => assert_true(false)
   }
@@ -140,11 +140,11 @@ test "Resonance composition intersects next_recommended prohibitions" {
   match comp.compose() {
     Ok(merged) => {
       // Intersection: only creative is in both.
-      assert_eq(merged.progression.next_recommended.length(), 1)
-      assert_eq(merged.progression.next_recommended[0], "creative")
+      @test.assert_eq(merged.progression.next_recommended.length(), 1)
+      @test.assert_eq(merged.progression.next_recommended[0], "creative")
       // Prohibitions accumulate.
-      assert_eq(merged.progression.do_not_follow_with.length(), 2)
-      assert_eq(merged.progression.minimum_duration, 45U)
+      @test.assert_eq(merged.progression.do_not_follow_with.length(), 2)
+      @test.assert_eq(merged.progression.minimum_duration, 45U)
     }
     _ => assert_true(false)
   }
@@ -196,10 +196,10 @@ test "Fingerprint with resonance signature differs from static fingerprint" {
   let amf = @model.AmfDocument::grounded("doc-ident")
   let resonance_sig = amf.signature()
   let extended = base.with_resonance_signature(resonance_sig)
-  assert_eq(extended.resonance_signature, Some(resonance_sig))
+  @test.assert_eq(extended.resonance_signature, Some(resonance_sig))
   assert_true(extended.fingerprint_id != base.fingerprint_id)
   // Determinism: sealing with the same AMF signature yields the same
   // extended fingerprint.
   let extended2 = base.with_resonance_signature(resonance_sig)
-  assert_eq(extended.fingerprint_id, extended2.fingerprint_id)
+  @test.assert_eq(extended.fingerprint_id, extended2.fingerprint_id)
 }

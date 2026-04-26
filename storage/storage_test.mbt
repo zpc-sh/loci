@@ -44,7 +44,7 @@ fn sample_policy() -> @storage.ReplicationPolicy {
 test "ReplicationPolicy id is deterministic" {
   let p1 = sample_policy()
   let p2 = sample_policy()
-  assert_eq(p1.policy_id, p2.policy_id)
+  @test.assert_eq(p1.policy_id, p2.policy_id)
 }
 
 ///|
@@ -183,7 +183,7 @@ test "UnionStore put/get and idempotent duplicate suppression" {
     queue,
     policy,
   )
-  assert_eq(first.committed_count, 2U)
+  @test.assert_eq(first.committed_count, 2U)
   assert_true(first.quorum_met)
 
   let second = union.put_blob(
@@ -196,7 +196,7 @@ test "UnionStore put/get and idempotent duplicate suppression" {
     queue,
     policy,
   )
-  assert_eq(second.committed_count, 0U)
+  @test.assert_eq(second.committed_count, 0U)
 
   let mut duplicate_count = 0
   for dispatch in second.dispatches {
@@ -204,11 +204,11 @@ test "UnionStore put/get and idempotent duplicate suppression" {
       duplicate_count = duplicate_count + 1
     }
   }
-  assert_eq(duplicate_count, 2)
+  @test.assert_eq(duplicate_count, 2)
 
   assert_true(union.has_blob(first.subject_hash, @storage.Hot, policy))
   match union.get_blob(first.subject_hash, @storage.Hot, policy) {
-    Some(bytes) => assert_eq(bytes, payload)
+    Some(bytes) => @test.assert_eq(bytes, payload)
     None => assert_true(false)
   }
 }
@@ -238,26 +238,26 @@ test "UnionStore respects policy availability gating" {
   )
 
   // local committed, remote skipped by min_availability=Online
-  assert_eq(receipt.committed_count, 1U)
+  @test.assert_eq(receipt.committed_count, 1U)
   let mut skipped_policy = 0
   for dispatch in receipt.dispatches {
     if dispatch.state == @storage.SkippedPolicy {
       skipped_policy = skipped_policy + 1
     }
   }
-  assert_eq(skipped_policy, 1)
+  @test.assert_eq(skipped_policy, 1)
 }
 
 ///|
 test "UnionStore node_count returns correct number of nodes" {
   let union = @storage.UnionStore::new()
-  assert_eq(union.node_count(), 0)
+  @test.assert_eq(union.node_count(), 0)
 
   let local_node = @storage.ArtifactCasNode::new("local-1", @storage.Local)
   union.add_node(local_node.as_store_node())
-  assert_eq(union.node_count(), 1)
+  @test.assert_eq(union.node_count(), 1)
 
   let remote_node = @storage.ArtifactCasNode::new("remote-1", @storage.Remote)
   union.add_node(remote_node.as_store_node())
-  assert_eq(union.node_count(), 2)
+  @test.assert_eq(union.node_count(), 2)
 }

@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "zpc/genius/bloom"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
 
 // Errors
@@ -9,7 +13,7 @@ package "zpc/genius/bloom"
 pub(all) struct BloomSketch {
   bits : FixedArray[Bool]
   num_hashes : Int
-} derive(Show)
+} derive(@debug.Debug)
 pub fn BloomSketch::add(Self, String) -> Unit
 pub fn BloomSketch::maybe_contains(Self, String) -> Bool
 pub fn BloomSketch::merge(Self, Self) -> Self

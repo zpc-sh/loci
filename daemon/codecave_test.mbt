@@ -43,8 +43,8 @@ test "Codecave verifies a clean news edition" {
   let cave = @daemon.Codecave::new(true)
     .offer(@daemon.NewsEnvelope(edition))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 1)
-  assert_eq(cave.quarantine.length(), 0)
+  @test.assert_eq(cave.verified.length(), 1)
+  @test.assert_eq(cave.quarantine.length(), 0)
   let boot = cave.boot_hook()
   match boot.news_edition_hash {
     Some(_) => assert_true(true)
@@ -66,8 +66,8 @@ test "Codecave quarantines tampered content" {
   let cave = @daemon.Codecave::new(true)
     .offer(@daemon.NewsEnvelope(tampered))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 0)
-  assert_eq(cave.quarantine.length(), 1)
+  @test.assert_eq(cave.verified.length(), 0)
+  @test.assert_eq(cave.quarantine.length(), 1)
   assert_true(
     cave.quarantine[0].reason.contains("content:CONTENT_HASH_MISMATCH"),
   )
@@ -80,8 +80,8 @@ test "Codecave requires signature in guarded mode" {
   let cave = @daemon.Codecave::new(true)
     .offer(@daemon.NewsEnvelope(unsigned))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 0)
-  assert_eq(cave.quarantine.length(), 1)
+  @test.assert_eq(cave.verified.length(), 0)
+  @test.assert_eq(cave.quarantine.length(), 1)
   assert_true(cave.quarantine[0].reason.contains("MISSING_SIGNATURE"))
 }
 
@@ -93,8 +93,8 @@ test "Codecave admits unsigned edition in bootstrap mode" {
   let cave = @daemon.Codecave::new(false)
     .offer(@daemon.NewsEnvelope(unsigned))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 1)
-  assert_eq(cave.quarantine.length(), 0)
+  @test.assert_eq(cave.verified.length(), 1)
+  @test.assert_eq(cave.quarantine.length(), 0)
 }
 
 ///|
@@ -126,8 +126,8 @@ test "Codecave quarantines oversized section" {
   let cave = @daemon.Codecave::new(true)
     .offer(@daemon.NewsEnvelope(edition))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 0)
-  assert_eq(cave.quarantine.length(), 1)
+  @test.assert_eq(cave.verified.length(), 0)
+  @test.assert_eq(cave.quarantine.length(), 1)
   assert_true(cave.quarantine[0].reason.contains("SECTION_OVERSIZE"))
 }
 
@@ -137,10 +137,10 @@ test "Codecave ingests a resonance AMF broadcast as ambient" {
   let cave = @daemon.Codecave::new(true)
     .offer(@daemon.ResonanceEnvelope(amf))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 1)
+  @test.assert_eq(cave.verified.length(), 1)
   let boot = cave.boot_hook()
   match boot.resonance_signature {
-    Some(sig) => assert_eq(sig, amf.signature())
+    Some(sig) => @test.assert_eq(sig, amf.signature())
     None => assert_true(false)
   }
   assert_true(boot.resonance_summary.contains("[loci-resonance]"))
@@ -160,8 +160,8 @@ test "Codecave quarantines out-of-range AMF" {
   let cave = @daemon.Codecave::new(true)
     .offer(@daemon.ResonanceEnvelope(bad))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 0)
-  assert_eq(cave.quarantine.length(), 1)
+  @test.assert_eq(cave.verified.length(), 0)
+  @test.assert_eq(cave.quarantine.length(), 1)
   assert_true(cave.quarantine[0].reason.contains("OUT_OF_RANGE"))
 }
 
@@ -173,7 +173,7 @@ test "Codecave routes both lanes independently" {
     .offer(@daemon.NewsEnvelope(edition))
     .offer(@daemon.ResonanceEnvelope(amf))
     .drain_inbox()
-  assert_eq(cave.verified.length(), 2)
+  @test.assert_eq(cave.verified.length(), 2)
   let boot = cave.boot_hook()
   match boot.news_edition_hash {
     Some(_) => assert_true(true)
@@ -192,7 +192,7 @@ test "Codecave quarantines unknown envelope kind" {
       @daemon.RawEnvelope("something.random", @hash.Hash::of_bytes(b"\x99")),
     )
     .drain_inbox()
-  assert_eq(cave.verified.length(), 0)
-  assert_eq(cave.quarantine.length(), 1)
+  @test.assert_eq(cave.verified.length(), 0)
+  @test.assert_eq(cave.quarantine.length(), 1)
   assert_true(cave.quarantine[0].reason.contains("unknown_kind"))
 }

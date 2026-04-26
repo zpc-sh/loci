@@ -7,7 +7,7 @@ pub(all) enum WorkPromiseState {
   STALE
   FRESH
   FAILED
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// WorkPromise: deferred work artifact promise (§4.1).
@@ -21,7 +21,7 @@ pub(all) struct WorkPromise {
   result_hash : @hash.Hash?
   result_envelope_id : @hash.Hash?
   cost_hint : UInt?
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new work promise in ABSENT state.

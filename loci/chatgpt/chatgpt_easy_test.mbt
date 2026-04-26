@@ -1,8 +1,8 @@
 ///|
 test "work cycle begins at form and advances to fruition" {
   let cycle = @chatgpt.WorkCycle::new().advance()
-  assert_eq(cycle.stage, @chatgpt.Fruition)
-  assert_eq(cycle.history, [@chatgpt.Form, @chatgpt.Fruition])
+  @test.assert_eq(cycle.stage, @chatgpt.Fruition)
+  @test.assert_eq(cycle.history, [@chatgpt.Form, @chatgpt.Fruition])
 }
 
 ///|

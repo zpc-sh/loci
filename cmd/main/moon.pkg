@@ -1,5 +1,6 @@
 import {
   "zpc/genius/api" @api,
+  "moonbitlang/core/debug" @debug,
   "moonbitlang/core/env" @env,
   "zpc/genius/daemon" @daemon,
   "zpc/genius/hash" @hash,
@@ -7,6 +8,10 @@ import {
   "zpc/genius/model" @model,
   "zpc/genius/storage" @storage,
 }
+
+import {
+  "moonbitlang/core/test" @test,
+} for "wbtest"
 
 options(
   "is-main": true,

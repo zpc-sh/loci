@@ -3,7 +3,7 @@ test "Artifact from_bytes and verify" {
   let data = b"\x01\x02\x03\x04"
   let art = @model.Artifact::from_bytes(data)
   assert_true(art.verify())
-  assert_eq(art.size_bytes, 4UL)
+  @test.assert_eq(art.size_bytes, 4UL)
 }
 
 ///|
@@ -19,7 +19,7 @@ test "Envelope header encoding arbyte_grin" {
   let hash = @hash.Hash::of_bytes(b"\x01")
   let header = ["a", "b", "c", "d", "e", "f", "g", "h"] // len=8
   let env = @model.Envelope::new(hash, header)
-  assert_eq(env.header_encoding, @model.ArbyteGrin)
+  @test.assert_eq(env.header_encoding, @model.ArbyteGrin)
 }
 
 ///|
@@ -27,7 +27,7 @@ test "Envelope header encoding chain_coda" {
   let hash = @hash.Hash::of_bytes(b"\x01")
   let header = ["a", "b", "c"] // len=3, not 8
   let env = @model.Envelope::new(hash, header)
-  assert_eq(env.header_encoding, @model.ChainCoda)
+  @test.assert_eq(env.header_encoding, @model.ChainCoda)
 }
 
 ///|
@@ -54,7 +54,7 @@ test "Envelope sealed immutability for semantic commit" {
   let env = @model.Envelope::new(hash, ["x"]).seal()
   let after = env.commit_semantic()
   assert_true(after.semantic_hash is None)
-  assert_eq(after.state.freshness, @model.SEALED)
+  @test.assert_eq(after.state.freshness, @model.SEALED)
 }
 
 ///|
@@ -62,11 +62,11 @@ test "Envelope subject_hash fallback" {
   let hash = @hash.Hash::of_bytes(b"\x01")
   let env = @model.Envelope::new(hash, ["x"])
   // No semantic hash => falls back to artifact_hash
-  assert_eq(env.subject_hash(), env.artifact_hash)
+  @test.assert_eq(env.subject_hash(), env.artifact_hash)
   // With semantic hash => uses semantic
   let env2 = env.commit_semantic()
   match env2.semantic_hash {
-    Some(sh) => assert_eq(env2.subject_hash(), sh)
+    Some(sh) => @test.assert_eq(env2.subject_hash(), sh)
     None => ()
   }
 }
@@ -75,12 +75,12 @@ test "Envelope subject_hash fallback" {
 test "Anchor state transitions" {
   let hash = @hash.Hash::of_bytes(b"\x01")
   let a = @model.Anchor::new(hash)
-  assert_eq(a.anchor_state, @model.UNANCHORED)
+  @test.assert_eq(a.anchor_state, @model.UNANCHORED)
   let a2 = a.mark_pending()
-  assert_eq(a2.anchor_state, @model.PENDING)
+  @test.assert_eq(a2.anchor_state, @model.PENDING)
   let root = @hash.Hash::of_bytes(b"\xFF")
   let a3 = a2.mark_anchored(42UL, root)
-  assert_eq(a3.anchor_state, @model.ANCHORED)
+  @test.assert_eq(a3.anchor_state, @model.ANCHORED)
 }
 
 ///|
@@ -92,7 +92,7 @@ test "Anchor optional refs and replication vector" {
     .add_replica("replica-a")
   assert_true(a.mmr_proof_ref is Some(_))
   assert_true(a.temporash_ref is Some(_))
-  assert_eq(a.replication_vector.length(), 1)
+  @test.assert_eq(a.replication_vector.length(), 1)
 }
 
 ///|
@@ -101,7 +101,7 @@ test "Anchor set_time" {
   let a = @model.Anchor::new(hash)
   assert_true(a.anchored_at is None)
   let a2 = a.set_time("2023-10-27T10:00:00Z")
-  assert_eq(a2.anchored_at, Some("2023-10-27T10:00:00Z"))
+  @test.assert_eq(a2.anchored_at, Some("2023-10-27T10:00:00Z"))
 }
 
 ///|
@@ -110,11 +110,11 @@ test "WorkPromise lifecycle" {
   let th = @hash.Hash::of_bytes(b"\x02")
   let ph = @hash.Hash::of_bytes(b"\x03")
   let wp = @model.WorkPromise::new(ih, th, ph)
-  assert_eq(wp.state, @model.ABSENT)
+  @test.assert_eq(wp.state, @model.ABSENT)
   let wp2 = wp.promise()
-  assert_eq(wp2.state, @model.PROMISED)
+  @test.assert_eq(wp2.state, @model.PROMISED)
   let wp3 = wp2.start()
-  assert_eq(wp3.state, @model.RUNNING)
+  @test.assert_eq(wp3.state, @model.RUNNING)
 }
 
 ///|
@@ -139,11 +139,11 @@ test "WorkPromise can be projected into generalized solve ticket" {
   let ticket = promise.to_solve_ticket(
     "repair", "delegate-control", "provider.codex", "compiler bug fix",
   )
-  assert_eq(ticket.solve_id, promise.promise_id)
-  assert_eq(ticket.solve_kind, "repair")
-  assert_eq(ticket.offloaded_to, "delegate-control")
-  assert_eq(ticket.handler, "provider.codex")
-  assert_eq(ticket.status, @model.Running)
+  @test.assert_eq(ticket.solve_id, promise.promise_id)
+  @test.assert_eq(ticket.solve_kind, "repair")
+  @test.assert_eq(ticket.offloaded_to, "delegate-control")
+  @test.assert_eq(ticket.handler, "provider.codex")
+  @test.assert_eq(ticket.status, @model.Running)
 }
 
 ///|
@@ -162,10 +162,10 @@ test "SolveTicket can materialize and verify result linkage" {
     .attach_result(result_hash, result_envelope_id)
     .with_witness("proof://z3/run-1")
     .mark_verified()
-  assert_eq(ticket.status, @model.Verified)
-  assert_eq(ticket.result_hash, Some(result_hash))
-  assert_eq(ticket.result_envelope_id, Some(result_envelope_id))
-  assert_eq(ticket.witness_ref, Some("proof://z3/run-1"))
+  @test.assert_eq(ticket.status, @model.Verified)
+  @test.assert_eq(ticket.result_hash, Some(result_hash))
+  @test.assert_eq(ticket.result_envelope_id, Some(result_envelope_id))
+  @test.assert_eq(ticket.witness_ref, Some("proof://z3/run-1"))
 }
 
 ///|
@@ -181,10 +181,10 @@ test "AI substrate fingerprint v2 can be APP-masked" {
   let masked = fingerprint.mask_with_app(
     "app/v1", "genius-loci", "app://mask/opaque-1", ciphertext_hash,
   )
-  assert_eq(masked.protocol, "app/v1")
-  assert_eq(masked.audience, "genius-loci")
-  assert_eq(masked.ciphertext_ref, "app://mask/opaque-1")
-  assert_eq(masked.ciphertext_hash, ciphertext_hash)
+  @test.assert_eq(masked.protocol, "app/v1")
+  @test.assert_eq(masked.audience, "genius-loci")
+  @test.assert_eq(masked.ciphertext_ref, "app://mask/opaque-1")
+  @test.assert_eq(masked.ciphertext_hash, ciphertext_hash)
   assert_true(masked.masked_commitment != fingerprint.commitment())
 }
 
@@ -199,20 +199,23 @@ test "AI substrate fingerprint exposes the five-tuple identity surface" {
     "issuer://merkin",
   )
   let tuple = base.tuple5()
-  assert_eq(tuple.0, "anthropic")
-  assert_eq(tuple.1, "opus")
-  assert_eq(tuple.2, "claude-code")
-  assert_eq(tuple.3, context_hash)
-  assert_eq(tuple.4, None)
+  @test.assert_eq(tuple.0, "anthropic")
+  @test.assert_eq(tuple.1, "opus")
+  @test.assert_eq(tuple.2, "claude-code")
+  @test.assert_eq(tuple.3, context_hash)
+  @test.assert_eq(tuple.4, None)
   let sealed_fingerprint = base.with_semantics_hash(semantics_hash)
-  assert_eq(sealed_fingerprint.tuple5().4, Some(semantics_hash))
+  @test.assert_eq(sealed_fingerprint.tuple5().4, Some(semantics_hash))
   // Folding semantics_hash must change the fingerprint_id: the 5-tuple
   // identity surface is now locked against a semantic commitment.
   assert_true(sealed_fingerprint.fingerprint_id != base.fingerprint_id)
   // Determinism: re-sealing with the same semantics_hash yields the
   // same fingerprint_id.
   let sealed_again = base.with_semantics_hash(semantics_hash)
-  assert_eq(sealed_fingerprint.fingerprint_id, sealed_again.fingerprint_id)
+  @test.assert_eq(
+    sealed_fingerprint.fingerprint_id,
+    sealed_again.fingerprint_id,
+  )
 }
 
 ///|
@@ -231,8 +234,8 @@ test "Genius procsi attestation derives session identity" {
     ciphertext_hash,
   )
   let session = @model.SessionIdentity::from_genius_attestation(attestation)
-  assert_eq(session.tier, "codex")
-  assert_eq(session.locus, Some("adversary"))
+  @test.assert_eq(session.tier, "codex")
+  @test.assert_eq(session.locus, Some("adversary"))
   assert_true(session.short_id != "")
 }
 
@@ -243,10 +246,10 @@ test "APP envelope record can derive a masked envelope" {
     "app://mask/opaque-3", "app/v1", "genius-loci", b"\x01\x02opaque",
   )
   let masked = record.to_mask_envelope(fingerprint_commitment)
-  assert_eq(masked.protocol, "app/v1")
-  assert_eq(masked.audience, "genius-loci")
-  assert_eq(masked.ciphertext_ref, "app://mask/opaque-3")
-  assert_eq(masked.ciphertext_hash, record.ciphertext_hash)
+  @test.assert_eq(masked.protocol, "app/v1")
+  @test.assert_eq(masked.audience, "genius-loci")
+  @test.assert_eq(masked.ciphertext_ref, "app://mask/opaque-3")
+  @test.assert_eq(masked.ciphertext_hash, record.ciphertext_hash)
 }
 
 ///|
@@ -271,16 +274,16 @@ test "PR1 custom section roundtrips" {
   let bytes = section.emit_pr1_custom_section()
   match @model.ProcsiAttestedSectionV1::parse_pr1_custom_section(bytes) {
     Some(parsed) => {
-      assert_eq(parsed.attestation.project, "zpc/genius")
-      assert_eq(parsed.attestation.ratio_loci, "repo-root")
-      assert_eq(parsed.attestation.session_surface, "codex")
-      assert_eq(parsed.attestation.locus, Some("adversary"))
-      assert_eq(
+      @test.assert_eq(parsed.attestation.project, "zpc/genius")
+      @test.assert_eq(parsed.attestation.ratio_loci, "repo-root")
+      @test.assert_eq(parsed.attestation.session_surface, "codex")
+      @test.assert_eq(parsed.attestation.locus, Some("adversary"))
+      @test.assert_eq(
         parsed.attestation.app_envelope.ciphertext_ref,
         "app://mask/opaque-4",
       )
-      assert_eq(parsed.context_hash, context_hash)
-      assert_eq(parsed.policy_hash, policy_hash)
+      @test.assert_eq(parsed.context_hash, context_hash)
+      @test.assert_eq(parsed.policy_hash, policy_hash)
     }
     None => assert_true(false)
   }

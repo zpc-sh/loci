@@ -4,7 +4,7 @@
 pub(all) struct GaussianField {
   mu : Double // expected relevance / priority
   sigma : Double // uncertainty / volatility
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Create a new GaussianField with default uninformative prior.

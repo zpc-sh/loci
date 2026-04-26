@@ -65,15 +65,15 @@ test "CognitiveContainer export pushes pack blobs including plugins" {
     annotations,
   )
 
-  assert_eq(container.plugin_count(), 2)
-  assert_eq(container.manifest.layer_count(), 7)
+  @test.assert_eq(container.plugin_count(), 2)
+  @test.assert_eq(container.manifest.layer_count(), 7)
 
   let reg = @storage.InMemoryOciRegistry::new()
   let digest = container.push_to_oci(reg, "repo/pack-a", "latest")
-  assert_eq(digest.key(), container.digest().key())
+  @test.assert_eq(digest.key(), container.digest().key())
 
   match reg.resolve_tag("repo/pack-a", "latest") {
-    Some(value) => assert_eq(value, digest.key())
+    Some(value) => @test.assert_eq(value, digest.key())
     None => assert_true(false)
   }
 
@@ -124,7 +124,7 @@ test "Packfile manifest export/import roundtrip via OCI manifest transport" {
   let digest = reg.put_manifest("repo/pack-b", "pack-1", manifest_bytes)
 
   match reg.resolve_tag("repo/pack-b", "pack-1") {
-    Some(value) => assert_eq(value, digest)
+    Some(value) => @test.assert_eq(value, digest)
     None => assert_true(false)
   }
 
@@ -132,26 +132,29 @@ test "Packfile manifest export/import roundtrip via OCI manifest transport" {
     Some(raw) =>
       match @storage.ContainerManifest::from_bytes(bytes_to_array(raw)) {
         Some(parsed) => {
-          assert_eq(parsed.layer_count(), offloaded_manifest.layer_count())
-          assert_eq(parsed.total_size, offloaded_manifest.total_size)
+          @test.assert_eq(
+            parsed.layer_count(),
+            offloaded_manifest.layer_count(),
+          )
+          @test.assert_eq(parsed.total_size, offloaded_manifest.total_size)
           match parsed.annotations.get("finger.plan") {
-            Some(value) => assert_eq(value, "stable")
+            Some(value) => @test.assert_eq(value, "stable")
             None => assert_true(false)
           }
           match parsed.annotations.get("importable") {
-            Some(value) => assert_eq(value, "true")
+            Some(value) => @test.assert_eq(value, "true")
             None => assert_true(false)
           }
           match parsed.annotations.get("solve_kind") {
-            Some(value) => assert_eq(value, "smt")
+            Some(value) => @test.assert_eq(value, "smt")
             None => assert_true(false)
           }
           match parsed.annotations.get("sat_smt_offloaded") {
-            Some(value) => assert_eq(value, "true")
+            Some(value) => @test.assert_eq(value, "true")
             None => assert_true(false)
           }
           match parsed.annotations.get("solve_report_offloaded_to") {
-            Some(value) => assert_eq(value, "mu.local.z3")
+            Some(value) => @test.assert_eq(value, "mu.local.z3")
             None => assert_true(false)
           }
         }
@@ -194,35 +197,38 @@ test "ContainerManifest merge replaces keyed layers and overlays annotations" {
   let right = right3.set_annotation("imported", "true")
 
   let merged = left.merge(right)
-  assert_eq(merged.layer_count(), 3)
-  assert_eq(
+  @test.assert_eq(merged.layer_count(), 3)
+  @test.assert_eq(
     merged.total_size,
     layer_void_v2.size + layer_tree_v1.size + layer_bloom_v1.size,
   )
 
   match find_layer_by_name(merged, "void") {
-    Some(layer) => assert_eq(layer.digest.key(), layer_void_v2.digest.key())
+    Some(layer) =>
+      @test.assert_eq(layer.digest.key(), layer_void_v2.digest.key())
     None => assert_true(false)
   }
   match find_layer_by_name(merged, "tree") {
-    Some(layer) => assert_eq(layer.digest.key(), layer_tree_v1.digest.key())
+    Some(layer) =>
+      @test.assert_eq(layer.digest.key(), layer_tree_v1.digest.key())
     None => assert_true(false)
   }
   match find_layer_by_name(merged, "bloom") {
-    Some(layer) => assert_eq(layer.digest.key(), layer_bloom_v1.digest.key())
+    Some(layer) =>
+      @test.assert_eq(layer.digest.key(), layer_bloom_v1.digest.key())
     None => assert_true(false)
   }
 
   match merged.annotations.get("origin") {
-    Some(value) => assert_eq(value, "left")
+    Some(value) => @test.assert_eq(value, "left")
     None => assert_true(false)
   }
   match merged.annotations.get("shared") {
-    Some(value) => assert_eq(value, "right")
+    Some(value) => @test.assert_eq(value, "right")
     None => assert_true(false)
   }
   match merged.annotations.get("imported") {
-    Some(value) => assert_eq(value, "true")
+    Some(value) => @test.assert_eq(value, "true")
     None => assert_true(false)
   }
 }
@@ -245,8 +251,8 @@ test "ContainerManifest merge keeps same names when media types differ" {
     .add_layer(bloom_unique)
 
   let merged = left.merge(right)
-  assert_eq(merged.layer_count(), 3)
-  assert_eq(
+  @test.assert_eq(merged.layer_count(), 3)
+  @test.assert_eq(
     merged.total_size,
     void_shared.size + tree_shared.size + bloom_unique.size,
   )
@@ -255,21 +261,22 @@ test "ContainerManifest merge keeps same names when media types differ" {
     find_layer_by_media_and_name(
       merged, "application/vnd.merkin.void.v1", "shared",
     ) {
-    Some(layer) => assert_eq(layer.digest.key(), void_shared.digest.key())
+    Some(layer) => @test.assert_eq(layer.digest.key(), void_shared.digest.key())
     None => assert_true(false)
   }
   match
     find_layer_by_media_and_name(
       merged, "application/vnd.merkin.tree.v1", "shared",
     ) {
-    Some(layer) => assert_eq(layer.digest.key(), tree_shared.digest.key())
+    Some(layer) => @test.assert_eq(layer.digest.key(), tree_shared.digest.key())
     None => assert_true(false)
   }
   match
     find_layer_by_media_and_name(
       merged, "application/vnd.merkin.bloom.v1", "bloom",
     ) {
-    Some(layer) => assert_eq(layer.digest.key(), bloom_unique.digest.key())
+    Some(layer) =>
+      @test.assert_eq(layer.digest.key(), bloom_unique.digest.key())
     None => assert_true(false)
   }
 }
@@ -316,15 +323,15 @@ test "ContainerManifest mark_sat_smt_offloaded sets solve metadata" {
     .mark_sat_smt_offloaded("delegate-control")
 
   match manifest.annotations.get("solve_kind") {
-    Some(value) => assert_eq(value, "smt")
+    Some(value) => @test.assert_eq(value, "smt")
     None => assert_true(false)
   }
   match manifest.annotations.get("sat_smt_offloaded") {
-    Some(value) => assert_eq(value, "true")
+    Some(value) => @test.assert_eq(value, "true")
     None => assert_true(false)
   }
   match manifest.annotations.get("solve_report_offloaded_to") {
-    Some(value) => assert_eq(value, "delegate-control")
+    Some(value) => @test.assert_eq(value, "delegate-control")
     None => assert_true(false)
   }
 }

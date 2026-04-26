@@ -13,7 +13,7 @@ pub(all) struct SessionIdentity {
   short_id : String
   /// Current locus name, if entered.
   locus : String?
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a session identity.

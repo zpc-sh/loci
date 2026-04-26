@@ -5,21 +5,21 @@ pub(all) enum Freshness {
   DIRTY
   DEFERRED
   SEALED
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Header encoding discriminated by length (Appendix A).
 pub(all) enum HeaderEncoding {
   ArbyteGrin // len == 8
   ChainCoda // len != 8
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// State attached to an Envelope.
 pub(all) struct EnvelopeState {
   freshness : Freshness
   semantic_committed : Bool
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Envelope: metadata + semantics + execution promises (§1.2).
@@ -36,7 +36,7 @@ pub(all) struct Envelope {
   provenance : String?
   work_refs : Array[@hash.Hash]
   state : EnvelopeState
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Discriminate header encoding by length per Appendix A.

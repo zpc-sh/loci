@@ -164,7 +164,7 @@ test "OciRegistryHttpTransport put/get/has blob" {
   let digest = transport.put_blob(payload)
   assert_true(transport.has_blob(digest))
   match transport.get_blob(digest) {
-    Some(bytes) => assert_eq(bytes, payload)
+    Some(bytes) => @test.assert_eq(bytes, payload)
     None => assert_true(false)
   }
 }
@@ -180,7 +180,7 @@ test "OciRegistryHttpTransport tag operations" {
 
   transport.put_tag("latest", "blake3:abc123")
   match transport.resolve_tag("latest") {
-    Some(d) => assert_eq(d, "blake3:manifest-digest")
+    Some(d) => @test.assert_eq(d, "blake3:manifest-digest")
     None => assert_true(false)
   }
 }

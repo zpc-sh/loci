@@ -7,7 +7,7 @@ pub(all) enum StoreRole {
   Replica
   Archive
   Oci
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Runtime availability signal for each store node.
@@ -15,7 +15,7 @@ pub(all) enum Availability {
   Online
   Degraded
   Offline
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Replication lanes encode priority and durability intent.
@@ -25,7 +25,7 @@ pub(all) enum ReplicationLane {
   Warm
   Cold
   ArchiveLane
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Event triggers that drive replication without cron jobs.
@@ -34,7 +34,7 @@ pub(all) enum ReplicationEvent {
   SealEpoch
   ReadMiss
   PeerHandshake
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Per-target write mode.
@@ -42,7 +42,7 @@ pub(all) enum WriteMode {
   SyncQuorum
   AsyncFanout
   LocalOnly
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// OCI tag strategy for publication.
@@ -50,14 +50,14 @@ pub(all) enum OciTagMode {
   DigestOnly
   EpochTag
   LatestTag
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Tree rule matching mode.
 pub(all) enum TreeMatchMode {
   Prefix
   Exact
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// One replication target and its policy constraints.
@@ -68,7 +68,7 @@ pub(all) struct TargetRule {
   min_availability : Availability
   write_mode : WriteMode
   pull_on_miss : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Backpressure guardrails.
@@ -77,7 +77,7 @@ pub(all) struct BackpressurePolicy {
   max_inflight_bytes : UInt64
   max_pending_ops : UInt64
   max_pending_bytes : UInt64
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn BackpressurePolicy::default() -> BackpressurePolicy {
@@ -96,7 +96,7 @@ pub(all) struct QueueStats {
   inflight_bytes : UInt64
   pending_ops : UInt64
   pending_bytes : UInt64
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn QueueStats::idle() -> QueueStats {
@@ -113,7 +113,7 @@ pub fn QueueStats::idle() -> QueueStats {
 pub(all) struct IdempotencyPolicy {
   scope : String
   include_epoch : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn IdempotencyPolicy::default() -> IdempotencyPolicy {
@@ -127,7 +127,7 @@ pub(all) struct OciPolicy {
   repository : String
   artifact_media_type : String
   tag_mode : OciTagMode
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn OciPolicy::disabled() -> OciPolicy {
@@ -147,7 +147,7 @@ pub(all) struct TreeRule {
   lane : ReplicationLane
   require_sealed_epoch : Bool
   min_replicas : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Content-addressed replication policy root object.
@@ -162,7 +162,7 @@ pub(all) struct ReplicationPolicy {
   oci : OciPolicy
   targets : Array[TargetRule]
   tree_rules : Array[TreeRule]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Construct a deterministic policy object and compute policy_id.
@@ -344,7 +344,7 @@ pub(all) enum IdempotencyState {
   Pending
   Committed
   Failed
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// In-memory idempotency ledger.
@@ -356,7 +356,7 @@ pub(all) struct IdempotencyLedger {
 pub(all) struct IdempotencySnapshot {
   snapshot_id : @hash.Hash
   entries : Array[(String, IdempotencyState)]
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn IdempotencyLedger::new() -> IdempotencyLedger {

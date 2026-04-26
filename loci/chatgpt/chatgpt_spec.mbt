@@ -5,7 +5,7 @@ pub(all) enum ChatgptStage {
   Fruition
   Aperture
   Seal
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Crossing mode for movement beyond this locus.
@@ -13,7 +13,7 @@ pub(all) enum BoundaryMode {
   Local
   Canonical
   PublicMirror
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Minimal crossing record for move-out posture.
@@ -24,14 +24,14 @@ pub(all) struct CrossingRecord {
   intent : String
   mode : BoundaryMode
   seal : String?
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Symbolic cycle state machine with replayable history.
 pub(all) struct WorkCycle {
   stage : ChatgptStage
   history : Array[ChatgptStage]
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Coverage evidence state for contract surfaces.
@@ -42,7 +42,7 @@ pub(all) enum CoverageStatus {
   Exempt
   Unknown
   Partial
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Proof-obligation discharge status.
@@ -54,7 +54,7 @@ pub(all) enum ProofStatus {
   Waived
   Blocked
   Failed
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Operational side-effect posture (e.g. command checks).
@@ -62,7 +62,7 @@ pub(all) enum SideEffectStatus {
   Observed
   BlockedEffect
   NotRequired
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// One formal proof obligation under a contract.
@@ -70,7 +70,7 @@ pub(all) struct ProofObligation {
   obligation_id : String
   required : Bool
   status : ProofStatus
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Contract-level binding to tests, coverage, proof, and side-effects.
@@ -82,7 +82,7 @@ pub(all) struct ContractBinding {
   coverage_status : CoverageStatus
   side_effect_status : SideEffectStatus
   obligations : Array[ProofObligation]
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 #declaration_only

@@ -14,7 +14,7 @@ pub(all) enum ResonanceOp {
   Layer
   Sequence
   Live
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// A resonance composition is an ordered list of AMF documents plus
@@ -22,7 +22,7 @@ pub(all) enum ResonanceOp {
 pub(all) struct ResonanceComposition {
   op : ResonanceOp
   active : Array[AmfDocument]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Progression gate status. `PermittedGate` means the candidate
@@ -36,14 +36,14 @@ pub(all) enum ProgressionGate {
   PermittedGate
   NeutralGate
   VoidGate(String)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Composition errors.
 pub(all) enum CompositionError {
   CompositionEmpty
   CompositionInvalid(AmfError)
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Compose a set of layered AMFs into a single resolved document.

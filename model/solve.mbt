@@ -4,7 +4,7 @@ pub(all) enum SolveMode {
   Accumulate
   Offload
   Execute
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Generalized solve lifecycle status.
@@ -20,7 +20,7 @@ pub(all) enum SolveStatus {
   Verified
   Failed
   Purged
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Execution and replay traits emitted by policy over solve units.
@@ -34,7 +34,7 @@ pub(all) struct SolveTraits {
   may_offload : Bool
   may_parallelize : Bool
   bounded_write_scope : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Routing hints emitted by policy or compiler shaping.
@@ -44,7 +44,7 @@ pub(all) struct SolvePolicyHints {
   preferred_lane : String
   fallback_handler : String
   max_parallelism : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Compact solve ticket that can be carried through replay and offload flows.
@@ -58,7 +58,7 @@ pub(all) struct SolveTicket {
   result_envelope_id : @hash.Hash?
   witness_ref : String?
   detail : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn SolveTraits::new(

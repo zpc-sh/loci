@@ -35,7 +35,7 @@ test "vnni_dot32 with mixed values" {
 
 ///|
 test "vnni_fnv_x8 produces 8 distinct hashes" {
-  let data = Bytes::of_string("merkin-route://alpha/doc")
+  let data = @utf8.encode("merkin-route://alpha/doc")
   let hashes = vnni_fnv_x8(data)
   assert_eq(hashes.length(), 32) // 8 × int32
 
@@ -64,7 +64,7 @@ test "vnni_fnv_x8 produces 8 distinct hashes" {
 
 ///|
 test "vnni_bloom_positions stay within bit_count" {
-  let data = Bytes::of_string("alpha")
+  let data = @utf8.encode("alpha")
   let hashes = vnni_fnv_x8(data)
   let positions = vnni_bloom_positions(hashes, 256)
   assert_eq(positions.length(), 32)

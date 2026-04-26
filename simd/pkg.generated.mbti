@@ -2,6 +2,27 @@
 package "zpc/genius/simd"
 
 // Values
+pub fn ne_bf16_to_f32_even(Bytes, Bytes) -> Unit
+
+pub fn ne_bf16_to_f32_odd(Bytes, Bytes) -> Unit
+
+pub fn ne_broadcast_bf16(Int, Bytes) -> Unit
+
+pub fn simd_caps() -> Int
+
+pub fn simd_has_ne_convert() -> Bool
+
+pub fn simd_has_vnni() -> Bool
+
+pub fn vnni_accumulate(Bytes, Bytes, Int, Bytes) -> Unit
+
+pub fn vnni_bloom_positions(Bytes, Int) -> Bytes
+
+pub fn vnni_dot32(Bytes, Bytes) -> Int
+
+pub fn vnni_dot32_lanes(Bytes, Bytes, Bytes) -> Unit
+
+pub fn vnni_fnv_x8(Bytes) -> Bytes
 
 // Errors
 
