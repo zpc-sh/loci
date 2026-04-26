@@ -1,0 +1,124 @@
+{
+  "kind": "loci.contract_coverage_binding",
+  "version": "v0",
+  "binding_id": "loci.chatgpt.chatgpt_contracts.coverage_binding.v0",
+  "source_arblock": "loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md",
+  "source_plan": "loci/chatgpt/chatgpt-contracts.plan",
+  "coverage_source": {
+    "tool": "moon coverage analyze",
+    "status": "not_imported",
+    "note": "User reports most code is uncovered; structured coverage output has not been imported into this binding yet."
+  },
+  "test_posture": {
+    "moon_test": "user_reported_pass",
+    "just_test": "user_reported_fail",
+    "moon_coverage_analyze": "user_reported_most_code_uncovered"
+  },
+  "surfaces": [
+    {
+      "surface": "loci/chatgpt/*.md",
+      "contract_refs": [
+        "H-root-lineage",
+        "H-typed-hole-primacy",
+        "H-chatgpt-first-runway",
+        "H-locus-membrane",
+        "H-arblock-plan",
+        "H-loci-mountain-range",
+        "H-sll-dockerfile-parity",
+        "H-cross-conversation-primitive",
+        "H-visual-graph-grammar",
+        "H-contract-test-emit-grammar",
+        "H-contract-coverage-proof-binding"
+      ],
+      "coverage_status": "covered",
+      "evidence_ref": "manual-doc-surface-review",
+      "action": "continue converting stable docs into tests and proof obligations"
+    },
+    {
+      "surface": "loci/chatgpt/chatgpt-contracts.plan",
+      "contract_refs": ["H-arblock-plan", "H-typed-hole-primacy"],
+      "coverage_status": "covered",
+      "evidence_ref": "loci/chatgpt/tests/chatgpt-contracts.results.json#test-chatgpt-contracts-plan-shape",
+      "action": "replace manual structural result with parser-backed result when conv/test runner exists"
+    },
+    {
+      "surface": "loci/chatgpt/graphs/chatgpt-contracts.graph.json",
+      "contract_refs": ["H-visual-graph-grammar"],
+      "coverage_status": "covered",
+      "evidence_ref": "loci/chatgpt/tests/chatgpt-contracts.results.json#test-contract-graph-shape",
+      "action": "replace manual structural result with automated graph invariant runner"
+    },
+    {
+      "surface": "loci/chatgpt/graphs/chatgpt-contracts.d3.json",
+      "contract_refs": ["H-visual-graph-grammar"],
+      "coverage_status": "covered",
+      "evidence_ref": "loci/chatgpt/tests/chatgpt-contracts.results.json#test-d3-projection-shape",
+      "action": "replace manual structural result with automated projection invariant runner"
+    },
+    {
+      "surface": "daemon/conversation.mbt",
+      "contract_refs": ["H-cross-conversation-primitive"],
+      "coverage_status": "unknown",
+      "evidence_ref": "pending:moon-coverage-analyze",
+      "action": "import coverage; add tests for ConversationHost-backed conv design primitive"
+    },
+    {
+      "surface": "cmd/main",
+      "contract_refs": ["H-cross-conversation-primitive"],
+      "coverage_status": "unknown",
+      "evidence_ref": "pending:moon-coverage-analyze",
+      "action": "wire or verify daemon conv design command; bind command test to coverage"
+    },
+    {
+      "surface": "model/*yata* / docs/YATA_PLAN_SPEC.md",
+      "contract_refs": ["H-typed-hole-primacy", "H-arblock-plan"],
+      "coverage_status": "unknown",
+      "evidence_ref": "pending:moon-coverage-analyze",
+      "action": "bind focused just test-yata and plan parser tests to typed-hole contracts"
+    },
+    {
+      "surface": "model/boundary_fsm.mbt / boundary docs",
+      "contract_refs": ["H-locus-membrane"],
+      "coverage_status": "unknown",
+      "evidence_ref": "pending:moon-coverage-analyze",
+      "action": "bind membrane/passport tests to BoundaryWalkerFsm::cross coverage"
+    },
+    {
+      "surface": "SLL / Mu build contract surfaces",
+      "contract_refs": ["H-sll-dockerfile-parity"],
+      "coverage_status": "uncovered",
+      "evidence_ref": "contract output missing",
+      "action": "emit SLL_DOCKERFILE_PARITY.md before implementation tests"
+    },
+    {
+      "surface": "Loci Mountain Range / Kyozo OCI profile",
+      "contract_refs": ["H-loci-mountain-range"],
+      "coverage_status": "partial",
+      "evidence_ref": "docs/profile exists but first leaf/root/proof example missing",
+      "action": "emit first LMR leaf/root/proof example and bind schema tests"
+    }
+  ],
+  "coverage_gap_holes": [
+    {
+      "hole_id": "H-coverage-gap-daemon-conversation-cross-conv-v0.2",
+      "surface": "daemon/conversation.mbt",
+      "contract_ref": "H-cross-conversation-primitive",
+      "expected_type": "missing behavior/coverage test",
+      "state": "open"
+    },
+    {
+      "hole_id": "H-coverage-gap-boundary-fsm-membrane-v0.2",
+      "surface": "model/boundary_fsm.mbt",
+      "contract_ref": "H-locus-membrane",
+      "expected_type": "missing membrane/passport coverage binding",
+      "state": "open"
+    },
+    {
+      "hole_id": "H-coverage-gap-lmr-first-leaf-v0.2",
+      "surface": "loci/chatgpt/LOCI_MOUNTAIN_RANGE_PROFILE.md",
+      "contract_ref": "H-loci-mountain-range",
+      "expected_type": "missing first LMR leaf/root/proof schema test",
+      "state": "open"
+    }
+  ]
+}
