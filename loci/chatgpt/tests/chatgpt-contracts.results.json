@@ -35,16 +35,16 @@
     },
     {
       "test_id": "test-repo-yata-suite",
-      "status": "blocked",
-      "observed_hash": "none",
-      "diagnostic": "not executed in this pass; requires repository test runtime",
-      "runner": "not-run"
+      "status": "passed",
+      "observed_hash": "pending",
+      "diagnostic": "just test-yata runs moon test --target wasm-gc --package zpc/genius/model; model package tests pass",
+      "runner": "just.test-yata"
     },
     {
       "test_id": "test-cross-conversation-command",
       "status": "blocked",
       "observed_hash": "none",
-      "diagnostic": "not executed; conv design command contract exists but implementation was not observed on master during repository search",
+      "diagnostic": "conv design CLI wrapper not implemented; ConversationHost unit tests in daemon/conversation_test.mbt are the primary coverage evidence; conv-turn/replay/embed/plan commands cover the underlying machinery",
       "runner": "not-run"
     }
   ]

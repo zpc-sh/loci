@@ -4,6 +4,7 @@ coverage_id: "loci.chatgpt.chatgpt_contracts.coverage.v1.muon"
 source: "moon coverage analyze"
 surfaces: [
   { surface: "cmd/main/main.mbt", contract: "H-cross-conversation-primitive", coverage_status: :unknown, action: "add command test or mark unreachable" }
-  { surface: "daemon/conversation.mbt", contract: "H-cross-conversation-primitive", coverage_status: :unknown, action: "bind replay command checks" }
+  { surface: "daemon/conversation.mbt", contract: "H-cross-conversation-primitive", coverage_status: :covered, evidence_ref: "daemon/conversation_test.mbt", action: "tests added; bind moon coverage analyze output when available" }
+  { surface: "model/boundary_fsm.mbt", contract: "H-locus-membrane", coverage_status: :covered, evidence_ref: "model/boundary_fsm_test.mbt", action: "binding confirmed; tests cover clean/ghost/bidi/crossing paths" }
   { surface: "loci/chatgpt/chatgpt.mbt", contract: "H-contract-coverage-proof-binding", coverage_status: :covered, action: "keep test gate green" }
 ]

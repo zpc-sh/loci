@@ -7,4 +7,5 @@ import {
   "zpc/genius/tree" @tree,
   "zpc/genius/bloom" @bloom,
   "zpc/genius/gaussian" @gaussian,
+  "zpc/genius/loci/chatgpt" @chatgpt,
 }
