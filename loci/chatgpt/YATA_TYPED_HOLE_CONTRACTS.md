@@ -314,6 +314,49 @@ Seal condition:
 BuildRequest + BuildManifest chain can be referenced by arblock
 ```
 
+### H8 — Cross Conversation Primitive
+
+```text
+hole_id: H("cross-conversation-primitive" ++ "loci/chatgpt" ++ "v0.2")
+anchor: loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md
+state: open
+expected_type: daemon conversation primitive contract
+```
+
+Invariants:
+
+- ChatGPT and Codex design discussion should pass through `ConversationHost`, not an ad-hoc side channel.
+- The primitive emits one replayable `.plan` wire for design handoff and audit.
+- The command surface should support `daemon conv design` with `--topic`, `--chatgpt-content`, `--codex-content`, and optional `--design-out`.
+- Terminal output must be sanitized and replay-safe.
+- The primitive should report whether each side was accepted.
+
+Candidate outputs:
+
+- `loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md`
+- `daemon/conversation.mbt` additions if needed
+- `cmd/main` command plumbing for `daemon conv design`
+- tests for accepted/rejected turns and saved plan output
+
+Verification:
+
+- preferred command emits `hall_id`, `thread_id`, and `.plan` wire
+- `--design-out` writes a valid `.plan` file
+- `design_plan_emitted` and `design_plan_saved` are reported truthfully
+
+Move-out target:
+
+```text
+cmd/main + daemon/conversation.mbt for implementation
+loci/chatgpt for profile and dogfood docs
+```
+
+Seal condition:
+
+```text
+first successful `conv design` output becomes an arblock/LMR leaf subject
+```
+
 ## Resolution policy
 
 A hole is resolved when:
