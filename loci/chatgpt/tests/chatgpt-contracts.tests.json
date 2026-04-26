@@ -1,0 +1,107 @@
+{
+  "kind": "loci.contract_test_manifest",
+  "version": "v0",
+  "manifest_id": "loci.chatgpt.chatgpt_contracts.tests.v0",
+  "source_graph": "loci/chatgpt/graphs/chatgpt-contracts.graph.json",
+  "tests": [
+    {
+      "id": "test-contract-graph-shape",
+      "kind": "GraphInvariantTest",
+      "target": "loci/chatgpt/graphs/chatgpt-contracts.graph.json",
+      "oracle": "contract_graph_nodes_edges_shape",
+      "deterministic": true,
+      "lane": "local",
+      "command": null,
+      "timeout_ms": 1000,
+      "checks": [
+        "kind == loci.contract_graph",
+        "nodes array exists",
+        "edges array exists",
+        "node ids unique",
+        "edge ids unique",
+        "each edge source exists",
+        "each edge target exists"
+      ]
+    },
+    {
+      "id": "test-d3-projection-shape",
+      "kind": "GraphInvariantTest",
+      "target": "loci/chatgpt/graphs/chatgpt-contracts.d3.json",
+      "oracle": "d3_nodes_links_shape",
+      "deterministic": true,
+      "lane": "local",
+      "command": null,
+      "timeout_ms": 1000,
+      "checks": [
+        "nodes array exists",
+        "links array exists",
+        "each link source exists as node id",
+        "each link target exists as node id",
+        "no required visual layout fields in semantic identity"
+      ]
+    },
+    {
+      "id": "test-mermaid-projection-present",
+      "kind": "ParseTest",
+      "target": "loci/chatgpt/graphs/chatgpt-contracts.mermaid.md",
+      "oracle": "mermaid_fenced_block_present",
+      "deterministic": true,
+      "lane": "local",
+      "command": null,
+      "timeout_ms": 1000,
+      "checks": [
+        "contains fenced mermaid block",
+        "mentions ChatGPT Contract Arblock",
+        "mentions H9 Visual Graph Grammar"
+      ]
+    },
+    {
+      "id": "test-chatgpt-contracts-plan-shape",
+      "kind": "PlanStrictnessTest",
+      "target": "loci/chatgpt/chatgpt-contracts.plan",
+      "oracle": "yata_plan_required_headers_and_entries",
+      "deterministic": true,
+      "lane": "local",
+      "command": null,
+      "timeout_ms": 1000,
+      "checks": [
+        "kind header exists",
+        "track header exists",
+        "mode header exists",
+        "generator header exists",
+        "material_hash header exists",
+        "entries use parser-compatible token order",
+        "no fabricated procsi/capability concrete refs"
+      ]
+    },
+    {
+      "id": "test-repo-yata-suite",
+      "kind": "CommandCheck",
+      "target": "repository",
+      "oracle": "just_test_yata_exits_zero",
+      "deterministic": false,
+      "lane": "repo",
+      "command": "just test-yata",
+      "timeout_ms": 120000,
+      "checks": [
+        "MoonBit Yata/model tests pass"
+      ]
+    },
+    {
+      "id": "test-cross-conversation-command",
+      "kind": "CommandCheck",
+      "target": "cmd/main",
+      "oracle": "conv_design_emits_plan",
+      "deterministic": false,
+      "lane": "repo",
+      "command": "moon run cmd/main -- daemon conv design --topic fsm-primitive --chatgpt-content propose-policy-primitive --codex-content propose-enforcement-mapping --design-out loci/chatgpt/chatgpt-contracts.plan",
+      "timeout_ms": 120000,
+      "checks": [
+        "emits hall_id",
+        "emits thread_id",
+        "emits design_plan_emitted",
+        "saves design_out when requested"
+      ]
+    }
+  ]
+}
