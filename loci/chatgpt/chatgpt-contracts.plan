@@ -9,7 +9,7 @@ self_report_overlay=chatgpt
 self_report_peer=codex
 self_report_authority=zpc-sh/loci
 self_report_anchor=loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md
-self_report_gap=7
+self_report_gap=8
 self_report_view=arblock
 solve_report=1
 solve_report_kind=synthesize
@@ -37,3 +37,4 @@ capability_report_store_ref=pending
 - H-arblock-plan loci/chatgpt/ARBLOCK_PLAN_PROFILE.md converging ready=true candidates=1 conf_floor=75 selected=arblock-plan-profile provenance=1
 - H-loci-mountain-range loci/chatgpt/LOCI_MOUNTAIN_RANGE_PROFILE.md converging ready=true candidates=1 conf_floor=75 selected=lmr-profile provenance=2
 - H-sll-dockerfile-parity loci/chatgpt/SLL_DOCKERFILE_PARITY.md open ready=false candidates=0 conf_floor=70 selected=none provenance=0
+- H-cross-conversation-primitive loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md open ready=false candidates=1 conf_floor=80 selected=contract-surface provenance=1
