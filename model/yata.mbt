@@ -15,7 +15,12 @@ pub(all) enum YataState {
   Resolved(String)
   /// Hole is intentionally abandoned as impossible or out of scope.
   Abandoned(String)
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for YataState with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// Yata contract describes the type boundary for what this gap is meant to hold.
@@ -28,7 +33,7 @@ pub(all) struct YataContract {
   effect_bounds : Array[String]
   /// Optional minimum confidence threshold (0-100) accepted by consumers.
   min_confidence : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Refinement adds local, composable constraints inside the same abstraction.
@@ -39,7 +44,7 @@ pub(all) struct YataRefinement {
   predicate : String
   /// Relative importance for synthesis ranking.
   weight : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Candidate is a potential synthesis output for a Yata.
@@ -52,7 +57,7 @@ pub(all) struct YataCandidate {
   confidence : UInt
   /// Optional rationale, proof sketch, or external pointer.
   rationale : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Optional witness metadata attached to a resolved Yata.
@@ -63,7 +68,7 @@ pub(all) struct YataWitness {
   proof_token : String
   /// Optional external artifact reference (log hash, proof file, ticket id).
   proof_artifact : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// YataHole is the abstract unresolved semantic slot.
@@ -86,13 +91,13 @@ pub(all) struct YataHole {
   state : YataState
   /// Lightweight provenance tags (`"chatgpt:sha256"`, `"claude:..."`).
   provenance : Array[String]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Lightweight graph view for holes and dependency traversal.
 pub(all) struct YataGraph {
   holes : Array[YataHole]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a contract boundary.

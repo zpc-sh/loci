@@ -4,7 +4,7 @@ pub(all) struct ProcsiAttestedSectionV1 {
   attestation : GeniusProcsiAttestation
   context_hash : @hash.Hash
   policy_hash : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn ProcsiAttestedSectionV1::new(

@@ -2,6 +2,7 @@
 package "zpc/genius/tree"
 
 import {
+  "moonbitlang/core/debug",
   "zpc/genius/bloom",
   "zpc/genius/gaussian",
   "zpc/genius/hash",
@@ -17,7 +18,7 @@ pub fn diff_trees(MerkinTree, MerkinTree) -> TreeDiff
 // Types and methods
 pub(all) struct EnvelopeRef {
   envelope_id : @hash.Hash
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct MerkinNode {
   node_id : @hash.Hash
@@ -29,7 +30,7 @@ pub(all) struct MerkinNode {
   state : NodeState
   envelope_refs : Array[EnvelopeRef]
   work_queue_refs : Array[WorkPromiseRef]
-} derive(Show)
+} derive(@debug.Debug)
 pub fn MerkinNode::add_child(Self, @hash.Hash) -> Self
 pub fn MerkinNode::attach_envelope(Self, @hash.Hash, Array[String]) -> Self
 pub fn MerkinNode::enqueue_work(Self, @hash.Hash) -> Self
@@ -55,19 +56,20 @@ pub fn MerkinTree::upsert_node(Self, MerkinNode) -> Unit
 
 pub(all) struct NodeRef {
   node_id : @hash.Hash
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) enum NodeState {
   FRESH
   DIRTY
   DEFERRED
   SEALED
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
+pub impl Show for NodeState
 
 pub(all) struct SparseMerkinTree {
   root_key : String?
   nodes : Map[String, MerkinNode]
-} derive(Show)
+} derive(@debug.Debug)
 pub fn SparseMerkinTree::get_node(Self, @hash.Hash) -> MerkinNode?
 pub fn SparseMerkinTree::has_node(Self, @hash.Hash) -> Bool
 pub fn SparseMerkinTree::node_count(Self) -> Int
@@ -78,12 +80,13 @@ pub(all) struct TreeDiff {
   removed : Array[String]
   changed : Array[String]
   unchanged : UInt
-} derive(Show)
+} derive(@debug.Debug)
 pub fn TreeDiff::is_empty(Self) -> Bool
+pub impl Show for TreeDiff
 
 pub(all) struct WorkPromiseRef {
   promise_id : @hash.Hash
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 // Type aliases
 

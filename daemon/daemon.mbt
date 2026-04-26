@@ -5,7 +5,12 @@ pub(all) enum DaemonMode {
   Proxy
   PassThrough
   Hybrid
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for DaemonMode with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// OCI facility toggles for one node.
@@ -13,7 +18,12 @@ pub(all) struct OciFacility {
   receiver : Bool
   proxy : Bool
   passthrough : Bool
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for OciFacility with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 pub fn OciFacility::from_mode(mode : DaemonMode) -> OciFacility {
@@ -32,7 +42,17 @@ pub(all) enum OciDisposition {
   Forwarded
   Bypassed
   Rejected
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for OciDisposition with output(self, logger) {
+  match self {
+    Stored => logger.write_string("Stored")
+    Forwarded => logger.write_string("Forwarded")
+    Bypassed => logger.write_string("Bypassed")
+    Rejected => logger.write_string("Rejected")
+  }
+}
 
 ///|
 pub(all) struct OciPutRequest {
@@ -41,7 +61,7 @@ pub(all) struct OciPutRequest {
   event : @storage.ReplicationEvent
   path : Array[String]
   sealed_epoch : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn OciPutRequest::default(payload : Bytes) -> OciPutRequest {
@@ -60,7 +80,7 @@ pub(all) struct OciPutResult {
   digest : @hash.Hash
   receipt : @storage.ReplicationReceipt?
   reason : String?
-} derive(Show)
+} derive(Debug)
 
 ///|
 fn root_node_hash() -> @hash.Hash {

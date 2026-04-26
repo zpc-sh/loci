@@ -5,25 +5,30 @@ pub(all) enum NodeState {
   DIRTY
   DEFERRED
   SEALED
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for NodeState with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// NodeRef: reference to a child node.
 pub(all) struct NodeRef {
   node_id : @hash.Hash
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// EnvelopeRef: reference to an envelope under this node.
 pub(all) struct EnvelopeRef {
   envelope_id : @hash.Hash
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// WorkPromiseRef: queued work attached to this node.
 pub(all) struct WorkPromiseRef {
   promise_id : @hash.Hash
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// MerkinNode: the core tree node header (§3.1).
@@ -37,7 +42,7 @@ pub(all) struct MerkinNode {
   state : NodeState
   envelope_refs : Array[EnvelopeRef]
   work_queue_refs : Array[WorkPromiseRef]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new empty leaf node.

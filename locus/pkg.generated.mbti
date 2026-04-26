@@ -2,6 +2,7 @@
 package "zpc/genius/locus"
 
 import {
+  "moonbitlang/core/debug",
   "zpc/genius/model",
 }
 
@@ -20,13 +21,13 @@ pub fn format_where(Array[(String, @model.Residue?)]) -> String
 pub(all) struct LocusConfig {
   loci_root : String
   store_path : String
-} derive(Show)
+} derive(@debug.Debug)
 pub fn LocusConfig::default() -> Self
 
 pub(all) struct LocusRuntime {
   config : LocusConfig
   session : @model.SessionIdentity
-} derive(Show)
+} derive(@debug.Debug)
 pub fn LocusRuntime::default(@model.SessionIdentity) -> Self
 pub fn LocusRuntime::locus_path(Self, String) -> String
 pub fn LocusRuntime::new(LocusConfig, @model.SessionIdentity) -> Self

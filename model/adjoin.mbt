@@ -18,7 +18,12 @@ pub(all) enum AdjoinOp {
   Atop
   Subtract
   YataUnion
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for AdjoinOp with output(self, logger) {
+  logger.write_string(adjoin_op_tag(self))
+}
 
 ///|
 /// Typed expectation attached to a typed-void Yata locus.
@@ -29,7 +34,12 @@ pub(all) enum YataExpectedType {
   Resolution
   YataAudit
   YataSynthesis
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for YataExpectedType with output(self, logger) {
+  logger.write_string(yata_expected_type_tag(self))
+}
 
 ///|
 /// Concrete locus reference — a leaf in the adjoin expression tree.
@@ -38,7 +48,7 @@ pub(all) struct LocusRef {
   surface_ref : String
   profile_ref : String
   seal : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Typed-void Yata locus reference. A Yata locus is intentionally
@@ -50,7 +60,7 @@ pub(all) struct YataLocusRef {
   void_typed : Bool
   min_confidence : UInt
   seal : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// A recursive adjoin expression. Op nodes compose two subtrees
@@ -61,7 +71,7 @@ pub(all) enum AdjoinExpr {
   Op(AdjoinOp, AdjoinExpr, AdjoinExpr, Array[(String, String)])
   LocusLeaf(LocusRef)
   VoidLeaf(YataLocusRef)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Top-level adjoin contract envelope.
@@ -74,7 +84,7 @@ pub(all) struct AdjoinContract {
   required_surfaces : Array[String]
   boundary_mode : BoundaryMode
   seal : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Validation errors per `LOCUS_ADJOIN_CONTRACT_v0.1`.
@@ -91,7 +101,12 @@ pub(all) enum AdjoinError {
   AdjoinUnsafeBoundaryMode
   AdjoinMissingContractId
   AdjoinEmptyRequiredSurfaces
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for AdjoinError with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// Canonical kind tag.

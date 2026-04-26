@@ -28,7 +28,7 @@ pub(all) struct AiSubstrateFingerprintV2 {
   semantics_hash : @hash.Hash?
   resonance_signature : @hash.Hash?
   issuer : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// APP-protected presentation of an AI substrate fingerprint.
@@ -39,7 +39,7 @@ pub(all) struct AppMaskEnvelope {
   ciphertext_ref : String
   ciphertext_hash : @hash.Hash
   masked_commitment : @hash.Hash
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Concrete APP envelope record stored in a registry or repository-local store.
@@ -50,7 +50,7 @@ pub(all) struct AppEnvelopeRecord {
   audience : String
   ciphertext_hash : @hash.Hash
   ciphertext : Bytes
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Procsi attestation used by Genius Loci entrypoints.
@@ -62,7 +62,7 @@ pub(all) struct GeniusProcsiAttestation {
   session_surface : String
   fingerprint_commitment : @hash.Hash
   app_envelope : AppMaskEnvelope
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn AiSubstrateFingerprintV2::new(

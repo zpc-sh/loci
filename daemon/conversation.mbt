@@ -3,7 +3,7 @@
 pub(all) enum ConversationTrack {
   Program
   Git
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Actor role within one conversational turn.
@@ -11,7 +11,7 @@ pub(all) enum ConversationActorRole {
   Ai
   Human
   System
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Embedding action for runtime handling in conversational flows.
@@ -19,7 +19,7 @@ pub(all) enum ConversationEmbeddingAction {
   Observe
   FlipAot
   Purge
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// Length envelope used for ingress/egress replay guards.
@@ -28,7 +28,7 @@ pub(all) struct LengthEnvelope {
   input_len_max : UInt
   output_len_min : UInt
   output_len_max : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn LengthEnvelope::default() -> LengthEnvelope {
@@ -45,7 +45,7 @@ pub fn LengthEnvelope::default() -> LengthEnvelope {
 pub(all) struct ConversationIssue {
   code : String
   message : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct SabaHall {
@@ -53,7 +53,7 @@ pub(all) struct SabaHall {
   name : String
   policy_profile : String
   created_at_seq : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct SabaThread {
@@ -62,7 +62,7 @@ pub(all) struct SabaThread {
   topic : String
   track : ConversationTrack
   head_checkpoint : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct SabaTurn {
@@ -76,7 +76,7 @@ pub(all) struct SabaTurn {
   idempotency_key : String
   non_replayable : Bool
   checkpoint_id : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct SabaCheckpoint {
@@ -84,7 +84,7 @@ pub(all) struct SabaCheckpoint {
   thread_id : String
   turn_seq : UInt
   label : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Compact per-file embedding annotation attached to a thread timeline.
@@ -101,7 +101,7 @@ pub(all) struct ThreadEmbeddingRecord {
   purge_after_turns : UInt
   recorded_turn_seq : UInt
   note : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct TurnRequest {
@@ -110,7 +110,7 @@ pub(all) struct TurnRequest {
   content : String
   length_envelope : LengthEnvelope
   idempotency_key : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn TurnRequest::default(content : String) -> TurnRequest {
@@ -131,14 +131,14 @@ pub(all) struct TurnOutcome {
   checkpoint_id : String?
   issues : Array[ConversationIssue]
   canonical_addresses : Array[String]
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct ReplayRequest {
   from_seq : UInt
   to_seq : UInt?
   length_guard_enforced : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn ReplayRequest::default() -> ReplayRequest {
@@ -151,7 +151,7 @@ pub(all) struct ReplayOutcome {
   replayed_count : UInt
   non_replayable_count : UInt
   issues : Array[ConversationIssue]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// In-memory conversation host scaffold for Saba/Pactis.
@@ -166,7 +166,7 @@ pub(all) struct ConversationHost {
   mut next_turn_seq : UInt
   mut next_checkpoint_seq : UInt
   mut next_embedding_seq : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn ConversationHost::new() -> ConversationHost {

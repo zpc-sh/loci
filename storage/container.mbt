@@ -72,7 +72,7 @@ pub(all) struct LayerDescriptor {
   digest : @hash.Hash
   size : Int
   name : String // human label (e.g., "void", "bloom", plugin name)
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn LayerDescriptor::new(
@@ -97,7 +97,7 @@ pub(all) struct PluginLayer {
   wasm_bytes : Bytes
   procsi : Bytes // extracted .prc/.pr1 section bytes (may be empty)
   mks_state : Bytes? // optional .mks solve cursor bytes
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn PluginLayer::new(name : String, wasm_bytes : Bytes) -> PluginLayer {
@@ -135,7 +135,7 @@ pub(all) struct ContainerManifest {
   layers : Array[LayerDescriptor]
   annotations : Map[String, String] // key/value metadata (includes finger.plan summary)
   total_size : Int // sum of all layer sizes
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn ContainerManifest::new() -> ContainerManifest {
@@ -258,7 +258,7 @@ pub(all) struct CognitiveContainer {
   plugin_layers : Array[PluginLayer] // plugin wasms
   procsi_layer : Bytes // node-level .pr1 attestation
   config_layer : Bytes // MUON config bytes
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Build a cognitive container from individual state components.

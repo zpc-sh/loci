@@ -4,7 +4,7 @@ pub(all) enum EmbeddingAction {
   Observe
   FlipAot
   Purge
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// One detector hit over an arbitrary file payload.
@@ -14,7 +14,7 @@ pub(all) struct EmbeddingFinding {
   offset_start : UInt
   offset_end : UInt
   confidence : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// File-level embedding metadata surface.
@@ -29,7 +29,7 @@ pub(all) struct EmbeddingMetadata {
   ephemeral : Bool
   purge_after_turns : UInt
   note : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn EmbeddingMetadata::new(

@@ -6,14 +6,24 @@
 pub(all) enum HashAlg {
   Fnv1a
   Blake3
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for HashAlg with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// Content-addressed hash: algorithm tag + raw digest bytes.
 pub(all) struct Hash {
   alg : HashAlg
   digest : Bytes
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for Hash with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// Create a Hash by computing a blake3-shaped digest over the input bytes.

@@ -4,7 +4,20 @@ pub(all) struct TreeDiff {
   removed : Array[String]
   changed : Array[String]
   unchanged : UInt
-} derive(Show)
+} derive(Debug)
+
+///|
+pub impl Show for TreeDiff with output(self, logger) {
+  logger.write_string("TreeDiff{added=")
+  logger.write_object(self.added)
+  logger.write_string(", removed=")
+  logger.write_object(self.removed)
+  logger.write_string(", changed=")
+  logger.write_object(self.changed)
+  logger.write_string(", unchanged=")
+  logger.write_string(self.unchanged.to_string())
+  logger.write_string("}")
+}
 
 ///|
 pub fn TreeDiff::is_empty(self : TreeDiff) -> Bool {

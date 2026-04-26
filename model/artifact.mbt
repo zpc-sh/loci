@@ -3,7 +3,7 @@
 /// v0 only supports inline storage; future: S3, IPFS, etc.
 pub(all) enum PayloadRef {
   Inline(Bytes)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Artifact: content-addressed immutable bytes (§1.1).
@@ -13,7 +13,7 @@ pub(all) struct Artifact {
   size_bytes : UInt64
   mime : String?
   payload_ref : PayloadRef
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create an Artifact from raw bytes.

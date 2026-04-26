@@ -96,7 +96,7 @@ pub(all) enum DispatchState {
   SkippedTree
   SkippedPolicy
   SkippedBackpressure
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 pub(all) struct DispatchResult {
@@ -104,7 +104,7 @@ pub(all) struct DispatchResult {
   state : DispatchState
   op_key : @hash.Hash?
   digest : @hash.Hash?
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct ReplicationReceipt {
@@ -114,7 +114,7 @@ pub(all) struct ReplicationReceipt {
   committed_count : UInt
   quorum_met : Bool
   dispatches : Array[DispatchResult]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Composable union store over heterogeneous store nodes.

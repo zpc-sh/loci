@@ -3,7 +3,7 @@
 pub(all) struct SparseMerkinTree {
   root_key : String?
   nodes : Map[String, MerkinNode]
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn SparseMerkinTree::node_count(self : SparseMerkinTree) -> Int {

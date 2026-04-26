@@ -2,6 +2,7 @@
 package "zpc/genius/storage"
 
 import {
+  "moonbitlang/core/debug",
   "zpc/genius/hash",
   "zpc/genius/model",
   "zpc/genius/store",
@@ -33,14 +34,14 @@ pub(all) enum Availability {
   Online
   Degraded
   Offline
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct BackpressurePolicy {
   max_inflight_ops : UInt64
   max_inflight_bytes : UInt64
   max_pending_ops : UInt64
   max_pending_bytes : UInt64
-} derive(Show)
+} derive(@debug.Debug)
 pub fn BackpressurePolicy::default() -> Self
 
 pub(all) struct CognitiveContainer {
@@ -51,7 +52,7 @@ pub(all) struct CognitiveContainer {
   plugin_layers : Array[PluginLayer]
   procsi_layer : Bytes
   config_layer : Bytes
-} derive(Show)
+} derive(@debug.Debug)
 pub fn CognitiveContainer::digest(Self) -> @hash.Hash
 pub fn CognitiveContainer::pack(Bytes, Bytes, Bytes, Array[PluginLayer], Bytes, Bytes, Map[String, String]) -> Self
 pub fn CognitiveContainer::plugin_count(Self) -> Int
@@ -63,7 +64,7 @@ pub(all) struct ContainerManifest {
   layers : Array[LayerDescriptor]
   annotations : Map[String, String]
   total_size : Int
-} derive(Show)
+} derive(@debug.Debug)
 pub fn ContainerManifest::add_layer(Self, LayerDescriptor) -> Self
 pub fn ContainerManifest::from_bytes(Array[Byte]) -> Self?
 pub fn ContainerManifest::layer_count(Self) -> Int
@@ -78,7 +79,7 @@ pub(all) struct DispatchResult {
   state : DispatchState
   op_key : @hash.Hash?
   digest : @hash.Hash?
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum DispatchState {
   Committed
@@ -86,7 +87,7 @@ pub(all) enum DispatchState {
   SkippedTree
   SkippedPolicy
   SkippedBackpressure
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct FileAppEnvelopeStore {
   root : String
@@ -114,13 +115,13 @@ pub(all) struct HttpRequest {
   url : String
   headers : Map[String, String]
   body : Bytes?
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct HttpResponse {
   status : UInt
   headers : Map[String, String]
   body : Bytes?
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct IdempotencyLedger {
   states : Map[String, IdempotencyState]
@@ -137,19 +138,19 @@ pub fn IdempotencyLedger::state(Self, @hash.Hash) -> IdempotencyState?
 pub(all) struct IdempotencyPolicy {
   scope : String
   include_epoch : Bool
-} derive(Show)
+} derive(@debug.Debug)
 pub fn IdempotencyPolicy::default() -> Self
 
 pub(all) struct IdempotencySnapshot {
   snapshot_id : @hash.Hash
   entries : Array[(String, IdempotencyState)]
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum IdempotencyState {
   Pending
   Committed
   Failed
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct InMemoryOciRegistry {
   blobs : Map[String, Bytes]
@@ -170,7 +171,7 @@ pub(all) struct LayerDescriptor {
   digest : @hash.Hash
   size : Int
   name : String
-} derive(Show)
+} derive(@debug.Debug)
 pub fn LayerDescriptor::new(String, Bytes, String) -> Self
 
 pub(all) struct OciCasNode {
@@ -211,7 +212,7 @@ pub(all) struct OciPolicy {
   repository : String
   artifact_media_type : String
   tag_mode : OciTagMode
-} derive(Show)
+} derive(@debug.Debug)
 pub fn OciPolicy::disabled() -> Self
 
 pub(all) struct OciRegistryHttpTransport {
@@ -231,7 +232,7 @@ pub(all) enum OciTagMode {
   DigestOnly
   EpochTag
   LatestTag
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct PluginLayer {
   name : String
@@ -240,7 +241,7 @@ pub(all) struct PluginLayer {
   wasm_bytes : Bytes
   procsi : Bytes
   mks_state : Bytes?
-} derive(Show)
+} derive(@debug.Debug)
 pub fn PluginLayer::new(String, Bytes) -> Self
 pub fn PluginLayer::with_mks(Self, Bytes) -> Self
 pub fn PluginLayer::with_procsi(Self, Bytes) -> Self
@@ -253,26 +254,27 @@ pub(all) struct QueueItem {
   digest : @hash.Hash
   size_bytes : UInt64
   state : QueueItemState
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum QueueItemState {
   Pending
   InFlight
   Done
   Failed
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
+pub impl Show for QueueItemState
 
 pub(all) struct QueueSnapshot {
   snapshot_id : @hash.Hash
   items : Array[QueueItem]
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct QueueStats {
   inflight_ops : UInt64
   inflight_bytes : UInt64
   pending_ops : UInt64
   pending_bytes : UInt64
-} derive(Show)
+} derive(@debug.Debug)
 pub fn QueueStats::idle() -> Self
 
 pub(all) enum ReplicationEvent {
@@ -280,7 +282,7 @@ pub(all) enum ReplicationEvent {
   SealEpoch
   ReadMiss
   PeerHandshake
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) enum ReplicationLane {
   Critical
@@ -288,7 +290,7 @@ pub(all) enum ReplicationLane {
   Warm
   Cold
   ArchiveLane
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct ReplicationPolicy {
   policy_id : @hash.Hash
@@ -301,7 +303,7 @@ pub(all) struct ReplicationPolicy {
   oci : OciPolicy
   targets : Array[TargetRule]
   tree_rules : Array[TreeRule]
-} derive(Show)
+} derive(@debug.Debug)
 pub fn ReplicationPolicy::allow_dispatch(Self, ReplicationLane, QueueStats) -> Bool
 pub fn ReplicationPolicy::allows_target(Self, String, StoreRole, ReplicationLane, Availability) -> Bool
 pub fn ReplicationPolicy::draft_v1(UInt64, Array[TargetRule], tree_rules? : Array[TreeRule]) -> Self
@@ -328,7 +330,7 @@ pub(all) struct ReplicationReceipt {
   committed_count : UInt
   quorum_met : Bool
   dispatches : Array[DispatchResult]
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum StoreRole {
   Local
@@ -337,7 +339,7 @@ pub(all) enum StoreRole {
   Replica
   Archive
   Oci
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct TargetRule {
   target_id : String
@@ -346,12 +348,12 @@ pub(all) struct TargetRule {
   min_availability : Availability
   write_mode : WriteMode
   pull_on_miss : Bool
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) enum TreeMatchMode {
   Prefix
   Exact
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 pub(all) struct TreeRule {
   path : Array[String]
@@ -359,7 +361,7 @@ pub(all) struct TreeRule {
   lane : ReplicationLane
   require_sealed_epoch : Bool
   min_replicas : UInt
-} derive(Show)
+} derive(@debug.Debug)
 
 pub(all) struct UnionStore {
   nodes : Array[&StoreNode]
@@ -378,7 +380,7 @@ pub(all) enum WriteMode {
   SyncQuorum
   AsyncFanout
   LocalOnly
-} derive(Eq, Show)
+} derive(Eq, @debug.Debug)
 
 // Type aliases
 

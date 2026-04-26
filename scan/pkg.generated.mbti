@@ -1,27 +1,37 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "zpc/genius/scan"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
+pub fn count_by_kind(Array[ScanFinding], ScanKind) -> Int
+
+pub fn has_hostile(Array[ScanFinding]) -> Bool
+
+pub fn hostile_only(Array[ScanFinding]) -> Array[ScanFinding]
+
+pub fn is_clean(Bytes) -> Bool
+
+pub fn scan_bytes(Bytes) -> Array[ScanFinding]
 
 // Errors
 
 // Types and methods
+pub(all) struct ScanFinding {
+  kind : ScanKind
+  offset : Int
+  context : Bytes
+} derive(@debug.Debug)
+
 pub(all) enum ScanKind {
   Bidi
   Zwsp
   Ansi
   MissingTrailingNewline
-} derive(Eq, Show)
-pub(all) struct ScanFinding {
-  kind : ScanKind
-  offset : Int
-  context : Bytes
-} derive(Show)
-pub fn count_by_kind(Array[ScanFinding], ScanKind) -> Int
-pub fn has_hostile(Array[ScanFinding]) -> Bool
-pub fn hostile_only(Array[ScanFinding]) -> Array[ScanFinding]
-pub fn is_clean(Bytes) -> Bool
-pub fn scan_bytes(Bytes) -> Array[ScanFinding]
+} derive(Eq, @debug.Debug)
+pub impl Show for ScanKind
 
 // Type aliases
 

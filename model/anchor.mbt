@@ -5,7 +5,12 @@ pub(all) enum AnchorState {
   PENDING
   ANCHORED
   FAILED
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for AnchorState with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// Anchor: existence proof + optional time imprint (§1.3).
@@ -19,7 +24,7 @@ pub(all) struct Anchor {
   temporash_ref : String?
   anchored_at : String? // RFC3339 timestamp, optional/lazy
   replication_vector : Array[String]
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new unanchored Anchor from a subject hash.

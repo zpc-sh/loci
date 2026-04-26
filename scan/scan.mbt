@@ -23,7 +23,12 @@ pub(all) enum ScanKind {
   /// Causes adjacent file content to merge in AI context windows when files
   /// are read sequentially, erasing package/module scope boundaries silently.
   MissingTrailingNewline
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for ScanKind with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// A single hostile byte sequence found by scan_bytes.
@@ -34,7 +39,7 @@ pub(all) struct ScanFinding {
   offset : Int
   /// Up to 16 bytes of surrounding context (8 before, pattern, 8 after).
   context : Bytes
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Scan raw bytes for all known hostile byte patterns.

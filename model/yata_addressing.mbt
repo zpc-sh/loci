@@ -6,7 +6,7 @@ pub(all) struct YataAddressHint {
   mode : String
   gap : UInt
   view : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Human-sized address view for protocol export.
@@ -25,7 +25,7 @@ pub(all) struct YataAddress {
   gap : UInt
   track : YataTrack
   view : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Address parser diagnostics.
@@ -34,7 +34,7 @@ pub(all) struct YataAddressParseIssue {
   line : Int
   code : String
   message : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Strict parse outcome.
@@ -42,14 +42,14 @@ pub(all) struct YataAddressParseOutcome {
   address : YataAddress?
   issues : Array[YataAddressParseIssue]
   ok : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Relative parsing context.
 pub(all) struct YataAddressContext {
   authority : String
   anchor : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Render a hole as a cognitive URI from the active perspective.

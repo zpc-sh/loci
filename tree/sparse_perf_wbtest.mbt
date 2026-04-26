@@ -6,7 +6,7 @@ fn build_deep_tree(depth : Int) -> MerkinTree {
 
   let mut parent_id = root
   for i = 0; i < depth; i = i + 1 {
-    let child_seed = i.to_string().to_bytes()
+    let child_seed = to_bytes(i.to_string())
     let child_id = @hash.Hash::of_bytes(child_seed)
     let env_id = @hash.Hash::of_bytes(b"env")
     let child_node = MerkinNode::leaf(child_id).attach_envelope(env_id, [
@@ -17,6 +17,25 @@ fn build_deep_tree(depth : Int) -> MerkinTree {
     parent_id = child_id
   }
   tree
+}
+
+///|
+fn to_bytes(s : String) -> Bytes {
+  let mut total = 0
+  for _ch in s {
+    total = total + 4
+  }
+  let buf = FixedArray::make(total, b"\x00"[0])
+  let mut pos = 0
+  for ch in s {
+    let code = ch.to_uint()
+    buf[pos] = ((code >> 24) & 0xFFU).to_byte()
+    buf[pos + 1] = ((code >> 16) & 0xFFU).to_byte()
+    buf[pos + 2] = ((code >> 8) & 0xFFU).to_byte()
+    buf[pos + 3] = (code & 0xFFU).to_byte()
+    pos = pos + 4
+  }
+  Bytes::from_array(buf)
 }
 
 ///|

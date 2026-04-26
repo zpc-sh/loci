@@ -5,14 +5,14 @@ pub(all) struct HttpRequest {
   url : String
   headers : Map[String, String]
   body : Bytes?
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub(all) struct HttpResponse {
   status : UInt
   headers : Map[String, String]
   body : Bytes?
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Pluggable round-tripper so runtime can use real HTTP implementation later.

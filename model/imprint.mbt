@@ -9,7 +9,12 @@ pub(all) enum MirageMode {
   Temporal
   /// Surface only plus contract graph for defense-side inspection.
   Defense
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for MirageMode with output(self, logger) {
+  logger.write_string(self.to_string())
+}
 
 ///|
 /// Universal imprint source classes.
@@ -19,7 +24,12 @@ pub(all) enum ImprintKind {
   Artifact
   Envelope
   Unknown
-} derive(Eq, Show)
+} derive(Eq, Debug)
+
+///|
+pub impl Show for ImprintKind with output(self, logger) {
+  logger.write_object(self)
+}
 
 ///|
 /// Source-neutral imprint that can be lifted from any subsystem.
@@ -44,7 +54,7 @@ pub(all) struct Imprint {
   mode : MirageMode
   /// Deterministic confidence proxy used by callers.
   confidence : UInt
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Read-only, surface-only representation of an imprint.
@@ -71,7 +81,7 @@ pub(all) struct Mirage {
   confidence : UInt
   /// Always false for content fields because this is intentionally hollow.
   has_private_payload : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Lift a router-like object into a universal imprint.
