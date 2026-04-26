@@ -72,10 +72,44 @@ test-wasm:
 test-simd:
     moon test --target native --package zpc/genius/simd
 
-# Focused Yata verification suite
+# Pure logic core suite (model, hash, tree)
 [group('test')]
-test-yata:
+test-core: test-model test-hash test-tree
+
+# Model (Yata) verification suite
+[group('test')]
+test-model:
     moon test --target wasm-gc --package zpc/genius/model
+
+# Tree (Sparse/Diff) verification suite
+[group('test')]
+test-tree:
+    moon test --target wasm-gc --package zpc/genius/tree
+
+# Storage (App/Container/Store) verification suite
+[group('test')]
+test-storage:
+    moon test --target wasm-gc --package zpc/genius/storage
+
+# Hash module suite
+[group('test')]
+test-hash:
+    moon test --target wasm-gc --package zpc/genius/hash
+
+# API module suite
+[group('test')]
+test-api:
+    moon test --target wasm-gc --package zpc/genius/api
+
+# Daemon module suite
+[group('test')]
+test-daemon:
+    moon test --target wasm-gc --package zpc/genius/daemon
+
+# Conformance module suite
+[group('test')]
+test-conformance:
+    moon test --target wasm-gc --package zpc/genius/conformance
 
 # Type-check all packages (no link step)
 [group('test')]
