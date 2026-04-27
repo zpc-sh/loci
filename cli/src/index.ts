@@ -8,34 +8,26 @@
 //   tui.ts                 — @clack/prompts + terminal renderers matching locus/locus.mbt output
 //
 // Adding a new command: add a file to src/commands/, export an async function, wire it below.
-
 import { LociStore } from "./store.ts"
 import { LociCore } from "./core.ts"
 import { cmdInit } from "./commands/init.ts"
 import { cmdLocusNew, cmdLocusLs } from "./commands/locus.ts"
 import { cmdEnter, cmdSign, cmdTrail, cmdResidue, cmdWhere } from "./commands/genius.ts"
 import { cmdStatus } from "./commands/status.ts"
-<<<<<<< HEAD
 import { cmdIde } from "./commands/ide.ts"
-=======
 import { cmdSpec } from "./commands/spec.ts"
->>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
-
 const argv = process.argv.slice(2)
 const cmd = argv[0]
 const rest = argv.slice(1)
-
 const store = LociStore.fromCwd({
   lociRoot: flag(argv, "--loci-root") ?? "loci",
   storePath: flag(argv, "--store") ?? ".loci/store",
 })
 const core = LociCore.discover()
-
 async function main(): Promise<void> {
   switch (cmd) {
     case "init":
       return cmdInit(store, rest)
-
     case "loci":
     case "ratio": {
       const sub = rest[0]
@@ -44,7 +36,6 @@ async function main(): Promise<void> {
       if (sub === "ls" || !sub) return cmdLocusLs(store)
       console.error(`Unknown loci subcommand: ${sub}`); usage(); process.exit(1)
     }
-
     case "genius": {
       const sub = rest[0]
       const subRest = rest.slice(1)
@@ -55,7 +46,6 @@ async function main(): Promise<void> {
       if (sub === "where") return cmdWhere(store)
       console.error(`Unknown genius subcommand: ${sub}`); usage(); process.exit(1)
     }
-
     // Short aliases — drop the group token so you can type `loci enter foo`
     case "enter":   return cmdEnter(rest[0], store, rest.slice(1))
     case "sign":    return cmdSign(store, rest)
@@ -64,7 +54,6 @@ async function main(): Promise<void> {
     case "where":   return cmdWhere(store)
     case "status":  return cmdStatus(store)
     case "ide":     return cmdIde(rest)
-
     // Delegate to native genius binary (tree / bloom / OCI daemon ops)
     case "daemon":
     case "pack":
@@ -72,26 +61,21 @@ async function main(): Promise<void> {
       const code = await core.runPrint([cmd, ...rest])
       process.exit(code)
     }
-
     case "spec":
       return cmdSpec(rest)
-
     case "help":
     case "--help":
     case "-h":
       usage(); return
-
     default:
       if (cmd) console.error(`Unknown command: ${cmd}\n`)
       usage()
       process.exit(cmd ? 1 : 0)
   }
 }
-
 function usage(): void {
   console.log(`
 loci — L-OCI content-addressed locus CLI
-
 USAGE
   loci init                               Initialize loci root in current directory
   loci loci new <name> [opts]             Create a new locus
@@ -105,9 +89,7 @@ USAGE
   loci status                             Repository overview
   loci spec [--format json|markdown]      Emit the CLI spec (self-describing surface)
   loci daemon <subcmd>                    Delegate to native merkin (tree/bloom/OCI)
-
   Short aliases: loci enter|sign|trail|residue|where|status
-
 OPTIONS
   --loci-root <path>  Loci directory root       (default: loci/)
   --store <path>      OCI blob store path        (default: .merkin/store/)
@@ -115,7 +97,6 @@ OPTIONS
   --tier <tier>       Claude tier for signing    (default: sonnet)
   --depth <n>         Trail depth limit          (default: 10)
   --export            Print eval-able export lines for enter
-
 ENV
   LOCI_LOCUS          Current locus name (set via: eval \$(loci enter <name> --export))
   LOCI_TIER           Claude tier for this session
@@ -123,10 +104,8 @@ ENV
   LOCI_GENIUS_ROOT    Path to genius loci source root (for daemon delegation)
 `.trim())
 }
-
 function flag(args: string[], name: string): string | null {
   const i = args.indexOf(name)
   return i >= 0 && i + 1 < args.length ? args[i + 1] : null
 }
-
 main().catch(e => { console.error(e); process.exit(1) })
