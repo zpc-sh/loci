@@ -41,10 +41,10 @@ export function buildReleasePlan(targets: ReleaseTarget[], artifactsDir: string)
     commands.push(`bun build src/index.ts --outfile ${join(artifactsDir, "loci")} --target bun --minify`)
   }
   if (targets.includes("all") || targets.includes("wasm-gc")) {
-    commands.push("moon build --target wasm-gc --release --package zpc/genius/wasm_entry")
+    commands.push("moon build --target wasm-gc --release --package zploc/loci/wasm_entry")
   }
   if (targets.includes("wasm")) {
-    commands.push("moon build --target wasm --release --package zpc/genius/wasm_entry")
+    commands.push("moon build --target wasm --release --package zploc/loci/wasm_entry")
   }
 
   return {
@@ -71,7 +71,7 @@ export async function runReleaseBuild(targets: ReleaseTarget[], artifactsDir: st
   }
 
   if (targets.includes("all") || targets.includes("wasm-gc")) {
-    await runOrThrow(["moon", "build", "--target", "wasm-gc", "--release", "--package", "zpc/genius/wasm_entry"], plan.repo_root)
+    await runOrThrow(["moon", "build", "--target", "wasm-gc", "--release", "--package", "zploc/loci/wasm_entry"], plan.repo_root)
 
     const wasmFound = await findWasmEntryArtifact(plan.repo_root, "wasm-gc")
     if (wasmFound) {
@@ -84,7 +84,7 @@ export async function runReleaseBuild(targets: ReleaseTarget[], artifactsDir: st
   }
 
   if (targets.includes("wasm")) {
-    await runOrThrow(["moon", "build", "--target", "wasm", "--release", "--package", "zpc/genius/wasm_entry"], plan.repo_root)
+    await runOrThrow(["moon", "build", "--target", "wasm", "--release", "--package", "zploc/loci/wasm_entry"], plan.repo_root)
 
     const wasmFound = await findWasmEntryArtifact(plan.repo_root, "wasm")
     if (wasmFound) {

@@ -21,7 +21,7 @@ export interface NucleantRecord {
 
 export function buildFingerPlanContent(record: NucleantRecord): string {
   const lines: string[] = [
-    "kind: merkin.yata.plan",
+    "kind: loci.yata.plan",
     "track=program",
     "mode=compact",
     "generator=loci.ide",

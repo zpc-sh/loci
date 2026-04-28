@@ -1,5 +1,5 @@
 import {
-  "zpc/genius/api" @api,
+  "zploc/loci/api" @api,
 }
 
 options(

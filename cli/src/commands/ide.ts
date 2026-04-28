@@ -1246,7 +1246,7 @@ async function apiComponentizeFromNucleant(
     ? sourcePathsRaw
     : [record.spec_api]
   const suffix = suffixRaw ?? module_name.replace(/\./g, "/")
-  const target_package = joinPackagePath("zpc/genius/loci/chatgpt", suffix)
+  const target_package = joinPackagePath("zploc/loci/loci/chatgpt", suffix)
   const parsedStatus = parseComponentizationStatus(statusRaw)
   if (statusRaw && !parsedStatus) {
     throw new Error("invalid componentization status")

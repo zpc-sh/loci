@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/model"
+package "zploc/loci/model"
 
 import {
   "moonbitlang/core/debug",
-  "zpc/genius/hash",
-  "zpc/genius/loci_fsm",
-  "zpc/genius/scan",
+  "zploc/loci/hash",
+  "zploc/loci/loci_fsm",
+  "zploc/loci/scan",
 }
 
 // Values

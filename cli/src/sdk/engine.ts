@@ -7,7 +7,7 @@ export interface EngineAdapter {
   runPrint(args: string[]): Promise<number>
 }
 
-class NativeMerkinEngine implements EngineAdapter {
+class NativeLociEngine implements EngineAdapter {
   readonly kind: EngineKind = "native"
 
   constructor(private readonly core: LociCore) {}
@@ -44,7 +44,7 @@ export function discoverEngineAdapter(preferred?: string | null): EngineAdapter 
   const selected = (preferred ?? process.env.LOCI_ENGINE ?? "native").toLowerCase()
 
   if (selected === "native") {
-    return new NativeMerkinEngine(LociCore.discover())
+    return new NativeLociEngine(LociCore.discover())
   }
 
   if (selected === "wasm-shim") {

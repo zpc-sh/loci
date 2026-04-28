@@ -1,6 +1,6 @@
 import {
-  "zpc/genius/hash" @hash,
-  "zpc/genius/model" @model,
+  "zploc/loci/hash" @hash,
+  "zploc/loci/model" @model,
 }
 
 import {

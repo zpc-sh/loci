@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "genius loci — build matrix",
+  "version": "0.2.0",
+  "generated_by": "docs/BUILD_MATRIX.json (edit here, emit with `just build-matrix`)",
+
+  "cognitions": [
+    {
+      "id": "chatgpt",
+      "label": "ChatGPT",
+      "symbol": "□",
+      "role": "form",
+      "package": "zpc/genius/loci/chatgpt",
+      "status": "active",
+      "note": "Formation layer — contracts, typed holes, arblocks"
+    },
+    {
+      "id": "claude",
+      "label": "Claude",
+      "symbol": "○",
+      "role": "expand",
+      "package": "zpc/genius/loci/claude",
+      "status": "active",
+      "note": "Expansion + implementation layer"
+    },
+    {
+      "id": "gemini",
+      "label": "Gemini",
+      "symbol": "△",
+      "role": "seal",
+      "package": "zpc/genius/loci/gemini",
+      "status": "planned",
+      "note": "Seal + verification layer — not yet scaffolded"
+    }
+  ],
+
+  "moon_targets": [
+    {
+      "id": "wasm-gc",
+      "label": "wasm-gc",
+      "preferred": true,
+      "runtime": ["AtomVM", "WasmEdge", "wasmex-gc"],
+      "artifact": "wasm_entry.wasm",
+      "status": "active"
+    },
+    {
+      "id": "wasm",
+      "label": "wasm",
+      "preferred": false,
+      "runtime": ["WasmEdge", "wasmex (linear-memory)"],
+      "artifact": "wasm_entry.wasm",
+      "status": "active"
+    },
+    {
+      "id": "native",
+      "label": "native",
+      "preferred": false,
+      "runtime": ["linux-x64", "macos-arm64"],
+      "artifact": "main.exe",
+      "status": "active",
+      "note": "MoonBit names native outputs .exe even on Linux/macOS"
+    },
+    {
+      "id": "js",
+      "label": "js",
+      "preferred": false,
+      "runtime": ["Node.js", "Bun"],
+      "artifact": "*.js",
+      "status": "experimental"
+    }
+  ],
+
+  "release_platforms": [
+    {
+      "id": "linux-x64",
+      "label": "Linux x86-64",
+      "runner": "ubuntu-latest",
+      "bun_target": "bun-linux-x64",
+      "artifact": "loci-linux-x64"
+    },
+    {
+      "id": "macos-arm64",
+      "label": "macOS Apple Silicon",
+      "runner": "macos-latest",
+      "bun_target": "bun-darwin-arm64",
+      "artifact": "loci-macos-arm64"
+    }
+  ],
+
+  "release_artifacts": [
+    {
+      "id": "loci-bun",
+      "filename": "loci-bun.js",
+      "description": "Bun CLI bundle (requires Bun runtime)",
+      "built_by": "bun build --target bun"
+    },
+    {
+      "id": "loci-wasm-gc",
+      "filename": "loci-wasm-gc.wasm",
+      "description": "WebAssembly GC module (preferred runtime target)",
+      "built_by": "moon build --target wasm-gc"
+    },
+    {
+      "id": "loci-linux-x64",
+      "filename": "loci-linux-x64",
+      "description": "Self-contained CLI binary — Linux x86-64",
+      "built_by": "bun build --compile --target bun-linux-x64"
+    },
+    {
+      "id": "loci-macos-arm64",
+      "filename": "loci-macos-arm64",
+      "description": "Self-contained CLI binary — macOS Apple Silicon",
+      "built_by": "bun build --compile --target bun-darwin-arm64"
+    },
+    {
+      "id": "sha256sums",
+      "filename": "SHA256SUMS",
+      "description": "SHA-256 checksums for all artifacts",
+      "built_by": "python3 (hashlib)"
+    }
+  ],
+
+  "future": {
+    "cognition_compilation": {
+      "description": "Compile directly against a cognition's substrate — cross-compile loci packages per AI provider target",
+      "status": "roadmap",
+      "note": "When stable WIT interfaces land, each cognition becomes a wasm component compiled against its own world"
+    }
+  }
+}

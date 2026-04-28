@@ -1,5 +1,5 @@
 ///|
-/// Merkin CLI command implementations.
+/// Loci CLI command implementations.
 /// The CLI is split into two principal surfaces:
 /// - Ratio Loci: repository/root operations and git-colliding verbs
 /// - Genius Loci: AI-only inhabitation, trail, and residue work
@@ -15,7 +15,7 @@ fn make_runtime(
   locus_context : String?,
 ) -> @locus.LocusRuntime {
   let loci_root = value_after(args, "--loci-root", "loci")
-  let store_path = value_after(args, "--store", ".merkin/store")
+  let store_path = value_after(args, "--store", ".loci/store")
   let tier = value_after(args, "--tier", "sonnet")
   let session_id = value_after(args, "--session", "00000")
   let config : @locus.LocusConfig = { loci_root, store_path }
@@ -28,15 +28,15 @@ fn make_runtime(
 }
 
 ///|
-/// `merkin ratio loci new <name> [--tags t1,t2] [--spirit "..."]`
-/// `merkin ratio loci ls`
+/// `loci ratio loci new <name> [--tags t1,t2] [--spirit "..."]`
+/// `loci ratio loci ls`
 fn run_loci_command(args : Array[String]) -> Unit {
   let subcmd = if args.length() > 2 { args[2] } else { "ls" }
   match subcmd {
     "new" => {
       if args.length() <= 3 {
         println(
-          "Usage: merkin ratio loci new <name> [--tags t1,t2] [--spirit \"...\"]",
+          "Usage: loci ratio loci new <name> [--tags t1,t2] [--spirit \"...\"]",
         )
         return
       }
@@ -58,7 +58,7 @@ fn run_loci_command(args : Array[String]) -> Unit {
       println("")
       println("README.md content:")
       println(rt.scaffold_readme(locus))
-      println("Locus created. Start with: merkin genius enter " + name)
+      println("Locus created. Start with: loci genius enter " + name)
     }
     "ls" => {
       let rt = make_runtime(args, None)
@@ -69,21 +69,21 @@ fn run_loci_command(args : Array[String]) -> Unit {
         rt.config.loci_root +
         "/ pending — requires @fs)",
       )
-      println("Use: merkin ratio loci new <name> to create a locus")
+      println("Use: loci ratio loci new <name> to create a locus")
     }
     "graph" =>
       println(
         "(loci graph rendering pending — requires cross-reference scan)",
       )
-    _ => println("Usage: merkin ratio loci [new|ls|graph]")
+    _ => println("Usage: loci ratio loci [new|ls|graph]")
   }
 }
 
 ///|
-/// `merkin genius enter <locus>`
+/// `loci genius enter <locus>`
 fn run_enter_command(args : Array[String]) -> Unit {
   if args.length() <= 2 {
-    println("Usage: merkin genius enter <locus>")
+    println("Usage: loci genius enter <locus>")
     return
   }
   let locus_name = args[2]
@@ -92,20 +92,20 @@ fn run_enter_command(args : Array[String]) -> Unit {
   // For now, emit the enter preamble with no prior residue
   let preamble = @locus.format_enter_preamble(locus_name, None)
   println(preamble)
-  println("MERKIN_LOCUS=" + locus_name)
-  println("MERKIN_SESSION=" + rt.session.display())
+  println("LOCUS_ROOT=" + locus_name)
+  println("LOCUS_SESSION=" + rt.session.display())
   println("")
   println("# To set env in your shell:")
-  println("# eval $(merkin genius enter " + locus_name + " --export)")
+  println("# eval $(loci genius enter " + locus_name + " --export)")
 }
 
 ///|
-/// `merkin genius sign [<message>]`
+/// `loci genius sign [<message>]`
 fn run_sign_command(args : Array[String]) -> Unit {
   let message = if args.length() > 2 { args[2] } else { "" }
   let locus_name = value_after(args, "--locus", "")
   if locus_name == "" {
-    println("Error: no locus context. Use --locus <name> or set MERKIN_LOCUS")
+    println("Error: no locus context. Use --locus <name> or set LOCUS_ROOT")
     return
   }
   let rt = make_runtime(args, Some(locus_name))
@@ -126,7 +126,7 @@ fn run_sign_command(args : Array[String]) -> Unit {
 }
 
 ///|
-/// `merkin genius trail [<locus>] [--depth <n>]`
+/// `loci genius trail [<locus>] [--depth <n>]`
 fn run_trail_command(args : Array[String]) -> Unit {
   let locus_name = if args.length() > 2 && !line_starts_with_flag(args[2]) {
     args[2]
@@ -134,7 +134,7 @@ fn run_trail_command(args : Array[String]) -> Unit {
     value_after(args, "--locus", "")
   }
   if locus_name == "" {
-    println("Usage: merkin genius trail <locus> [--depth <n>]")
+    println("Usage: loci genius trail <locus> [--depth <n>]")
     return
   }
   // In filesystem mode, we would scan loci/<name>/residue/ for *.md files
@@ -145,7 +145,7 @@ fn run_trail_command(args : Array[String]) -> Unit {
 }
 
 ///|
-/// `merkin genius where`
+/// `loci genius where`
 fn run_where_command(_args : Array[String]) -> Unit {
   // In filesystem mode, scan all loci directories
   let entries : Array[(String, @model.Residue?)] = []
@@ -155,7 +155,7 @@ fn run_where_command(_args : Array[String]) -> Unit {
 }
 
 ///|
-/// `merkin genius residue [<locus>] [--session <id>]`
+/// `loci genius residue [<locus>] [--session <id>]`
 fn run_residue_command(args : Array[String]) -> Unit {
   let locus_name = if args.length() > 2 && !line_starts_with_flag(args[2]) {
     args[2]
@@ -163,7 +163,7 @@ fn run_residue_command(args : Array[String]) -> Unit {
     value_after(args, "--locus", "")
   }
   if locus_name == "" {
-    println("Usage: merkin genius residue <locus> [--session <id>]")
+    println("Usage: loci genius residue <locus> [--session <id>]")
     return
   }
   // In filesystem mode, read residue files
@@ -172,7 +172,7 @@ fn run_residue_command(args : Array[String]) -> Unit {
 }
 
 ///|
-/// `merkin ratio status [<locus>]`
+/// `loci ratio status [<locus>]`
 fn run_status_command(args : Array[String]) -> Unit {
   let locus_name = if args.length() > 2 && !line_starts_with_flag(args[2]) {
     args[2]
@@ -180,7 +180,7 @@ fn run_status_command(args : Array[String]) -> Unit {
     value_after(args, "--locus", "")
   }
   if locus_name == "" {
-    println("Usage: merkin ratio status <locus>")
+    println("Usage: loci ratio status <locus>")
     return
   }
   println("Ratio Loci status for: " + locus_name + " (working)")
@@ -198,13 +198,13 @@ fn line_starts_with_flag(s : String) -> Bool {
 }
 
 ///|
-/// `merkin ratio init [--store <path>]`
-/// Creates the .merkin/ repository structure + loci/ directory.
+/// `loci ratio init [--store <path>]`
+/// Creates the .loci/ repository structure + loci/ directory.
 fn run_init_command(args : Array[String]) -> Unit {
-  let store_path = value_after(args, "--store", ".merkin/store")
-  println("Initializing merkin repository...")
+  let store_path = value_after(args, "--store", ".loci/store")
+  println("Initializing loci repository...")
   println("")
-  println("Creating .merkin/")
+  println("Creating .loci/")
   println("  config.json         repository configuration")
   println("  store/")
   println("    blobs/            OCI content-addressed blob storage")
@@ -223,22 +223,22 @@ fn run_init_command(args : Array[String]) -> Unit {
   println("}")
   println("")
   println("Repository initialized.")
-  println("Next: merkin ratio loci new <name>")
+  println("Next: loci ratio loci new <name>")
 }
 
 ///|
-/// `merkin ratio pack [<locus>] [--format wasm|blob]`
+/// `loci ratio pack [<locus>] [--format wasm|blob]`
 ///
-/// Serializes the sparse merkin tree for a locus into an OCI blob.
+/// Serializes the sparse loci tree for a locus into an OCI blob.
 /// The blob IS the packfile — a single content-addressed artifact
 /// containing the full tree state.
 ///
 /// With --format wasm: the packfile is a WASM component that includes
-/// the merkin query engine. Recipients can load it and call
+/// the loci query engine. Recipients can load it and call
 /// tree_sparse(), tree_node_count(), bloom_check() directly.
 ///
 /// With --format blob (default): raw serialized tree state stored
-/// as an OCI blob. Needs merkin runtime to query.
+/// as an OCI blob. Needs loci runtime to query.
 fn run_pack_command(args : Array[String]) -> Unit {
   let locus_name = if args.length() > 2 && !line_starts_with_flag(args[2]) {
     args[2]
@@ -247,7 +247,7 @@ fn run_pack_command(args : Array[String]) -> Unit {
   }
   let format = value_after(args, "--format", "blob")
   if locus_name == "" {
-    println("Usage: merkin ratio pack <locus> [--format wasm|blob]")
+    println("Usage: loci ratio pack <locus> [--format wasm|blob]")
     println("")
     println("Formats:")
     println("  blob   Serialized sparse tree as OCI blob (default)")
@@ -260,11 +260,11 @@ fn run_pack_command(args : Array[String]) -> Unit {
       println("")
       println("Steps:")
       println("  1. Serialize sparse tree for " + locus_name)
-      println("  2. Embed tree state into merkin WASM runtime")
+      println("  2. Embed tree state into loci WASM runtime")
       println(
         "  3. Build: moon build --target wasm-gc --package zpc/genius/wasm_entry",
       )
-      println("  4. Output: .merkin/packs/" + locus_name + ".wasm")
+      println("  4. Output: .loci/packs/" + locus_name + ".wasm")
       println("")
       println("The WASM pack includes:")
       println("  tree_sparse(tokens)  → filtered projection")
@@ -273,7 +273,7 @@ fn run_pack_command(args : Array[String]) -> Unit {
       println("  hash_bytes(hex)      → content addressing")
       println("")
       println("Recipients load the .wasm and query directly.")
-      println("No merkin installation required.")
+      println("No loci installation required.")
       println("")
       println(
         "(WASM pack pending — requires tree serializer + WASM state injection)",
@@ -285,15 +285,13 @@ fn run_pack_command(args : Array[String]) -> Unit {
       println("Steps:")
       println("  1. Serialize sparse tree for " + locus_name)
       println("  2. Content-address: digest = H(serialized_tree)")
-      println("  3. Store: .merkin/store/blobs/<digest>")
+      println("  3. Store: .loci/store/blobs/<digest>")
       println(
-        "  4. Tag: .merkin/store/tags/" +
-        locus_name +
-        "/pack-latest → <digest>",
+        "  4. Tag: .loci/store/tags/" + locus_name + "/pack-latest → <digest>",
       )
       println("")
-      println("Share via: merkin ratio pack --digest <digest>")
-      println("Receive via: merkin ratio pull --pack <digest>")
+      println("Share via: loci ratio pack --digest <digest>")
+      println("Receive via: loci ratio pull --pack <digest>")
       println("")
       println("(blob pack pending — requires tree serializer)")
     }
@@ -332,7 +330,7 @@ fn add_group_token(args : Array[String], group : String) -> Array[String] {
 }
 
 ///|
-/// `merkin ratio <command> ...`
+/// `loci ratio <command> ...`
 /// Canonical repository/root surface. Git-colliding commands belong here.
 fn run_ratio_command(args : Array[String]) -> Unit {
   if args.length() <= 2 {
@@ -361,7 +359,7 @@ fn run_ratio_alias_command(args : Array[String]) -> Unit {
 }
 
 ///|
-/// `merkin genius <command> ...`
+/// `loci genius <command> ...`
 /// Canonical AI-only inhabitation surface.
 fn run_genius_command(args : Array[String]) -> Unit {
   if args.length() <= 2 {
@@ -431,7 +429,7 @@ fn print_ratio_usage() -> Unit {
     "  ratio status <locus>                               Repository status for a locus",
   )
   println(
-    "  ratio pack <locus> [--format wasm|blob]            Pack sparse merkin tree",
+    "  ratio pack <locus> [--format wasm|blob]            Pack sparse loci tree",
   )
 }
 
@@ -604,7 +602,7 @@ fn run_ratio_app_command(args : Array[String]) -> Unit {
     "put" => {
       if args.length() <= 3 {
         println(
-          "Usage: merkin ratio app put <ref> --payload <text> [--protocol app/v1] [--audience genius-loci]",
+          "Usage: loci ratio app put <ref> --payload <text> [--protocol app/v1] [--audience genius-loci]",
         )
         return
       }
@@ -632,7 +630,7 @@ fn run_ratio_app_command(args : Array[String]) -> Unit {
     }
     "inspect" => {
       if args.length() <= 3 {
-        println("Usage: merkin ratio app inspect <ref>")
+        println("Usage: loci ratio app inspect <ref>")
         return
       }
       let ref_id = args[3]
@@ -654,7 +652,7 @@ fn run_ratio_app_command(args : Array[String]) -> Unit {
     "emit-pr1" => {
       if args.length() <= 3 {
         println(
-          "Usage: merkin ratio app emit-pr1 <ref> --procsi-surface <surface> --procsi-fingerprint <commitment> [--context-hash <hash>] [--policy-hash <hash>]",
+          "Usage: loci ratio app emit-pr1 <ref> --procsi-surface <surface> --procsi-fingerprint <commitment> [--context-hash <hash>] [--policy-hash <hash>]",
         )
         return
       }
@@ -693,7 +691,7 @@ fn run_ratio_app_command(args : Array[String]) -> Unit {
     "parse-pr1" => {
       let hex = value_after(args, "--hex", "")
       if hex == "" {
-        println("Usage: merkin ratio app parse-pr1 --hex <hex>")
+        println("Usage: loci ratio app parse-pr1 --hex <hex>")
         return
       }
       match cli_hex_to_bytes(hex) {
@@ -731,13 +729,13 @@ fn run_ratio_app_command(args : Array[String]) -> Unit {
         None => println("Error: invalid hex input.")
       }
     }
-    _ => println("Usage: merkin ratio app [put|inspect|emit-pr1|parse-pr1]")
+    _ => println("Usage: loci ratio app [put|inspect|emit-pr1|parse-pr1]")
   }
 }
 
 ///|
 fn resolve_app_store_root(args : Array[String]) -> String {
-  value_after(args, "--store", ".merkin/store") + "/app"
+  value_after(args, "--store", ".loci/store") + "/app"
 }
 
 ///|

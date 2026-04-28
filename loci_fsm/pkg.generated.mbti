@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/loci_fsm"
+package "zploc/loci/loci_fsm"
 
 import {
   "moonbitlang/core/debug",

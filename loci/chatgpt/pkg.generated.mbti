@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/loci/chatgpt"
+package "zploc/loci/loci/chatgpt"
 
 import {
   "moonbitlang/core/debug",

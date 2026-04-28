@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/store"
+package "zploc/loci/store"
 
 import {
-  "zpc/genius/hash",
-  "zpc/genius/model",
+  "zploc/loci/hash",
+  "zploc/loci/model",
 }
 
 // Values

@@ -1,8 +1,8 @@
 import {
-  "zpc/genius/hash" @hash,
-  "zpc/genius/bloom" @bloom,
-  "zpc/genius/tree" @tree,
-  "zpc/genius/loci_fsm" @loci_fsm,
+  "zploc/loci/hash" @hash,
+  "zploc/loci/bloom" @bloom,
+  "zploc/loci/tree" @tree,
+  "zploc/loci/loci_fsm" @loci_fsm,
 }
 
 import {

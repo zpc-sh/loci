@@ -6,7 +6,11 @@ on:
     tags:
       - 'loci-v*'
 
+permissions:
+  contents: write
+
 jobs:
+  # ── Job 1: build wasm-gc artifact + Bun CLI bundle ───────────────────────────
   build-artifacts:
     runs-on: ubuntu-latest
     steps:
@@ -33,17 +37,58 @@ jobs:
         working-directory: cli
         run: bun install --frozen-lockfile
 
-      - name: Build release artifacts
+      - name: moon check (wasm-gc)
+        run: |
+          moon update
+          moon check --target wasm-gc
+
+      - name: Build wasm-gc artifact + Bun CLI bundle
         working-directory: cli
         run: |
-          bun run src/index.ts release build --target all --artifacts-dir ../artifacts/release
+          bun run src/index.ts release build \
+            --target all \
+            --artifacts-dir ../artifacts/release
 
-      - name: Upload release bundle
+      # Rename artifacts to well-known names for the release
+      - name: Rename + checksum core artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd artifacts/release
+
+          # Bun CLI bundle: rename to platform-neutral name
+          if [ -f loci ]; then
+            mv loci loci-bun.js
+          fi
+
+          # Wasm-gc artifact
+          if [ -f loci-entry.wasm ]; then
+            mv loci-entry.wasm loci-wasm-gc.wasm
+          fi
+
+          # SHA-256 every file except the manifest
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          root = Path('.')
+          files = sorted([p for p in root.iterdir()
+                          if p.is_file() and p.suffix != '.json'])
+          lines = []
+          for p in files:
+              h = hashlib.sha256(p.read_bytes()).hexdigest()
+              lines.append(f"{h}  {p.name}")
+          (root / 'SHA256SUMS').write_text("\n".join(lines) + "\n", encoding='utf-8')
+          print("SHA256SUMS:")
+          print("\n".join(lines))
+          PY
+
+      - name: Upload core release bundle
         uses: actions/upload-artifact@v4
         with:
-          name: loci-release-core
+          name: loci-core
           path: artifacts/release
 
+  # ── Job 2: per-platform native Bun CLI (linux + macos) ───────────────────────
   package-matrix:
     strategy:
       fail-fast: false
@@ -51,8 +96,10 @@ jobs:
         include:
           - os: ubuntu-latest
             target_name: linux-x64
+            bun_target: bun-linux-x64
           - os: macos-latest
             target_name: macos-arm64
+            bun_target: bun-darwin-arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -64,57 +111,114 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install MoonBit
-        run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
-          echo "$HOME/.moon/bin" >> $GITHUB_PATH
-
       - name: Install CLI dependencies
         working-directory: cli
         run: bun install --frozen-lockfile
 
-      - name: Build CLI package
+      # Compile a fully self-contained native binary (no Bun runtime needed)
+      - name: Build self-contained CLI binary
         working-directory: cli
         run: |
-          bun run src/index.ts release build --target cli --artifacts-dir ../artifacts/pkg-${{ matrix.target_name }}
+          bun build src/index.ts \
+            --compile \
+            --target ${{ matrix.bun_target }} \
+            --outfile ../artifacts/pkg-${{ matrix.target_name }}/loci-${{ matrix.target_name }}
 
-      - name: Rename binary and generate checksums
+      - name: Checksum platform binary
         shell: bash
         run: |
           set -euo pipefail
           cd artifacts/pkg-${{ matrix.target_name }}
-          mv loci loci-${{ matrix.target_name }}
           python3 - <<'PY'
-import hashlib
-from pathlib import Path
-root = Path('.')
-files = sorted([p for p in root.iterdir() if p.is_file() and p.name.startswith('loci-')])
-lines = []
-for p in files:
-    h = hashlib.sha256(p.read_bytes()).hexdigest()
-    lines.append(f"{h}  {p.name}")
-(root / 'checksums.txt').write_text("\n".join(lines) + "\n", encoding='utf-8')
-PY
+          import hashlib
+          from pathlib import Path
+          root = Path('.')
+          files = sorted([p for p in root.iterdir() if p.is_file() and p.name.startswith('loci-')])
+          lines = []
+          for p in files:
+              h = hashlib.sha256(p.read_bytes()).hexdigest()
+              lines.append(f"{h}  {p.name}")
+          (root / 'SHA256SUMS').write_text("\n".join(lines) + "\n", encoding='utf-8')
+          print("SHA256SUMS:")
+          print("\n".join(lines))
+          PY
 
-      - name: Upload matrix package
+      - name: Upload platform package
         uses: actions/upload-artifact@v4
         with:
-          name: loci-package-${{ matrix.target_name }}
+          name: loci-pkg-${{ matrix.target_name }}
           path: artifacts/pkg-${{ matrix.target_name }}
 
+  # ── Job 3: combine + publish GitHub Release ───────────────────────────────────
   publish-release:
     if: startsWith(github.ref, 'refs/tags/loci-v')
     needs: [build-artifacts, package-matrix]
     runs-on: ubuntu-latest
     steps:
-      - name: Download all artifacts
+      - name: Download core artifacts
         uses: actions/download-artifact@v4
         with:
-          path: dist
-          pattern: loci-*
-          merge-multiple: true
+          name: loci-core
+          path: dist/core
 
-      - name: Publish GitHub Release assets
+      - name: Download platform packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: loci-pkg-*
+          path: dist/pkgs
+          merge-multiple: false
+
+      # Flatten everything into dist/release/ and generate a single combined SHA256SUMS
+      - name: Assemble release directory + combined SHA256SUMS
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/release
+
+          # Copy core artifacts (wasm, bun bundle, manifest)
+          cp dist/core/* dist/release/ 2>/dev/null || true
+
+          # Copy platform binaries (each subdir has loci-<platform> + SHA256SUMS)
+          find dist/pkgs -maxdepth 2 -type f -name 'loci-*' ! -name '*.json' \
+            -exec cp {} dist/release/ \;
+
+          # Regenerate a single combined SHA256SUMS covering every release file
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          root = Path('dist/release')
+          files = sorted([p for p in root.iterdir()
+                          if p.is_file() and p.name not in ('SHA256SUMS',)])
+          lines = []
+          for p in files:
+              h = hashlib.sha256(p.read_bytes()).hexdigest()
+              lines.append(f"{h}  {p.name}")
+          (root / 'SHA256SUMS').write_text("\n".join(lines) + "\n", encoding='utf-8')
+          print("=== Combined SHA256SUMS ===")
+          print("\n".join(lines))
+          PY
+
+          echo ""
+          echo "=== Release assets ==="
+          ls -lh dist/release/
+
+      - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/**
+          files: dist/release/**
+          body: |
+            ## loci ${{ github.ref_name }}
+
+            ### Artifacts
+            | File | Description |
+            |------|-------------|
+            | `loci-linux-x64` | Self-contained CLI binary (Linux x86-64) |
+            | `loci-macos-arm64` | Self-contained CLI binary (macOS Apple Silicon) |
+            | `loci-bun.js` | Bun CLI bundle (requires Bun runtime) |
+            | `loci-wasm-gc.wasm` | WebAssembly GC module (wasm_entry, AtomVM/WasmEdge) |
+            | `SHA256SUMS` | SHA-256 checksums for all artifacts |
+
+            ### Verifying
+            ```sh
+            sha256sum --check SHA256SUMS
+            ```

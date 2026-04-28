@@ -1,7 +1,7 @@
 import {
-  "zpc/genius/hash" @hash,
-  "zpc/genius/model" @model,
-  "zpc/genius/store" @store,
+  "zploc/loci/hash" @hash,
+  "zploc/loci/model" @model,
+  "zploc/loci/store" @store,
 }
 
 import {

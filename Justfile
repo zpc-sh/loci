@@ -38,12 +38,13 @@ wasm:
 [group('build')]
 wasm-all: wasm-gc wasm
 
-# Native CLI binary → ./loci
+# Native CLI binary → ./dist/loci-native  (MoonBit names outputs .exe even on Linux)
 [group('build')]
 cli:
     moon build --target native --release --package zpc/genius/cmd/main
-    cp {{native_exe}} loci
-    @echo "CLI: ./loci  ($(du -sh loci | cut -f1))"
+    mkdir -p dist
+    cp {{native_exe}} dist/loci-native
+    @echo "CLI (native): ./dist/loci-native  ($(du -sh dist/loci-native | cut -f1))"
 
 # Bun CLI bundle → ./dist/loci (single-file, no node_modules)
 [group('build')]
@@ -162,6 +163,25 @@ loci-spec-docs:
     cd cli && bun run src/index.ts spec --format markdown --out ../docs/CLI_SPEC_v0.1.md
     @echo "Updated: docs/CLI_SPEC_v0.1.md"
 
+# ── docs ──────────────────────────────────────────────────────────────────────
+
+# Regenerate the build matrix tables in README.md from docs/BUILD_MATRIX.json
+[group('docs')]
+build-matrix:
+    python3 docs/emit_build_matrix.py
+    @echo "Source: docs/BUILD_MATRIX.json"
+
+# Preview the build matrix tables without touching README.md
+[group('docs')]
+build-matrix-preview:
+    python3 docs/emit_build_matrix.py --stdout
+
+# CI gate: fail if README build matrix is stale
+[group('docs')]
+build-matrix-check:
+    python3 docs/emit_build_matrix.py --check
+
+
 # ── tools (archived — see docs/archive/tools/) ────────────────────────────────
 
 # Compiler/runtime docs bundle for Mu language handoff
@@ -242,5 +262,5 @@ wit-sync-deps:
 [group('misc')]
 clean:
     moon clean
-    rm -f loci
+    rm -f dist/loci-native dist/loci
     rm -rf wit-gen

@@ -1,13 +1,18 @@
 {
-  "name": "zpc/genius",
+  "name": "zploc/loci",
   "version": "0.1.0",
   "readme": "README.md",
   "repository": "https://github.com/zpc-sh/loci",
   "license": "Apache-2.0",
   "keywords": [
-    "merkle"
+    "wasm",
+    "merkle",
+    "ai",
+    "locus",
+    "fsm",
+    "content-addressed"
   ],
-  "description": "",
+  "description": "Deterministic hashing, Merkle tree sealing, FST swarms, and AI inhabitation substrate for the loci runtime",
   "preferred-target": "native",
   "supported-targets": "+wasm+wasm-gc+js+native"
 }

@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/locus"
+package "zploc/loci/locus"
 
 import {
   "moonbitlang/core/debug",
-  "zpc/genius/loci/chatgpt",
-  "zpc/genius/model",
+  "zploc/loci/loci/chatgpt",
+  "zploc/loci/model",
 }
 
 // Values

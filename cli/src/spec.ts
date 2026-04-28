@@ -34,7 +34,7 @@ export interface CommandSpec {
   flags?: readonly FlagSpec[]
   subcommands?: readonly CommandSpec[]
   examples?: readonly string[]
-  delegate?: "native"   // command delegates entirely to the native merkin binary
+  delegate?: "native"   // command delegates entirely to the native loci binary
 }
 
 export interface EnvVarSpec {
@@ -75,7 +75,7 @@ export const CLI_SPEC: CliSpec = {
   name: "loci",
   version: "0.1.0",
   description:
-    "L-OCI content-addressed locus CLI — AI inhabitation and stigmergy surface for the Merkin/Genius stack",
+    "L-OCI content-addressed locus CLI — AI inhabitation and stigmergy surface for the Loci/Genius stack",
 
   globals: [
     {
@@ -118,8 +118,8 @@ export const CLI_SPEC: CliSpec = {
       example: "/home/user/loci",
     },
     {
-      name: "LOCI_MERKIN_ROOT",
-      description: "Path to merkin repo root for native binary delegation (used by LociCore)",
+      name: "LOCI_ROOT",
+      description: "Path to loci repo root for native binary delegation (used by LociCore)",
       example: "/home/user/loci",
     },
     {
@@ -439,7 +439,7 @@ export const CLI_SPEC: CliSpec = {
               args: [{ name: "id", description: "Nucleant id", required: true }],
               flags: [
                 { name: "--module", type: "string", description: "Override generated module name" },
-                { name: "--suffix", type: "string", description: "Target package suffix under zpc/genius/loci/chatgpt" },
+                { name: "--suffix", type: "string", description: "Target package suffix under zploc/loci/loci/chatgpt" },
                 { name: "--status", type: "enum", enum: ["planned", "scoped", "extracted", "verified", "integrated"], description: "Componentization status for generated plan" },
                 { name: "--confidence", type: "number", description: "Optional confidence override in range [0,1]" },
                 { name: "--source", type: "string", description: "Comma-separated source paths override" },
@@ -456,7 +456,7 @@ export const CLI_SPEC: CliSpec = {
               args: [{ name: "id", description: "Nucleant id", required: true }],
               flags: [
                 { name: "--module", type: "string", description: "Override generated module name" },
-                { name: "--suffix", type: "string", description: "Target package suffix under zpc/genius/loci/chatgpt" },
+                { name: "--suffix", type: "string", description: "Target package suffix under zploc/loci/loci/chatgpt" },
                 { name: "--status", type: "enum", enum: ["planned", "scoped", "extracted", "verified", "integrated"], description: "Componentization status for generated plan" },
                 { name: "--confidence", type: "number", description: "Optional confidence override in range [0,1]" },
                 { name: "--source", type: "string", description: "Comma-separated source paths override" },
@@ -527,7 +527,7 @@ export const CLI_SPEC: CliSpec = {
     // ── native delegates ─────────────────────────────────────────────────────
     {
       name: "daemon",
-      description: "Delegate to native merkin binary: tree/bloom/OCI/conversational daemon ops",
+      description: "Delegate to native loci binary: tree/bloom/OCI/conversational daemon ops",
       flags: [
         {
           name: "--engine",
@@ -548,7 +548,7 @@ export const CLI_SPEC: CliSpec = {
     },
     {
       name: "pack",
-      description: "Delegate to native merkin binary: pack a locus sparse tree as OCI blob or WASM",
+      description: "Delegate to native loci binary: pack a locus sparse tree as OCI blob or WASM",
       flags: [
         {
           name: "--engine",
@@ -567,7 +567,7 @@ export const CLI_SPEC: CliSpec = {
     },
     {
       name: "app",
-      description: "Delegate to native merkin binary: APP envelope put/inspect/emit-pr1/parse-pr1",
+      description: "Delegate to native loci binary: APP envelope put/inspect/emit-pr1/parse-pr1",
       flags: [
         {
           name: "--engine",

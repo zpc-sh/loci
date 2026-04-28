@@ -8,7 +8,7 @@ fn main {
 
   let cmd = args[1]
 
-  // Merkin CLI commands
+  // Loci CLI commands
   match cmd {
     "ratio" => {
       run_ratio_command(args)
@@ -100,7 +100,7 @@ fn main {
     }
     "put" => {
       let payload = string_to_bytes(
-        value_after(args, "--payload", "hello-merkin"),
+        value_after(args, "--payload", "hello-loci"),
       )
       let lane = parse_lane(value_after(args, "--lane", "hot"))
       let path = parse_path(value_after(args, "--path", "ingest/oci"))
@@ -617,14 +617,14 @@ fn main {
 ///|
 fn print_usage() -> Unit {
   println("Usage:")
-  println("  merkin <group|command> [args] [flags]")
+  println("  loci <group|command> [args] [flags]")
   println("")
   println("Canonical command groups:")
   println(
-    "  merkin ratio <command> ...                         Repository/root surface",
+    "  loci ratio <command> ...                         Repository/root surface",
   )
   println(
-    "  merkin genius <command> ...                        AI-only inhabitation surface",
+    "  loci genius <command> ...                        AI-only inhabitation surface",
   )
   println("")
   print_ratio_usage()
@@ -692,7 +692,7 @@ fn print_usage() -> Unit {
     "  moon run cmd/main -- daemon yata wasm-plan --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,muyata:def",
   )
   println(
-    "  moon run cmd/main -- daemon yata triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --merkin-head aaa --mu-head bbb --lang-head ccc",
+    "  moon run cmd/main -- daemon yata triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --loci-head aaa --mu-head bbb --lang-head ccc",
   )
   println(
     "  moon run cmd/main -- daemon yata contract-bind --out-root loci/chatgpt",
@@ -749,7 +749,7 @@ fn print_usage() -> Unit {
     "  moon run cmd/main -- daemon --action yata-wasm-plan --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,muyata:def",
   )
   println(
-    "  moon run cmd/main -- daemon --action yata-triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --merkin-head aaa --mu-head bbb --lang-head ccc",
+    "  moon run cmd/main -- daemon --action yata-triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --loci-head aaa --mu-head bbb --lang-head ccc",
   )
   println(
     "  moon run cmd/main -- daemon --action yata-contract-bind --out-root loci/chatgpt",
@@ -838,10 +838,10 @@ fn print_usage() -> Unit {
     "  --drift-peers <peer-a,peer-b> (for yata-wasm-plan/yata-triad-contract)",
   )
   println("  --seal true|false (for yata-wasm-plan/yata-triad-contract)")
-  println("  --merkin-head <git-head> (for yata-triad-contract)")
+  println("  --loci-head <git-head> (for yata-triad-contract)")
   println("  --mu-head <git-head> (for yata-triad-contract)")
   println("  --lang-head <git-head> (for yata-triad-contract)")
-  println("  --merkin-branch <branch> (for yata-triad-contract)")
+  println("  --loci-branch <branch> (for yata-triad-contract)")
   println("  --mu-branch <branch> (for yata-triad-contract)")
   println("  --lang-branch <branch> (for yata-triad-contract)")
   println("  --wasm-exports <csv> (for yata-triad-contract)")
@@ -1155,7 +1155,7 @@ fn run_bridge_action(args : Array[String], action : String) -> Unit {
       let cluster = value_after(
         args,
         "--distributed-cluster-name",
-        value_after(args, "--cluster-name", "merkin-cognitive-v0_3"),
+        value_after(args, "--cluster-name", "loci-cognitive-v0_3"),
       )
       let mut cmd = "tools/cognitive-distributed-plan-v0_3.sh --compiler-out-dir " +
         compiler_out_dir +
@@ -1558,7 +1558,7 @@ fn run_yata_wasm_plan(args : Array[String]) -> Unit {
   let peer_a = drift_peer_or_none(raw_peers, 0)
   let peer_b = drift_peer_or_none(raw_peers, 1)
   let boundary_fsm = @loci_fsm.BoundaryWalkerFsm::new(
-      "daemon.yata.wasm-plan", "ratio://merkin/cmd/main",
+      "daemon.yata.wasm-plan", "ratio://loci/cmd/main",
     )
     .walk_scalars([("peer_a", peer_a), ("peer_b", peer_b)])
     .mark()
@@ -1593,10 +1593,10 @@ fn run_yata_triad_contract(args : Array[String]) -> Unit {
   )
   let should_seal = parse_bool(value_after(args, "--seal", "true"), true)
 
-  let merkin_head = value_after(args, "--merkin-head", "unknown")
+  let loci_head = value_after(args, "--loci-head", "unknown")
   let mu_head = value_after(args, "--mu-head", "unknown")
   let lang_head = value_after(args, "--lang-head", "unknown")
-  let merkin_branch = value_after(args, "--merkin-branch", "unknown")
+  let loci_branch = value_after(args, "--loci-branch", "unknown")
   let mu_branch = value_after(args, "--mu-branch", "unknown")
   let lang_branch = value_after(args, "--lang-branch", "unknown")
   let wasm_exports_csv = value_after(
@@ -1619,7 +1619,7 @@ fn run_yata_triad_contract(args : Array[String]) -> Unit {
   let drift = @api.plan_drift_commitment(tokens_csv, drift_peers)
   let abi_status = @api.triad_abi_status(wasm_exports_csv)
   let contract = @api.triad_contract_wasm(
-    tokens_csv, drift_peers, merkin_head, mu_head, lang_head, merkin_branch, mu_branch,
+    tokens_csv, drift_peers, loci_head, mu_head, lang_head, loci_branch, mu_branch,
     lang_branch, wasm_exports_csv, generated_at_utc, contract_version,
   )
 
@@ -1771,8 +1771,8 @@ fn make_policy(
   let oci : @storage.OciPolicy = if oci_enabled {
     {
       enabled: true,
-      repository: "registry.example.com/merkin/default",
-      artifact_media_type: "application/vnd.merkin.artifact.v1+octet-stream",
+      repository: "registry.example.com/loci/default",
+      artifact_media_type: "application/vnd.loci.artifact.v1+octet-stream",
       tag_mode: @storage.LatestTag,
     }
   } else {
@@ -1802,7 +1802,7 @@ fn attach_targets(
     if starts_with(id, "oci-") {
       let oci = @storage.OciCasNode::new(
         id,
-        "registry.example.com/merkin/\{id}",
+        "registry.example.com/loci/\{id}",
         oci_registry,
       )
       daemon.add_store(oci.as_store_node())

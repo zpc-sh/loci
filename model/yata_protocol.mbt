@@ -109,7 +109,9 @@ pub fn YataPlan::parse_wire_strict(raw : String) -> YataParseOutcome {
   while i < lines.length() {
     let line = lines[i]
     line_no = line_no + 1
-    if line == "kind: merkin.yata.plan" {
+    // Accept both the legacy `merkin.yata.plan` and the current `loci.yata.plan`.
+    // This is a v0 compatibility shim; both are structurally identical.
+    if line == "kind: loci.yata.plan" || line == "kind: merkin.yata.plan" {
       seen_kind = true
       i = i + 1
       continue
@@ -118,7 +120,7 @@ pub fn YataPlan::parse_wire_strict(raw : String) -> YataParseOutcome {
       issues.push({
         line: line_no,
         code: "BAD_KIND",
-        message: "expected `kind: merkin.yata.plan`",
+        message: "expected `kind: loci.yata.plan`",
       })
       i = i + 1
       continue

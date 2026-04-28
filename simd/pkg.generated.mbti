@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/simd"
+package "zploc/loci/simd"
 
 // Values
 pub fn ne_bf16_to_f32_even(Bytes, Bytes) -> Unit

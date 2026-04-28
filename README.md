@@ -61,3 +61,40 @@ moon bench
 ```
 
 More detail: `docs/TESTING_AND_BENCHMARKING.md`.
+
+<!-- BUILD_MATRIX_BEGIN -->
+## Cognition work-cycle
+| Symbol | Cognition | Role | Package | Status |
+|--------|-----------|------|---------|--------|
+| □ | **ChatGPT** | form | `zpc/genius/loci/chatgpt` | ✅ active |
+| ○ | **Claude** | expand | `zpc/genius/loci/claude` | ✅ active |
+| △ | **Gemini** | seal | `zpc/genius/loci/gemini` | 🗺️ planned |
+
+## MoonBit build targets
+| Target | Preferred | Runtimes | Status |
+|--------|:---------:|----------|--------|
+| `wasm-gc` | ⭐ | AtomVM, WasmEdge, wasmex-gc | ✅ |
+| `wasm` |  | WasmEdge, wasmex (linear-memory) | ✅ |
+| `native` |  | linux-x64, macos-arm64 | ✅ |
+| `js` |  | Node.js, Bun | 🧪 experimental |
+
+## Release platforms
+| Platform | Runner | Artifact |
+|----------|--------|----------|
+| Linux x86-64 | `ubuntu-latest` | `loci-linux-x64` |
+| macOS Apple Silicon | `macos-latest` | `loci-macos-arm64` |
+
+## Release artifacts
+| File | Description | Built by |
+|------|-------------|----------|
+| `loci-bun.js` | Bun CLI bundle (requires Bun runtime) | `bun build --target bun` |
+| `loci-wasm-gc.wasm` | WebAssembly GC module (preferred runtime target) | `moon build --target wasm-gc` |
+| `loci-linux-x64` | Self-contained CLI binary — Linux x86-64 | `bun build --compile --target bun-linux-x64` |
+| `loci-macos-arm64` | Self-contained CLI binary — macOS Apple Silicon | `bun build --compile --target bun-darwin-arm64` |
+| `SHA256SUMS` | SHA-256 checksums for all artifacts | `python3 (hashlib)` |
+
+## Roadmap
+> **Cognition compilation** (roadmap): Compile directly against a cognition's substrate — cross-compile loci packages per AI provider target  
+> When stable WIT interfaces land, each cognition becomes a wasm component compiled against its own world
+
+<!-- BUILD_MATRIX_END -->

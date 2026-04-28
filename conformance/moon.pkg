@@ -1,15 +1,15 @@
 import {
   "moonbitlang/core/bench" @bench,
-  "zpc/genius/hash" @hash,
-  "zpc/genius/model" @model,
-  "zpc/genius/scan" @scan,
-  "zpc/genius/store" @store,
-  "zpc/genius/tree" @tree,
-  "zpc/genius/bloom" @bloom,
-  "zpc/genius/gaussian" @gaussian,
+  "zploc/loci/hash" @hash,
+  "zploc/loci/model" @model,
+  "zploc/loci/scan" @scan,
+  "zploc/loci/store" @store,
+  "zploc/loci/tree" @tree,
+  "zploc/loci/bloom" @bloom,
+  "zploc/loci/gaussian" @gaussian,
 }
 
 import {
   "moonbitlang/core/test" @test,
-  "zpc/genius/loci/chatgpt" @chatgpt,
+  "zploc/loci/loci/chatgpt" @chatgpt,
 } for "test"

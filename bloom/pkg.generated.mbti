@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/bloom"
+package "zploc/loci/bloom"
 
 import {
   "moonbitlang/core/debug",

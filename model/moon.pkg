@@ -1,8 +1,8 @@
 import {
   "moonbitlang/core/encoding/utf8" @utf8,
-  "zpc/genius/hash" @hash,
-  "zpc/genius/loci_fsm" @loci_fsm,
-  "zpc/genius/scan" @scan,
+  "zploc/loci/hash" @hash,
+  "zploc/loci/loci_fsm" @loci_fsm,
+  "zploc/loci/scan" @scan,
 }
 
 import {

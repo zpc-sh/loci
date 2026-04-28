@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/hash"
+package "zploc/loci/hash"
 
 import {
   "moonbitlang/core/debug",
