@@ -23,6 +23,22 @@ pub(all) enum ChatgptStage {
   Seal
 } derive(Eq, @debug.Debug)
 
+pub(all) struct ComponentizationReport {
+  plans : Array[ModuleComponentPlan]
+} derive(Eq, @debug.Debug)
+pub fn ComponentizationReport::add_plan(Self, ModuleComponentPlan) -> Self
+pub fn ComponentizationReport::is_boundary_safe(Self) -> Bool
+pub fn ComponentizationReport::new() -> Self
+pub fn ComponentizationReport::ready_count(Self) -> Int
+
+pub(all) enum ComponentizationStatus {
+  Planned
+  Scoped
+  Extracted
+  Verified
+  Integrated
+} derive(Eq, @debug.Debug)
+
 pub(all) struct ContractBinding {
   contract_id : String
   test_result_ref : String?
@@ -74,6 +90,31 @@ pub(all) struct CrossingRecord {
 } derive(Eq, @debug.Debug)
 pub fn CrossingRecord::is_complete(Self) -> Bool
 pub fn CrossingRecord::new(String, String, String, String, BoundaryMode, seal? : String?) -> Self
+
+pub(all) struct ModuleComponentPlan {
+  module_name : String
+  source_contract_id : String
+  source_paths : Array[String]
+  target_package : String
+  spec_file : String
+  test_files : Array[String]
+  status : ComponentizationStatus
+} derive(Eq, @debug.Debug)
+pub fn ModuleComponentPlan::is_ready_for_extract(Self) -> Bool
+pub fn ModuleComponentPlan::new(String, String, Array[String], String, String, Array[String], status? : ComponentizationStatus) -> Self
+pub fn ModuleComponentPlan::to_contract_lines(Self) -> Array[String]
+
+pub(all) struct ModuleExtractionTemplate {
+  target_package_root : String
+  spec_file : String
+  easy_test_file : String
+  mid_test_file : String
+  difficult_test_file : String
+  default_status : ComponentizationStatus
+} derive(Eq, @debug.Debug)
+pub fn ModuleExtractionTemplate::chatgpt_default() -> Self
+pub fn ModuleExtractionTemplate::instantiate(Self, String, String, Array[String], String, status? : ComponentizationStatus?) -> ModuleComponentPlan
+pub fn ModuleExtractionTemplate::required_test_files(Self) -> Array[String]
 
 pub(all) struct ProofObligation {
   obligation_id : String

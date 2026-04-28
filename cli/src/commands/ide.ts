@@ -2,15 +2,23 @@ import { mkdir, readdir, exists, appendFile } from "fs/promises"
 import { join, resolve, basename, dirname } from "path"
 import { randomBytes } from "crypto"
 import { createInterface } from "readline"
-
-interface RepoEntry {
-  name: string
-  path: string
-}
-
-interface IdeConfig {
-  repos: RepoEntry[]
-}
+import {
+  canonicalRepoPath,
+  isAncestorPath,
+  loadIdeConfig as loadIdeConfigFile,
+  nestedRelationsFor,
+  saveIdeConfig as saveIdeConfigFile,
+  sortRepos,
+  type IdeConfig,
+  type RepoEntry,
+} from "../sdk/ide/repos.ts"
+import {
+  buildFingerPlanContent,
+  emitFingerPlan,
+  type NucleantRecord,
+  type NucleantRepoState,
+} from "../sdk/ide/finger.ts"
+import { bootMulspAtDir } from "../sdk/ide/boot_mulsp.ts"
 
 interface CodexMessage {
   id: string
@@ -30,23 +38,33 @@ interface SearchHit {
 }
 
 type NucleantStatus = "presented" | "in_progress" | "resolved"
+type ComponentizationStatus = "planned" | "scoped" | "extracted" | "verified" | "integrated"
 
-interface NucleantRepoState {
-  repo: string
-  thread: string
-  status: NucleantStatus
-  last_update: string
-  note: string | null
-}
-
-interface NucleantRecord {
-  id: string
-  title: string
-  spec_api: string
-  description: string
-  created_at: string
-  updated_at: string
-  presented_to: NucleantRepoState[]
+interface ModuleComponentPlanSkeleton {
+  module_name: string
+  source_contract_id: string
+  source_paths: string[]
+  target_package: string
+  spec_file: string
+  test_files: string[]
+  status: ComponentizationStatus
+  confidence: {
+    score: number
+    band: "low" | "medium" | "high"
+    mode: "inferred" | "override"
+    evidence: {
+      total: number
+      resolved: number
+      in_progress: number
+      presented: number
+    }
+  }
+  generated_from: {
+    nucleant_id: string
+    nucleant_title: string
+    generated_at: string
+  }
+  moonbit_template_call: string
 }
 
 type SocketProtocol = "loci" | "mcp" | "lsp"
@@ -68,10 +86,11 @@ interface SocketResponse {
   }
 }
 
-const IDE_ROOT = ".loci/ide"
+const IDE_ROOT = process.env.LOCI_IDE_ROOT ? resolve(process.env.LOCI_IDE_ROOT) : ".loci/ide"
 const IDE_REPOS_FILE = join(IDE_ROOT, "repos.json")
 const IDE_NUCLEANTS_DIR = join(IDE_ROOT, "nucleants")
 const IDE_FINGER_DIR = join(IDE_ROOT, "finger")
+const IDE_COMPONENTIZATION_DIR = join(IDE_ROOT, "componentization")
 
 export async function cmdIde(args: string[]): Promise<void> {
   const sub = args[0]
@@ -89,6 +108,10 @@ export async function cmdIde(args: string[]): Promise<void> {
       return cmdIdeNucleant(rest)
     case "finger":
       return cmdIdeFinger(rest)
+    case "componentize":
+      return cmdIdeComponentize(rest)
+    case "codex":
+      return cmdIdeCodex(rest)
     case "serve":
       return cmdIdeServe(rest)
     case "help":
@@ -153,6 +176,74 @@ async function cmdIdeServe(args: string[]): Promise<void> {
   }
 }
 
+async function cmdIdeComponentize(args: string[]): Promise<void> {
+  const sub = args[0]
+  const rest = args.slice(1)
+  if (sub === "from-nucleant") {
+    const id = rest[0]
+    if (!id) {
+      console.error(
+        "Usage: loci ide componentize from-nucleant <id> [--module <name>] [--suffix <pkg-suffix>] [--status <planned|scoped|extracted|verified|integrated>] [--confidence <0..1>] [--source <path1,path2>] [--out <path>]",
+      )
+      process.exit(1)
+    }
+    const moduleName = flag(rest, "--module")
+    const suffix = flag(rest, "--suffix")
+    const out = flag(rest, "--out")
+    const sourcesRaw = flag(rest, "--source")
+    const sources = sourcesRaw ? sourcesRaw.split(",").map(v => v.trim()).filter(Boolean) : null
+    const status = flag(rest, "--status")
+    const confidenceRaw = flag(rest, "--confidence")
+    const confidenceOverride = parseConfidenceOverride(confidenceRaw)
+    if (confidenceRaw !== null && confidenceOverride === null) {
+      console.error("Invalid --confidence. Use a number between 0 and 1.")
+      process.exit(1)
+    }
+    if (status && !parseComponentizationStatus(status)) {
+      console.error("Invalid --status. Use planned|scoped|extracted|verified|integrated")
+      process.exit(1)
+    }
+    const result = await apiComponentizeFromNucleant(id, moduleName, suffix, sources, status, confidenceOverride, out)
+    console.log(`component plan updated: ${result.path}`)
+    console.log(`confidence: ${result.plan.confidence.score.toFixed(3)} (${result.plan.confidence.band})`)
+    return
+  }
+  if (sub === "apply") {
+    const id = rest[0]
+    if (!id) {
+      console.error(
+        "Usage: loci ide componentize apply <id> [--module <name>] [--suffix <pkg-suffix>] [--status <planned|scoped|extracted|verified|integrated>] [--confidence <0..1>] [--source <path1,path2>] [--out <plan-path>] [--snippet-out <mbt-path>]",
+      )
+      process.exit(1)
+    }
+    const moduleName = flag(rest, "--module")
+    const suffix = flag(rest, "--suffix")
+    const out = flag(rest, "--out")
+    const snippetOut = flag(rest, "--snippet-out")
+    const sourcesRaw = flag(rest, "--source")
+    const sources = sourcesRaw ? sourcesRaw.split(",").map(v => v.trim()).filter(Boolean) : null
+    const status = flag(rest, "--status")
+    const confidenceRaw = flag(rest, "--confidence")
+    const confidenceOverride = parseConfidenceOverride(confidenceRaw)
+    if (confidenceRaw !== null && confidenceOverride === null) {
+      console.error("Invalid --confidence. Use a number between 0 and 1.")
+      process.exit(1)
+    }
+    if (status && !parseComponentizationStatus(status)) {
+      console.error("Invalid --status. Use planned|scoped|extracted|verified|integrated")
+      process.exit(1)
+    }
+    const result = await apiComponentizeApply(id, moduleName, suffix, sources, status, confidenceOverride, out, snippetOut)
+    console.log(`component plan updated: ${result.plan_path}`)
+    console.log(`component snippet updated: ${result.snippet_path}`)
+    console.log(`confidence: ${result.confidence.toFixed(3)}`)
+    return
+  }
+  console.error(`Unknown ide componentize subcommand: ${sub}`)
+  console.error("Usage: loci ide componentize [from-nucleant|apply] <id> [options]")
+  process.exit(1)
+}
+
 async function cmdIdeFinger(args: string[]): Promise<void> {
   const sub = args[0]
   const rest = args.slice(1)
@@ -172,6 +263,39 @@ async function cmdIdeFinger(args: string[]): Promise<void> {
   process.exit(1)
 }
 
+async function cmdIdeCodex(args: string[]): Promise<void> {
+  const sub = args[0]
+  const rest = args.slice(1)
+  if (sub !== "boot-mulsp") {
+    console.error(`Unknown ide codex subcommand: ${sub}`)
+    console.error("Usage: loci ide codex boot-mulsp [-f <dir>|--from <dir>] [--repos <r1,r2|all>] [--id <id>]")
+    process.exit(1)
+  }
+  const dir = flag(rest, "-f") ?? flag(rest, "--from") ?? process.cwd()
+  const reposRaw = flag(rest, "--repos")
+  const repos = reposRaw ? reposRaw.split(",").map(v => v.trim()).filter(Boolean) : null
+  const result = await bootMulspAtDir({
+    rootDir: dir,
+    id: flag(rest, "--id"),
+    repos,
+    title: flag(rest, "--title"),
+    specApi: flag(rest, "--spec-api"),
+    description: flag(rest, "--desc"),
+    message: flag(rest, "--message"),
+  })
+  console.log(`mulsp booted in ${result.root_dir}`)
+  console.log(`nucleant=${result.nucleant_id}`)
+  console.log(`finger_plan=${result.finger_path}`)
+  console.log(`locality=${result.locality_report.locality}`)
+  console.log(`inertia=${result.locality_report.inertia_percent};stable=${result.locality_report.stable_fields};changed=${result.locality_report.changed_fields};new=${result.locality_report.new_fields}`)
+  console.log(`dedup=${result.locality_report.duplicate ? "hit" : "miss"}`)
+  if (result.presented_to.length > 0) {
+    console.log(`presented_to=${result.presented_to.join(",")}`)
+  } else {
+    console.log("presented_to=(none)")
+  }
+}
+
 async function cmdIdeRepo(args: string[]): Promise<void> {
   const sub = args[0]
   const rest = args.slice(1)
@@ -183,12 +307,22 @@ async function cmdIdeRepo(args: string[]): Promise<void> {
         console.error("Usage: loci ide repo add <name> <path>")
         process.exit(1)
       }
-      const absPath = resolve(pathArg)
+      let absPath = ""
+      try {
+        absPath = await canonicalRepoPath(pathArg)
+      } catch (err) {
+        console.error(err instanceof Error ? err.message : String(err))
+        process.exit(1)
+      }
       const config = await loadIdeConfig()
       const filtered = config.repos.filter(r => r.name !== name && r.path !== absPath)
       filtered.push({ name, path: absPath })
-      await saveIdeConfig({ repos: filtered.sort((a, b) => a.name.localeCompare(b.name)) })
+      const sorted = sortRepos(filtered)
+      await saveIdeConfig({ repos: sorted })
       console.log(`Added repo '${name}' => ${absPath}`)
+      for (const rel of nestedRelationsFor(name, absPath, sorted)) {
+        console.log(`  note: nested ${rel.direction} '${rel.other}' (${rel.path})`)
+      }
       return
     }
     case "ls":
@@ -198,8 +332,12 @@ async function cmdIdeRepo(args: string[]): Promise<void> {
         console.log("No IDE repos configured. Add one with: loci ide repo add <name> <path>")
         return
       }
-      for (const repo of config.repos) {
+      const sorted = sortRepos(config.repos)
+      for (const repo of sorted) {
         console.log(`${repo.name.padEnd(16)} ${repo.path}`)
+        for (const rel of nestedRelationsFor(repo.name, repo.path, sorted)) {
+          console.log(`  nested ${rel.direction} '${rel.other}' (${rel.path})`)
+        }
       }
       return
     }
@@ -572,6 +710,29 @@ async function handleLociMethod(method: string, params: unknown): Promise<unknow
       const out = optionalString(p, "out")
       return apiFingerPlan(id, out)
     }
+    case "ide.componentize.from_nucleant": {
+      const p = asRecord(params)
+      const id = requireString(p, "id")
+      const moduleName = optionalString(p, "module")
+      const suffix = optionalString(p, "suffix")
+      const sources = optionalStringArray(p, "sources")
+      const status = optionalString(p, "status")
+      const confidence = optionalNumber(p, "confidence")
+      const out = optionalString(p, "out")
+      return apiComponentizeFromNucleant(id, moduleName, suffix, sources, status, confidence, out)
+    }
+    case "ide.componentize.apply": {
+      const p = asRecord(params)
+      const id = requireString(p, "id")
+      const moduleName = optionalString(p, "module")
+      const suffix = optionalString(p, "suffix")
+      const sources = optionalStringArray(p, "sources")
+      const status = optionalString(p, "status")
+      const confidence = optionalNumber(p, "confidence")
+      const out = optionalString(p, "out")
+      const snippetOut = optionalString(p, "snippet_out")
+      return apiComponentizeApply(id, moduleName, suffix, sources, status, confidence, out, snippetOut)
+    }
     default:
       throw new Error(`unknown loci method: ${method}`)
   }
@@ -587,6 +748,8 @@ async function handleMcpMethod(method: string, params: unknown): Promise<unknown
         { name: "ide.nucleant.present", description: "Fan out nucleant to repos" },
         { name: "ide.nucleant.status", description: "Read nucleant convergence state" },
         { name: "ide.finger.plan", description: "Emit/update first-class finger.plan for nucleant" },
+        { name: "ide.componentize.from_nucleant", description: "Emit module componentization skeleton from nucleant" },
+        { name: "ide.componentize.apply", description: "Emit componentization plan + MoonBit snippet from nucleant" },
       ],
     }
   }
@@ -610,6 +773,8 @@ async function handleLspMethod(method: string, params: unknown): Promise<unknown
             "loci.ide.nucleant.present",
             "loci.ide.nucleant.status",
             "loci.ide.finger.plan",
+            "loci.ide.componentize.from_nucleant",
+            "loci.ide.componentize.apply",
           ],
         },
         workspaceSymbolProvider: true,
@@ -646,6 +811,23 @@ async function handleLspMethod(method: string, params: unknown): Promise<unknown
       const id = typeof args[0] === "string" ? args[0] : ""
       const out = typeof args[1] === "string" ? args[1] : null
       return apiFingerPlan(id, out)
+    }
+    if (command === "loci.ide.componentize.from_nucleant") {
+      const id = typeof args[0] === "string" ? args[0] : ""
+      const moduleName = typeof args[1] === "string" ? args[1] : null
+      const suffix = typeof args[2] === "string" ? args[2] : null
+      const confidence = typeof args[3] === "number" ? args[3] : null
+      const out = typeof args[4] === "string" ? args[4] : null
+      return apiComponentizeFromNucleant(id, moduleName, suffix, null, null, confidence, out)
+    }
+    if (command === "loci.ide.componentize.apply") {
+      const id = typeof args[0] === "string" ? args[0] : ""
+      const moduleName = typeof args[1] === "string" ? args[1] : null
+      const suffix = typeof args[2] === "string" ? args[2] : null
+      const confidence = typeof args[3] === "number" ? args[3] : null
+      const out = typeof args[4] === "string" ? args[4] : null
+      const snippetOut = typeof args[5] === "string" ? args[5] : null
+      return apiComponentizeApply(id, moduleName, suffix, null, null, confidence, out, snippetOut)
     }
     throw new Error(`unknown lsp command: ${command}`)
   }
@@ -818,19 +1000,19 @@ async function readCodexMessages(repoPath: string, threadFilter: string | null):
   return messages.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
 }
 
+export const __ideInternals = {
+  isAncestorPath,
+  sortRepos,
+  nestedRelationsFor,
+  canonicalRepoPath,
+}
+
 async function loadIdeConfig(): Promise<IdeConfig> {
-  if (!await exists(IDE_REPOS_FILE)) return { repos: [] }
-  try {
-    const parsed = JSON.parse(await Bun.file(IDE_REPOS_FILE).text()) as IdeConfig
-    return { repos: Array.isArray(parsed.repos) ? parsed.repos : [] }
-  } catch {
-    return { repos: [] }
-  }
+  return loadIdeConfigFile(IDE_REPOS_FILE)
 }
 
 async function saveIdeConfig(config: IdeConfig): Promise<void> {
-  await mkdir(IDE_ROOT, { recursive: true })
-  await Bun.write(IDE_REPOS_FILE, JSON.stringify(config, null, 2))
+  return saveIdeConfigFile(IDE_ROOT, IDE_REPOS_FILE, config)
 }
 
 function nucleantPath(id: string): string {
@@ -839,6 +1021,14 @@ function nucleantPath(id: string): string {
 
 function fingerPlanPath(id: string): string {
   return join(IDE_FINGER_DIR, `${id}.finger.plan`)
+}
+
+function componentizationPlanPath(id: string): string {
+  return join(IDE_COMPONENTIZATION_DIR, `${id}.module.plan.json`)
+}
+
+function componentizationSnippetPath(id: string): string {
+  return join(process.cwd(), "loci", "chatgpt", "arblocks", `${id}.module_componentize.mbt`)
 }
 
 async function loadNucleant(id: string): Promise<NucleantRecord | null> {
@@ -871,11 +1061,11 @@ async function apiRepoList(): Promise<RepoEntry[]> {
 }
 
 async function apiRepoAdd(name: string, pathArg: string): Promise<{ name: string, path: string }> {
-  const absPath = resolve(pathArg)
+  const absPath = await canonicalRepoPath(pathArg)
   const config = await loadIdeConfig()
   const filtered = config.repos.filter(r => r.name !== name && r.path !== absPath)
   filtered.push({ name, path: absPath })
-  await saveIdeConfig({ repos: filtered.sort((a, b) => a.name.localeCompare(b.name)) })
+  await saveIdeConfig({ repos: sortRepos(filtered) })
   return { name, path: absPath }
 }
 
@@ -1036,11 +1226,94 @@ async function apiFingerPlan(
 ): Promise<{ id: string, path: string, content: string }> {
   const record = await loadNucleant(id)
   if (!record) throw new Error(`nucleant '${id}' not found`)
-  const content = buildFingerPlan(record)
-  const path = outPath ? resolve(outPath) : fingerPlanPath(id)
-  await mkdir(outPath ? dirname(path) : IDE_FINGER_DIR, { recursive: true })
-  await Bun.write(path, content)
-  return { id, path, content }
+  return emitFingerPlan(id, record, outPath, fingerPlanPath(id), IDE_FINGER_DIR)
+}
+
+async function apiComponentizeFromNucleant(
+  id: string,
+  moduleNameRaw: string | null,
+  suffixRaw: string | null,
+  sourcePathsRaw: string[] | null,
+  statusRaw: string | null,
+  confidenceOverrideRaw: number | null,
+  outPath: string | null,
+): Promise<{ id: string, path: string, plan: ModuleComponentPlanSkeleton }> {
+  const record = await loadNucleant(id)
+  if (!record) throw new Error(`nucleant '${id}' not found`)
+  const module_name = moduleNameRaw ?? defaultModuleNameFromNucleant(record)
+  const source_contract_id = `H-${record.id}`
+  const source_paths = sourcePathsRaw && sourcePathsRaw.length > 0
+    ? sourcePathsRaw
+    : [record.spec_api]
+  const suffix = suffixRaw ?? module_name.replace(/\./g, "/")
+  const target_package = joinPackagePath("zpc/genius/loci/chatgpt", suffix)
+  const parsedStatus = parseComponentizationStatus(statusRaw)
+  if (statusRaw && !parsedStatus) {
+    throw new Error("invalid componentization status")
+  }
+  const status = parsedStatus ?? "scoped"
+  const confidence = withConfidenceOverride(
+    computeNucleantConfidence(record, status),
+    confidenceOverrideRaw,
+  )
+  const test_files = [
+    "loci/chatgpt/chatgpt_easy_test.mbt",
+    "loci/chatgpt/chatgpt_mid_test.mbt",
+    "loci/chatgpt/chatgpt_difficult_test.mbt",
+  ]
+  const plan: ModuleComponentPlanSkeleton = {
+    module_name,
+    source_contract_id,
+    source_paths,
+    target_package,
+    spec_file: "loci/chatgpt/chatgpt_spec.mbt",
+    test_files,
+    status,
+    confidence,
+    generated_from: {
+      nucleant_id: record.id,
+      nucleant_title: record.title,
+      generated_at: new Date().toISOString(),
+    },
+    moonbit_template_call: [
+      "let template = @chatgpt.ModuleExtractionTemplate::chatgpt_default()",
+      `let plan = template.instantiate("${module_name}", "${source_contract_id}", ${JSON.stringify(source_paths)}, "${suffix}", status=Some(@chatgpt.${toMoonbitComponentizationStatus(status)}))`,
+    ].join("\n"),
+  }
+  const path = outPath ? resolve(outPath) : componentizationPlanPath(id)
+  await mkdir(outPath ? dirname(path) : IDE_COMPONENTIZATION_DIR, { recursive: true })
+  await Bun.write(path, JSON.stringify(plan, null, 2) + "\n")
+  return { id, path, plan }
+}
+
+async function apiComponentizeApply(
+  id: string,
+  moduleNameRaw: string | null,
+  suffixRaw: string | null,
+  sourcePathsRaw: string[] | null,
+  statusRaw: string | null,
+  confidenceOverrideRaw: number | null,
+  outPath: string | null,
+  snippetOutPath: string | null,
+): Promise<{ id: string, plan_path: string, snippet_path: string, confidence: number }> {
+  const generated = await apiComponentizeFromNucleant(
+    id,
+    moduleNameRaw,
+    suffixRaw,
+    sourcePathsRaw,
+    statusRaw,
+    confidenceOverrideRaw,
+    outPath,
+  )
+  const snippetPath = snippetOutPath ? resolve(snippetOutPath) : componentizationSnippetPath(id)
+  await mkdir(dirname(snippetPath), { recursive: true })
+  await Bun.write(snippetPath, buildComponentizationSnippet(generated.plan))
+  return {
+    id,
+    plan_path: generated.path,
+    snippet_path: snippetPath,
+    confidence: generated.plan.confidence.score,
+  }
 }
 
 async function listNucleantIds(): Promise<string[]> {
@@ -1058,29 +1331,92 @@ function upsertNucleantState(record: NucleantRecord, state: NucleantRepoState): 
 }
 
 function buildFingerPlan(record: NucleantRecord): string {
-  const lines: string[] = [
-    "kind: merkin.yata.plan",
-    "track=program",
-    "mode=compact",
-    "generator=loci.ide",
-    `note=nucleant:${record.id}`,
-    "self_report=1",
-    "self_report_overlay=codex",
-    "self_report_view=nucleant",
-    `nucleant_id=${record.id}`,
-    `nucleant_title=${record.title}`,
-    `spec_api=${record.spec_api}`,
-    `created_at=${record.created_at}`,
-    `updated_at=${record.updated_at}`,
-    `self_report_gap=${record.presented_to.length}`,
-  ]
-  for (const state of record.presented_to) {
-    const note = state.note ? state.note.replace(/\s+/g, "_") : "none"
-    lines.push(
-      `- N-${record.id} repo=${state.repo} status=${state.status} thread=${state.thread} updated=${state.last_update} note=${note}`,
-    )
+  return buildFingerPlanContent(record)
+}
+
+function buildComponentizationSnippet(plan: ModuleComponentPlanSkeleton): string {
+  const sourceList = plan.source_paths.map(v => `"${v}"`).join(", ")
+  const suffix = plan.target_package.replace(/^zpc\/genius\/loci\/chatgpt\/?/, "")
+  return [
+    "///|",
+    `/// Componentization scaffold for nucleant: ${plan.generated_from.nucleant_id}`,
+    `/// Confidence: ${plan.confidence.score.toFixed(3)} (${plan.confidence.band}, ${plan.confidence.mode})`,
+    "fn build_component_plan() -> @chatgpt.ModuleComponentPlan {",
+    "  let template = @chatgpt.ModuleExtractionTemplate::chatgpt_default()",
+    `  template.instantiate("${plan.module_name}", "${plan.source_contract_id}", [${sourceList}], "${suffix}", status=Some(@chatgpt.${toMoonbitComponentizationStatus(plan.status)}))`,
+    "}",
+    "",
+  ].join("\n")
+}
+
+function computeNucleantConfidence(
+  record: NucleantRecord,
+  status: ComponentizationStatus,
+): ModuleComponentPlanSkeleton["confidence"] {
+  const total = record.presented_to.length
+  const resolved = record.presented_to.filter(s => s.status === "resolved").length
+  const in_progress = record.presented_to.filter(s => s.status === "in_progress").length
+  const presented = record.presented_to.filter(s => s.status === "presented").length
+  const resolvedRate = total > 0 ? resolved / total : 0
+  const progressRate = total > 0 ? in_progress / total : 0
+  const presentedRate = total > 0 ? presented / total : 0
+  const statusBias = componentizationStatusBias(status)
+  const score = clamp01(
+    0.2 +
+    0.5 * resolvedRate +
+    0.2 * progressRate +
+    0.1 * presentedRate +
+    statusBias,
+  )
+  const band = confidenceBand(score)
+  return {
+    score,
+    band,
+    mode: "inferred",
+    evidence: { total, resolved, in_progress, presented },
   }
-  return lines.join("\n") + "\n"
+}
+
+function withConfidenceOverride(
+  confidence: ModuleComponentPlanSkeleton["confidence"],
+  override: number | null,
+): ModuleComponentPlanSkeleton["confidence"] {
+  if (override === null) return confidence
+  if (!Number.isFinite(override) || override < 0 || override > 1) {
+    throw new Error("invalid confidence override; expected number in [0,1]")
+  }
+  return {
+    ...confidence,
+    score: override,
+    band: confidenceBand(override),
+    mode: "override",
+  }
+}
+
+function confidenceBand(score: number): "low" | "medium" | "high" {
+  if (score >= 0.75) return "high"
+  if (score >= 0.45) return "medium"
+  return "low"
+}
+
+function componentizationStatusBias(status: ComponentizationStatus): number {
+  if (status === "planned") return -0.05
+  if (status === "scoped") return 0
+  if (status === "extracted") return 0.08
+  if (status === "verified") return 0.15
+  return 0.2
+}
+
+function clamp01(value: number): number {
+  if (value < 0) return 0
+  if (value > 1) return 1
+  return value
+}
+
+function defaultModuleNameFromNucleant(record: NucleantRecord): string {
+  const normalized = record.id.replace(/[^a-zA-Z0-9_.-]/g, ".")
+  const compact = normalized.replace(/\.+/g, ".").replace(/^\./, "").replace(/\.$/, "")
+  return compact.length > 0 ? compact : "module.component"
 }
 
 function parseNucleantStatus(value: string): NucleantStatus | null {
@@ -1088,6 +1424,37 @@ function parseNucleantStatus(value: string): NucleantStatus | null {
   if (value === "in_progress") return "in_progress"
   if (value === "resolved") return "resolved"
   return null
+}
+
+function parseComponentizationStatus(value: string | null): ComponentizationStatus | null {
+  if (value === "planned") return "planned"
+  if (value === "scoped") return "scoped"
+  if (value === "extracted") return "extracted"
+  if (value === "verified") return "verified"
+  if (value === "integrated") return "integrated"
+  return null
+}
+
+function parseConfidenceOverride(value: string | null): number | null {
+  if (value === null) return null
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed) || parsed < 0 || parsed > 1) return null
+  return parsed
+}
+
+function toMoonbitComponentizationStatus(value: ComponentizationStatus): string {
+  if (value === "planned") return "Planned"
+  if (value === "scoped") return "Scoped"
+  if (value === "extracted") return "Extracted"
+  if (value === "verified") return "Verified"
+  return "Integrated"
+}
+
+function joinPackagePath(root: string, suffix: string): string {
+  const trimmedRoot = root.replace(/\/+$/, "")
+  const trimmedSuffix = suffix.replace(/^\/+/, "")
+  if (!trimmedSuffix) return trimmedRoot
+  return `${trimmedRoot}/${trimmedSuffix}`
 }
 
 function flag(args: string[], name: string): string | null {
@@ -1123,6 +1490,9 @@ USAGE
   loci ide nucleant mark <id> --repo <n> --status Track per-repo convergence state
   loci ide nucleant status [id]                   Show nucleant registry or details
   loci ide finger plan <nucleant-id>              Emit first-class finger.plan artifact
+  loci ide codex boot-mulsp [-f <dir>]            Boot mulsp nucleant + finger plan in target loci dir
+  loci ide componentize from-nucleant <id>        Emit module componentization skeleton
+  loci ide componentize apply <id>                Emit plan + MoonBit snippet with confidence
   loci ide serve                                  Stdio JSON-RPC socket (loci/mcp/lsp)
 
 OPTIONS

@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-04-26T23:42:48.129Z",
+  "artifacts_dir": "/var/home/locn/ratio/loci/artifacts/release-check",
+  "targets": [
+    "cli"
+  ],
+  "adapter_matrix": [
+    "native",
+    "wasm-shim"
+  ],
+  "artifacts": [
+    {
+      "kind": "bun-cli",
+      "path": "/var/home/locn/ratio/loci/artifacts/release-check/loci"
+    }
+  ]
+}

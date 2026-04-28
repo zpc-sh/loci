@@ -12,7 +12,13 @@ pub fn boundary_walk_wire(String, String, String, String) -> String
 
 pub fn boundary_walker_personality() -> Personality
 
+pub fn compose_personality() -> Personality
+
 pub fn cross_result_tag(CrossResult) -> String
+
+pub fn diff_personality() -> Personality
+
+pub fn extract_cave_outputs(FsmCave, UInt) -> Array[TransducerOutput]
 
 pub fn parse_scalar_csv(String) -> Array[(String, String)]
 
@@ -33,6 +39,14 @@ pub fn reporter_run_wire(String, String, String) -> String
 pub fn reporter_state_text(ReporterState) -> String
 
 pub fn reporter_summary_wire(String, String, String) -> String
+
+pub fn subtract_personality() -> Personality
+
+pub fn[T : Transducer] transduce_batch(T, Array[TransducerInput]) -> (T, Array[TransducerOutput])
+
+pub fn[T : Transducer] transduce_to_result(T, TransducerInput) -> (T, TransduceResult)
+
+pub fn union_personality() -> Personality
 
 // Errors
 
@@ -80,6 +94,10 @@ pub(all) struct BoundaryWalkerFsm {
   bidi_controls : UInt
   ascii_controls : UInt
   crossings : Array[CrossingReport]
+  locality_signatures : Map[String, String]
+  locality_field_values : Map[String, String]
+  locality_ingests : UInt
+  locality_dedup_hits : UInt
   cave : FsmCave
 } derive(@debug.Debug)
 pub fn BoundaryWalkerFsm::attention_gradient(Self) -> String
@@ -88,11 +106,13 @@ pub fn BoundaryWalkerFsm::attention_score(Self) -> UInt
 pub fn BoundaryWalkerFsm::attention_ticks(Self) -> UInt
 pub fn BoundaryWalkerFsm::cross(Self, &Crosser) -> Self
 pub fn BoundaryWalkerFsm::emit_stigmergy(Self, note? : String) -> String
+pub fn BoundaryWalkerFsm::ingest_locality_pattern(Self, String, Array[(String, String)]) -> (Self, LocalityIngestReport)
 pub fn BoundaryWalkerFsm::mark(Self) -> Self
 pub fn BoundaryWalkerFsm::new(String, String) -> Self
 pub fn BoundaryWalkerFsm::status(Self) -> BoundaryStatus
 pub fn BoundaryWalkerFsm::walk_scalar(Self, String, String) -> Self
 pub fn BoundaryWalkerFsm::walk_scalars(Self, Array[(String, String)]) -> Self
+pub impl Transducer for BoundaryWalkerFsm
 
 pub(all) struct CaveEntry {
   seq : UInt
@@ -135,6 +155,40 @@ pub fn FsmCave::new(String, String) -> Self
 pub fn FsmCave::since(Self, UInt) -> Array[CaveEntry]
 pub fn FsmCave::snapshot(Self) -> Array[CaveEntry]
 pub fn FsmCave::tick(Self) -> Self
+
+pub(all) struct LocalityIngestReport {
+  locality : String
+  field_total : UInt
+  stable_fields : UInt
+  changed_fields : UInt
+  new_fields : UInt
+  duplicate : Bool
+  inertia_percent : UInt
+  prior_signature : String
+  current_signature : String
+} derive(@debug.Debug)
+
+pub(all) struct MetabolicEnvelope {
+  birth_tick : UInt
+  last_tick : UInt
+  total_ticks : UInt
+  total_outputs : UInt
+  lifetime_cap : UInt
+  mu : UInt
+  omega : UInt
+  reaped : Bool
+} derive(@debug.Debug)
+pub fn MetabolicEnvelope::age(Self, UInt) -> UInt
+pub fn MetabolicEnvelope::effective_budget(Self) -> UInt
+pub fn MetabolicEnvelope::efficiency(Self) -> UInt
+pub fn MetabolicEnvelope::new(UInt) -> Self
+pub fn MetabolicEnvelope::reap(Self) -> Self
+pub fn MetabolicEnvelope::record_outputs(Self, UInt) -> Self
+pub fn MetabolicEnvelope::should_reap(Self, UInt) -> Bool
+pub fn MetabolicEnvelope::staleness(Self, UInt) -> UInt
+pub fn MetabolicEnvelope::tick(Self, UInt) -> Self
+pub fn MetabolicEnvelope::with_omega(UInt, UInt) -> Self
+pub fn MetabolicEnvelope::yield_rate(Self) -> UInt
 
 pub(all) struct Personality {
   name : String
@@ -180,6 +234,7 @@ pub fn ReporterFsm::emit_summary(Self) -> String
 pub fn ReporterFsm::new(String, String) -> Self
 pub fn ReporterFsm::send(Self, ReporterEvent) -> Self
 pub fn ReporterFsm::submit(Self, Submission) -> Self
+pub impl Transducer for ReporterFsm
 
 pub(all) enum ReporterState {
   RIdle
@@ -201,6 +256,61 @@ pub(all) struct Submission {
   content : String
 } derive(@debug.Debug)
 
+pub(all) struct TransduceResult {
+  state_tag : String
+  outputs : Array[TransducerOutput]
+  accepting : Bool
+} derive(@debug.Debug)
+
+pub(all) struct TransducerCompose[A, B] {
+  inner : A
+  outer : B
+  bridge : (TransducerOutput) -> TransducerInput?
+  envelope : MetabolicEnvelope
+}
+pub fn[A, B] TransducerCompose::new(A, B, (TransducerOutput) -> TransducerInput?, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerCompose[A, B]
+
+pub(all) struct TransducerDiff[A, B] {
+  left : A
+  right : B
+  envelope : MetabolicEnvelope
+} derive(@debug.Debug)
+pub fn[A, B] TransducerDiff::new(A, B, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerDiff[A, B]
+
+pub(all) enum TransducerInput {
+  Scalar(String, String)
+  SubmitWork(Submission)
+  Event(String)
+  Tick
+  RawBytes(Bytes)
+} derive(@debug.Debug)
+
+pub(all) enum TransducerOutput {
+  CaveDeposit(CaveEntry)
+  Signal(String, String)
+  Emission(String)
+  Spawn(String, TransducerInput)
+  Reap(String)
+} derive(@debug.Debug)
+
+pub(all) struct TransducerSubtract[A, B] {
+  primary : A
+  filter : B
+  envelope : MetabolicEnvelope
+} derive(@debug.Debug)
+pub fn[A, B] TransducerSubtract::new(A, B, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerSubtract[A, B]
+
+pub(all) struct TransducerUnion[A, B] {
+  left : A
+  right : B
+  envelope : MetabolicEnvelope
+} derive(@debug.Debug)
+pub fn[A, B] TransducerUnion::new(A, B, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerUnion[A, B]
+
 // Type aliases
 
 // Traits
@@ -210,5 +320,12 @@ pub(open) trait Crosser {
   passport_id(Self) -> String
   actor_overlay(Self) -> String
   target_locus(Self) -> String
+}
+
+pub(open) trait Transducer {
+  transduce(Self, TransducerInput) -> (Self, Array[TransducerOutput])
+  state_tag(Self) -> String
+  accepting(Self) -> Bool
+  personality_name(Self) -> String
 }
 

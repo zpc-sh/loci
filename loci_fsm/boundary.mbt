@@ -58,6 +58,26 @@ pub(all) struct CrossingReport {
 } derive(Debug)
 
 ///|
+/// Locality ingest report for repeated patterned material.
+///
+/// The report models inertial diff posture:
+/// - `stable_fields`: fields unchanged from the last ingest in this locality
+/// - `changed_fields`: fields that changed value
+/// - `new_fields`: fields first observed in locality history
+/// - `duplicate`: true when the full locality signature is unchanged
+pub(all) struct LocalityIngestReport {
+  locality : String
+  field_total : UInt
+  stable_fields : UInt
+  changed_fields : UInt
+  new_fields : UInt
+  duplicate : Bool
+  inertia_percent : UInt
+  prior_signature : String
+  current_signature : String
+} derive(Debug)
+
+///|
 /// Deterministic boundary walker + marker FSM with attached cave.
 ///
 /// The cave records every transition arc the FSM moves through plus any
@@ -76,6 +96,10 @@ pub(all) struct BoundaryWalkerFsm {
   bidi_controls : UInt
   ascii_controls : UInt
   crossings : Array[CrossingReport]
+  locality_signatures : Map[String, String]
+  locality_field_values : Map[String, String]
+  locality_ingests : UInt
+  locality_dedup_hits : UInt
   cave : FsmCave
 } derive(Debug)
 
@@ -99,6 +123,10 @@ pub fn BoundaryWalkerFsm::new(
     bidi_controls: 0U,
     ascii_controls: 0U,
     crossings: [],
+    locality_signatures: {},
+    locality_field_values: {},
+    locality_ingests: 0U,
+    locality_dedup_hits: 0U,
     cave: FsmCave::new(actor + "@" + loci, "boundary-walker-v0"),
   }
 }
@@ -260,6 +288,97 @@ pub fn BoundaryWalkerFsm::cross(
 }
 
 ///|
+/// Locality-aware ingest of patterned fields.
+///
+/// This path is optimized for repeated scans of the same patterned file
+/// or contract source. It performs a full scalar walk (so boundary posture
+/// still updates), then computes an inertial diff against locality memory.
+pub fn BoundaryWalkerFsm::ingest_locality_pattern(
+  self : BoundaryWalkerFsm,
+  locality : String,
+  fields : Array[(String, String)],
+) -> (BoundaryWalkerFsm, LocalityIngestReport) {
+  let loc = fsm_sanitize_line(locality)
+  let walked = self.walk_scalars(fields)
+
+  let mut stable_fields = 0U
+  let mut changed_fields = 0U
+  let mut new_fields = 0U
+  let signatures : Array[String] = []
+  let next_field_values = walked.locality_field_values
+
+  for pair in fields {
+    let key = fsm_sanitize_line(pair.0)
+    let scan = scan_scalar(pair.1)
+    let canonical = scan.canonical
+    let field_ref = locality_field_ref(loc, key)
+    signatures.push(key + "=" + canonical)
+    match walked.locality_field_values.get(field_ref) {
+      Some(prev) =>
+        if prev == canonical {
+          stable_fields = stable_fields + 1U
+        } else {
+          changed_fields = changed_fields + 1U
+        }
+      None => new_fields = new_fields + 1U
+    }
+    next_field_values[field_ref] = canonical
+  }
+
+  signatures.sort()
+  let current_signature = diff_join(signatures, "|")
+  let prior_signature = match walked.locality_signatures.get(loc) {
+    Some(sig) => sig
+    None => "none"
+  }
+  let duplicate = prior_signature == current_signature
+  let field_total = fields.length().reinterpret_as_uint()
+  let inertia_percent = if field_total == 0U {
+    100U
+  } else {
+    stable_fields * 100U / field_total
+  }
+
+  let next_signatures = walked.locality_signatures
+  next_signatures[loc] = current_signature
+
+  let from_state = boundary_state_text(walked.state)
+  let to_state = from_state
+  let kind = if duplicate { "locality-dedup" } else { "locality-ingest" }
+  let value = "inertia=" +
+    inertia_percent.to_string() +
+    ";stable=" +
+    stable_fields.to_string() +
+    ";changed=" +
+    changed_fields.to_string() +
+    ";new=" +
+    new_fields.to_string()
+  let cave = walked.cave.deposit(kind~, key=loc, value~, from_state~, to_state~)
+
+  let next = {
+    ..walked,
+    locality_signatures: next_signatures,
+    locality_field_values: next_field_values,
+    locality_ingests: walked.locality_ingests + 1U,
+    locality_dedup_hits: walked.locality_dedup_hits +
+    (if duplicate { 1U } else { 0U }),
+    cave,
+  }
+  let report : LocalityIngestReport = {
+    locality: loc,
+    field_total,
+    stable_fields,
+    changed_fields,
+    new_fields,
+    duplicate,
+    inertia_percent,
+    prior_signature,
+    current_signature,
+  }
+  (next, report)
+}
+
+///|
 pub fn BoundaryWalkerFsm::status(self : BoundaryWalkerFsm) -> BoundaryStatus {
   if self.bidi_controls > 0U || self.ascii_controls > 0U {
     Containment
@@ -281,6 +400,28 @@ fn boundary_state_text(state : BoundaryFsmState) -> String {
     Marked => "marked"
     Emitted => "emitted"
     Failed => "failed"
+  }
+}
+
+///|
+fn locality_field_ref(locality : String, key : String) -> String {
+  locality + "::" + key
+}
+
+///|
+fn diff_join(items : Array[String], sep : String) -> String {
+  let builder = StringBuilder::new()
+  for i = 0; i < items.length(); i = i + 1 {
+    if i > 0 {
+      builder.write_string(sep)
+    }
+    builder.write_string(items[i])
+  }
+  let out = builder.to_string()
+  if out == "" {
+    "none"
+  } else {
+    out
   }
 }
 

@@ -33,6 +33,16 @@ pub fn capability_class_parse(String) -> CapabilityClass?
 
 pub fn capability_class_tag(CapabilityClass) -> String
 
+pub fn check_sigma_conservation(AmfDocument, AmfDocument?) -> String?
+
+pub fn collapse_gate(CaveDistillate, AmfDocument?, UInt, UInt) -> String?
+
+pub fn crystallize(String, CaveDistillate, AmfDocument?) -> AmfDocument
+
+pub fn crystallize_collective(String, Array[@loci_fsm.FsmCave], Array[@loci_fsm.MetabolicEnvelope], AmfDocument?, UInt, UInt) -> (AmfDocument?, String)
+
+pub fn distill(Array[@loci_fsm.FsmCave], Array[@loci_fsm.MetabolicEnvelope]) -> CaveDistillate
+
 pub fn intent_parse(String) -> Intent?
 
 pub fn intent_tag(Intent) -> String
@@ -454,6 +464,31 @@ pub(all) enum CapabilityClass {
   PatchVerify
   Full
 } derive(Eq, @debug.Debug)
+
+pub(all) struct CaveDistillate {
+  total_entries : UInt
+  walk_count : UInt
+  finding_count : UInt
+  crossing_count : UInt
+  submission_count : UInt
+  transition_count : UInt
+  composition_count : UInt
+  verification_count : UInt
+  publish_count : UInt
+  archive_count : UInt
+  rejected_count : UInt
+  total_suspicious_findings : UInt
+  total_admitted_crossings : UInt
+  total_rejected_crossings : UInt
+  total_ticks : UInt
+  total_outputs : UInt
+  total_fsts : UInt
+  aggregate_omega : UInt
+  topics : Array[String]
+  actors : Array[String]
+  material_hashes : Array[String]
+} derive(@debug.Debug)
+pub fn CaveDistillate::empty() -> Self
 
 pub(all) enum CompositionError {
   CompositionEmpty

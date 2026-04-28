@@ -153,7 +153,7 @@ describe("CLI_SPEC: command surface completeness", () => {
   const required = [
     "init", "loci", "genius",
     "enter", "sign", "trail", "residue", "where",
-    "status", "spec",
+    "ide", "status", "spec",
     "daemon", "pack", "app",
   ]
 
@@ -177,6 +177,26 @@ describe("CLI_SPEC: command surface completeness", () => {
     const subs = (genius.subcommands ?? []).map(s => s.name)
     for (const s of ["enter", "sign", "trail", "residue", "where"]) {
       expect(subs, `genius missing subcommand: ${s}`).toContain(s)
+    }
+  })
+
+  it("ide has subcommands: repo, search, ask, inbox, nucleant, finger, componentize, serve", () => {
+    const ide = CLI_SPEC.commands.find(c => c.name === "ide")!
+    expect(ide).toBeDefined()
+    const subs = (ide.subcommands ?? []).map(s => s.name)
+    for (const s of ["repo", "search", "ask", "inbox", "nucleant", "finger", "componentize", "serve"]) {
+      expect(subs, `ide missing subcommand: ${s}`).toContain(s)
+    }
+  })
+
+  it("ide componentize has subcommands: from-nucleant, apply", () => {
+    const ide = CLI_SPEC.commands.find(c => c.name === "ide")!
+    expect(ide).toBeDefined()
+    const componentize = (ide.subcommands ?? []).find(s => s.name === "componentize")
+    expect(componentize).toBeDefined()
+    const subs = (componentize!.subcommands ?? []).map(s => s.name)
+    for (const s of ["from-nucleant", "apply"]) {
+      expect(subs, `ide componentize missing subcommand: ${s}`).toContain(s)
     }
   })
 })

@@ -24,3 +24,17 @@ test "proof obligation discharged statuses are accepted" {
   assert_true(proved.is_discharged())
   assert_true(reviewed.is_discharged())
 }
+
+///|
+test "module component plan is extract-ready when scoped and complete" {
+  let plan = @chatgpt.ModuleComponentPlan::new(
+    "ide.socket.bridge",
+    "H-loci-ide-socket",
+    ["cli/src/commands/ide.ts", "loci/chatgpt/LOCI_IDE_SOCKET_DOGFOOD.md"],
+    "zpc/genius/loci/chatgpt/componentization",
+    "loci/chatgpt/chatgpt_spec.mbt",
+    ["loci/chatgpt/chatgpt_mid_test.mbt"],
+    status=@chatgpt.Scoped,
+  )
+  assert_true(plan.is_ready_for_extract())
+}

@@ -51,7 +51,7 @@ fn directive_value(line : String, key : String) -> String? {
   }
   match line.strip_prefix(prefix) {
     Some(rest) => {
-      let value = rest.trim().to_owned()
+      let value = rest.trim().to_string()
       if non_blank(value) {
         Some(value)
       } else {
@@ -657,20 +657,200 @@ pub fn ContractBinding::can_seal_with_solver(
     None => true
     Some(receipt) => {
       let solver_verified = receipt.is_verified()
-      if solver_verified {
-        match receipt.proof_artifact_ref {
-          Some(proof_artifact) =>
-            if has_ref(self.proof_ref) {
-              proof_assert non_blank(proof_artifact)
-              self.proof_ref == Some(proof_artifact)
-            } else {
-              true
-            }
-          None => true
-        }
-      } else {
-        false
+      if !solver_verified {
+        return false
+      }
+      match receipt.proof_artifact_ref {
+        Some(proof_artifact) =>
+          if has_ref(self.proof_ref) {
+            proof_assert non_blank(proof_artifact)
+            self.proof_ref == Some(proof_artifact)
+          } else {
+            true
+          }
+        None => true
       }
     }
   }
+}
+
+///|
+fn componentization_status_text(status : ComponentizationStatus) -> String {
+  match status {
+    Planned => "planned"
+    Scoped => "scoped"
+    Extracted => "extracted"
+    Verified => "verified"
+    Integrated => "integrated"
+  }
+}
+
+///|
+fn has_non_blank_entries(values : Array[String]) -> Bool {
+  if values.length() == 0 {
+    return false
+  }
+  for value in values {
+    if !non_blank(value) {
+      return false
+    }
+  }
+  true
+}
+
+///|
+fn join_package_path(root : String, suffix : String) -> String {
+  if !non_blank(suffix) {
+    return root
+  }
+  root + "/" + suffix
+}
+
+///|
+pub fn ModuleComponentPlan::new(
+  module_name : String,
+  source_contract_id : String,
+  source_paths : Array[String],
+  target_package : String,
+  spec_file : String,
+  test_files : Array[String],
+  status? : ComponentizationStatus = Planned,
+) -> ModuleComponentPlan {
+  {
+    module_name,
+    source_contract_id,
+    source_paths,
+    target_package,
+    spec_file,
+    test_files,
+    status,
+  }
+}
+
+///|
+pub fn ModuleComponentPlan::is_ready_for_extract(
+  self : ModuleComponentPlan,
+) -> Bool where {
+  proof_ensure: result => !result || has_non_blank_entries(self.source_paths),
+  proof_ensure: result => !result || has_non_blank_entries(self.test_files),
+} {
+  let metadata_ready = non_blank(self.module_name) &&
+    non_blank(self.source_contract_id) &&
+    non_blank(self.target_package) &&
+    non_blank(self.spec_file) &&
+    has_non_blank_entries(self.source_paths) &&
+    has_non_blank_entries(self.test_files)
+  if !metadata_ready {
+    return false
+  }
+  match self.status {
+    Scoped | Extracted | Verified | Integrated => true
+    Planned => false
+  }
+}
+
+///|
+pub fn ModuleComponentPlan::to_contract_lines(
+  self : ModuleComponentPlan,
+) -> Array[String] {
+  let lines = [
+    "@pattern module.componentization",
+    "@contract " + self.source_contract_id,
+    "@module " + self.module_name,
+    "@target_package " + self.target_package,
+    "@spec_file " + self.spec_file,
+    "@status " + componentization_status_text(self.status),
+    "@ready " + (if self.is_ready_for_extract() { "true" } else { "false" }),
+  ]
+  for path in self.source_paths {
+    lines.push("@source_path " + path)
+  }
+  for test_file in self.test_files {
+    lines.push("@test_file " + test_file)
+  }
+  lines
+}
+
+///|
+pub fn ComponentizationReport::new() -> ComponentizationReport {
+  { plans: [] }
+}
+
+///|
+pub fn ComponentizationReport::add_plan(
+  self : ComponentizationReport,
+  plan : ModuleComponentPlan,
+) -> ComponentizationReport {
+  let plans = self.plans
+  plans.push(plan)
+  { plans, }
+}
+
+///|
+pub fn ComponentizationReport::ready_count(
+  self : ComponentizationReport,
+) -> Int {
+  let mut count = 0
+  for plan in self.plans {
+    if plan.is_ready_for_extract() {
+      count = count + 1
+    }
+  }
+  count
+}
+
+///|
+pub fn ComponentizationReport::is_boundary_safe(
+  self : ComponentizationReport,
+) -> Bool where {
+  proof_ensure: result => !result || self.ready_count() == self.plans.length(),
+} {
+  self.plans.length() > 0 && self.ready_count() == self.plans.length()
+}
+
+///|
+pub fn ModuleExtractionTemplate::chatgpt_default() -> ModuleExtractionTemplate {
+  {
+    target_package_root: "zpc/genius/loci/chatgpt",
+    spec_file: "loci/chatgpt/chatgpt_spec.mbt",
+    easy_test_file: "loci/chatgpt/chatgpt_easy_test.mbt",
+    mid_test_file: "loci/chatgpt/chatgpt_mid_test.mbt",
+    difficult_test_file: "loci/chatgpt/chatgpt_difficult_test.mbt",
+    default_status: Scoped,
+  }
+}
+
+///|
+pub fn ModuleExtractionTemplate::required_test_files(
+  self : ModuleExtractionTemplate,
+) -> Array[String] {
+  [self.easy_test_file, self.mid_test_file, self.difficult_test_file]
+}
+
+///|
+pub fn ModuleExtractionTemplate::instantiate(
+  self : ModuleExtractionTemplate,
+  module_name : String,
+  source_contract_id : String,
+  source_paths : Array[String],
+  target_package_suffix : String,
+  status? : ComponentizationStatus? = None,
+) -> ModuleComponentPlan {
+  let target_package = join_package_path(
+    self.target_package_root,
+    target_package_suffix,
+  )
+  let final_status = match status {
+    Some(value) => value
+    None => self.default_status
+  }
+  ModuleComponentPlan::new(
+    module_name,
+    source_contract_id,
+    source_paths,
+    target_package,
+    self.spec_file,
+    self.required_test_files(),
+    status=final_status,
+  )
 }

@@ -55,8 +55,71 @@ pub fn reporter_personality() -> Personality {
 }
 
 ///|
+pub fn union_personality() -> Personality {
+  {
+    name: "union",
+    version: "v0",
+    description: "Parallel union transducer: feeds input to both children, merges output tapes. The swarm primitive.",
+    states: ["union(left,right)"],
+    events: ["transduce"],
+    cave_kinds: ["merged"],
+    initial_state: "union(idle,idle)",
+    terminal_states: [],
+  }
+}
+
+///|
+pub fn subtract_personality() -> Personality {
+  {
+    name: "subtract",
+    version: "v0",
+    description: "Filter transducer: primary outputs minus filter-matching outputs. The fencing primitive.",
+    states: ["subtract(primary,filter)"],
+    events: ["transduce"],
+    cave_kinds: ["filtered"],
+    initial_state: "subtract(idle,idle)",
+    terminal_states: [],
+  }
+}
+
+///|
+pub fn diff_personality() -> Personality {
+  {
+    name: "diff",
+    version: "v0",
+    description: "Symmetric difference transducer: emits outputs unique to each side. The delta detection primitive.",
+    states: ["diff(left,right)"],
+    events: ["transduce"],
+    cave_kinds: ["delta"],
+    initial_state: "diff(idle,idle)",
+    terminal_states: [],
+  }
+}
+
+///|
+pub fn compose_personality() -> Personality {
+  {
+    name: "compose",
+    version: "v0",
+    description: "Sequential composition transducer: inner output feeds outer input through a bridge function. Classic FST composition T₁ ∘ T₂.",
+    states: ["compose(inner,outer)"],
+    events: ["transduce"],
+    cave_kinds: ["bridged"],
+    initial_state: "compose(idle,idle)",
+    terminal_states: [],
+  }
+}
+
+///|
 pub fn personality_registry() -> Array[Personality] {
-  [boundary_walker_personality(), reporter_personality()]
+  [
+    boundary_walker_personality(),
+    reporter_personality(),
+    union_personality(),
+    subtract_personality(),
+    diff_personality(),
+    compose_personality(),
+  ]
 }
 
 ///|

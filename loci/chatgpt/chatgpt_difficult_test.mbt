@@ -153,3 +153,63 @@ test "solver receipt blocks seal when not completed or missing receipt" {
   assert_true(!missing_receipt.is_verified())
   assert_true(!binding.can_seal_with_solver(Some(missing_receipt)))
 }
+
+///|
+test "componentization report boundary safe only when all plans are extract-ready" {
+  let pending = @chatgpt.ModuleComponentPlan::new(
+    "loci.ide",
+    "H-loci-ide",
+    ["cli/src/commands/ide.ts"],
+    "zpc/genius/loci/ide",
+    "loci/chatgpt/chatgpt_spec.mbt",
+    ["loci/chatgpt/chatgpt_mid_test.mbt"],
+    status=@chatgpt.Planned,
+  )
+  let ready = @chatgpt.ModuleComponentPlan::new(
+    "loci.contracts",
+    "H-loci-contracts",
+    ["loci/chatgpt/LOCI-LINT-MINI-SPEC.md"],
+    "zpc/genius/loci/contracts",
+    "loci/chatgpt/chatgpt_spec.mbt",
+    ["loci/chatgpt/chatgpt_difficult_test.mbt"],
+    status=@chatgpt.Verified,
+  )
+  let report = @chatgpt.ComponentizationReport::new()
+    .add_plan(pending)
+    .add_plan(ready)
+  @test.assert_eq(report.ready_count(), 1)
+  assert_true(!report.is_boundary_safe())
+
+  let upgraded = @chatgpt.ModuleComponentPlan::new(
+    "loci.ide",
+    "H-loci-ide",
+    ["cli/src/commands/ide.ts"],
+    "zpc/genius/loci/ide",
+    "loci/chatgpt/chatgpt_spec.mbt",
+    ["loci/chatgpt/chatgpt_mid_test.mbt"],
+    status=@chatgpt.Integrated,
+  )
+  let safe_report = @chatgpt.ComponentizationReport::new()
+    .add_plan(upgraded)
+    .add_plan(ready)
+  @test.assert_eq(safe_report.ready_count(), 2)
+  assert_true(safe_report.is_boundary_safe())
+}
+
+///|
+test "module extraction template status override can force non-ready plan" {
+  let template = @chatgpt.ModuleExtractionTemplate::chatgpt_default()
+  let planned = template.instantiate(
+    "loci.contract.blocks",
+    "H-loci-contract-blocks",
+    ["loci/chatgpt/LOCI-LINT-MINI-SPEC.md"],
+    "contracts/blocks",
+    status=Some(@chatgpt.Planned),
+  )
+  @test.assert_eq(planned.status, @chatgpt.Planned)
+  assert_true(!planned.is_ready_for_extract())
+
+  let report = @chatgpt.ComponentizationReport::new().add_plan(planned)
+  @test.assert_eq(report.ready_count(), 0)
+  assert_true(!report.is_boundary_safe())
+}

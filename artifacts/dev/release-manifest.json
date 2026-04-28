@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-04-26T23:30:04.981Z",
+  "artifacts_dir": "/var/home/locn/ratio/loci/artifacts/dev",
+  "targets": [
+    "wasm"
+  ],
+  "adapter_matrix": [
+    "native",
+    "wasm-shim"
+  ],
+  "artifacts": [
+    {
+      "kind": "wasm",
+      "path": "/var/home/locn/ratio/loci/artifacts/dev/loci-wasm-entry.wasm",
+      "note": "copied from /var/home/locn/ratio/loci/_build/wasm-gc/release/build/wasm_entry/wasm_entry.wasm"
+    }
+  ]
+}

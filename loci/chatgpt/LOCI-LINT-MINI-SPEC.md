@@ -9,7 +9,6 @@ kind: "loci.chatgpt.spec"
 
 # Loci Lint Mini Spec v0.1
 
-<<<<<<< HEAD
 ## 0. Merge-Safe Mini Block (Current Priority)
 
 This is the smallest deployable surface for merge resolution work.
@@ -94,9 +93,6 @@ Repository organization (for arblock evolution):
 - keep all local mini-spec and related artifacts under `./loci/chatgpt`
 - treat this document as the seed profile for future arblock codex work
 - do not require parser-core format changes until macro-prepass behavior is stable
-
-=======
->>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
 ```text
 Name: Loci Lint
 Kind: repository-local semantic linter / kernel walker

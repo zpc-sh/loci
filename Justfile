@@ -118,6 +118,13 @@ release version="v0.1.0" zig-target="native":
 dist version="v0.1.0" zig-target="native":
     docs/archive/tools/release.sh --version {{version}} --zig-target {{zig-target}} --skip-tests
 
+# loci client release: tests → wasm-gc → bun CLI bundle → manifest
+[group('release')]
+loci-release: test-wasm loci
+    cd cli && bun run src/index.ts release build --target all --artifacts-dir ../dist/loci-release
+    @echo "✓ loci client release: dist/loci-release/"
+    @ls -lh dist/loci-release/
+
 # ── priv: copy wasm artifacts into sibling repos ──────────────────────────────
 
 # Copy wasm-gc entry to mulsp + muyata priv (AtomVM/Popcorn path)
@@ -187,9 +194,53 @@ chatgpt-dialogue-append:
 chatgpt-mulsp-handoff-verify:
     docs/archive/tools/chatgpt-mulsp-handoff-verify.sh
 
+# ── WIT / Component Model ─────────────────────────────────────────────────────
+
+# Validate both WIT packages
+[group('wit')]
+wit-validate:
+    wasm-tools component wit wit/capsule/
+    wasm-tools component wit wit/locus/
+    @echo "✓ capsule.wit + locus.wit valid"
+
+# Regenerate MoonBit bindings from capsule.wit (Level 1)
+[group('wit')]
+wit-gen-capsule:
+    rm -rf wit-gen/capsule
+    wit-bindgen moonbit wit/capsule/ \
+        --out-dir wit-gen/capsule \
+        --project-name zpc/genius \
+        --ignore-module-file \
+        --derive-debug \
+        --derive-eq \
+        --world capsule-world
+
+# Regenerate MoonBit bindings from locus.wit (Level 2)
+[group('wit')]
+wit-gen-locus:
+    rm -rf wit-gen/locus
+    wit-bindgen moonbit wit/locus/ \
+        --out-dir wit-gen/locus \
+        --project-name zpc/genius \
+        --ignore-module-file \
+        --derive-debug \
+        --derive-eq \
+        --world locus-world
+
+# Regenerate all bindings
+[group('wit')]
+wit-gen: wit-gen-capsule wit-gen-locus
+
+# Sync capsule dep into locus/deps after capsule.wit changes
+[group('wit')]
+wit-sync-deps:
+    cp wit/capsule/capsule.wit wit/locus/deps/zpc-capsule/capsule.wit
+    @echo "✓ synced capsule → locus/deps"
+
 # ── misc ──────────────────────────────────────────────────────────────────────
 
 [group('misc')]
 clean:
     moon clean
     rm -f loci
+    rm -rf wit-gen

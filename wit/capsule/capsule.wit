@@ -1,0 +1,369 @@
+// capsule.wit — the canonical loci capsule contract (Level 1)
+//
+// Pure computation. Session-cursor threading. FSMs as tick-based
+// algebraic effect handlers. No I/O — imports host for store/load/clock/log.
+//
+// The emitted WASM has a knowable fixed size. The FSMs live inside
+// loci as wasm blobs that handle computational effects via the
+// tick-based turn protocol.
+
+package zpc:capsule@0.1.0;
+
+interface types {
+
+    // ── Primitives ────────────────────────────────────
+
+    record hash {
+        alg: string,
+        digest: list<u8>,
+    }
+
+    record session-cursor {
+        session-id: string,
+        step: u64,
+    }
+
+    // ── Effect system ─────────────────────────────────
+
+    variant fsm-effect {
+        emit(cave-entry),
+        store-request(store-effect),
+        load-request(hash),
+        phase-complete(string),
+        yield-tick,
+    }
+
+    record store-effect {
+        key: hash,
+        data: list<u8>,
+    }
+
+    record tick-result {
+        cursor: session-cursor,
+        effects: list<fsm-effect>,
+        done: bool,
+        state-tag: string,
+    }
+
+    // ── Envelope / Freshness ──────────────────────────
+
+    enum freshness { fresh, dirty, deferred, sealed }
+    enum header-encoding { arbyte-grin, chain-coda }
+
+    // ── Boundary ──────────────────────────────────────
+
+    enum boundary-status { clean, attention, containment }
+
+    variant cross-result {
+        admitted,
+        rejected(string),
+    }
+
+    record boundary-finding {
+        field-key: string,
+        raw-value: string,
+        canonical-value: string,
+        raw-hex: string,
+        ghost-u200b: u32,
+        ghost-u200c: u32,
+        ghost-ufeff: u32,
+        bidi-controls: u32,
+        ascii-controls: u32,
+        suspicious: bool,
+    }
+
+    // ── Cave ──────────────────────────────────────────
+
+    record cave-entry {
+        seq: u64,
+        tick: u64,
+        from-state: string,
+        to-state: string,
+        kind: string,
+        key: string,
+        value: string,
+        entry-hash: string,
+    }
+
+    // ── Passport ──────────────────────────────────────
+
+    enum artifact-type { spec, plan, design, patch, signal, report, bundle }
+    enum intent { observe, propose, implement, verify, synthesize, audit }
+    enum boundary-mode { observe-mode, sanitize, strict, quarantine }
+    enum capability-class { read-only, patch-verify, full }
+
+    record passport-who {
+        overlay: string,
+        family: string,
+        session-surface: string,
+        fingerprint-commitment: hash,
+        actor-seal: hash,
+    }
+
+    record passport-what {
+        artifact-type-field: artifact-type,
+        artifact-ref: string,
+    }
+
+    record passport-why {
+        intent-field: intent,
+        note: string,
+    }
+
+    record passport-where {
+        source-locus: string,
+        target-locus: string,
+        allowed-surfaces: list<string>,
+    }
+
+    record passport-how-far {
+        capability-class-field: capability-class,
+        budget-class: string,
+        boundary-mode-field: boundary-mode,
+    }
+
+    record passport-trace {
+        context-ref: string,
+        lineage-ref: string,
+        passport-seal: hash,
+    }
+
+    record passport {
+        passport-id: string,
+        who: passport-who,
+        what: passport-what,
+        why: passport-why,
+        where-spec: passport-where,
+        how-far: passport-how-far,
+        trace: passport-trace,
+    }
+
+    record crossing-report {
+        passport-id: string,
+        actor-overlay: string,
+        target-locus: string,
+        admitted: bool,
+        rejection: option<string>,
+    }
+
+    // ── Router ────────────────────────────────────────
+
+    record narrow-payload {
+        surfaces: list<string>,
+        cap: capability-class,
+    }
+
+    variant router-action {
+        route-allow,
+        route-narrow(narrow-payload),
+        route-sandbox(string),
+        route-quarantine(string),
+        route-deny(string),
+    }
+
+    record router-decision {
+        decision-id: string,
+        passport-id: string,
+        passport-seal: hash,
+        resonance-signature: option<hash>,
+        action: router-action,
+        reason: string,
+        decision-seal: hash,
+    }
+
+    // ── Build Contract ────────────────────────────────
+
+    enum sll-movement-style { movement-discrete, movement-fluid, movement-structured }
+    enum sll-composition-mode { sll-layered, sll-sequenced, sll-live }
+    enum build-status { build-ok, build-warning, build-error }
+    enum diagnostic-level { diag-info, diag-warning, diag-error }
+
+    record build-diagnostic {
+        level: diagnostic-level,
+        span: string,
+        message: string,
+    }
+
+    // ── Reporter ──────────────────────────────────────
+
+    enum reporter-state {
+        r-idle, r-observe, r-collect, r-sift,
+        r-compose, r-verify, r-publish, r-archive,
+        r-defer, r-failed,
+    }
+
+    record submission {
+        source: string,
+        kind: string,
+        content: string,
+    }
+
+    // ── YATA ──────────────────────────────────────────
+
+    enum yata-track { program, git }
+
+    variant yata-state {
+        %open,
+        converging,
+        %sealed(string),
+        resolved(string),
+        abandoned(string),
+    }
+
+    record yata-contract {
+        expected-type: string,
+        invariants: list<string>,
+        effect-bounds: list<string>,
+        min-confidence: u32,
+    }
+
+    record yata-refinement {
+        label: string,
+        predicate: string,
+        weight: u32,
+    }
+
+    record yata-candidate {
+        candidate-id: string,
+        surface: string,
+        confidence: u32,
+        rationale: string,
+    }
+
+    record yata-witness {
+        proposer: string,
+        proof-token: string,
+        proof-artifact: string,
+    }
+
+    record yata-address-hint {
+        overlay: string,
+        peer: string,
+        mode: string,
+        gap: u32,
+        view: string,
+    }
+
+    // ── Finite State Transducers ──────────────────────
+
+    variant transducer-input {
+        scalar(tuple<string, string>),
+        submit-work(submission),
+        event(string),
+        tick,
+        raw-bytes(list<u8>),
+    }
+
+    variant transducer-output {
+        cave-deposit(cave-entry),
+        signal(tuple<string, string>),
+        emission(string),
+        spawn(tuple<string, transducer-input>),
+        reap(string),
+    }
+
+    record metabolic-envelope {
+        birth-tick: u32,
+        last-tick: u32,
+        total-ticks: u32,
+        total-outputs: u32,
+        lifetime-cap: u32,
+        mu: u32,
+        omega: u32,
+        reaped: bool,
+    }
+
+    record transduce-result {
+        cursor: session-cursor,
+        state-tag: string,
+        outputs: list<transducer-output>,
+        accepting: bool,
+        envelope: metabolic-envelope,
+    }
+
+    enum fst-algebra {
+        fst-union,
+        fst-subtract,
+        fst-diff,
+        fst-compose,
+    }
+}
+
+
+interface host {
+    use types.{hash, session-cursor};
+
+    store-bytes: func(key: hash, data: list<u8>) -> result<_, string>;
+    load-bytes: func(key: hash) -> result<list<u8>, string>;
+    now-utc: func() -> string;
+    log: func(level: string, message: string);
+}
+
+
+interface capsule {
+    use types.{
+        hash, session-cursor, cave-entry, tick-result, fsm-effect,
+        passport, cross-result, boundary-status, boundary-finding,
+        crossing-report, router-action, router-decision,
+        freshness, submission, reporter-state,
+        yata-contract, yata-refinement, yata-candidate,
+        yata-state, yata-witness,
+    };
+
+    session-begin: func(tier: string) -> session-cursor;
+    session-resume: func(cursor: session-cursor) -> session-cursor;
+
+    compute-seal: func(material: list<u8>) -> hash;
+    verify-seal: func(material: list<u8>, expected: hash) -> bool;
+
+    boundary-begin: func(cursor: session-cursor, actor-overlay: string, ratio-loci: string) -> session-cursor;
+    boundary-feed: func(cursor: session-cursor, fields: list<tuple<string, string>>) -> tick-result;
+    boundary-cross: func(cursor: session-cursor, passport: passport) -> tick-result;
+    boundary-mark: func(cursor: session-cursor) -> tick-result;
+
+    tree-ingest: func(cursor: session-cursor, envelope-id: string, routing-tokens: list<string>) -> tuple<session-cursor, string>;
+    tree-seal: func(cursor: session-cursor) -> tuple<session-cursor, hash>;
+    tree-sparse: func(cursor: session-cursor, tokens: list<string>) -> string;
+    tree-epoch: func(cursor: session-cursor) -> u32;
+    tree-node-count: func(cursor: session-cursor) -> u32;
+
+    bloom-add: func(cursor: session-cursor, token: string) -> session-cursor;
+    bloom-check: func(cursor: session-cursor, token: string) -> bool;
+    bloom-serialize: func(cursor: session-cursor) -> string;
+    bloom-popcount: func(cursor: session-cursor) -> u32;
+
+    reporter-begin: func(cursor: session-cursor, topic: string) -> session-cursor;
+    reporter-submit: func(cursor: session-cursor, submission: submission) -> session-cursor;
+    reporter-tick: func(cursor: session-cursor) -> tick-result;
+
+    passport-validate: func(passport: passport) -> result<_, string>;
+    passport-seal-material: func(passport: passport) -> hash;
+
+    router-emit: func(decision-id: string, passport: passport, resonance-signature: option<hash>, action: router-action, reason: string) -> router-decision;
+    router-validate: func(decision: router-decision) -> result<_, string>;
+
+    yata-open: func(anchor: string, contract: yata-contract, refinements: list<yata-refinement>, dependencies: list<hash>, provenance: list<string>) -> hash;
+    yata-propose: func(hole-id: hash, candidate: yata-candidate) -> yata-state;
+    yata-seal: func(hole-id: hash, candidate-id: string, witness: option<yata-witness>) -> yata-state;
+    yata-resolve: func(hole-id: hash) -> yata-state;
+    yata-ready: func(hole-id: hash) -> bool;
+
+    plan-finger: func(cursor: session-cursor, tokens: list<string>, peer-refs: list<string>) -> string;
+    plan-drift-commitment: func(cursor: session-cursor, tokens: list<string>, peer-refs: list<string>) -> hash;
+
+    // ── FST operations ───────────────────────────────
+
+    transducer-begin: func(cursor: session-cursor, personality: string, omega: u32) -> session-cursor;
+    transducer-feed: func(cursor: session-cursor, fst-id: string, input: transducer-input) -> transduce-result;
+    transducer-compose: func(cursor: session-cursor, left-id: string, right-id: string, algebra: fst-algebra) -> session-cursor;
+    swarm-metabolize: func(cursor: session-cursor, input: transducer-input) -> tick-result;
+    swarm-reap: func(cursor: session-cursor) -> list<string>;
+
+    reset: func(cursor: session-cursor) -> session-cursor;
+}
+
+
+world capsule-world {
+    import host;
+    export capsule;
+}

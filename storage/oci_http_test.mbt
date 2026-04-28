@@ -42,7 +42,7 @@ fn parse_digest_from_url(url : String) -> String? {
     return None
   }
   let start = idx.unwrap() + marker.length()
-  Some(url[start:].to_owned())
+  Some(url[start:].to_string())
 }
 
 ///|
@@ -53,7 +53,7 @@ fn parse_tag_from_url(url : String) -> String? {
     return None
   }
   let start = idx.unwrap() + marker.length()
-  Some(url[start:].to_owned())
+  Some(url[start:].to_string())
 }
 
 ///|
@@ -106,7 +106,7 @@ impl @storage.RegistryRoundTripper for FakeRoundTripper with round_trip(
       let marker = "/blobs/"
       match find_substring(req.url, marker) {
         Some(idx) => {
-          let digest = req.url[idx + marker.length():].to_owned()
+          let digest = req.url[idx + marker.length():].to_string()
           if self.blobs.get(digest) is Some(_) {
             { status: 200U, headers: {}, body: None }
           } else {
@@ -121,7 +121,7 @@ impl @storage.RegistryRoundTripper for FakeRoundTripper with round_trip(
         let marker = "/blobs/"
         match find_substring(req.url, marker) {
           Some(idx) => {
-            let digest = req.url[idx + marker.length():].to_owned()
+            let digest = req.url[idx + marker.length():].to_string()
             match self.blobs.get(digest) {
               Some(payload) =>
                 { status: 200U, headers: {}, body: Some(payload) }

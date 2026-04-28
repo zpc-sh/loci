@@ -15,3 +15,6 @@ dist/
 .codex
 .protools
 trace.json
+
+# WIT generated bindings
+wit-gen/

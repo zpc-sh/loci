@@ -22,7 +22,7 @@ export class LociCore {
 
   async run(args: string[]): Promise<{ out: string; err: string; code: number }> {
     const proc = Bun.spawn(
-      ["moon", "run", "--directory", this.merkinRoot, "zpc/merkin/cmd/main", "--", ...args],
+      ["moon", "run", "--directory", this.merkinRoot, "zpc/genius/cmd/main", "--", ...args],
       { stdout: "pipe", stderr: "pipe" },
     )
     const [out, err, code] = await Promise.all([

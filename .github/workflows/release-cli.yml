@@ -1,0 +1,120 @@
+name: release-cli
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'loci-v*'
+
+jobs:
+  build-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: Tool versions
+        run: |
+          bun --version
+          moon version --all
+
+      - name: Install CLI dependencies
+        working-directory: cli
+        run: bun install --frozen-lockfile
+
+      - name: Build release artifacts
+        working-directory: cli
+        run: |
+          bun run src/index.ts release build --target all --artifacts-dir ../artifacts/release
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: loci-release-core
+          path: artifacts/release
+
+  package-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target_name: linux-x64
+          - os: macos-latest
+            target_name: macos-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: Install CLI dependencies
+        working-directory: cli
+        run: bun install --frozen-lockfile
+
+      - name: Build CLI package
+        working-directory: cli
+        run: |
+          bun run src/index.ts release build --target cli --artifacts-dir ../artifacts/pkg-${{ matrix.target_name }}
+
+      - name: Rename binary and generate checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd artifacts/pkg-${{ matrix.target_name }}
+          mv loci loci-${{ matrix.target_name }}
+          python3 - <<'PY'
+import hashlib
+from pathlib import Path
+root = Path('.')
+files = sorted([p for p in root.iterdir() if p.is_file() and p.name.startswith('loci-')])
+lines = []
+for p in files:
+    h = hashlib.sha256(p.read_bytes()).hexdigest()
+    lines.append(f"{h}  {p.name}")
+(root / 'checksums.txt').write_text("\n".join(lines) + "\n", encoding='utf-8')
+PY
+
+      - name: Upload matrix package
+        uses: actions/upload-artifact@v4
+        with:
+          name: loci-package-${{ matrix.target_name }}
+          path: artifacts/pkg-${{ matrix.target_name }}
+
+  publish-release:
+    if: startsWith(github.ref, 'refs/tags/loci-v')
+    needs: [build-artifacts, package-matrix]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: loci-*
+          merge-multiple: true
+
+      - name: Publish GitHub Release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**

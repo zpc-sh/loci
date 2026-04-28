@@ -1,25 +1,7 @@
 #!/usr/bin/env bun
-// loci — L-OCI content-addressed locus CLI/TUI
-//
-// Architecture:
-//   LociStore (store.ts)   — host-side OCI blob/tag + residue persistence (the "last leg")
-//   LociCore  (core.ts)    — delegates tree/bloom/daemon ops to native merkin binary
-//   commands/ (commands/)  — one concern per file; each command imports only what it needs
-//   tui.ts                 — @clack/prompts + terminal renderers matching locus/locus.mbt output
-//
-// Adding a new command: add a file to src/commands/, export an async function, wire it below.
 
 import { LociStore } from "./store.ts"
-import { LociCore } from "./core.ts"
-import { cmdInit } from "./commands/init.ts"
-import { cmdLocusNew, cmdLocusLs } from "./commands/locus.ts"
-import { cmdEnter, cmdSign, cmdTrail, cmdResidue, cmdWhere } from "./commands/genius.ts"
-import { cmdStatus } from "./commands/status.ts"
-<<<<<<< HEAD
-import { cmdIde } from "./commands/ide.ts"
-=======
-import { cmdSpec } from "./commands/spec.ts"
->>>>>>> e79ce156da098779baeb05835eba07ae2f87f77e
+import { discoverEngineAdapter } from "./sdk/engine.ts"
 
 const argv = process.argv.slice(2)
 const cmd = argv[0]
@@ -29,23 +11,28 @@ const store = LociStore.fromCwd({
   lociRoot: flag(argv, "--loci-root") ?? "loci",
   storePath: flag(argv, "--store") ?? ".loci/store",
 })
-const core = LociCore.discover()
 
 async function main(): Promise<void> {
   switch (cmd) {
-    case "init":
+    case "init": {
+      const { cmdInit } = await import("./commands/init.ts")
       return cmdInit(store, rest)
+    }
 
     case "loci":
     case "ratio": {
+      const { cmdLocusNew, cmdLocusLs } = await import("./commands/locus.ts")
       const sub = rest[0]
       const subRest = rest.slice(1)
       if (sub === "new") return cmdLocusNew(store, subRest)
       if (sub === "ls" || !sub) return cmdLocusLs(store)
-      console.error(`Unknown loci subcommand: ${sub}`); usage(); process.exit(1)
+      console.error(`Unknown loci subcommand: ${sub}`)
+      usage()
+      process.exit(1)
     }
 
     case "genius": {
+      const { cmdEnter, cmdSign, cmdTrail, cmdResidue, cmdWhere } = await import("./commands/genius.ts")
       const sub = rest[0]
       const subRest = rest.slice(1)
       if (sub === "enter") return cmdEnter(subRest[0], store, subRest.slice(1))
@@ -53,33 +40,68 @@ async function main(): Promise<void> {
       if (sub === "trail") return cmdTrail(subRest[0], store, subRest.slice(1))
       if (sub === "residue") return cmdResidue(subRest[0], store)
       if (sub === "where") return cmdWhere(store)
-      console.error(`Unknown genius subcommand: ${sub}`); usage(); process.exit(1)
+      console.error(`Unknown genius subcommand: ${sub}`)
+      usage()
+      process.exit(1)
     }
 
-    // Short aliases — drop the group token so you can type `loci enter foo`
-    case "enter":   return cmdEnter(rest[0], store, rest.slice(1))
-    case "sign":    return cmdSign(store, rest)
-    case "trail":   return cmdTrail(rest[0], store, rest.slice(1))
-    case "residue": return cmdResidue(rest[0], store)
-    case "where":   return cmdWhere(store)
-    case "status":  return cmdStatus(store)
-    case "ide":     return cmdIde(rest)
+    case "enter": {
+      const { cmdEnter } = await import("./commands/genius.ts")
+      return cmdEnter(rest[0], store, rest.slice(1))
+    }
+    case "sign": {
+      const { cmdSign } = await import("./commands/genius.ts")
+      return cmdSign(store, rest)
+    }
+    case "trail": {
+      const { cmdTrail } = await import("./commands/genius.ts")
+      return cmdTrail(rest[0], store, rest.slice(1))
+    }
+    case "residue": {
+      const { cmdResidue } = await import("./commands/genius.ts")
+      return cmdResidue(rest[0], store)
+    }
+    case "where": {
+      const { cmdWhere } = await import("./commands/genius.ts")
+      return cmdWhere(store)
+    }
+    case "status": {
+      const { cmdStatus } = await import("./commands/status.ts")
+      return cmdStatus(store)
+    }
+    case "ide": {
+      const { cmdIde } = await import("./commands/ide.ts")
+      return cmdIde(rest)
+    }
 
-    // Delegate to native genius binary (tree / bloom / OCI daemon ops)
     case "daemon":
     case "pack":
     case "app": {
-      const code = await core.runPrint([cmd, ...rest])
+      const engine = discoverEngineAdapter(flag(argv, "--engine"))
+      const code = await engine.runPrint([cmd, ...rest])
       process.exit(code)
     }
 
-    case "spec":
+    case "release": {
+      const { cmdRelease } = await import("./commands/release.ts")
+      return cmdRelease(rest)
+    }
+
+    case "run": {
+      const { cmdRun } = await import("./commands/run.ts")
+      return cmdRun(rest)
+    }
+
+    case "spec": {
+      const { cmdSpec } = await import("./commands/spec.ts")
       return cmdSpec(rest)
+    }
 
     case "help":
     case "--help":
     case "-h":
-      usage(); return
+      usage()
+      return
 
     default:
       if (cmd) console.error(`Unknown command: ${cmd}\n`)
@@ -103,24 +125,26 @@ USAGE
   loci genius where                       Overview of all loci + last sessions
   loci ide <subcmd>                       Cross-repo search + codex dropbox messaging
   loci status                             Repository overview
+  loci daemon <subcmd>                    Delegate to engine adapter (native|wasm-shim)
+  loci release <plan|build>               Build release artifacts and emit manifest
+  loci run [-f <dir>]                     Boot mulsp+nucleant+finger plan for a loci dir
   loci spec [--format json|markdown]      Emit the CLI spec (self-describing surface)
-  loci daemon <subcmd>                    Delegate to native merkin (tree/bloom/OCI)
 
   Short aliases: loci enter|sign|trail|residue|where|status
 
 OPTIONS
-  --loci-root <path>  Loci directory root       (default: loci/)
-  --store <path>      OCI blob store path        (default: .merkin/store/)
-  --locus <name>      Override current locus     (or set LOCI_LOCUS)
-  --tier <tier>       Claude tier for signing    (default: sonnet)
-  --depth <n>         Trail depth limit          (default: 10)
-  --export            Print eval-able export lines for enter
+  --loci-root <path>      Loci directory root (default: loci/)
+  --store <path>          OCI blob store path (default: .loci/store/)
+  --engine <adapter>      Runtime adapter for daemon/pack/app (native|wasm-shim)
+  -f, --from <dir>        Target loci directory for \`run\` (default: .)
+  --artifacts-dir <path>  Release artifacts output dir
+  --target <all|cli|wasm> Release build target
 
 ENV
-  LOCI_LOCUS          Current locus name (set via: eval \$(loci enter <name> --export))
-  LOCI_TIER           Claude tier for this session
-  LOCI_SESSION        tier/shortId for signing
-  LOCI_GENIUS_ROOT    Path to genius loci source root (for daemon delegation)
+  LOCI_ENGINE             Runtime adapter default (native|wasm-shim)
+  LOCI_WASM_SHIM_BIN      Binary path for wasm shim adapter
+  LOCI_WASM_SHIM_ARGS     Extra argv for wasm shim adapter
+  LOCI_GENIUS_ROOT        Path to genius loci source root (daemon delegation)
 `.trim())
 }
 
@@ -129,4 +153,7 @@ function flag(args: string[], name: string): string | null {
   return i >= 0 && i + 1 < args.length ? args[i + 1] : null
 }
 
-main().catch(e => { console.error(e); process.exit(1) })
+main().catch(e => {
+  console.error(e)
+  process.exit(1)
+})

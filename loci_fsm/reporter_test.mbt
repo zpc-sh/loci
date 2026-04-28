@@ -125,13 +125,21 @@ test "boundary_walk_wire returns a stigmergy wire" {
 }
 
 ///|
-test "personality_registry exposes both personas" {
+test "personality_registry exposes all personas including algebra" {
   let reg = @loci_fsm.personality_registry()
-  assert_eq(reg.length(), 2)
+  assert_eq(reg.length(), 6)
   let bw = @loci_fsm.personality_by_name("boundary-walker")
   let rep = @loci_fsm.personality_by_name("reporter")
+  let uni = @loci_fsm.personality_by_name("union")
+  let sub = @loci_fsm.personality_by_name("subtract")
+  let dif = @loci_fsm.personality_by_name("diff")
+  let com = @loci_fsm.personality_by_name("compose")
   assert_true(bw is Some(_))
   assert_true(rep is Some(_))
+  assert_true(uni is Some(_))
+  assert_true(sub is Some(_))
+  assert_true(dif is Some(_))
+  assert_true(com is Some(_))
   match bw {
     Some(p) => {
       assert_eq(p.initial_state, "idle")

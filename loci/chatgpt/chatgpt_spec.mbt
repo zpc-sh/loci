@@ -157,6 +157,45 @@ pub(all) struct ContractBinding {
 } derive(Eq, Debug)
 
 ///|
+/// Componentization status for extracting a contract surface into a module.
+pub(all) enum ComponentizationStatus {
+  Planned
+  Scoped
+  Extracted
+  Verified
+  Integrated
+} derive(Eq, Debug)
+
+///|
+/// Contract-first module split plan.
+pub(all) struct ModuleComponentPlan {
+  module_name : String
+  source_contract_id : String
+  source_paths : Array[String]
+  target_package : String
+  spec_file : String
+  test_files : Array[String]
+  status : ComponentizationStatus
+} derive(Eq, Debug)
+
+///|
+/// Aggregated planning status for module boundaries.
+pub(all) struct ComponentizationReport {
+  plans : Array[ModuleComponentPlan]
+} derive(Eq, Debug)
+
+///|
+/// Reusable template for contract-first module extraction plans.
+pub(all) struct ModuleExtractionTemplate {
+  target_package_root : String
+  spec_file : String
+  easy_test_file : String
+  mid_test_file : String
+  difficult_test_file : String
+  default_status : ComponentizationStatus
+} derive(Eq, Debug)
+
+///|
 #declaration_only
 pub fn WorkCycle::new() -> WorkCycle {
   ...
@@ -415,5 +454,93 @@ pub fn ContractBinding::can_seal_with_solver(
   self : ContractBinding,
   solver_receipt : SolverReceipt?,
 ) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ModuleComponentPlan::new(
+  module_name : String,
+  source_contract_id : String,
+  source_paths : Array[String],
+  target_package : String,
+  spec_file : String,
+  test_files : Array[String],
+  status? : ComponentizationStatus = Planned,
+) -> ModuleComponentPlan {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ModuleComponentPlan::is_ready_for_extract(
+  self : ModuleComponentPlan,
+) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ModuleComponentPlan::to_contract_lines(
+  self : ModuleComponentPlan,
+) -> Array[String] {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ComponentizationReport::new() -> ComponentizationReport {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ComponentizationReport::add_plan(
+  self : ComponentizationReport,
+  plan : ModuleComponentPlan,
+) -> ComponentizationReport {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ComponentizationReport::ready_count(
+  self : ComponentizationReport,
+) -> Int {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ComponentizationReport::is_boundary_safe(
+  self : ComponentizationReport,
+) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ModuleExtractionTemplate::chatgpt_default() -> ModuleExtractionTemplate {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ModuleExtractionTemplate::required_test_files(
+  self : ModuleExtractionTemplate,
+) -> Array[String] {
+  ...
+}
+
+///|
+#declaration_only
+pub fn ModuleExtractionTemplate::instantiate(
+  self : ModuleExtractionTemplate,
+  module_name : String,
+  source_contract_id : String,
+  source_paths : Array[String],
+  target_package_suffix : String,
+  status? : ComponentizationStatus? = None,
+) -> ModuleComponentPlan {
   ...
 }

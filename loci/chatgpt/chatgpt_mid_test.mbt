@@ -302,3 +302,45 @@ test "koan payload ingestion rejects malformed payload" {
   @test.assert_eq(result.reason, Some("invalid_koan_client_payload"))
   @test.assert_eq(next.kv_count(), 0)
 }
+
+///|
+test "component plan emits directive lines for contract-first module split" {
+  let plan = @chatgpt.ModuleComponentPlan::new(
+    "contract.blocks",
+    "H-contract-blocks-module",
+    ["loci/chatgpt/LOCI-LINT-MINI-SPEC.md"],
+    "zpc/genius/loci/chatgpt/contracts",
+    "loci/chatgpt/chatgpt_spec.mbt",
+    ["loci/chatgpt/chatgpt_easy_test.mbt", "loci/chatgpt/chatgpt_mid_test.mbt"],
+    status=@chatgpt.Extracted,
+  )
+  let lines = plan.to_contract_lines()
+  assert_true(lines.length() > 7)
+  @test.assert_eq(lines[0], "@pattern module.componentization")
+  assert_true(lines[1].has_prefix("@contract H-contract-blocks-module"))
+  let mut has_ready = false
+  for line in lines {
+    if line == "@ready true" {
+      has_ready = true
+    }
+  }
+  assert_true(has_ready)
+}
+
+///|
+test "default module extraction template instantiates scoped plan with tiered tests" {
+  let template = @chatgpt.ModuleExtractionTemplate::chatgpt_default()
+  let plan = template.instantiate(
+    "loci.ide.socket",
+    "H-loci-ide-socket-template",
+    ["cli/src/commands/ide.ts", "loci/chatgpt/LOCI_IDE_SOCKET_DOGFOOD.md"],
+    "ide/socket",
+  )
+  @test.assert_eq(plan.target_package, "zpc/genius/loci/chatgpt/ide/socket")
+  @test.assert_eq(plan.spec_file, "loci/chatgpt/chatgpt_spec.mbt")
+  @test.assert_eq(plan.status, @chatgpt.Scoped)
+  @test.assert_eq(plan.test_files, [
+    "loci/chatgpt/chatgpt_easy_test.mbt", "loci/chatgpt/chatgpt_mid_test.mbt", "loci/chatgpt/chatgpt_difficult_test.mbt",
+  ])
+  assert_true(plan.is_ready_for_extract())
+}

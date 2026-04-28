@@ -44,7 +44,7 @@ fn ensure_no_trailing_slash(url : String) -> String {
     url
   } else {
     // Optimization: Use string slicing instead of O(n^2) loop concatenation
-    url[:url.length() - 1].to_owned()
+    url[:url.length() - 1].to_string()
   }
 }
 

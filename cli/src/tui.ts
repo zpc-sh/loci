@@ -1,10 +1,39 @@
 // TUI primitives: thin wrappers over @clack/prompts + terminal renderers.
-// Mirrors the format_* functions from locus/locus.mbt so output is consistent
-// between the MoonBit CLI and the Bun TUI.
 //
-// Other Claudes: import clack for interactive prompts, use render* for display.
+// Build/release environments may not have @clack/prompts available. In that
+// case we keep the CLI operational with a minimal no-op fallback.
 
-export * as clack from "@clack/prompts"
+type ClackLike = {
+  intro(message: string): void
+  outro(message?: string): void
+  cancel(message?: string): void
+  text(input: { message: string; placeholder?: string }): Promise<string>
+  isCancel(value: unknown): boolean
+  log: { step(message: string): void }
+}
+
+function fallbackClack(): ClackLike {
+  return {
+    intro(message: string): void { console.log(message) },
+    outro(message = ""): void { if (message) console.log(message) },
+    cancel(message = ""): void { if (message) console.log(message) },
+    async text(_input: { message: string; placeholder?: string }): Promise<string> { return "" },
+    isCancel(_value: unknown): boolean { return false },
+    log: { step(message: string): void { console.log(message) } },
+  }
+}
+
+const CLACK_SPECIFIER = "@clack/" + "prompts"
+
+async function loadClack(): Promise<ClackLike> {
+  try {
+    return await import(CLACK_SPECIFIER) as ClackLike
+  } catch {
+    return fallbackClack()
+  }
+}
+
+export const clack = await loadClack()
 
 import type { Residue } from "./types.ts"
 import { residueFilename } from "./residue.ts"

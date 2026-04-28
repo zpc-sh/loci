@@ -8,6 +8,8 @@
     "dev": "bun run src/index.ts",
     "build": "bun build src/index.ts --outfile dist/loci --target bun --minify",
     "wasm": "cd .. && moon build --target wasm --package zpc/genius/wasm_entry",
+    "release:plan": "bun run src/index.ts release plan",
+    "release:build": "bun run src/index.ts release build",
     "link": "bun link",
     "test": "bun test",
     "spec": "bun run src/index.ts spec",

@@ -183,3 +183,56 @@ test "BoundaryWalkerFSM cave drains and resets but preserves seq monotonicity" {
   )
   assert_true(after.entries[0].seq > entries[entries.length() - 1].seq)
 }
+
+///|
+test "BoundaryWalkerFSM locality ingest reports duplicate on repeated pattern" {
+  let fsm0 = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root")
+  let locality = "loci/chatgpt/chatgpt_spec.mbt"
+  let fields = [
+    ("pattern.id", "N-chatgpt-mulsp-v1"),
+    ("pattern.state", "unborn"),
+  ]
+  let (fsm1, first) = fsm0.ingest_locality_pattern(locality, fields)
+  assert_eq(first.duplicate, false)
+  assert_eq(first.new_fields, 2U)
+  assert_eq(first.changed_fields, 0U)
+  assert_eq(first.stable_fields, 0U)
+  assert_eq(first.inertia_percent, 0U)
+
+  let (fsm2, second) = fsm1.ingest_locality_pattern(locality, fields)
+  assert_eq(second.duplicate, true)
+  assert_eq(second.new_fields, 0U)
+  assert_eq(second.changed_fields, 0U)
+  assert_eq(second.stable_fields, 2U)
+  assert_eq(second.inertia_percent, 100U)
+  assert_eq(fsm2.locality_ingests, 2U)
+  assert_eq(fsm2.locality_dedup_hits, 1U)
+  let dedup_entries = fsm2.cave.collect("locality-dedup")
+  assert_eq(dedup_entries.length(), 1)
+}
+
+///|
+test "BoundaryWalkerFSM locality ingest computes inertial diff on changed field" {
+  let fsm0 = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root")
+  let locality = "loci/chatgpt/chatgpt_spec.mbt"
+  let fields_a = [
+    ("pattern.id", "N-chatgpt-mulsp-v1"),
+    ("pattern.state", "unborn"),
+  ]
+  let fields_b = [
+    ("pattern.id", "N-chatgpt-mulsp-v1"),
+    ("pattern.state", "born"),
+  ]
+  let (fsm1, _) = fsm0.ingest_locality_pattern(locality, fields_a)
+  let (fsm2, report) = fsm1.ingest_locality_pattern(locality, fields_b)
+
+  assert_eq(report.duplicate, false)
+  assert_eq(report.new_fields, 0U)
+  assert_eq(report.stable_fields, 1U)
+  assert_eq(report.changed_fields, 1U)
+  assert_eq(report.inertia_percent, 50U)
+  assert_eq(fsm2.locality_ingests, 2U)
+  assert_eq(fsm2.locality_dedup_hits, 0U)
+  let ingest_entries = fsm2.cave.collect("locality-ingest")
+  assert_true(ingest_entries.length() >= 2)
+}

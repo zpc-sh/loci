@@ -1378,7 +1378,7 @@ fn split_after(raw : String, prefix : String) -> String {
 fn split_parts(raw : String, separator : String) -> Array[String] {
   let out : Array[String] = []
   for part in raw.split(separator) {
-    out.push(part.to_owned())
+    out.push(part.to_string())
   }
   out
 }
