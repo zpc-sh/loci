@@ -19,7 +19,7 @@ export async function createLocus(store: LociStore, args: string[]): Promise<voi
       message: "Spirit (one-line purpose for this locus)",
       placeholder: "(fill: one-line description)",
     })
-    if (clack.isCancel(entered)) { clack.cancel(); process.exit(0) }
+    if (clack.isCancel(entered)) { clack.cancel("Cancelled."); process.exit(0) }
     spirit = entered as string || "(fill: one-line description)"
   } else {
     spirit ??= "(fill: one-line description)"
