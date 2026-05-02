@@ -57,16 +57,18 @@ export async function signResidue(store: LociStore, args: string[]): Promise<voi
     clack.intro(`loci sign: ${locusName}`)
 
     const did = await clack.text({ message: "What did you do?", placeholder: "implemented X, fixed Y" })
-    if (clack.isCancel(did)) { clack.cancel(); process.exit(0) }
+    if (clack.isCancel(did)) { clack.cancel("Cancelled"); process.exit(0) }
     if (did) residue = { ...residue, whatIDid: [did as string] }
 
     const left = await clack.text({ message: "What's left open?", placeholder: "(none)" })
-    if (!clack.isCancel(left) && left && left !== "(none)") {
+    if (clack.isCancel(left)) { clack.cancel("Cancelled"); process.exit(0) }
+    if (left && left !== "(none)") {
       residue = { ...residue, whatILeftOpen: [left as string] }
     }
 
     const rec = await clack.text({ message: "Recommendation for next AI?", placeholder: "(skip)" })
-    if (!clack.isCancel(rec) && rec && rec !== "(skip)") {
+    if (clack.isCancel(rec)) { clack.cancel("Cancelled"); process.exit(0) }
+    if (rec && rec !== "(skip)") {
       residue = { ...residue, recommendation: rec as string }
     }
   }
