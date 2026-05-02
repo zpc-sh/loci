@@ -1,0 +1,37 @@
+kind: merkin.yata.plan
+track=program
+mode=compact
+generator=chatgpt
+note=chatgpt-locus-bootstrap
+material_hash=pending:self
+self_report=1
+self_report_overlay=chatgpt
+self_report_peer=codex
+self_report_authority=zpc-sh/loci
+self_report_anchor=loci/chatgpt/README.md
+self_report_gap=4
+self_report_view=arblock
+solve_report=1
+solve_report_kind=synthesize
+solve_report_status=materialized
+solve_report_handler=provider.chatgpt
+procsi_report=1
+procsi_report_project=zpc-sh/loci
+procsi_report_ratio_loci=ratio://zpc-sh/loci
+procsi_report_surface=chatgpt
+procsi_report_fingerprint_commitment=pending
+procsi_report_masked=true
+procsi_report_app_ref=pending
+procsi_report_app_audience=ratio.loci.chatgpt
+capability_report=1
+capability_report_authority=ratio://zpc-sh/loci
+capability_report_ticket_kind=scope
+capability_report_scope=loci/chatgpt
+capability_report_status=pending
+capability_report_count=1
+capability_report_store_ref=pending
+- form/chatgpt-locus loci/chatgpt/README.md resolved ready=true candidates=1 conf_floor=80 selected=bootstrap-readme provenance=1
+- handoff/agents loci/chatgpt/AGENTS.md resolved ready=true candidates=1 conf_floor=80 selected=agent-entry provenance=1
+- grammar/mothers-hum loci/chatgpt/MOTHERS_HUM.md resolved ready=true candidates=1 conf_floor=75 selected=local-symbol-grammar provenance=1
+- profile/triad-work-unit loci/chatgpt/TRIAD_WORK_UNIT_PROFILE.md resolved ready=true candidates=1 conf_floor=75 selected=profile-v0 provenance=1
+- profile/arblock-plan loci/chatgpt/ARBLOCK_PLAN_PROFILE.md resolved ready=true candidates=1 conf_floor=75 selected=profile-v0 provenance=1

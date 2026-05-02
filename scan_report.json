@@ -1,0 +1,10 @@
+{
+  "summary": {
+    "total_files_scanned": 248,
+    "files_with_findings": 0,
+    "files_auto_fixed": 0,
+    "files_needing_review": 0,
+    "findings_by_kind": {}
+  },
+  "files": []
+}
