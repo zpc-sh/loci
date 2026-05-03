@@ -14,9 +14,9 @@ jq -nc \
   --arg state "canceled" \
   --arg detail "example cancel hook accepted cancellation request" \
   '{
-    kind: "merkin.ai.adapter.response",
+    kind: "loci.ai.adapter.response",
     version: "0.3",
-    contract: "merkin.ai.adapter.v0_3",
+    contract: "loci.ai.adapter.v0_3",
     action: "cancel",
     provider: "example",
     task_id: $task_id,

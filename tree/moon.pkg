@@ -1,6 +1,6 @@
 import {
-  "zpc/genius/hash" @hash,
-  "zpc/genius/bloom" @bloom,
-  "zpc/genius/gaussian" @gaussian,
+  "zploc/loci/hash" @hash,
+  "zploc/loci/bloom" @bloom,
+  "zploc/loci/gaussian" @gaussian,
   "moonbitlang/core/encoding/utf8" @utf8,
 }

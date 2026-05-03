@@ -14,7 +14,7 @@ Options:
   --out-dir <dir>          Output directory (default: _build/yata/moon-build/latest)
   --generator <name>       `.plan` generator tag (default: moon-build-yata-jules)
   --note <text>            `.plan` note (default: moon-build-compiler-bugs)
-  --overlay <name>         self_report overlay (default: merkin)
+  --overlay <name>         self_report overlay (default: loci)
   --peer <name>            self_report peer/Jules identity (default: gemini-jules)
   --authority <name>       self_report authority (default: local host name)
   --anchor <text>          self_report anchor hint (default: build/moon)
@@ -60,7 +60,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="$ROOT_DIR/_build/yata/moon-build/latest"
 GENERATOR="moon-build-yata-jules"
 NOTE="moon-build-compiler-bugs"
-OVERLAY="merkin"
+OVERLAY="loci"
 PEER="gemini-jules"
 AUTHORITY="$(hostname 2>/dev/null || printf 'local-host')"
 ANCHOR_HINT="build/moon"
@@ -420,7 +420,7 @@ else
 fi
 
 {
-  printf 'kind: merkin.yata.plan\n'
+  printf 'kind: loci.yata.plan\n'
   printf 'track=program\n'
   printf 'mode=full\n'
   printf 'generator=%s\n' "$GENERATOR"

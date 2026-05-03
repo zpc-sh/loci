@@ -41,7 +41,7 @@ Semantic classes:
 
 A strict-valid `.plan` MUST include:
 
-- `kind: merkin.yata.plan`
+- `kind: loci.yata.plan`
 - `track=<program|git>`
 - `mode=<full|compact>`
 - `generator=<text>`

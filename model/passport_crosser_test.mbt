@@ -12,14 +12,14 @@ fn crossing_passport_fixture(passport_id : String) -> @model.Passport {
   }
   let what = @model.PassportWhat::{
     artifact_type: @model.Plan,
-    artifact_ref: "merkin.yata.plan#node-7",
+    artifact_ref: "loci.yata.plan#node-7",
   }
   let why = @model.PassportWhy::{
     intent: @model.Implement,
     note: "crossing test",
   }
   let where_ = @model.PassportWhere::{
-    source_locus: "genius://merkin/main",
+    source_locus: "genius://loci/main",
     target_locus: "genius://mu/compiler",
     allowed_surfaces: ["contract", "runtime"],
   }
@@ -39,13 +39,13 @@ fn crossing_passport_fixture(passport_id : String) -> @model.Passport {
 ///|
 test "Passport implements Crosser: admits a well-formed passport at crossing" {
   let passport = crossing_passport_fixture("pass-ok-001")
-  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root")
+  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://loci/root")
     .cross(passport as &@loci_fsm.Crosser)
     .mark()
   assert_eq(fsm.state, @loci_fsm.Marked)
   assert_eq(fsm.crossings.length(), 1)
   assert_true(fsm.crossings[0].admitted)
-  assert_eq(fsm.crossings[0].rejection, None)
+  assert_true(fsm.crossings[0].rejection is None)
   let wire = fsm.emit_stigmergy(note="crossing admitted")
   assert_true(wire.contains("crossings=1"))
   assert_true(wire.contains("admitted=1"))
@@ -56,12 +56,12 @@ test "Passport implements Crosser: admits a well-formed passport at crossing" {
 test "Passport implements Crosser: records BAD_KIND on broken passport" {
   let base = crossing_passport_fixture("pass-reject-001")
   let broken = @model.Passport::{ ..base, kind: "wrong.kind" }
-  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root")
+  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://loci/root")
     .cross(broken as &@loci_fsm.Crosser)
     .mark()
   assert_eq(fsm.crossings.length(), 1)
   assert_eq(fsm.crossings[0].admitted, false)
-  assert_eq(fsm.crossings[0].rejection, Some("BAD_KIND"))
+  assert_true(fsm.crossings[0].rejection == Some("BAD_KIND"))
   let wire = fsm.emit_stigmergy(note="crossing rejected")
   assert_true(wire.contains("admitted=0"))
   assert_true(wire.contains("rejection=BAD_KIND"))
@@ -80,7 +80,7 @@ test "Passport implements Crosser: surfaces ghost bytes hidden in passport field
     ..base,
     who: @model.PassportWho::{ ..base.who, overlay: contaminated_overlay },
   }
-  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://merkin/root")
+  let fsm = @loci_fsm.BoundaryWalkerFsm::new("codex", "ratio://loci/root")
     .cross(passport as &@loci_fsm.Crosser)
     .mark()
   assert_eq(fsm.status(), @loci_fsm.Attention)

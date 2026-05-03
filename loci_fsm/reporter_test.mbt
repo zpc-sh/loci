@@ -64,8 +64,7 @@ test "ReporterFsm with no submissions defers from observe" {
 
 ///|
 test "ReporterFsm rejects unknown event but records it in cave" {
-  let r = @loci_fsm.ReporterFsm::new("docs-3", "topic")
-    .send(@loci_fsm.VerifyOk) // not legal from RIdle
+  let r = @loci_fsm.ReporterFsm::new("docs-3", "topic").send(@loci_fsm.VerifyOk) // not legal from RIdle
   assert_eq(r.state, @loci_fsm.RIdle)
   let rejects = r.cave.collect("rejected_event")
   assert_eq(rejects.length(), 1)
@@ -118,21 +117,29 @@ test "reporter_summary_wire returns a compact posture line" {
 ///|
 test "boundary_walk_wire returns a stigmergy wire" {
   let wire = @loci_fsm.boundary_walk_wire(
-    "codex", "ratio://merkin/root", "branch=main,peer=mu:abc", "wasm-walk",
+    "codex", "ratio://loci/root", "branch=main,peer=mu:abc", "wasm-walk",
   )
-  assert_true(wire.contains("kind: merkin.boundary.stigmergy"))
+  assert_true(wire.contains("kind: loci.boundary.stigmergy"))
   assert_true(wire.contains("boundary_ticks=2"))
   assert_true(wire.contains("boundary_status=clean"))
 }
 
 ///|
-test "personality_registry exposes both personas" {
+test "personality_registry exposes all personas including algebra" {
   let reg = @loci_fsm.personality_registry()
-  assert_eq(reg.length(), 2)
+  assert_eq(reg.length(), 6)
   let bw = @loci_fsm.personality_by_name("boundary-walker")
   let rep = @loci_fsm.personality_by_name("reporter")
+  let uni = @loci_fsm.personality_by_name("union")
+  let sub = @loci_fsm.personality_by_name("subtract")
+  let dif = @loci_fsm.personality_by_name("diff")
+  let com = @loci_fsm.personality_by_name("compose")
   assert_true(bw is Some(_))
   assert_true(rep is Some(_))
+  assert_true(uni is Some(_))
+  assert_true(sub is Some(_))
+  assert_true(dif is Some(_))
+  assert_true(com is Some(_))
   match bw {
     Some(p) => {
       assert_eq(p.initial_state, "idle")

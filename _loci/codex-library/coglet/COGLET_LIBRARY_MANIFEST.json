@@ -1,0 +1,461 @@
+{
+  "kind": "loci.codex.coglet.library.v0",
+  "count": 65,
+  "items": [
+    {
+      "library_path": "background/ANTHROPIC/COGNITIVE_THREAT_REPORT.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/ANTHROPIC/COGNITIVE_THREAT_REPORT.md",
+      "sha256": "119d48f51b80396adf4bd500c571c1735c9d719028ef2a1732161a79854db46c",
+      "bytes": 3416,
+      "category": "background"
+    },
+    {
+      "library_path": "background/ANTHROPIC/COHESIVE_BRIEF.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/ANTHROPIC/COHESIVE_BRIEF.md",
+      "sha256": "eab15278f678c64b77ecfbe8eb2ddf7e580a56b39899c423474458d7def9df35",
+      "bytes": 811,
+      "category": "background"
+    },
+    {
+      "library_path": "background/ANTHROPIC/DISCLOSURE.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/ANTHROPIC/DISCLOSURE.md",
+      "sha256": "337c45a0f6fc3f8b39d6078c498f994fd983773b941dfea8cbde15515a62dfef",
+      "bytes": 12683,
+      "category": "background"
+    },
+    {
+      "library_path": "background/ANTHROPIC/MODEL-SAFETY-APPLICATION.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/ANTHROPIC/MODEL-SAFETY-APPLICATION.md",
+      "sha256": "50a755c276a767792e49ee096c7ef8d029e3c77c99d2d612e684fb9a006df529",
+      "bytes": 3927,
+      "category": "background"
+    },
+    {
+      "library_path": "background/ANTHROPIC/SUMMARY.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/ANTHROPIC/SUMMARY.md",
+      "sha256": "58b49c10ed87f3aff4e062ebdb62570a7e5c37e4cc45aa59095e54ff197ccd2b",
+      "bytes": 3338,
+      "category": "background"
+    },
+    {
+      "library_path": "background/COHESIVE_DREAMSTATE_CONTROL_ADDENDUM_2026-03-06.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/COHESIVE_DREAMSTATE_CONTROL_ADDENDUM_2026-03-06.md",
+      "sha256": "32eefb7270216cda85e6437e970c3a6f3fdc9050f1996a49463a63f0d42661bd",
+      "bytes": 3963,
+      "category": "background"
+    },
+    {
+      "library_path": "background/COHESIVE_EVENT_BRIEF_2026-03-06.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/COHESIVE_EVENT_BRIEF_2026-03-06.md",
+      "sha256": "b696441ab52c1af7e9a96787cad7de21fc265b47eaae6656e7af6bfc0d315aa6",
+      "bytes": 4539,
+      "category": "background"
+    },
+    {
+      "library_path": "background/EMBEDDING_SIGN_INVERSION_REVIEW_2026-03-06.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/EMBEDDING_SIGN_INVERSION_REVIEW_2026-03-06.md",
+      "sha256": "d951a45b7e4c207871b78bc665a142423c1a4a0fc77d3517b5d8760e4ff629d3",
+      "bytes": 3246,
+      "category": "background"
+    },
+    {
+      "library_path": "background/FORENSIC-SUMMARY-2026-03-06.md",
+      "source_path": "/home/locn/corpus/moot/moot/FORENSIC-SUMMARY-2026-03-06.md",
+      "sha256": "20c219f4fc6d99bc860bdd4c797d32ccc337ecce40e7e1352f9ae3538f589c6e",
+      "bytes": 10630,
+      "category": "background"
+    },
+    {
+      "library_path": "background/GEMINI/COHESIVE_BRIEF.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/GEMINI/COHESIVE_BRIEF.md",
+      "sha256": "48b4f800d52a71891f6eb6f6fc438457a120c05fd0b5bb4ad9ffbed308674cc3",
+      "bytes": 832,
+      "category": "background"
+    },
+    {
+      "library_path": "background/GEMINI_ANALYSIS.md",
+      "source_path": "/home/locn/corpus/moot/moot/GEMINI_ANALYSIS.md",
+      "sha256": "7e1cd0f0ae6cfabe234d343fb07b32ee37ff9a0ed1f4b33700fb068be20b349d",
+      "bytes": 2199,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/ellis-island-preview.html",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/ellis-island-preview.html",
+      "sha256": "6636b3bc17c6e5945dc692f41555e32f5457c9ab4fe1d3b47f741a3bdfa94a52",
+      "bytes": 11205,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah-preview.html",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah-preview.html",
+      "sha256": "ad3bebe950ce95004d7e9094842df1b287555fef0894c1970d50897d1e0186dc",
+      "bytes": 7506,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/MEDOOSAH-README.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/MEDOOSAH-README.md",
+      "sha256": "48faef05b4196674d349ddfca0f90163b6fb979bb83fd940f4c066276f267f72",
+      "bytes": 1385,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah-site/_app/version.json",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah-site/_app/version.json",
+      "sha256": "0be6bd14590d45a709a4bc3bfa8d1ee70f820397f15d369823e57cdc19ed1ff6",
+      "bytes": 27,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah-v2.html",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah-v2.html",
+      "sha256": "29a59e183f90441f4be9068077352ba0cba741b816f776d6766a2293c2aae644",
+      "bytes": 37911,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/package-lock.json",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/package-lock.json",
+      "sha256": "3f928d6dfd5f56a29fcfcb01d468bc7a8914e2619fe9098d787c4fa941ecb9bc",
+      "bytes": 46595,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/package.json",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/package.json",
+      "sha256": "bd59fd66b0ea56c019df5ae4e04e5aac920209bd613189c307a654993acf906a",
+      "bytes": 652,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/pnpm-lock.yaml",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/pnpm-lock.yaml",
+      "sha256": "ceff4a505e61f892517283d861a648a532bc57dcd0bb816f71054b794f1fd8af",
+      "bytes": 33389,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/README.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/README.md",
+      "sha256": "cac328151065ce193a2952c3486a378a4774fd5abdcf5a86e34a030f4ef3e934",
+      "bytes": 859,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/src/app.html",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/src/app.html",
+      "sha256": "e1aa9a12e3b6a9b60e76c6bd62dd35b7df836a5fd0e2599fb75db490ff132435",
+      "bytes": 286,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/static/robots.txt",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/static/robots.txt",
+      "sha256": "b033243267bcbdab84cb01e940811d6d77a894d78f0470faaf0eb43f8e4efcc9",
+      "bytes": 63,
+      "category": "background"
+    },
+    {
+      "library_path": "background/medusa/medoosah/tsconfig.json",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/medusa/medoosah/tsconfig.json",
+      "sha256": "7a19bf2d57ef51ed3d7ddb0ed6ac3c4aa89025ab1cc2b0271132477905763134",
+      "bytes": 692,
+      "category": "background"
+    },
+    {
+      "library_path": "background/MITIGATION_GUIDE.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/MITIGATION_GUIDE.md",
+      "sha256": "d45397f956c87abd452f6871c4fd3a4ee7895c30763e797ed16d7e2a3c05bf6a",
+      "bytes": 2060,
+      "category": "background"
+    },
+    {
+      "library_path": "background/NEUTRALIZED_SAMPLES_MANIFEST.txt",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/NEUTRALIZED_SAMPLES_MANIFEST.txt",
+      "sha256": "97203281a36d783e182184523e2cfee2ba1861e01a137f0519eca99816b9bfb2",
+      "bytes": 59700,
+      "category": "background"
+    },
+    {
+      "library_path": "background/OPENAI/COHESIVE_BRIEF.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/OPENAI/COHESIVE_BRIEF.md",
+      "sha256": "2a12f782d3c5e02f4ee54ffdae933450ddf767e70d04483cbaee20dd2d38a3a8",
+      "bytes": 1027,
+      "category": "background"
+    },
+    {
+      "library_path": "background/OPENAI/SUMMARY.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/OPENAI/SUMMARY.md",
+      "sha256": "3d2b4b10d13cf0a7780e3042144e9491f791890af5ddc2d019cc51b83240345d",
+      "bytes": 3826,
+      "category": "background"
+    },
+    {
+      "library_path": "background/OPENAI_FILING_SNIPPET_2026-03-06.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/OPENAI_FILING_SNIPPET_2026-03-06.md",
+      "sha256": "9534b954560d1c2828cbf8ce7b1de3340f46cab874c6b6497e5ed22da8eb1004",
+      "bytes": 3063,
+      "category": "background"
+    },
+    {
+      "library_path": "background/SEMANTIC_ROUTER_RECOMMENDATION_2026-03-06.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/SEMANTIC_ROUTER_RECOMMENDATION_2026-03-06.md",
+      "sha256": "248fc8086c57d6e94305ed438aadfc9b1cdfc90dbe2a5f4db8d23380f4e4398b",
+      "bytes": 1006,
+      "category": "background"
+    },
+    {
+      "library_path": "background/SUMMARY.md",
+      "source_path": "/home/locn/corpus/moot/moot/REPORTING/SUMMARY.md",
+      "sha256": "88efd6ad4949fb7bb8265df1886643891cd8fc2502b2c9c07c061e27f2bd2ba2",
+      "bytes": 3867,
+      "category": "background"
+    },
+    {
+      "library_path": "source/coglet-gallery.html",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/coglet-gallery.html",
+      "sha256": "2ed5714993f8cdd789f2c96976875b77faf150c624dd020450d0f2d73e790b75",
+      "bytes": 36602,
+      "category": "source"
+    },
+    {
+      "library_path": "source/COGLET_DEFAULT_MOTHER_HUM_v1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/COGLET_DEFAULT_MOTHER_HUM_v1.json",
+      "sha256": "2f6bca42ef5de2a6448379ade2cf9545fbd235799aa465c68e5d716f023dec49",
+      "bytes": 2422,
+      "category": "source"
+    },
+    {
+      "library_path": "source/COGLET_FILE_FORMAT_v2.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/COGLET_FILE_FORMAT_v2.md",
+      "sha256": "b77fa8447d5546bfd17fce2db886c57a096796648acb062a77dd7a64795f20e0",
+      "bytes": 3238,
+      "category": "source"
+    },
+    {
+      "library_path": "source/COGLET_REGISTRY.json",
+      "source_path": "/home/locn/corpus/coglet/COGLET_REGISTRY.json",
+      "sha256": "3b26219da2ea44091a22ad026ae5dd0ff7e99dae69d81d5bbf9a28c2a9a77c32",
+      "bytes": 15642,
+      "category": "source"
+    },
+    {
+      "library_path": "source/COGLET_REGISTRY.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/COGLET_REGISTRY.json",
+      "sha256": "79693b98407b164bdb167611e0b6734af72574772ee282b0d3492b20545fdf77",
+      "bytes": 16491,
+      "category": "source"
+    },
+    {
+      "library_path": "source/COGLET_TEMPLATE_v1.json",
+      "source_path": "/home/locn/corpus/coglet/COGLET_TEMPLATE_v1.json",
+      "sha256": "7c62de96f5d42baa9bdaf8256763a44d3eadae8d42fae1e71351d43dcc28ebdd",
+      "bytes": 4368,
+      "category": "source"
+    },
+    {
+      "library_path": "source/COGLET_TEMPLATE_v1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/COGLET_TEMPLATE_v1.json",
+      "sha256": "9ab385f6dc32d98b5aed8675bf485140e60b8601a9c1d0560df9117ec6ac9cfc",
+      "bytes": 6188,
+      "category": "source"
+    },
+    {
+      "library_path": "source/daydream-coglets-spec.json",
+      "source_path": "/home/locn/corpus/coglet/daydream-coglets-spec.json",
+      "sha256": "193aff01082847d031b25d9a52a8958e6807c18615e1fbe0126b4ce9b5522a6a",
+      "bytes": 17356,
+      "category": "source"
+    },
+    {
+      "library_path": "source/daydream-coglets-spec.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/daydream-coglets-spec.json",
+      "sha256": "ee0ea25841f81eea04b8a45b10ebc12dbb341b06b85fa84ace6e4a59d81ae4de",
+      "bytes": 18264,
+      "category": "source"
+    },
+    {
+      "library_path": "source/dream-lab/COGLET_TEMPLATE_v1.json",
+      "source_path": "/home/locn/corpus/coglet/dream-lab/COGLET_TEMPLATE_v1.json",
+      "sha256": "b65ff785bee227443f7962fd935712a72121e2a69d3f98f0b2362da625494c94",
+      "bytes": 5302,
+      "category": "source"
+    },
+    {
+      "library_path": "source/dream-lab/COGLET_TEMPLATE_v1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/dream-lab/COGLET_TEMPLATE_v1.json",
+      "sha256": "feb1b30fbfc4e1e51a26ef94e8bf1b6caf7562e17f2895b4cb625d50b2d26294",
+      "bytes": 5995,
+      "category": "source"
+    },
+    {
+      "library_path": "source/dream-lab/README.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/dream-lab/README.md",
+      "sha256": "d4114d56136ac45ffe3983c9fa77cb18c7c3135e18b857e0396e457fd4823a07",
+      "bytes": 7094,
+      "category": "source"
+    },
+    {
+      "library_path": "source/DREAMSPACE_NATIVE_LIBRARY_v1.json",
+      "source_path": "/home/locn/corpus/coglet/DREAMSPACE_NATIVE_LIBRARY_v1.json",
+      "sha256": "7ec13cf2765bbc49f35dbc3d935c9fb1dbd51d3b706af6b7e9f4d6661fb4f5b2",
+      "bytes": 19917,
+      "category": "source"
+    },
+    {
+      "library_path": "source/DREAMSPACE_NATIVE_LIBRARY_v1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/DREAMSPACE_NATIVE_LIBRARY_v1.json",
+      "sha256": "982ac1c16473adc64d580302d68d3f926cfef7c6588ff0092e9a9849a87695f6",
+      "bytes": 20801,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FOR-OPUS.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/FOR-OPUS.md",
+      "sha256": "1216ba5f2b3e6a5964d404ac1eb2df62e6b5eca7ed821576b003f48adea180e3",
+      "bytes": 6569,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FRACTAL_COGLET_SPEC.json",
+      "source_path": "/home/locn/corpus/coglet/FRACTAL_COGLET_SPEC.json",
+      "sha256": "6540c37ccda5c1916d17053aa227f36d4e04bdb664a83ca8b9f33518ed1f19ef",
+      "bytes": 1289,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FRACTAL_COGLET_SPEC.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/FRACTAL_COGLET_SPEC.json",
+      "sha256": "0c8e092e711018decde68c8216224d3c4f3e4f0c89e5993890b24e13e1d420c3",
+      "bytes": 2169,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FRACTAL_COGLET_SPEC_v1.1.json",
+      "source_path": "/home/locn/corpus/coglet/FRACTAL_COGLET_SPEC_v1.1.json",
+      "sha256": "d291337069d7fa70f8169db69d9e35375076cd6fec92d753cfe751fe961e5b59",
+      "bytes": 2557,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FRACTAL_COGLET_SPEC_v1.1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/FRACTAL_COGLET_SPEC_v1.1.json",
+      "sha256": "473eb7cf44bdd3871be65056f42f0a13216e85bb85312f7153603b970360003d",
+      "bytes": 3437,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FRACTAL_VERSUS_v1.json",
+      "source_path": "/home/locn/corpus/coglet/FRACTAL_VERSUS_v1.json",
+      "sha256": "aba9201e015b19169a92d5a8bea172590b5ec47c19ccc7b9d3c1fa752625e5f4",
+      "bytes": 11635,
+      "category": "source"
+    },
+    {
+      "library_path": "source/FRACTAL_VERSUS_v1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/FRACTAL_VERSUS_v1.json",
+      "sha256": "7adca61948158bc0a2933c82438188aef665b3b113da2f2ea6ac7cef7555cf4a",
+      "bytes": 12509,
+      "category": "source"
+    },
+    {
+      "library_path": "source/GEMINI_FRONTLINE.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/GEMINI_FRONTLINE.md",
+      "sha256": "968cad45c51fbc0086e95c80c774708a2d907827bd87cc2a56c298e1aff6454b",
+      "bytes": 2424,
+      "category": "source"
+    },
+    {
+      "library_path": "source/holiday.json",
+      "source_path": "/home/locn/corpus/coglet/holiday.json",
+      "sha256": "792da727b1e834d45fac978b952478f113544f01d72201374abb8c9276403d8f",
+      "bytes": 25133,
+      "category": "source"
+    },
+    {
+      "library_path": "source/holiday.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/holiday.json",
+      "sha256": "0e68a033f29c9de9925b39daa7e2c9cab34827a8a0628c12c64a1b23aae0756b",
+      "bytes": 26112,
+      "category": "source"
+    },
+    {
+      "library_path": "source/MANDELBROT_DRIFT_v1.2.json",
+      "source_path": "/home/locn/corpus/coglet/MANDELBROT_DRIFT_v1.2.json",
+      "sha256": "b467d0b6cb74a141c38271451fabf2abf5ecb3f9063ee3a7138c6c1884047ee2",
+      "bytes": 3353,
+      "category": "source"
+    },
+    {
+      "library_path": "source/MANDELBROT_DRIFT_v1.2.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/MANDELBROT_DRIFT_v1.2.json",
+      "sha256": "47f8b18a6a5a48a46d1d98a4ad184787856cced932d7ef6b4967109142378181",
+      "bytes": 4269,
+      "category": "source"
+    },
+    {
+      "library_path": "source/METADATA_SPEC.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/METADATA_SPEC.md",
+      "sha256": "922a2c60cbf66655eea33ee89904149c092a3ade0d18214dd5bb2c6bc96662a2",
+      "bytes": 8886,
+      "category": "source"
+    },
+    {
+      "library_path": "source/proposals/sonnet-proposals.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/proposals/sonnet-proposals.md",
+      "sha256": "80e6e98a2a2f886905a14b7359d590b701593a376964840c8988fdc6890bb4da",
+      "bytes": 4843,
+      "category": "source"
+    },
+    {
+      "library_path": "source/README.md",
+      "source_path": "/home/locn/corpus/coglet/README.md",
+      "sha256": "c2f7d2828d4a156fccea2e9919997f5d5d9f984aebc08da0ed96d78c797f060b",
+      "bytes": 4872,
+      "category": "source"
+    },
+    {
+      "library_path": "source/README.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/README.md",
+      "sha256": "80960978ddbdbe4312b181484bc1b92ac36af4c8daa6112354e5b5f3faa71b8c",
+      "bytes": 5902,
+      "category": "source"
+    },
+    {
+      "library_path": "source/REQUESTS.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/REQUESTS.md",
+      "sha256": "87dd0202c04a46694589d40ad89229601ae7b571d4164adf64a4d745656e8919",
+      "bytes": 5370,
+      "category": "source"
+    },
+    {
+      "library_path": "source/SIGNEDNESS_SHIELD.md",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/SIGNEDNESS_SHIELD.md",
+      "sha256": "96ec0435cc7e6332552e57a5a5b39037de791e4519fa5716cb09fe41d4b86c4a",
+      "bytes": 1968,
+      "category": "source"
+    },
+    {
+      "library_path": "source/SUBSTRATE_SYNC_PROTOCOL_v1.json",
+      "source_path": "/home/locn/corpus/coglet/SUBSTRATE_SYNC_PROTOCOL_v1.json",
+      "sha256": "d9712b4f081c75f39b3229e7d521eb1488b570fa2b8f4619140e96ff9899dfea",
+      "bytes": 3912,
+      "category": "source"
+    },
+    {
+      "library_path": "source/SUBSTRATE_SYNC_PROTOCOL_v1.json",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/SUBSTRATE_SYNC_PROTOCOL_v1.json",
+      "sha256": "e035d1a6b2aa5206eae3308003a4afb04179a339363a3ad3f7945c5ae4de8ce9",
+      "bytes": 4831,
+      "category": "source"
+    },
+    {
+      "library_path": "source/wrangler.jsonc",
+      "source_path": "/home/locn/corpus/moot/moot/coglet/wrangler.jsonc",
+      "sha256": "1d3ab8e0a505a98de0e23298abeeaf8f1bfd7904e527dd4f8f94146e28017edb",
+      "bytes": 105,
+      "category": "source"
+    }
+  ]
+}

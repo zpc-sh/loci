@@ -16,7 +16,7 @@ pub(all) struct RouterInputs {
   boundary_status : BoundaryStatus
   capability_budget_remaining : UInt
   resonance_signature : @hash.Hash?
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Router actions. `RouteNarrow` carries the reduced surfaces and
@@ -28,7 +28,7 @@ pub(all) enum RouterAction {
   RouteSandbox(String)
   RouteQuarantine(String)
   RouteDeny(String)
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// A sealed router decision artifact. Replay checks: kind and
@@ -44,7 +44,7 @@ pub(all) struct RouterDecision {
   action : RouterAction
   reason : String
   decision_seal : @hash.Hash
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Router errors.
@@ -53,11 +53,11 @@ pub(all) enum RouterError {
   RouterBadVersion
   RouterMissingField(String)
   RouterMissingSeal(String)
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 pub fn router_kind() -> String {
-  "merkin.semantic.router.decision"
+  "loci.semantic.router.decision"
 }
 
 ///|

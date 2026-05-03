@@ -6,7 +6,7 @@ TASK_INDEX="${2:?missing task index}"
 
 AI_PROVIDER="${AI_PROVIDER:-}"
 AI_JULES_MCP_STATUS_CMD="${AI_JULES_MCP_STATUS_CMD:-}"
-ADAPTER_CONTRACT="merkin.ai.adapter.v0_3"
+ADAPTER_CONTRACT="loci.ai.adapter.v0_3"
 
 now_utc() {
   date -u +"%Y-%m-%dT%H:%M:%SZ"
@@ -53,7 +53,7 @@ case "$AI_PROVIDER" in
       --arg state "resolved" \
       --arg detail "dry-run provider always resolves" \
       '{
-        kind:"merkin.ai.adapter.response",
+        kind:"loci.ai.adapter.response",
         version:"0.3",
         contract:$contract,
         action:"status",
@@ -73,7 +73,7 @@ case "$AI_PROVIDER" in
         --arg contract "$ADAPTER_CONTRACT" \
         --arg provider "$AI_PROVIDER" \
         '{
-          kind:"merkin.ai.adapter.response",
+          kind:"loci.ai.adapter.response",
           version:"0.3",
           contract:$contract,
           action:"status",
@@ -99,7 +99,7 @@ case "$AI_PROVIDER" in
         --arg session_id "$session_id" \
         --arg detail "$list_out" \
         '{
-          kind:"merkin.ai.adapter.response",
+          kind:"loci.ai.adapter.response",
           version:"0.3",
           contract:$contract,
           action:"status",
@@ -121,7 +121,7 @@ case "$AI_PROVIDER" in
         --arg provider "$AI_PROVIDER" \
         --arg session_id "$session_id" \
         '{
-          kind:"merkin.ai.adapter.response",
+          kind:"loci.ai.adapter.response",
           version:"0.3",
           contract:$contract,
           action:"status",
@@ -184,7 +184,7 @@ case "$AI_PROVIDER" in
       --arg state "$state" \
       --arg detail "session=$session_id status=$status" \
       '{
-        kind:"merkin.ai.adapter.response",
+        kind:"loci.ai.adapter.response",
         version:"0.3",
         contract:$contract,
         action:"status",
@@ -205,7 +205,7 @@ case "$AI_PROVIDER" in
         --arg provider "$AI_PROVIDER" \
         --arg session_id "$session_id" \
         '{
-          kind:"merkin.ai.adapter.response",
+          kind:"loci.ai.adapter.response",
           version:"0.3",
           contract:$contract,
           action:"status",
@@ -236,7 +236,7 @@ case "$AI_PROVIDER" in
         --arg session_id "$session_id" \
         --arg detail "$output" \
         '{
-          kind:"merkin.ai.adapter.response",
+          kind:"loci.ai.adapter.response",
           version:"0.3",
           contract:$contract,
           action:"status",
@@ -259,7 +259,7 @@ case "$AI_PROVIDER" in
         --arg session_id "$session_id" \
         --arg detail "$last" \
         '{
-          kind:"merkin.ai.adapter.response",
+          kind:"loci.ai.adapter.response",
           version:"0.3",
           contract:$contract,
           action:"status",
@@ -287,7 +287,7 @@ case "$AI_PROVIDER" in
       --arg state "$state" \
       --arg detail "$detail" \
       '{
-        kind:"merkin.ai.adapter.response",
+        kind:"loci.ai.adapter.response",
         version:"0.3",
         contract:$contract,
         action:"status",
@@ -308,7 +308,7 @@ case "$AI_PROVIDER" in
       --arg session_id "$session_id" \
       --arg detail "Unknown AI_PROVIDER=$AI_PROVIDER" \
       '{
-        kind:"merkin.ai.adapter.response",
+        kind:"loci.ai.adapter.response",
         version:"0.3",
         contract:$contract,
         action:"status",

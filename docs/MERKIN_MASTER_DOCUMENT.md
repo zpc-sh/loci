@@ -1,15 +1,15 @@
-# Merkin Master Document (Current-State Reference)
+# Loci Master Document (Current-State Reference)
 
-This document is the cohesive "what Merkin does now" reference for contributors, operators, and integrators.
+This document is the cohesive "what Loci does now" reference for contributors, operators, and integrators.
 
 Date baseline: `2026-04-18`.
 
-## 1) What Merkin Is
+## 1) What Loci Is
 
-Merkin is a MoonBit substrate centered on:
+Loci is a MoonBit substrate centered on:
 
 - deterministic content hashing
-- sparse/sealed Merkin tree indexing
+- sparse/sealed Loci tree indexing
 - policy-gated replication/storage behavior
 - daemon-facing operational APIs and CLI
 - Yata graph semantics and drift artifacts
@@ -36,7 +36,7 @@ De-scoped from active implementation:
 
 - `hash/`: deterministic hash identities (`Hash::of_bytes`, `Hash::semantic`)
 - `bloom/`: bloom sketch (`add`, `maybe_contains`, `merge`, `rebuild`)
-- `tree/`: Merkin tree ingest, sparse projection, sealing, diff
+- `tree/`: Loci tree ingest, sparse projection, sealing, diff
 - `model/`: envelopes, anchors, session identity, Yata graph/protocol
 - `store/`: in-memory stores for artifacts/envelopes/anchors
 - `storage/`: replication policy, idempotency ledger, queue, OCI adapters, app envelope file store
@@ -135,8 +135,8 @@ Scaffolded placeholders (not fully wired):
 
 Repository/runtime artifacts include:
 
-- `.merkin/store/...` for local store conventions
-- app envelope store at `--store/app` (default `.merkin/store/app`)
+- `.loci/store/...` for local store conventions
+- app envelope store at `--store/app` (default `.loci/store/app`)
 - drift/contract artifacts via daemon Yata actions and helper scripts:
   - `tools/yata-wasm-plan-drift-sync.sh`
   - `tools/yata-triad-contract-sync.sh`
@@ -153,7 +153,7 @@ Primary commands:
 
 ```bash
 moon test
-moon bench -p zpc/merkin/conformance
+moon bench -p zploc/loci/conformance
 moon bench
 ```
 

@@ -1,7 +1,7 @@
 # Pactis Conversational Hosting API (Saba) (v0.1-draft)
 
 > Status note (2026-04-18): treat this form as a compatibility stub.
-> Directionally, conversation surfaces are moving toward union'd Merkin composition rather than a separate long-term Pactis API shape.
+> Directionally, conversation surfaces are moving toward union'd Loci composition rather than a separate long-term Pactis API shape.
 
 This specification defines Pactis as an AI-native conversation host, not only a Git-like object host.
 
@@ -148,7 +148,7 @@ Replay request:
 - `GET /threads/{thread_id}/plans/latest`
 - `POST /plans/parse`
 
-`.plan` payload follows [YATA_PLAN_SPEC.md](/home/locnguyen/ratio/merkin/docs/YATA_PLAN_SPEC.md).
+`.plan` payload follows [YATA_PLAN_SPEC.md](/home/locnguyen/ratio/loci/docs/YATA_PLAN_SPEC.md).
 
 ### 4.6 Address canonicalization
 
@@ -224,8 +224,8 @@ Per hall or per thread policies:
 
 Pactis can expose Git-equivalent operations while conversations remain primary:
 
-- Git parity map: [PACTIS_GIT_PARITY_FUNCTION_MAP.md](/home/locnguyen/ratio/merkin/docs/PACTIS_GIT_PARITY_FUNCTION_MAP.md)
-- `.plan` protocol: [YATA_PLAN_SPEC.md](/home/locnguyen/ratio/merkin/docs/YATA_PLAN_SPEC.md)
+- Git parity map: [PACTIS_GIT_PARITY_FUNCTION_MAP.md](/home/locnguyen/ratio/loci/docs/PACTIS_GIT_PARITY_FUNCTION_MAP.md)
+- `.plan` protocol: [YATA_PLAN_SPEC.md](/home/locnguyen/ratio/loci/docs/YATA_PLAN_SPEC.md)
 
 ## 9. Example: create turn
 

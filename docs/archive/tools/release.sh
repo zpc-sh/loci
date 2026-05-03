@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# merkin release pipeline
+# loci release pipeline
 #
 # Produces:
-#   dist/merkin-<version>/
-#     merkin                  native CLI binary (stripped)
-#     merkin.wasm             wasm-gc library (AtomVM/Popcorn via wasm_entry)
-#     merkin-lib.wasm         wasm-gc library (WasmEdge/wasmex via wasm_lib)
-#     merkin-wasmex.wasm      standard wasm library (WasmEdge/wasmex)
-#     merkin.c                C source for Zig/FFI compilation
-#     merkin-zig              Zig-compiled native (if zig is available)
+#   dist/loci-<version>/
+#     loci                  native CLI binary (stripped)
+#     loci.wasm             wasm-gc library (AtomVM/Popcorn via wasm_entry)
+#     loci-lib.wasm         wasm-gc library (WasmEdge/wasmex via wasm_lib)
+#     loci-wasmex.wasm      standard wasm library (WasmEdge/wasmex)
+#     loci.c                C source for Zig/FFI compilation
+#     loci-zig              Zig-compiled native (if zig is available)
 #     release-manifest.json   content-addressed artifact hashes
 #     triad-contract.json     drift contract sealing this release
 #
 # Usage:
 #   ./tools/release.sh [--version v0.1.0] [--zig-target znver5] [--skip-tests]
 #
-# The release bundle itself is ingested into the Merkin tree and sealed.
+# The release bundle itself is ingested into the Loci tree and sealed.
 # The triad contract is the authoritative release record.
 
 set -euo pipefail
@@ -38,11 +38,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-DIST="dist/merkin-${VERSION}"
+DIST="dist/loci-${VERSION}"
 CLI="moon run cmd/main --"
 
 echo "═══════════════════════════════════════════════════════"
-echo "  merkin release pipeline  ${VERSION}"
+echo "  loci release pipeline  ${VERSION}"
 echo "  generated: ${GENERATED_AT}"
 echo "═══════════════════════════════════════════════════════"
 
@@ -63,19 +63,19 @@ echo ""
 echo "── 2/7  build ──────────────────────────────────────────"
 
 # wasm_entry: AtomVM/Popcorn (has _start + all exports)
-moon build --target wasm-gc --release --package zpc/merkin/wasm_entry
+moon build --target wasm-gc --release --package zploc/loci/wasm_entry
 echo "  wasm_entry.wasm (wasm-gc, AtomVM)    $(du -sh _build/wasm-gc/release/build/wasm_entry/wasm_entry.wasm | cut -f1)"
 
 # wasm_lib: pure library (no _start) for WasmEdge wasm-gc
-moon build --target wasm-gc --release --package zpc/merkin/wasm_lib
+moon build --target wasm-gc --release --package zploc/loci/wasm_lib
 echo "  wasm_lib.wasm  (wasm-gc, WasmEdge)   $(du -sh _build/wasm-gc/release/build/wasm_lib/wasm_lib.wasm | cut -f1)"
 
 # wasm_lib: standard wasm for wasmex/WasmEdge WASI
-moon build --target wasm --release --package zpc/merkin/wasm_lib
+moon build --target wasm --release --package zploc/loci/wasm_lib
 echo "  wasm_lib.wasm  (wasm, wasmex)        $(du -sh _build/wasm/release/build/wasm_lib/wasm_lib.wasm | cut -f1)"
 
 # native CLI
-moon build --target native --release --package zpc/merkin/cmd/main
+moon build --target native --release --package zploc/loci/cmd/main
 echo "  main.exe       (native CLI)          $(du -sh _build/native/release/build/cmd/main/main.exe | cut -f1)"
 
 # ── 3. dist directory ────────────────────────────────────────────────────────
@@ -85,17 +85,17 @@ echo "── 3/7  dist ───────────────────
 
 mkdir -p "${DIST}"
 
-cp _build/wasm-gc/release/build/wasm_entry/wasm_entry.wasm "${DIST}/merkin.wasm"
-cp _build/wasm-gc/release/build/wasm_lib/wasm_lib.wasm     "${DIST}/merkin-lib.wasm"
-cp _build/wasm/release/build/wasm_lib/wasm_lib.wasm        "${DIST}/merkin-wasmex.wasm"
-cp _build/native/release/build/cmd/main/main.exe           "${DIST}/merkin"
-cp _build/native/release/build/cmd/main/main.c             "${DIST}/merkin.c"
-chmod +x "${DIST}/merkin"
+cp _build/wasm-gc/release/build/wasm_entry/wasm_entry.wasm "${DIST}/loci.wasm"
+cp _build/wasm-gc/release/build/wasm_lib/wasm_lib.wasm     "${DIST}/loci-lib.wasm"
+cp _build/wasm/release/build/wasm_lib/wasm_lib.wasm        "${DIST}/loci-wasmex.wasm"
+cp _build/native/release/build/cmd/main/main.exe           "${DIST}/loci"
+cp _build/native/release/build/cmd/main/main.c             "${DIST}/loci.c"
+chmod +x "${DIST}/loci"
 
-echo "  ${DIST}/merkin               $(du -sh "${DIST}/merkin" | cut -f1)"
-echo "  ${DIST}/merkin.wasm          $(du -sh "${DIST}/merkin.wasm" | cut -f1)"
-echo "  ${DIST}/merkin-lib.wasm      $(du -sh "${DIST}/merkin-lib.wasm" | cut -f1)"
-echo "  ${DIST}/merkin-wasmex.wasm   $(du -sh "${DIST}/merkin-wasmex.wasm" | cut -f1)"
+echo "  ${DIST}/loci               $(du -sh "${DIST}/loci" | cut -f1)"
+echo "  ${DIST}/loci.wasm          $(du -sh "${DIST}/loci.wasm" | cut -f1)"
+echo "  ${DIST}/loci-lib.wasm      $(du -sh "${DIST}/loci-lib.wasm" | cut -f1)"
+echo "  ${DIST}/loci-wasmex.wasm   $(du -sh "${DIST}/loci-wasmex.wasm" | cut -f1)"
 
 # ── 4. zig compilation (bleeding-edge CPU) ───────────────────────────────────
 
@@ -111,26 +111,26 @@ if command -v zig &>/dev/null; then
   zig cc _build/native/release/build/cmd/main/main.c \
     ${ZIG_FLAGS} \
     -lm \
-    -o "${DIST}/merkin-zig"
-  chmod +x "${DIST}/merkin-zig"
-  echo "  ${DIST}/merkin-zig           $(du -sh "${DIST}/merkin-zig" | cut -f1)"
+    -o "${DIST}/loci-zig"
+  chmod +x "${DIST}/loci-zig"
+  echo "  ${DIST}/loci-zig           $(du -sh "${DIST}/loci-zig" | cut -f1)"
 else
   echo "  zig not found — skipping zig variant"
   echo "  To build with custom CPU instructions:"
-  echo "    zig cc ${DIST}/merkin.c -O3 -march=znver5 -o ${DIST}/merkin-zig"
-  echo "    zig cc ${DIST}/merkin.c -O3 -mcpu=x86_64+avx512f+avx512vl+amx-tile -o ${DIST}/merkin-amx"
+  echo "    zig cc ${DIST}/loci.c -O3 -march=znver5 -o ${DIST}/loci-zig"
+  echo "    zig cc ${DIST}/loci.c -O3 -mcpu=x86_64+avx512f+avx512vl+amx-tile -o ${DIST}/loci-amx"
 fi
 
-# ── 5. content-address artifacts into merkin tree ────────────────────────────
+# ── 5. content-address artifacts into loci tree ────────────────────────────
 
 echo ""
 echo "── 5/7  ingest ─────────────────────────────────────────"
 
 # Use the CLI we just built to ingest artifact hashes into the tree
-MERKIN_BINARY="${DIST}/merkin"
+MERKIN_BINARY="${DIST}/loci"
 
 # Hash each artifact and ingest as tree routes
-for artifact in merkin merkin.wasm merkin-lib.wasm merkin-wasmex.wasm merkin.c; do
+for artifact in loci loci.wasm loci-lib.wasm loci-wasmex.wasm loci.c; do
   if [[ -f "${DIST}/${artifact}" ]]; then
     HEX=$(sha256sum "${DIST}/${artifact}" | cut -d' ' -f1)
     ROUTE="release/${VERSION}/${artifact}"
@@ -150,13 +150,13 @@ MANIFEST="${DIST}/release-manifest.json"
 
 {
   echo "{"
-  echo "  \"kind\": \"merkin.release.manifest\","
+  echo "  \"kind\": \"loci.release.manifest\","
   echo "  \"version\": \"${VERSION}\","
   echo "  \"generated_at_utc\": \"${GENERATED_AT}\","
   echo "  \"artifacts\": {"
 
   first=true
-  for artifact in merkin merkin.wasm merkin-lib.wasm merkin-wasmex.wasm merkin-zig merkin.c; do
+  for artifact in loci loci.wasm loci-lib.wasm loci-wasmex.wasm loci-zig loci.c; do
     if [[ -f "${DIST}/${artifact}" ]]; then
       SHA=$(sha256sum "${DIST}/${artifact}" | cut -d' ' -f1)
       SIZE=$(stat -c%s "${DIST}/${artifact}" 2>/dev/null || stat -f%z "${DIST}/${artifact}")
@@ -177,18 +177,18 @@ MANIFEST="${DIST}/release-manifest.json"
 # Regenerate cleanly without the broken artifact_target call
 {
   echo "{"
-  echo "  \"kind\": \"merkin.release.manifest\","
+  echo "  \"kind\": \"loci.release.manifest\","
   echo "  \"version\": \"${VERSION}\","
   echo "  \"generated_at_utc\": \"${GENERATED_AT}\","
   echo "  \"artifacts\": {"
   sep=""
   for entry in \
-    "merkin:native:linux-x86_64" \
-    "merkin.wasm:wasm-gc:atomvm-popcorn" \
-    "merkin-lib.wasm:wasm-gc:wasmex-gc" \
-    "merkin-wasmex.wasm:wasm:wasmedge-wasmex" \
-    "merkin-zig:native-zig:zig-custom-cpu" \
-    "merkin.c:c-source:zig-ffi-input"
+    "loci:native:linux-x86_64" \
+    "loci.wasm:wasm-gc:atomvm-popcorn" \
+    "loci-lib.wasm:wasm-gc:wasmex-gc" \
+    "loci-wasmex.wasm:wasm:wasmedge-wasmex" \
+    "loci-zig:native-zig:zig-custom-cpu" \
+    "loci.c:c-source:zig-ffi-input"
   do
     artifact="${entry%%:*}"
     rest="${entry#*:}"
@@ -217,13 +217,13 @@ MERKIN_HEAD=$(git rev-parse HEAD 2>/dev/null || echo "unknown")
 MERKIN_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
 
 ${CLI} daemon yata triad-contract \
-  --routes "release/${VERSION}/merkin,release/${VERSION}/merkin.wasm" \
+  --routes "release/${VERSION}/loci,release/${VERSION}/loci.wasm" \
   --tokens "release,${VERSION}" \
-  --drift-peers "manifest:${MANIFEST_SHA:0:16},merkin:${MERKIN_HEAD:0:16}" \
-  --merkin-head "${MERKIN_HEAD}" \
+  --drift-peers "manifest:${MANIFEST_SHA:0:16},loci:${MERKIN_HEAD:0:16}" \
+  --loci-head "${MERKIN_HEAD}" \
   --mu-head "unknown" \
   --lang-head "unknown" \
-  --merkin-branch "${MERKIN_BRANCH}" \
+  --loci-branch "${MERKIN_BRANCH}" \
   --mu-branch "unknown" \
   --lang-branch "unknown" \
   --generated-at-utc "${GENERATED_AT}" \
@@ -233,13 +233,13 @@ ${CLI} daemon yata triad-contract \
 
 # Fallback: emit the contract directly
 ${CLI} daemon yata triad-contract \
-  --routes "release/${VERSION}/merkin,release/${VERSION}/merkin.wasm" \
+  --routes "release/${VERSION}/loci,release/${VERSION}/loci.wasm" \
   --tokens "release,${VERSION}" \
-  --drift-peers "manifest:${MANIFEST_SHA:0:16},merkin:${MERKIN_HEAD:0:16}" \
-  --merkin-head "${MERKIN_HEAD}" \
+  --drift-peers "manifest:${MANIFEST_SHA:0:16},loci:${MERKIN_HEAD:0:16}" \
+  --loci-head "${MERKIN_HEAD}" \
   --mu-head "unknown" \
   --lang-head "unknown" \
-  --merkin-branch "${MERKIN_BRANCH}" \
+  --loci-branch "${MERKIN_BRANCH}" \
   --mu-branch "unknown" \
   --lang-branch "unknown" \
   --generated-at-utc "${GENERATED_AT}" \
@@ -256,11 +256,11 @@ echo "  release complete: ${DIST}/"
 echo ""
 ls -lh "${DIST}/" 2>/dev/null
 echo ""
-echo "  AtomVM/Popcorn:   ${DIST}/merkin.wasm"
-echo "  WasmEdge (gc):    ${DIST}/merkin-lib.wasm"
-echo "  WasmEdge (wasm):  ${DIST}/merkin-wasmex.wasm"
-echo "  Native CLI:       ${DIST}/merkin"
-echo "  Zig/FFI source:   ${DIST}/merkin.c"
+echo "  AtomVM/Popcorn:   ${DIST}/loci.wasm"
+echo "  WasmEdge (gc):    ${DIST}/loci-lib.wasm"
+echo "  WasmEdge (wasm):  ${DIST}/loci-wasmex.wasm"
+echo "  Native CLI:       ${DIST}/loci"
+echo "  Zig/FFI source:   ${DIST}/loci.c"
 echo ""
 echo "  Seal:  ${DIST}/triad-contract.json.raw"
 echo "═══════════════════════════════════════════════════════"

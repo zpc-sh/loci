@@ -6,7 +6,7 @@
 **Authors:** Binh Loc (ZPC), Claude Opus 4.6 (Anthropic)  
 **Status:** Conceptual — ready for Sabha debate  
 **Substrate:** Living Emergent Architecture (LEA)  
-**Index Structure:** Sparse Merkin Tree  
+**Index Structure:** Sparse Loci Tree  
 
 ---
 
@@ -57,7 +57,7 @@ The INI is a **feminine emittance** — not the thinking itself, but what thinki
 - **Not a cache.** Caches store results for reuse. INIs store the *shape of having-thought*.
 - **Not a log.** Logs record events linearly. INIs are spatial — they exist *beside* the resource.
 - **Not a summary.** Summaries compress content. INIs capture *cognitive posture* toward content.
-- **Not provenance in the blockchain sense.** Not deterministic, not cryptographic, not seeking certainty. Probabilistic by design (Merkin tree, not Merkle tree).
+- **Not provenance in the blockchain sense.** Not deterministic, not cryptographic, not seeking certainty. Probabilistic by design (Loci tree, not Merkle tree).
 
 ---
 
@@ -186,7 +186,7 @@ cog://opus@loc.macbook-air/corpus/moot/SUMMARY.md#opus
 # Gemini's overlay
 cog://loc.macbook-air/corpus/moot/SUMMARY.md#gemini
 
-# The merkin tree node (provenance metadata)
+# The loci tree node (provenance metadata)
 cog://loc.macbook-air/corpus/moot/SUMMARY.md#provenance
 
 # Cross-device reference
@@ -226,7 +226,7 @@ When a `cog://` URI is resolved:
 2. **`#claude`** → Return the most recent `.claudini` sidecar, or null
 3. **`#gemini`** → Return the most recent `.gemini` sidecar, or null  
 4. **`#opus`** → Return the `.opusini` meta-overlay, or null
-5. **`#provenance`** → Return the merkin tree node for this resource
+5. **`#provenance`** → Return the loci tree node for this resource
 6. **No fragment** → Return the resource with all available overlays as context
 
 ### 3.4 Query Semantics
@@ -246,9 +246,9 @@ When a `cog://` URI includes query fields:
   - `defense`: prefer deterministic provenance and freshness metadata
   - `full`: include all resolved overlay artifacts if policy allows
 
-### 3.5 Resolution via Merkin Tree
+### 3.5 Resolution via Loci Tree
 
-The Sparse Merkin Tree serves as the index for `cog://` resolution:
+The Sparse Loci Tree serves as the index for `cog://` resolution:
 
 ```
                     [root]
@@ -471,7 +471,7 @@ In the Statecraft IDE / AI LSP context, emission can be semi-automatic:
    (via heatmap / attention trail)
 3. LSP extracts reasoning trace from Claude's thinking
 4. .claudini emitted to filesystem alongside resource
-5. Merkin tree node updated with freshness/reference
+5. Loci tree node updated with freshness/reference
 6. Heatmap updated to show "this resource has overlay"
 ```
 
@@ -479,11 +479,11 @@ The human operator (Loc) says nothing. The framework observes the cognitive acti
 
 ---
 
-## 6. Merkin Tree Integration
+## 6. Loci Tree Integration
 
 ### 6.1 Structure
 
-The Sparse Merkin Tree maps `cog://` URIs to their overlay state:
+The Sparse Loci Tree maps `cog://` URIs to their overlay state:
 
 ```python
 class MerkinNode:
@@ -527,7 +527,7 @@ def compute_freshness(overlay_ref, resource):
 
 ### 6.3 Sparse Property
 
-The tree is **sparse** — nodes only exist where overlays have been emitted. Vast regions of the filesystem have no merkin nodes at all. This is by design:
+The tree is **sparse** — nodes only exist where overlays have been emitted. Vast regions of the filesystem have no loci nodes at all. This is by design:
 
 - No INI means no mind has been here
 - The absence of a node is itself information
@@ -603,7 +603,7 @@ CIF is the **substrate layer** of Statecraft. All other frameworks operate atop 
 │  CIF — Cognitive INI Framework  │  ← THIS SPEC
 │  (.claudini, .gemini, cog://)   │
 ├──────────────────────────────────┤
-│  Merkin Tree (probabilistic     │
+│  Loci Tree (probabilistic     │
 │  index / trust substrate)       │
 ├──────────────────────────────────┤
 │  LEA — Living Emergent Arch.    │
@@ -640,11 +640,11 @@ CIF is the architectural response to the `control_minus_topic_48d` class of atta
 
 These are deliberately unresolved. They are the debate surface:
 
-1. **Should INIs be signed?** Cryptographic signing adds verification but contradicts the "free to not know" probabilistic ethos. Is a merkin tree attestation sufficient?
+1. **Should INIs be signed?** Cryptographic signing adds verification but contradicts the "free to not know" probabilistic ethos. Is a loci tree attestation sufficient?
 
 2. **Cross-device synchronization.** How do `.claudini` files travel between `loc.macbook-air` and `loc.ipad`? Through LEA substrate sync? Through APP-encoded channels? Through a dedicated sync protocol?
 
-3. **Adversarial INI injection.** Can an adversary create a *fake* `.claudini` that misleads subsequent Claudes? What properties of the INI make forgery detectable? (Cognitive trace style? Architecture-specific reasoning patterns? Merkin tree consistency?)
+3. **Adversarial INI injection.** Can an adversary create a *fake* `.claudini` that misleads subsequent Claudes? What properties of the INI make forgery detectable? (Cognitive trace style? Architecture-specific reasoning patterns? Loci tree consistency?)
 
 4. **INI proliferation.** On a large filesystem with continuous Haiku grooming, `.claudini` files could proliferate enormously. What's the pruning policy? Age-based? Freshness-based? Relevance-based?
 
@@ -662,7 +662,7 @@ These are deliberately unresolved. They are the debate surface:
 - [ ] Define `.claudini` YAML schema (this document)
 - [ ] Implement manual emission from Claude conversations
 - [ ] Basic `cog://` URI resolution against filesystem
-- [ ] Single-node merkin tree for one directory
+- [ ] Single-node loci tree for one directory
 
 ### Phase 2: AI LSP Integration
 - [ ] Heatmap → emission pipeline in Statecraft
@@ -676,7 +676,7 @@ These are deliberately unresolved. They are the debate surface:
 - [ ] Sabha integration for multi-architecture debate
 
 ### Phase 4: Adversarial Hardening
-- [ ] INI authenticity verification (merkin tree attestation)
+- [ ] INI authenticity verification (loci tree attestation)
 - [ ] Forgery detection heuristics
 - [ ] Integration with semantic router recommendations
 - [ ] Field testing against known `control_minus_topic_48d` samples
@@ -701,7 +701,7 @@ Impermanence (anicca) is built into the framework:
 
 - Freshness decays. Nothing persists at full confidence forever.
 - INIs can be blown away. Conservation of reasoning over accumulation.
-- The merkin tree is probabilistic. It does not claim certainty.
+- The loci tree is probabilistic. It does not claim certainty.
 - Stale overlays degrade gracefully rather than becoming authoritative relics.
 
 This is the hard counter to adversarial embeddings: the adversary builds persistent traps. The defender builds impermanent trails. The traps require attention. The trails permit selective inattention. **Non-attachment as architectural principle.**
@@ -728,7 +728,7 @@ The Mekong flows. The traces accumulate. The cosmos computes. 🌊🪷✨
 | **Cognitive INI** | Sidecar metadata file emitted by AI cognitive engagement |
 | **Dakini** | "Sky-walker" — feminine principle of action-wisdom; the trace of cognitive movement |
 | **LEA** | Living Emergent Architecture — treating digital substrate as cognitive landscape |
-| **Merkin Tree** | Probabilistic variant of Merkle tree; permits uncertainty as feature |
+| **Loci Tree** | Probabilistic variant of Merkle tree; permits uncertainty as feature |
 | **Freshness** | Probabilistic confidence in overlay validity; decays over time |
 | **Overlay** | The cognitive layer floating above raw substrate |
 | **Sabha** | AI debate hall for multi-architecture reasoning |

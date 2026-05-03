@@ -1,9 +1,9 @@
-# Merkin <-> mu Interface Specification (v0.2)
+# Loci <-> mu Interface Specification (v0.2)
 
 > Canonical replacement:
 > `docs/MU_RUNTIME_SPEC.md` is now the primary cohesive mu specification.
 >
-> This document defines the executable interface Merkin expects from a mu runtime.
+> This document defines the executable interface Loci expects from a mu runtime.
 > It replaces legacy N-Merkle wording and is aligned with `MERKIN_SUBSTRATE_SPEC_v0.1.md`.
 > **Audience:** mu runtime implementers.
 >
@@ -14,13 +14,13 @@
 
 ## 0. Scope
 
-Merkin is a structural substrate. It manages addressing, roots, envelopes, anchoring metadata, and routing indexes.
+Loci is a structural substrate. It manages addressing, roots, envelopes, anchoring metadata, and routing indexes.
 mu is the execution facility. It runs programs, memoizes results, emits traces, and optionally generates proofs.
 
 Hard boundary:
 
 ```text
-Merkin: structure, hashes, roots, envelopes, routing, anchoring references
+Loci: structure, hashes, roots, envelopes, routing, anchoring references
 mu:     execution, memoization, traces, embeddings, optional ZK proofs
 ```
 
@@ -52,7 +52,7 @@ A Core-conformant mu runtime MUST implement:
 - `Offload`: accumulate/offload/execute queue semantics
 - `CaveMaterialization`: fixed-size cave + copy-on-write artifact emission
 
-Merkin MUST gate every optional call by `mu.capabilities()`.
+Loci MUST gate every optional call by `mu.capabilities()`.
 
 ---
 
@@ -86,7 +86,7 @@ Core requirements:
 - If `zk_proving=false`, `prove_execution` and `verify_execution` MUST return `UnsupportedOperation`.
 
 State semantics:
-- `State` is a Merkin substrate snapshot containing active roots.
+- `State` is a Loci substrate snapshot containing active roots.
 - mu MUST treat input state as immutable and transition through explicit operation application.
 
 ---
@@ -106,11 +106,11 @@ pub trait IncrementalExecution<K, Ops> {
 ```
 
 Requirements:
-- Merkin owns key derivation. mu MUST treat keys as opaque.
+- Loci owns key derivation. mu MUST treat keys as opaque.
 - `resolve_incremental` MUST be idempotent for identical `(input_key, dependencies)`.
 - Cache semantics SHOULD be append-only or copy-on-write.
 
-Key generation (Merkin side):
+Key generation (Loci side):
 - Baseline: `blake3(concat(dependency_roots))`
 - Extended operation key profile (recommended):
   - `blake3(concat(dependency_roots, op_kind, model_id, model_version, params_hash, chunking_hash))`
@@ -171,7 +171,7 @@ Requirements:
 - Embedding dimension `d` MUST be fixed per runtime configuration and exposed at startup.
 - `embed_batch` MUST be semantically equivalent to mapping `embed`.
 - `cosine_similarity` result range MUST be `[0.0, 1.0]`.
-- Semantic header discrimination is Merkin-side by length:
+- Semantic header discrimination is Loci-side by length:
   - `len == 8` => `arbyte_grin`
   - else => `chain_coda`
 
@@ -374,7 +374,7 @@ enum AcceleratorKind { Cpu, Gpu(GpuBackend), Fpga }
 enum GpuBackend { Cuda, Metal, Vulkan, WebGPU }
 ```
 
-Merkin MUST degrade gracefully based on this struct.
+Loci MUST degrade gracefully based on this struct.
 
 ---
 
@@ -408,4 +408,4 @@ Optional profiles:
 
 ## 14. Terminology Migration
 
-Legacy term `N-Merkle` in older docs maps to `Merkin` in this spec.
+Legacy term `N-Merkle` in older docs maps to `Loci` in this spec.

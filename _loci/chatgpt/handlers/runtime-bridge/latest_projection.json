@@ -1,0 +1,22 @@
+{
+  "kind": "loci.runtime.bridge.projection.v0",
+  "generated_at_utc": "2026-04-28T14:04:19Z",
+  "fsm_state": "published",
+  "spec_fingerprint": "4906f6ef5570b802af3e85da16eb4efc393a91c252bf3255b771352498203d0a",
+  "spec_hashes": {
+    "LOCI_EVENT_BLOCKCHAIN_SCHEMA.muon": "74485769cedb98c6f2c4d04169737e25a1cee662f32bff9dc61baa75de77bcb5",
+    "LOCI_EVENT_BLOCKCHAIN_SPEC.md": "b4d4ca1f37564a3329d18ea8c547e7247706343d719917fb2ce94ca98f5ff504",
+    "LOCI_EVENT_FEATURE_REQUIREMENTS.md": "c225a608c9a1e9e6c14f06df8336916be12010eb7914fc5ad8ceef1608c2cc8d",
+    "LOCI_HANDOFF_PACKET.muon": "104f98b4563cb7d4f21f88505edfa62d65580db1cf7a6b7b7391f6a4e81b5d7d"
+  },
+  "checks": {
+    "append_only": true,
+    "readonly_blocks": true,
+    "fail_close_code_cave": true,
+    "required_fences": true,
+    "branch_merge": true,
+    "seq_discipline": true,
+    "coredump": true
+  },
+  "block_log": "_loci/chatgpt/event-chain/blocks.jsonl"
+}

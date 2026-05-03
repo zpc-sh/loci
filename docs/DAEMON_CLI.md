@@ -32,7 +32,7 @@ moon run cmd/main -- daemon conv embed --file-ref docs/sample.bin --embedding-ac
 moon run cmd/main -- daemon conv embed-purge --purge-after-turns 1 --current-turn-seq 2
 moon run cmd/main -- daemon yata topology --yata-branch-factor 5 --yata-max-children 3
 moon run cmd/main -- daemon yata wasm-plan --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,muyata:def
-moon run cmd/main -- daemon yata triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --merkin-head aaa --mu-head bbb --lang-head ccc
+moon run cmd/main -- daemon yata triad-contract --routes alpha/doc,beta/doc --tokens alpha --drift-peers mu:abc,lang:def --loci-head aaa --mu-head bbb --lang-head ccc
 moon run cmd/main -- daemon adapter validate --action status --file /tmp/adapter.json
 
 # Legacy
@@ -103,13 +103,13 @@ moon run cmd/main -- daemon --action demo --mode receiver
 - `--yata-max-depth`: traversal depth bound for detached-hole detection
 - `--drift-peers`: two peer refs for drift coordination in `yata wasm-plan` and `yata triad-contract` (`<peer-a>,<peer-b>`)
 - `--seal`: `true | false` pre-seal synthetic sparse tree before `yata wasm-plan` or `yata triad-contract`
-- `--merkin-head`: Merkin git head pin for `yata triad-contract`
+- `--loci-head`: Loci git head pin for `yata triad-contract`
 - `--mu-head`: Mu git head pin for `yata triad-contract`
 - `--lang-head`: lang git head pin for `yata triad-contract`
-- `--merkin-branch`: raw Merkin branch string for byte-level ghost audit in `yata triad-contract`
+- `--loci-branch`: raw Loci branch string for byte-level ghost audit in `yata triad-contract`
 - `--mu-branch`: raw Mu branch string for byte-level ghost audit in `yata triad-contract`
 - `--lang-branch`: raw lang branch string for byte-level ghost audit in `yata triad-contract`
-- `--wasm-exports`: comma-separated Merkin wasm export list for ABI checks in `yata triad-contract`
+- `--wasm-exports`: comma-separated Loci wasm export list for ABI checks in `yata triad-contract`
 - `--generated-at-utc`: RFC3339 generation timestamp for `yata triad-contract`
 - `--contract-version`: contract schema version label for `yata triad-contract`
 - `--emit-distributed`: `true | false` for `cognitive compile` bridge
@@ -144,9 +144,9 @@ Cross-repo drift helper for `finger.plan.wasm`:
 
 - `tools/yata-wasm-plan-drift-sync.sh`
 - `make wasm-plan-drift`
-- `daemon yata wasm-plan` now emits compact plan wire + paired `merkin.boundary.stigmergy` boundary wire + FSM attention gradient summary fields from the same peer scan
+- `daemon yata wasm-plan` now emits compact plan wire + paired `loci.boundary.stigmergy` boundary wire + FSM attention gradient summary fields from the same peer scan
 
-Cross-repo triad contract helper for Merkin + Mu + lang:
+Cross-repo triad contract helper for Loci + Mu + lang:
 
 - `tools/yata-triad-contract-sync.sh`
 - `make triad-contract-sync`
@@ -164,7 +164,7 @@ Defaults (can be overridden with `--oci`):
 
 The daemon currently uses in-memory stores and an in-memory OCI registry adapter (`storage/oci.mbt`) to validate behavior.
 
-Receiver mode also maintains an in-memory Merkin index tree per daemon node, enabling:
+Receiver mode also maintains an in-memory Loci index tree per daemon node, enabling:
 
 - sparse views (`daemon.sparse_view(tokens)`)
 - diff against sparse snapshots (`daemon.diff_from_sparse(...)`)

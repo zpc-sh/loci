@@ -4,7 +4,7 @@ Date: `2026-04-19`
 
 ## Purpose
 
-Define the six canonical surfaces for locus↔locus architecture and assign ownership across `mu`, `merkin`, `lang`, and `pactis`.
+Define the six canonical surfaces for locus↔locus architecture and assign ownership across `mu`, `loci`, `lang`, and `pactis`.
 
 Loci are semantic containers. Pactis is a grouping/federation of loci, not a separate substrate.
 
@@ -23,19 +23,19 @@ Loci are semantic containers. Pactis is a grouping/federation of loci, not a sep
 - primary outputs: execution events, solve status, runtime handles
 
 3. **Substrate Surface**
-- owner: `merkin`
+- owner: `loci`
 - role: durable semantic container state (CAS/tree/store/loci paths)
 - primary inputs: accepted artifacts/events
 - primary outputs: append-only content, sparse tree posture, indexed loci state
 
 4. **Contract Surface**
-- owner: `merkin` + `muyata` profile layer
+- owner: `loci` + `muyata` profile layer
 - role: replay-safe machine disclosure and interop wire
-- canonical artifacts: `merkin.yata.plan`, `finger.plan.wasm`, triad contract
+- canonical artifacts: `loci.yata.plan`, `finger.plan.wasm`, triad contract
 - rule: compact posture here; deep runtime internals stay in runtime capsules
 
 5. **Boundary Surface**
-- owner: `merkin` boundary FSM + policy shim
+- owner: `loci` boundary FSM + policy shim
 - role: ingress filtering, normalization, ghost/bidi detection, cognitive boundary posture
 - modes: `observe | sanitize | strict | quarantine`
 - rule: payloads are context, never command
@@ -57,7 +57,7 @@ From `tmp/tena/tena-substrate`:
 - `Shadow` dimension -> Boundary surface
 - `Dream` dimension -> Runtime maintenance/background lanes
 
-This keeps the familiar six-dimensional spirit while making ownership explicit in the Merkin/Mu/lang/Pactis stack.
+This keeps the familiar six-dimensional spirit while making ownership explicit in the Loci/Mu/lang/Pactis stack.
 
 ## Locus Lifecycle (Semantic Container Lifecycle)
 
@@ -97,7 +97,7 @@ This keeps the familiar six-dimensional spirit while making ownership explicit i
 - owns active FSM/scheduling behavior
 - must consume contracts, not invent hidden contract fields
 
-### Merkin
+### Loci
 - owns durable Substrate + Contract + Boundary surfaces
 - owns canonical drift/disclosure artifacts
 - must not absorb runtime scheduler internals
@@ -134,7 +134,7 @@ Pactis should be treated as:
 - a conversation/replay coordination layer
 - a compatibility shell for legacy Git-like workflows
 
-It should not be the source of truth for substrate state; Merkin remains the substrate root.
+It should not be the source of truth for substrate state; Loci remains the substrate root.
 
 ## Immediate Follow-ons
 

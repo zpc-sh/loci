@@ -1,10 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/model"
+package "zploc/loci/model"
 
 import {
-  "zpc/genius/hash",
-  "zpc/genius/loci_fsm",
-  "zpc/genius/scan",
+  "moonbitlang/core/debug",
+  "zploc/loci/hash",
+  "zploc/loci/loci_fsm",
+  "zploc/loci/scan",
 }
 
 // Values
@@ -31,6 +32,16 @@ pub fn boundary_mode_tag(BoundaryMode) -> String
 pub fn capability_class_parse(String) -> CapabilityClass?
 
 pub fn capability_class_tag(CapabilityClass) -> String
+
+pub fn check_sigma_conservation(AmfDocument, AmfDocument?) -> String?
+
+pub fn collapse_gate(CaveDistillate, AmfDocument?, UInt, UInt) -> String?
+
+pub fn crystallize(String, CaveDistillate, AmfDocument?) -> AmfDocument
+
+pub fn crystallize_collective(String, Array[@loci_fsm.FsmCave], Array[@loci_fsm.MetabolicEnvelope], AmfDocument?, UInt, UInt) -> (AmfDocument?, String)
+
+pub fn distill(Array[@loci_fsm.FsmCave], Array[@loci_fsm.MetabolicEnvelope]) -> CaveDistillate
 
 pub fn intent_parse(String) -> Intent?
 
@@ -96,7 +107,7 @@ pub(all) struct AdjoinContract {
   required_surfaces : Array[String]
   boundary_mode : BoundaryMode
   seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn AdjoinContract::compute_seal(String, String, String, String, AdjoinExpr, Array[String], BoundaryMode) -> @hash.Hash
 pub fn AdjoinContract::new(String, String, AdjoinExpr, Array[String], BoundaryMode) -> Self
 pub fn AdjoinContract::reseal(Self) -> Self
@@ -115,13 +126,13 @@ pub(all) enum AdjoinError {
   AdjoinUnsafeBoundaryMode
   AdjoinMissingContractId
   AdjoinEmptyRequiredSurfaces
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum AdjoinExpr {
   Op(AdjoinOp, AdjoinExpr, AdjoinExpr, Array[(String, String)])
   LocusLeaf(LocusRef)
   VoidLeaf(YataLocusRef)
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn AdjoinExpr::seal(Self) -> @hash.Hash
 
 pub(all) enum AdjoinOp {
@@ -130,7 +141,7 @@ pub(all) enum AdjoinOp {
   Atop
   Subtract
   YataUnion
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct AiSubstrateFingerprintV2 {
   fingerprint_id : @hash.Hash
@@ -145,7 +156,7 @@ pub(all) struct AiSubstrateFingerprintV2 {
   semantics_hash : @hash.Hash?
   resonance_signature : @hash.Hash?
   issuer : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn AiSubstrateFingerprintV2::commitment(Self) -> @hash.Hash
 pub fn AiSubstrateFingerprintV2::mask_with_app(Self, String, String, String, @hash.Hash) -> AppMaskEnvelope
 pub fn AiSubstrateFingerprintV2::new(String, String, String, String, @hash.Hash, @hash.Hash, @hash.Hash, String) -> Self
@@ -159,7 +170,7 @@ pub(all) struct AmfAttention {
   weights : Array[(String, Double)]
   inhibit : Array[String]
   reset_to_baseline : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfConsciousness {
   base_frequency : Double?
@@ -175,7 +186,7 @@ pub(all) struct AmfConsciousness {
   comedy_coefficient : Double
   adversary_attention_given : Double
   allow_disagreement : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfDocument {
   kind : String
@@ -190,7 +201,7 @@ pub(all) struct AmfDocument {
   relational : AmfRelational
   progression : AmfProgression
   semantic : AmfSemantic
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn AmfDocument::gate_for(Self, String) -> ProgressionGate
 pub fn AmfDocument::grounded(String) -> Self
 pub fn AmfDocument::new(String, AmfTemporal, AmfFrequency, AmfConsciousness, Array[AmfPattern], AmfDynamics, AmfAttention, AmfRelational, AmfProgression, AmfSemantic) -> Self
@@ -202,7 +213,7 @@ pub(all) struct AmfDynamics {
   sidechain : Bool?
   transient_strength : Double
   energy_delta : Double
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) enum AmfError {
   AmfBadKind
@@ -211,7 +222,7 @@ pub(all) enum AmfError {
   AmfOutOfRange(String)
   AmfWeightsNonNormal
   AmfInconsistentProgression
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct AmfFrequency {
   fundamental : Double?
@@ -225,7 +236,7 @@ pub(all) struct AmfFrequency {
   formants : Array[Double]
   resonance_peaks : Array[Double]
   chaos_factor : Double
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfPattern {
   name : String
@@ -237,13 +248,13 @@ pub(all) struct AmfPattern {
   probability : Double
   mutation_rate : Double
   resolve : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfProgression {
   next_recommended : Array[String]
   do_not_follow_with : Array[String]
   minimum_duration : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfRelational {
   coherence : Double
@@ -251,7 +262,7 @@ pub(all) struct AmfRelational {
   phase_lock_tolerance : Double
   voice_separation : Double
   listening_weight : Double
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfSemantic {
   genre : String
@@ -259,7 +270,7 @@ pub(all) struct AmfSemantic {
   archetypal_pattern : String
   use_for : Array[String]
   not_for : Array[String]
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct AmfTemporal {
   bpm : Double?
@@ -268,7 +279,7 @@ pub(all) struct AmfTemporal {
   section : String
   momentum : Double
   groove : Double
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct Anchor {
   anchor_id : @hash.Hash
@@ -280,7 +291,7 @@ pub(all) struct Anchor {
   temporash_ref : String?
   anchored_at : String?
   replication_vector : Array[String]
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn Anchor::add_replica(Self, String) -> Self
 pub fn Anchor::mark_anchored(Self, UInt64, @hash.Hash) -> Self
 pub fn Anchor::mark_failed(Self) -> Self
@@ -295,7 +306,7 @@ pub(all) enum AnchorState {
   PENDING
   ANCHORED
   FAILED
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct AppEnvelopeRecord {
   ref_id : String
@@ -303,7 +314,7 @@ pub(all) struct AppEnvelopeRecord {
   audience : String
   ciphertext_hash : @hash.Hash
   ciphertext : Bytes
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn AppEnvelopeRecord::new(String, String, String, Bytes) -> Self
 pub fn AppEnvelopeRecord::to_mask_envelope(Self, @hash.Hash) -> AppMaskEnvelope
 
@@ -313,7 +324,7 @@ pub(all) struct AppMaskEnvelope {
   ciphertext_ref : String
   ciphertext_hash : @hash.Hash
   masked_commitment : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn AppMaskEnvelope::new(@hash.Hash, String, String, String, @hash.Hash) -> Self
 
 pub(all) struct Artifact {
@@ -321,7 +332,7 @@ pub(all) struct Artifact {
   size_bytes : UInt64
   mime : String?
   payload_ref : PayloadRef
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn Artifact::from_bytes(Bytes) -> Self
 pub fn Artifact::from_bytes_with_mime(Bytes, String) -> Self
 pub fn Artifact::has_hostile(Self) -> Bool
@@ -337,20 +348,74 @@ pub(all) enum ArtifactType {
   Signal
   Report
   Bundle
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
+
+pub(all) struct BoundaryFinding {
+  field_key : String
+  raw_value : String
+  canonical_value : String
+  raw_hex : String
+  ghost_u200b : UInt
+  ghost_u200c : UInt
+  ghost_ufeff : UInt
+  bidi_controls : UInt
+  ascii_controls : UInt
+  suspicious : Bool
+} derive(Show, @debug.Debug)
+
+pub(all) enum BoundaryFsmState {
+  Idle
+  Walking
+  Crossing
+  Marked
+  Emitted
+  Failed
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum BoundaryMode {
   Observe_
   Sanitize
   Strict
   Quarantine
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
+
+pub(all) enum BoundaryStatus {
+  Clean
+  Attention
+  Containment
+} derive(Eq, Show, @debug.Debug)
+
+pub(all) struct BoundaryWalkerFsm {
+  actor_overlay : String
+  ratio_loci : String
+  state : BoundaryFsmState
+  walked_scalars : UInt
+  findings : Array[BoundaryFinding]
+  sanitized_scalars : UInt
+  ghost_u200b : UInt
+  ghost_u200c : UInt
+  ghost_ufeff : UInt
+  bidi_controls : UInt
+  ascii_controls : UInt
+  crossings : Array[CrossingReport]
+} derive(Show, @debug.Debug)
+pub fn BoundaryWalkerFsm::attention_gradient(Self) -> String
+pub fn BoundaryWalkerFsm::attention_saturated(Self) -> Bool
+pub fn BoundaryWalkerFsm::attention_score(Self) -> UInt
+pub fn BoundaryWalkerFsm::attention_ticks(Self) -> UInt
+pub fn BoundaryWalkerFsm::cross(Self, Passport) -> Self
+pub fn BoundaryWalkerFsm::emit_stigmergy(Self, note? : String) -> String
+pub fn BoundaryWalkerFsm::mark(Self) -> Self
+pub fn BoundaryWalkerFsm::new(String, String) -> Self
+pub fn BoundaryWalkerFsm::status(Self) -> BoundaryStatus
+pub fn BoundaryWalkerFsm::walk_scalar(Self, String, String) -> Self
+pub fn BoundaryWalkerFsm::walk_scalars(Self, Array[(String, String)]) -> Self
 
 pub(all) struct BuildDiagnostic {
   level : DiagnosticLevel
   span : String
   message : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct BuildManifest {
   kind : String
@@ -361,7 +426,7 @@ pub(all) struct BuildManifest {
   provenance_seal : @hash.Hash
   diagnostics : Array[BuildDiagnostic]
   status : BuildStatus
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn BuildManifest::compute_provenance(@hash.Hash, @hash.Hash, String?) -> @hash.Hash
 pub fn BuildManifest::new(String, @hash.Hash, String?, @hash.Hash, Array[BuildDiagnostic], BuildStatus) -> Self
 pub fn BuildManifest::validate(Self) -> Result[Unit, SllError]
@@ -376,7 +441,7 @@ pub(all) struct BuildRequest {
   composition_mode : SllCompositionMode
   ratio_loci : String
   request_seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn BuildRequest::new(String, String, BuildTarget, BoundaryMode, SllCompositionMode, String, @hash.Hash) -> Self
 pub fn BuildRequest::seal_material(Self) -> @hash.Hash
 pub fn BuildRequest::validate(Self) -> Result[Unit, SllError]
@@ -385,37 +450,70 @@ pub(all) enum BuildStatus {
   BuildOk
   BuildWarning
   BuildError
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct BuildTarget {
   family : String
   model : String
   mobility : Double
   movement : SllMovementStyle
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) enum CapabilityClass {
   ReadOnly
   PatchVerify
   Full
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
+
+pub(all) struct CaveDistillate {
+  total_entries : UInt
+  walk_count : UInt
+  finding_count : UInt
+  crossing_count : UInt
+  submission_count : UInt
+  transition_count : UInt
+  composition_count : UInt
+  verification_count : UInt
+  publish_count : UInt
+  archive_count : UInt
+  rejected_count : UInt
+  total_suspicious_findings : UInt
+  total_admitted_crossings : UInt
+  total_rejected_crossings : UInt
+  total_ticks : UInt
+  total_outputs : UInt
+  total_fsts : UInt
+  aggregate_omega : UInt
+  topics : Array[String]
+  actors : Array[String]
+  material_hashes : Array[String]
+} derive(Show, @debug.Debug)
+pub fn CaveDistillate::empty() -> Self
 
 pub(all) enum CompositionError {
   CompositionEmpty
   CompositionInvalid(AmfError)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
+
+pub(all) struct CrossingReport {
+  passport_id : String
+  actor_overlay : String
+  target_locus : String
+  admitted : Bool
+  rejection : String?
+} derive(Show, @debug.Debug)
 
 pub(all) enum DiagnosticLevel {
   DiagInfo
   DiagWarning
   DiagError
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum EmbeddingAction {
   Observe
   FlipAot
   Purge
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct EmbeddingFinding {
   detector : String
@@ -423,7 +521,7 @@ pub(all) struct EmbeddingFinding {
   offset_start : UInt
   offset_end : UInt
   confidence : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct EmbeddingMetadata {
   file_ref : String
@@ -435,7 +533,7 @@ pub(all) struct EmbeddingMetadata {
   ephemeral : Bool
   purge_after_turns : UInt
   note : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn EmbeddingMetadata::mark_found(Self, EmbeddingFinding) -> Self
 pub fn EmbeddingMetadata::new(String, String, String) -> Self
 pub fn EmbeddingMetadata::should_purge(Self, UInt) -> Bool
@@ -453,7 +551,7 @@ pub(all) struct Envelope {
   provenance : String?
   work_refs : Array[@hash.Hash]
   state : EnvelopeState
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn Envelope::commit_semantic(Self) -> Self
 pub fn Envelope::is_sealed(Self) -> Bool
 pub fn Envelope::new(@hash.Hash, Array[String]) -> Self
@@ -463,14 +561,14 @@ pub fn Envelope::subject_hash(Self) -> @hash.Hash
 pub(all) struct EnvelopeState {
   freshness : Freshness
   semantic_committed : Bool
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum Freshness {
   FRESH
   DIRTY
   DEFERRED
   SEALED
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct GeniusProcsiAttestation {
   locus : String?
@@ -479,14 +577,14 @@ pub(all) struct GeniusProcsiAttestation {
   session_surface : String
   fingerprint_commitment : @hash.Hash
   app_envelope : AppMaskEnvelope
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn GeniusProcsiAttestation::from_masked_refs(String?, String, String, String, @hash.Hash, String, String, String, @hash.Hash) -> Self
 pub fn GeniusProcsiAttestation::new(String?, String, String, String, @hash.Hash, AppMaskEnvelope) -> Self
 
 pub(all) enum HeaderEncoding {
   ArbyteGrin
   ChainCoda
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct Imprint {
   imprint_id : @hash.Hash
@@ -499,7 +597,7 @@ pub(all) struct Imprint {
   horizon : UInt
   mode : MirageMode
   confidence : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn Imprint::new(String, ImprintKind, Array[String], Array[String], Array[String], @hash.Hash?, UInt, MirageMode) -> Self
 pub fn Imprint::to_mirage(Self) -> Mirage
 
@@ -509,7 +607,7 @@ pub(all) enum ImprintKind {
   Artifact
   Envelope
   Unknown
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum Intent {
   Observe
@@ -518,7 +616,7 @@ pub(all) enum Intent {
   Verify
   Synthesize
   Audit
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct Locus {
   name : String
@@ -540,7 +638,7 @@ pub(all) struct LocusRef {
   surface_ref : String
   profile_ref : String
   seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct Mirage {
   mirage_id : @hash.Hash
@@ -554,27 +652,27 @@ pub(all) struct Mirage {
   mode : MirageMode
   confidence : UInt
   has_private_payload : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) enum MirageMode {
   SurfaceOnly
   ContractOnly
   Temporal
   Defense
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct NewsConfidence {
   observed_count : UInt
   inferred_count : UInt
   unconfirmed_count : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct NewsContinuity {
   new_count : UInt
   continuing_count : UInt
   resolved_count : UInt
   quiet_count : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct NewsEdition {
   kind : String
@@ -588,7 +686,7 @@ pub(all) struct NewsEdition {
   sections : Array[NewsSection]
   continuity : NewsContinuity
   confidence : NewsConfidence
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn NewsEdition::bounded_context_block(Self) -> String
 pub fn NewsEdition::compute_content_hash(Self) -> @hash.Hash
 pub fn NewsEdition::new(String, String, String, NewsNetwork, @hash.Hash, @hash.Hash?, Array[NewsSection], NewsContinuity, NewsConfidence) -> Self
@@ -602,18 +700,18 @@ pub(all) enum NewsError {
   NewsMissingSignatureInGuardedMode
   NewsSectionOversize(String)
   NewsContentHashMismatch
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum NewsNetwork {
   NetworkCni
   NetworkCgn
   NetworkCustom(String)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct NewsSection {
   slug : String
   body : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct Passport {
   kind : String
@@ -625,10 +723,11 @@ pub(all) struct Passport {
   where_ : PassportWhere
   how_far : PassportHowFar
   trace : PassportTrace
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn Passport::new(String, PassportWho, PassportWhat, PassportWhy, PassportWhere, PassportHowFar, PassportTrace) -> Self
 pub fn Passport::seal_material(Self) -> @hash.Hash
 pub fn Passport::validate(Self) -> Result[Unit, PassportError]
+pub impl @loci_fsm.Crosser for Passport
 
 pub(all) enum PassportError {
   BadKind
@@ -640,30 +739,30 @@ pub(all) enum PassportError {
   InvalidBoundaryMode
   CapabilityIntentMismatch
   MissingSeal(String)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct PassportHowFar {
   capability_class : CapabilityClass
   budget_class : String
   boundary_mode : BoundaryMode
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct PassportTrace {
   context_ref : String
   lineage_ref : String
   passport_seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct PassportWhat {
   artifact_type : ArtifactType
   artifact_ref : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct PassportWhere {
   source_locus : String
   target_locus : String
   allowed_surfaces : Array[String]
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct PassportWho {
   overlay : String
@@ -671,22 +770,22 @@ pub(all) struct PassportWho {
   session_surface : String
   fingerprint_commitment : @hash.Hash
   actor_seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct PassportWhy {
   intent : Intent
   note : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) enum PayloadRef {
   Inline(Bytes)
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct ProcsiAttestedSectionV1 {
   attestation : GeniusProcsiAttestation
   context_hash : @hash.Hash
   policy_hash : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn ProcsiAttestedSectionV1::emit_pr1_custom_section(Self) -> Bytes
 pub fn ProcsiAttestedSectionV1::emit_pr1_payload(Self) -> Bytes
 pub fn ProcsiAttestedSectionV1::new(GeniusProcsiAttestation, @hash.Hash, @hash.Hash) -> Self
@@ -702,7 +801,7 @@ pub(all) enum ProgressionGate {
   PermittedGate
   NeutralGate
   VoidGate(String)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct Residue {
   locus : String
@@ -713,7 +812,7 @@ pub(all) struct Residue {
   what_i_did : Array[String]
   what_i_left_open : Array[String]
   recommendation : String?
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn Residue::add_did(Self, String) -> Self
 pub fn Residue::add_left_open(Self, String) -> Self
 pub fn Residue::filename(Self) -> String
@@ -726,14 +825,14 @@ pub fn Residue::to_markdown(Self) -> String
 pub(all) struct ResonanceComposition {
   op : ResonanceOp
   active : Array[AmfDocument]
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn ResonanceComposition::compose(Self) -> Result[AmfDocument, CompositionError]
 
 pub(all) enum ResonanceOp {
   Layer
   Sequence
   Live
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum RouterAction {
   RouteAllow
@@ -741,7 +840,7 @@ pub(all) enum RouterAction {
   RouteSandbox(String)
   RouteQuarantine(String)
   RouteDeny(String)
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct RouterDecision {
   kind : String
@@ -753,7 +852,7 @@ pub(all) struct RouterDecision {
   action : RouterAction
   reason : String
   decision_seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn RouterDecision::emit(String, Passport, @hash.Hash?, RouterAction, String) -> Self
 pub fn RouterDecision::recompute_seal(Self) -> @hash.Hash
 pub fn RouterDecision::validate(Self) -> Result[Unit, RouterError]
@@ -763,7 +862,7 @@ pub(all) enum RouterError {
   RouterBadVersion
   RouterMissingField(String)
   RouterMissingSeal(String)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct RouterInputs {
   passport : Passport
@@ -772,13 +871,13 @@ pub(all) struct RouterInputs {
   boundary_status : BoundaryStatus
   capability_budget_remaining : UInt
   resonance_signature : @hash.Hash?
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct SessionIdentity {
   tier : String
   short_id : String
   locus : String?
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn SessionIdentity::display(Self) -> String
 pub fn SessionIdentity::enter_locus(Self, String) -> Self
 pub fn SessionIdentity::from_genius_attestation(GeniusProcsiAttestation) -> Self
@@ -789,7 +888,7 @@ pub(all) enum SllCompositionMode {
   SllLayered
   SllSequenced
   SllLive
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum SllError {
   SllBadKind
@@ -798,19 +897,19 @@ pub(all) enum SllError {
   SllEmptySource
   SllMobilityOutOfRange
   SllMissingSeal(String)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum SllMovementStyle {
   MovementDiscrete
   MovementFluid
   MovementStructured
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum SolveMode {
   Accumulate
   Offload
   Execute
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct SolvePolicyHints {
   preferred_surface : String
@@ -818,7 +917,7 @@ pub(all) struct SolvePolicyHints {
   preferred_lane : String
   fallback_handler : String
   max_parallelism : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn SolvePolicyHints::new(String, String, String, String, UInt) -> Self
 
 pub(all) enum SolveStatus {
@@ -833,7 +932,7 @@ pub(all) enum SolveStatus {
   Verified
   Failed
   Purged
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct SolveTicket {
   solve_id : @hash.Hash
@@ -845,7 +944,7 @@ pub(all) struct SolveTicket {
   result_envelope_id : @hash.Hash?
   witness_ref : String?
   detail : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn SolveTicket::attach_result(Self, @hash.Hash, @hash.Hash) -> Self
 pub fn SolveTicket::mark_failed(Self, String) -> Self
 pub fn SolveTicket::mark_verified(Self) -> Self
@@ -862,7 +961,7 @@ pub(all) struct SolveTraits {
   may_offload : Bool
   may_parallelize : Bool
   bounded_write_scope : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn SolveTraits::new(Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool, Bool) -> Self
 
 pub(all) struct WorkPromise {
@@ -874,7 +973,7 @@ pub(all) struct WorkPromise {
   result_hash : @hash.Hash?
   result_envelope_id : @hash.Hash?
   cost_hint : UInt?
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn WorkPromise::complete(Self, @hash.Hash, @hash.Hash) -> Self
 pub fn WorkPromise::fail(Self) -> Self
 pub fn WorkPromise::new(@hash.Hash, @hash.Hash, @hash.Hash) -> Self
@@ -889,7 +988,7 @@ pub(all) enum WorkPromiseState {
   STALE
   FRESH
   FAILED
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct YataAddress {
   uri : String
@@ -906,7 +1005,7 @@ pub(all) struct YataAddress {
   gap : UInt
   track : YataTrack
   view : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataAddress::canonicalize(String) -> String?
 pub fn YataAddress::parse(String) -> Self?
 pub fn YataAddress::parse_in_context(String, YataAddressContext) -> Self?
@@ -917,7 +1016,7 @@ pub fn YataAddress::to_wire_canonical(Self) -> String
 pub(all) struct YataAddressContext {
   authority : String
   anchor : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataAddressHint {
   overlay : String
@@ -925,26 +1024,26 @@ pub(all) struct YataAddressHint {
   mode : String
   gap : UInt
   view : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataAddressParseIssue {
   line : Int
   code : String
   message : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataAddressParseOutcome {
   address : YataAddress?
   issues : Array[YataAddressParseIssue]
   ok : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataCandidate {
   candidate_id : String
   surface : String
   confidence : UInt
   rationale : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataCandidate::new(String, String, UInt, String) -> Self
 
 pub(all) struct YataContract {
@@ -952,7 +1051,7 @@ pub(all) struct YataContract {
   invariants : Array[String]
   effect_bounds : Array[String]
   min_confidence : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataContract::new(String, Array[String], Array[String], UInt) -> Self
 
 pub(all) enum YataExpectedType {
@@ -962,7 +1061,7 @@ pub(all) enum YataExpectedType {
   Resolution
   YataAudit
   YataSynthesis
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct YataGitSnapshot {
   branch : String
@@ -970,12 +1069,12 @@ pub(all) struct YataGitSnapshot {
   merge_base : String
   head : String
   refs : Array[String]
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataGitSnapshot::to_report(Self) -> YataPlanGitReport
 
 pub(all) struct YataGraph {
   holes : Array[YataHole]
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataGraph::add(Self, YataHole) -> Self
 pub fn YataGraph::child_fanout(Self, @hash.Hash) -> UInt
 pub fn YataGraph::detached_holes(Self, UInt) -> Array[YataHole]
@@ -985,6 +1084,7 @@ pub fn YataGraph::holes_with_missing_dependencies(Self) -> Array[YataHole]
 pub fn YataGraph::lineage_replay(Self, @hash.Hash, UInt) -> Array[YataReplayStep]
 pub fn YataGraph::max_branch_fanout(Self) -> UInt
 pub fn YataGraph::new() -> Self
+pub fn YataGraph::open_path_break_hole(Self, YataPathSignal, YataPathBreakContract) -> YataHole?
 pub fn YataGraph::overbranched(Self, UInt) -> Array[YataHole]
 pub fn YataGraph::project(Self, Array[@hash.Hash]) -> Self
 pub fn YataGraph::ready_set(Self) -> Array[YataHole]
@@ -1007,7 +1107,7 @@ pub(all) struct YataHole {
   selected_candidate : String?
   state : YataState
   provenance : Array[String]
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataHole::abandon(Self, String) -> Self
 pub fn YataHole::add_dependency(Self, @hash.Hash) -> Self
 pub fn YataHole::add_refinement(Self, YataRefinement) -> Self
@@ -1028,19 +1128,35 @@ pub(all) struct YataLocusRef {
   void_typed : Bool
   min_confidence : UInt
   seal : @hash.Hash
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataParseIssue {
   line : Int
   code : String
   message : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataParseOutcome {
   plan : YataPlan?
   issues : Array[YataParseIssue]
   ok : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
+
+pub(all) struct YataPathBreakContract {
+  contract_id : String
+  trigger_family : String
+  min_strength : UInt
+  partition_tag : String
+} derive(Show, @debug.Debug)
+pub fn YataPathBreakContract::new(String, String, UInt, String) -> Self
+pub fn YataPathBreakContract::should_break(Self, YataPathSignal) -> Bool
+
+pub(all) struct YataPathSignal {
+  anchor : String
+  family : String
+  strength : UInt
+} derive(Show, @debug.Debug)
+pub fn YataPathSignal::new(String, String, UInt) -> Self
 
 pub(all) struct YataPlan {
   track : YataTrack
@@ -1056,7 +1172,7 @@ pub(all) struct YataPlan {
   procsi_report : YataPlanProcsiReport?
   capability_report : YataPlanCapabilityReport?
   entries : Array[YataPlanEntry]
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataPlan::parse_wire(String) -> Self?
 pub fn YataPlan::parse_wire_strict(String) -> YataParseOutcome
 pub fn YataPlan::to_cursor(Self) -> YataPlanCursor
@@ -1077,7 +1193,7 @@ pub(all) struct YataPlanCapabilityReport {
   status : String
   count : UInt
   store_ref : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataPlanCapabilityReport::new(String, String, String, String, UInt, String) -> Self
 
 pub(all) struct YataPlanCursor {
@@ -1086,7 +1202,7 @@ pub(all) struct YataPlanCursor {
   ready_count : UInt
   unresolved_count : UInt
   warnings : Array[YataParseIssue]
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataPlanEmbeddingReport {
   file_type : String
@@ -1095,7 +1211,7 @@ pub(all) struct YataPlanEmbeddingReport {
   ephemeral : Bool
   purge_after_turns : UInt
   strategy : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataPlanEntry {
   hole_id : @hash.Hash
@@ -1106,7 +1222,7 @@ pub(all) struct YataPlanEntry {
   selected_candidate : String?
   provenance : Array[String]
   confidence_floor : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataPlanGitReport {
   branch : String
@@ -1115,12 +1231,12 @@ pub(all) struct YataPlanGitReport {
   head : String
   commit_count : UInt
   refs : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) enum YataPlanMode {
   Full
   Compact
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct YataPlanProcsiReport {
   project : String
@@ -1130,7 +1246,7 @@ pub(all) struct YataPlanProcsiReport {
   app_ref : String
   app_audience : String
   masked : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataPlanProcsiReport::from_attestation(GeniusProcsiAttestation) -> Self
 
 pub(all) struct YataPlanSelfReport {
@@ -1140,7 +1256,7 @@ pub(all) struct YataPlanSelfReport {
   anchor_hint : String
   gap : UInt
   view_hint : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataPlanSolveReport {
   solve_kind : String
@@ -1148,19 +1264,19 @@ pub(all) struct YataPlanSolveReport {
   handler : String
   offloaded_to : String
   count : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataPlanTemporalDelta {
   delta_turns : Int
   delta_bytes : Int
   causal_offset : Int
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) struct YataRefinement {
   label : String
   predicate : String
   weight : UInt
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataRefinement::new(String, String, UInt) -> Self
 
 pub(all) struct YataReplayStep {
@@ -1171,7 +1287,7 @@ pub(all) struct YataReplayStep {
   ready : Bool
   selected_candidate : String?
   is_admissible : Bool
-} derive(Show)
+} derive(Show, @debug.Debug)
 
 pub(all) enum YataState {
   Open
@@ -1179,18 +1295,18 @@ pub(all) enum YataState {
   Sealed(String)
   Resolved(String)
   Abandoned(String)
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) enum YataTrack {
   Program
   Git
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 pub(all) struct YataWitness {
   proposer : String
   proof_token : String
   proof_artifact : String
-} derive(Show)
+} derive(Show, @debug.Debug)
 pub fn YataWitness::new(String, String, String) -> Self
 
 // Type aliases

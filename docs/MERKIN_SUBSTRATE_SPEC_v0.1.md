@@ -1,4 +1,4 @@
-# Merkin Substrate v0.1 Spec
+# Loci Substrate v0.1 Spec
 **Status:** build-now  
 **Primary languages:** MoonBit (core/perf), Mu (policy/config/contracts/scripts)
 
@@ -108,9 +108,9 @@ All are content-addressed.
 
 ---
 
-## 3. Merkin Tree (living substrate index + execution router)
+## 3. Loci Tree (living substrate index + execution router)
 
-### 3.1 Merkin Node Header (core fields)
+### 3.1 Loci Node Header (core fields)
 Each node stores:
 
 - `node_id: Hash` (content-addressed header id)
@@ -179,16 +179,16 @@ Minimum:
 - `GET /akash/proof/{leaf_hash} -> proof`
 - `GET /akash/verify/{leaf_hash} -> {exists: bool}`
 
-### 5.2 Merkin Store API (artifacts + envelopes)
+### 5.2 Loci Store API (artifacts + envelopes)
 - `PUT /artifact` (bytes upload) -> `{content_hash}`
 - `POST /envelope` -> `{envelope_id}`
 - `GET /envelope/{id}`
 - `GET /artifact/{hash}` (optional if you keep content private elsewhere)
 
-### 5.3 Merkin Tree API (routing + sealing)
-- `POST /merkin/ingest {envelope_id, routing_tokens...} -> {hot_root}`
-- `POST /merkin/seal {hot_root} -> {sealed_root, epoch_id}`
-- `GET /merkin/node/{node_id}`
+### 5.3 Loci Tree API (routing + sealing)
+- `POST /loci/ingest {envelope_id, routing_tokens...} -> {hot_root}`
+- `POST /loci/seal {hot_root} -> {sealed_root, epoch_id}`
+- `GET /loci/node/{node_id}`
 
 ### 5.4 Temporash/Tempora integration
 - `POST /tempora/anchor {subject_hash} -> {time_ref}` (async ok)
@@ -235,7 +235,7 @@ Implement in MoonBit:
 - Hashing + canonical serialization
 - Bloom/Counting Bloom operations
 - Gaussian field update primitives
-- Merkin node store + mutation logic (DIRTY propagation, sealing)
+- Loci node store + mutation logic (DIRTY propagation, sealing)
 - Akash client / proof verify
 - Envelope validation (including semantic hash check)
 
@@ -256,7 +256,7 @@ Implement in Mu:
 - Artifact store (content hash)
 - Envelope store (semantic header field + state machine)
 - Anchor store (subject hash + Akash pointers + lazy time fields)
-- Merkin node store (header fields in 3.1)
+- Loci node store (header fields in 3.1)
 
 ### 8.2 Core flows
 1) **Artifact ingest**: bytes → content_hash  

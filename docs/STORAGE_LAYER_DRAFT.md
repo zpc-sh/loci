@@ -45,7 +45,7 @@ Dispatch flow in `UnionStore::put_blob`:
 - `artifact_media_type`
 - `tag_mode` (`DigestOnly`, `EpochTag`, `LatestTag`)
 
-This keeps registry-API compatibility while Merkin keeps its own internal content IDs.
+This keeps registry-API compatibility while Loci keeps its own internal content IDs.
 
 ## Current Scope vs Future
 

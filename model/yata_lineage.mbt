@@ -5,14 +5,14 @@ pub(all) enum YataTrack {
   Program
   /// Persistent VCS/auditable branch track.
   Git
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Plan emission density for consumers.
 pub(all) enum YataPlanMode {
   Full
   Compact
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Serializable replay step for one Yata.
@@ -24,7 +24,7 @@ pub(all) struct YataReplayStep {
   ready : Bool
   selected_candidate : String?
   is_admissible : Bool
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Public `.plan` line item for graph inspection.
@@ -37,7 +37,7 @@ pub(all) struct YataPlanEntry {
   selected_candidate : String?
   provenance : Array[String]
   confidence_floor : UInt
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional self-report metadata for cross-layer replay and collaboration traceability.
@@ -54,7 +54,7 @@ pub(all) struct YataPlanSelfReport {
   gap : UInt
   /// Optional view hint for projection (for example: overlay, sem, provenance).
   view_hint : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional git metadata for branch/merge provenance emitted as `.plan` overlays.
@@ -65,7 +65,7 @@ pub(all) struct YataPlanGitReport {
   head : String
   commit_count : UInt
   refs : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Signed temporal deltas for replay and time-travel projections.
@@ -74,7 +74,7 @@ pub(all) struct YataPlanTemporalDelta {
   delta_turns : Int
   delta_bytes : Int
   causal_offset : Int
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional embedding scan report for arbitrary file types.
@@ -85,7 +85,7 @@ pub(all) struct YataPlanEmbeddingReport {
   ephemeral : Bool
   purge_after_turns : UInt
   strategy : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional compact solve summary report for generalized solve/offload work.
@@ -95,7 +95,7 @@ pub(all) struct YataPlanSolveReport {
   handler : String
   offloaded_to : String
   count : UInt
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional compact procsi/APP attestation summary for replay-safe disclosure.
@@ -107,7 +107,7 @@ pub(all) struct YataPlanProcsiReport {
   app_ref : String
   app_audience : String
   masked : Bool
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional compact capability/ticket summary for store-resident auth posture.
@@ -118,7 +118,7 @@ pub(all) struct YataPlanCapabilityReport {
   status : String
   count : UInt
   store_ref : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Lightweight git snapshot that can be projected into `.plan` git metadata.
@@ -128,7 +128,7 @@ pub(all) struct YataGitSnapshot {
   merge_base : String
   head : String
   refs : Array[String]
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `.plan` payload that can be emitted without timestamps.
@@ -146,7 +146,7 @@ pub(all) struct YataPlan {
   procsi_report : YataPlanProcsiReport?
   capability_report : YataPlanCapabilityReport?
   entries : Array[YataPlanEntry]
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Create a projected subgraph by explicit id set.
@@ -584,7 +584,7 @@ pub fn YataGraph::emit_plan(
 /// Stable wire format for `.plan`.
 pub fn YataPlan::to_wire(self : YataPlan) -> String {
   let b = StringBuilder::new()
-  b.write_string("kind: merkin.yata.plan")
+  b.write_string("kind: loci.yata.plan")
   b.write_string("\ntrack=")
   b.write_string(yat_track_tag(self.track))
   b.write_string("\nmode=")

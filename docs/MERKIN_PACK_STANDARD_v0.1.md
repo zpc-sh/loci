@@ -1,4 +1,4 @@
-# Merkin Pack Standard v0.1 (Current Design + Implementation State)
+# Loci Pack Standard v0.1 (Current Design + Implementation State)
 
 This document defines the current pack direction and separates implemented behavior from planned behavior.
 
@@ -6,7 +6,7 @@ Date baseline: `2026-04-18`.
 
 ## 1) Short Answer
 
-- Merkin is **WASM-first** for machine drift exchange (`finger.plan.wasm` wire semantics).
+- Loci is **WASM-first** for machine drift exchange (`finger.plan.wasm` wire semantics).
 - Repository pack/export via `ratio pack` is designed as `wasm|blob`, but serializer/build output is still scaffolded.
 - Current repo config convention advertises `pack_format = "oci+wasm"` in bootstrap output.
 
@@ -36,7 +36,7 @@ Structured JSON contract emitted by:
 Carries:
 
 - drift commitment and finger plan hash
-- repo pins (`merkin`, `mu`, `lang`)
+- repo pins (`loci`, `mu`, `lang`)
 - byte-level branch ghost audit (`U+200B`, `U+200C`, `U+FEFF`)
 - wasm ABI expected/provided/missing status
 

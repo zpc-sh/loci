@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Emit triad contract JSON for Merkin + Mu + lang drift coordination.
+Emit triad contract JSON for Loci + Mu + lang drift coordination.
 
 Usage:
   tools/yata-triad-contract-sync.sh [options]
@@ -214,10 +214,10 @@ drift_peers="mu:${mu_head},lang:${lang_head}"
     --tokens "$TOKENS" \
     --drift-peers "$drift_peers" \
     --seal "$SEAL" \
-    --merkin-head "$merkin_head" \
+    --loci-head "$merkin_head" \
     --mu-head "$mu_head" \
     --lang-head "$lang_head" \
-    --merkin-branch "$merkin_branch_raw" \
+    --loci-branch "$merkin_branch_raw" \
     --mu-branch "$mu_branch_raw" \
     --lang-branch "$lang_branch_raw" \
     --wasm-exports "$wasm_exports_csv" \

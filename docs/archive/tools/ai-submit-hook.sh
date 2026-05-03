@@ -7,7 +7,7 @@ TASK_INDEX="${2:?missing task index}"
 AI_PROVIDER="${AI_PROVIDER:-dry-run}"
 AI_JULES_REPO="${AI_JULES_REPO:-}"
 AI_JULES_MCP_SUBMIT_CMD="${AI_JULES_MCP_SUBMIT_CMD:-}"
-ADAPTER_CONTRACT="merkin.ai.adapter.v0_3"
+ADAPTER_CONTRACT="loci.ai.adapter.v0_3"
 
 now_utc() {
   date -u +"%Y-%m-%dT%H:%M:%SZ"
@@ -64,7 +64,7 @@ case "$AI_PROVIDER" in
       --arg output "$output" \
       --arg contract "$ADAPTER_CONTRACT" \
       '{
-        kind: "merkin.ai.adapter.response",
+        kind: "loci.ai.adapter.response",
         version: "0.3",
         contract: $contract,
         action: "submit",
@@ -110,7 +110,7 @@ case "$AI_PROVIDER" in
       --arg output "$output" \
       --arg contract "$ADAPTER_CONTRACT" \
       '{
-        kind: "merkin.ai.adapter.response",
+        kind: "loci.ai.adapter.response",
         version: "0.3",
         contract: $contract,
         action: "submit",
@@ -169,7 +169,7 @@ case "$AI_PROVIDER" in
       --arg output "$output" \
       --arg contract "$ADAPTER_CONTRACT" \
       '{
-        kind: "merkin.ai.adapter.response",
+        kind: "loci.ai.adapter.response",
         version: "0.3",
         contract: $contract,
         action: "submit",

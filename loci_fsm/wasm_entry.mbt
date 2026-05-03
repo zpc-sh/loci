@@ -73,11 +73,7 @@ pub fn parse_submissions_csv(csv : String) -> Array[Submission] {
     if fields.length() < 3 {
       continue
     }
-    out.push({
-      source: fields[0],
-      kind: fields[1],
-      content: fields[2],
-    })
+    out.push({ source: fields[0], kind: fields[1], content: fields[2] })
   }
   out
 }

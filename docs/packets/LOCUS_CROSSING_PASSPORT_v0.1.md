@@ -10,7 +10,7 @@ Boundary is treated as a governed membrane, not a hard wall.
 
 ## Contract Identity
 
-- `kind`: `merkin.locus.crossing.passport`
+- `kind`: `loci.locus.crossing.passport`
 - `version`: `v0.1`
 - `track`: `program`
 
@@ -51,7 +51,7 @@ Crossing is allowed when shape and authority are valid.
 
 ```json
 {
-  "kind": "merkin.locus.crossing.passport",
+  "kind": "loci.locus.crossing.passport",
   "version": "v0.1",
   "passport_id": "pass-20260419-001",
   "who": {
@@ -63,14 +63,14 @@ Crossing is allowed when shape and authority are valid.
   },
   "what": {
     "artifact_type": "plan",
-    "artifact_ref": "merkin.yata.plan#hole-902"
+    "artifact_ref": "loci.yata.plan#hole-902"
   },
   "why": {
     "intent": "implement",
     "note": "cross-locus compiler handoff"
   },
   "where": {
-    "source_locus": "genius://merkin/main",
+    "source_locus": "genius://loci/main",
     "target_locus": "genius://mu/compiler",
     "allowed_surfaces": ["contract", "runtime", "federation"]
   },

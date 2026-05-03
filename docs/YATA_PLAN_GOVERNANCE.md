@@ -4,7 +4,7 @@ This project is the canonical home for `.plan` specification and evolution.
 
 ## Ownership
 
-- Owner: Merkin core project (`zpc/merkin`).
+- Owner: Loci core project (`zploc/loci`).
 - Primary spec: `docs/YATA_PLAN_SPEC.md`.
 - Historical references (including finger protocol lineage) are informative, not normative.
 

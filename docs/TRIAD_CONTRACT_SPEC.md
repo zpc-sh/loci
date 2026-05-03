@@ -2,7 +2,7 @@
 
 This document defines the machine contract that groups the three synchronized repos:
 
-- `merkin` (store + drift surface)
+- `loci` (store + drift surface)
 - `mu` (execution/computation facility)
 - `lang` (`mulsp` / `muyata` runtime wrappers)
 
@@ -20,7 +20,7 @@ make triad-contract-sync
 
 Import-friendly MoonBit package:
 
-- `zpc/merkin/triad`
+- `zploc/loci/triad`
 
 Generated artifact:
 
@@ -35,21 +35,21 @@ Compatibility mirror:
 The triad contract pins repo state and drift posture in one record:
 
 1. sparse-tree drift commitment rooted in `finger.plan.wasm`
-2. pinned heads for Merkin/Mu/lang
+2. pinned heads for Loci/Mu/lang
 3. byte-level branch hygiene (`U+200B`, `U+200C`, `U+FEFF`)
-4. required Merkin wasm ABI exports for Mu/lang integration
+4. required Loci wasm ABI exports for Mu/lang integration
 5. deterministic contract seal
 
 ## 2. Canonical shape
 
 Top-level fields:
 
-- `kind`: `merkin.triad.contract`
+- `kind`: `loci.triad.contract`
 - `version`: schema version (current: `v0.1`)
 - `generated_at_utc`: RFC3339 emission time
 - `ratio_loci`: contract family marker (`git-replacement`)
 - `drift`: sparse drift/finger fields
-- `repos`: `merkin`, `mu`, `lang` head + branch audit
+- `repos`: `loci`, `mu`, `lang` head + branch audit
 - `refs_byte_clean`: true if no ghost bytes detected in pinned refs/branches
 - `abi`: expected/provided/missing wasm exports + status
 - `compatibility`: required surfaces and pinned minimum heads
@@ -70,7 +70,7 @@ Each repo includes:
 
 ## 4. ABI requirements
 
-Required Merkin wasm exports in `v0.1`:
+Required Loci wasm exports in `v0.1`:
 
 - `plan_finger_wasm`
 - `plan_drift_commitment`

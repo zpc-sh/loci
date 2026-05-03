@@ -16,7 +16,7 @@ Read these first:
 
 Why this set:
 
-- `MU_RUNTIME_SPEC` is the canonical Merkin <-> mu runtime boundary and solve contract.
+- `MU_RUNTIME_SPEC` is the canonical Loci <-> mu runtime boundary and solve contract.
 - `YATA_MOON_JULES_PIPELINE` is the active compiler-diagnostics workflow in this repo.
 - `AI_PROVIDER_ADAPTER_CONTRACT` is the provider-neutral submit/status/cancel contract used by the pipeline.
 - `YATA_PLAN_SPEC` is the wire format used for replay/handoff artifacts.
@@ -46,7 +46,7 @@ make mu-lang-handoff
 
 Output location:
 
-- `_build/handoff/mu-lang-compiler-docs/latest/merkin-mu-lang-compiler-docs.tar.gz`
+- `_build/handoff/mu-lang-compiler-docs/latest/loci-mu-lang-compiler-docs.tar.gz`
 
 Bundle contents are controlled by:
 

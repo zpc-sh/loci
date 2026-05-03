@@ -1,6 +1,6 @@
-# Merkin User Manual
+# Loci User Manual
 
-Practical operator and contributor guide for using Merkin as it exists today.
+Practical operator and contributor guide for using Loci as it exists today.
 
 Date baseline: `2026-04-18`.
 
@@ -8,7 +8,7 @@ Date baseline: `2026-04-18`.
 
 - MoonBit toolchain available (`moon`)
 - repository checked out locally
-- run from repo root (`zpc/merkin`)
+- run from repo root (`zploc/loci`)
 
 Common checks:
 
@@ -22,13 +22,13 @@ moon test --target wasm-gc
 Use one of:
 
 - `moon run cmd/main -- ...`
-- compiled binary wrapper if your environment provides `merkin`
+- compiled binary wrapper if your environment provides `loci`
 - Bun host CLI/TUI: `bun run cli/src/index.ts ...` (or `./cli/dist/loci ...` after `bun run --cwd cli build`)
 
 Canonical groups:
 
-- `merkin ratio ...`
-- `merkin genius ...`
+- `loci ratio ...`
+- `loci genius ...`
 - `moon run cmd/main -- daemon ...`
 
 Alias commands (`init`, `loci`, `enter`, etc.) still work, but `ratio` and `genius` are the intended stable forms.
@@ -42,12 +42,12 @@ For an end-to-end reviewer script (Bun + MoonBit + artifact expectations), use:
 ## 3.1 Initialize repository shape
 
 ```bash
-moon run cmd/main -- ratio init --store .merkin/store
+moon run cmd/main -- ratio init --store .loci/store
 ```
 
 What this does now:
 
-- prints expected `.merkin/` and `loci/` layout
+- prints expected `.loci/` and `loci/` layout
 - prints intended `config.json` payload
 
 Note: this is scaffold output, not a full filesystem mutator yet.
@@ -80,7 +80,7 @@ moon run cmd/main -- genius enter adversary \
   --procsi-fingerprint blake3:fprint-opaque \
   --app-ref app://mask/entry-1 \
   --app-hash blake3:app-entry-1 \
-  --project zpc/merkin \
+  --project zploc/loci \
   --ratio-loci repo-root
 ```
 
@@ -146,7 +146,7 @@ Outputs include:
 
 - drift commitment
 - compact `finger.plan.wasm` wire text
-- paired `merkin.boundary.stigmergy` wire derived from the same `--drift-peers` boundary walk
+- paired `loci.boundary.stigmergy` wire derived from the same `--drift-peers` boundary walk
 - FSM gradient summary lines (`boundary_ticks`, `boundary_attention_score`, `boundary_attention_gradient`, `boundary_attention_saturated`)
 
 ## 5.3 Triad contract emission
@@ -156,10 +156,10 @@ moon run cmd/main -- daemon yata triad-contract \
   --routes alpha/doc,beta/doc \
   --tokens alpha \
   --drift-peers mu:abc,lang:def \
-  --merkin-head aaa \
+  --loci-head aaa \
   --mu-head bbb \
   --lang-head ccc \
-  --merkin-branch main \
+  --loci-branch main \
   --mu-branch main \
   --lang-branch main \
   --generated-at-utc 2026-04-18T00:00:00Z \
@@ -188,7 +188,7 @@ Current behavior:
 
 ## 7) Operational Safety and Branch Byte Hygiene
 
-Merkin includes branch-byte ghost checks in triad contract generation.
+Loci includes branch-byte ghost checks in triad contract generation.
 
 If branch names appear as `main` but contain hidden bytes (`U+200B`, `U+200C`, `U+FEFF`), treat references as unsafe for sync workflows.
 

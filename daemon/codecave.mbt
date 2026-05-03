@@ -23,7 +23,7 @@
 pub(all) enum CodecaveLane {
   NewsLane
   ResonanceLane
-} derive(Eq, Show)
+} derive(Eq, Debug)
 
 ///|
 /// One item arriving at the codecave inbox. `RawEnvelope` handles
@@ -33,7 +33,7 @@ pub(all) enum IngestEnvelope {
   NewsEnvelope(@model.NewsEdition)
   ResonanceEnvelope(@model.AmfDocument)
   RawEnvelope(String, @hash.Hash)
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// An entry placed in `verified/` after validation succeeds.
@@ -41,7 +41,7 @@ pub(all) struct VerifiedEntry {
   lane : CodecaveLane
   content_hash : @hash.Hash
   summary : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// An entry placed in `quarantine/` after validation fails.
@@ -49,14 +49,14 @@ pub(all) struct QuarantineEntry {
   lane : CodecaveLane
   content_hash : @hash.Hash
   reason : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Per-lane boot-read pointer.
 pub(all) struct LaneBookmark {
   lane : CodecaveLane
   last_read_hash : @hash.Hash?
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// In-memory codecave state.
@@ -66,7 +66,7 @@ pub(all) struct Codecave {
   quarantine : Array[QuarantineEntry]
   bookmarks : Array[LaneBookmark]
   require_news_signature : Bool
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create an empty codecave. `guarded` toggles the signature
@@ -114,7 +114,7 @@ pub(all) struct BootContext {
   news_context_block : String
   resonance_signature : @hash.Hash?
   resonance_summary : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Read the latest verified material in each lane and return the

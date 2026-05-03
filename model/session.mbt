@@ -3,8 +3,8 @@
 /// Format: <surface>/<short-id> (e.g., "sonnet/a7f3c", "codex/a7f3c")
 ///
 /// Sources (in priority order):
-///   1. MERKIN_SESSION env var (fully formed "sonnet/a7f3c")
-///   2. MERKIN_TIER env var + generated short-id
+///   1. LOCI_SESSION env var (fully formed "sonnet/a7f3c")
+///   2. LOCI_TIER env var + generated short-id
 ///   3. Default: "unknown/00000"
 pub(all) struct SessionIdentity {
   /// Session surface or tier: "haiku", "sonnet", "opus", "codex", etc.
@@ -13,7 +13,7 @@ pub(all) struct SessionIdentity {
   short_id : String
   /// Current locus name, if entered.
   locus : String?
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Create a session identity.

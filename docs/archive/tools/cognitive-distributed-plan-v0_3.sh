@@ -18,7 +18,7 @@ Options:
                                  (default: <compiler-out-dir>/summary.txt)
   --out-dir <dir>                Output directory
                                  (default: <compiler-out-dir>/distributed)
-  --cluster-name <name>          Cluster name (default: merkin-cognitive-v0_3)
+  --cluster-name <name>          Cluster name (default: loci-cognitive-v0_3)
   --mode <mode>                  Override mode: markup|active (default: from summary)
   --shards <uint>                Number of logical shards (default: 16)
   --replicas <uint>              Base replica factor per assignment (default: 2)
@@ -79,7 +79,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COMPILER_OUT_DIR="$ROOT_DIR/_build/cognitive/v0.3/latest"
 SUMMARY_FILE=""
 OUT_DIR=""
-CLUSTER_NAME="merkin-cognitive-v0_3"
+CLUSTER_NAME="loci-cognitive-v0_3"
 MODE_OVERRIDE=""
 SHARDS=16
 REPLICAS=2
@@ -226,13 +226,13 @@ jq -c \
   | ($h % $shards) as $s
   | ($w.queue // "prepare") as $q
   | {
-      kind: "merkin.cognitive.distributed.shard.assignment",
+      kind: "loci.cognitive.distributed.shard.assignment",
       version: "0.3",
       cluster: $cluster,
       mode: $mode,
       hole_id: $i.hole_id,
       anchor: $i.anchor,
-      route: ($i.merkin.route // []),
+      route: ($i.loci.route // []),
       queue: $q,
       next_fsm: ($w.next_fsm // "delegate"),
       reason: ($w.reason // ""),
@@ -265,7 +265,7 @@ jq -c \
 jq -s -c '
   group_by(.shard.id + "|" + .lane + "|" + .queue)
   | map({
-      kind: "merkin.cognitive.distributed.queue.assignment",
+      kind: "loci.cognitive.distributed.queue.assignment",
       version: "0.3",
       shard: .[0].shard.id,
       lane: .[0].lane,
@@ -297,7 +297,7 @@ jq -n \
   | ($a | length) as $n
   | ($a | group_by(.shard.id) | map({id: .[0].shard.id, count: length}) | sort_by(.id)) as $shard_load
   | {
-      kind: "merkin.cognitive.distributed.manifest",
+      kind: "loci.cognitive.distributed.manifest",
       version: "0.3",
       cluster: $cluster,
       mode: $mode,
@@ -354,7 +354,7 @@ jq -n \
   | ($loads | if length == 0 then 0 else min end) as $min_load
   | ($loads | if length == 0 then 0 else (add / length) end) as $avg_load
   | {
-      kind: "merkin.cognitive.distributed.capacity",
+      kind: "loci.cognitive.distributed.capacity",
       version: "0.3",
       cluster: $cluster,
       mode: $mode,
@@ -395,7 +395,7 @@ prepare_count="$(jq -s 'map(select(.queue == "prepare")) | length' "$ASSIGNMENTS
 poll_count="$(jq -s 'map(select(.queue == "poll")) | length' "$ASSIGNMENTS_FILE")"
 
 {
-  printf 'kind=merkin.cognitive.distributed.planner\n'
+  printf 'kind=loci.cognitive.distributed.planner\n'
   printf 'version=0.3\n'
   printf 'cluster=%s\n' "$CLUSTER_NAME"
   printf 'mode=%s\n' "$COMPILER_MODE"

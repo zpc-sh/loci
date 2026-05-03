@@ -1,12 +1,12 @@
 # Boundary Walker FSM v0.1
 
-First bottom-up FSM for Merkin boundary establishment and boundary stigmergy emission.
+First bottom-up FSM for Loci boundary establishment and boundary stigmergy emission.
 
 Date baseline: `2026-04-18`.
 
 ## 1) Purpose
 
-Walk Merkin boundary-relevant scalars, mark suspicious byte/control patterns, and emit deterministic stigmergy describing:
+Walk Loci boundary-relevant scalars, mark suspicious byte/control patterns, and emit deterministic stigmergy describing:
 
 - what was inspected
 - what was normalized/flagged

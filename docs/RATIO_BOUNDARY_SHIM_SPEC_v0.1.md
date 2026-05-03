@@ -1,16 +1,16 @@
 # Ratio Boundary Shim Spec v0.1
 
-Design for running Merkin as the trusted internal structure while still interoperating with git as an external transport boundary.
+Design for running Loci as the trusted internal structure while still interoperating with git as an external transport boundary.
 
 Date baseline: `2026-04-18`.
 
 ## 1) Goal
 
-Treat git as an untrusted ingress/egress surface and enforce deterministic normalization + policy checks before material enters Merkin state.
+Treat git as an untrusted ingress/egress surface and enforce deterministic normalization + policy checks before material enters Loci state.
 
 Boundary claim:
 
-- a technical boundary in Merkin is also a cognitive boundary: cross-boundary material must be representation-safe and policy-shaped, not raw session authority.
+- a technical boundary in Loci is also a cognitive boundary: cross-boundary material must be representation-safe and policy-shaped, not raw session authority.
 
 ## 2) Boundary Model
 
@@ -20,12 +20,12 @@ Pipeline:
 2. `ByteScanner` detects disallowed/ambiguous codepoints and control bytes.
 3. `Normalizer` emits canonical scalar forms for policy and indexing.
 4. `RuleEngine` applies allow/strip/quarantine/reject policies.
-5. `MerkinWriter` writes accepted material into Merkin-native structures.
+5. `MerkinWriter` writes accepted material into Loci-native structures.
 6. `DriftEmitter` updates `finger.plan.wasm` and triad metadata with boundary posture.
 
 Guiding rule:
 
-- No direct git string should become Merkin trust material without passing the shim.
+- No direct git string should become Loci trust material without passing the shim.
 
 ## 3) Rule Classes
 
@@ -83,7 +83,7 @@ Recommended defaults:
 Each boundary event should produce:
 
 - `raw_hex` for suspicious scalars
-- `canonical` scalar used for Merkin-trusted indexing
+- `canonical` scalar used for Loci-trusted indexing
 - action taken (`accepted`, `sanitized`, `quarantined`, `rejected`)
 - deterministic event hash for audit replay
 

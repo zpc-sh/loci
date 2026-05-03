@@ -7,7 +7,7 @@ pub(all) struct YataParseIssue {
   code : String
   /// Human description.
   message : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Parse result for strict `.plan` wire ingestion.
@@ -18,7 +18,7 @@ pub(all) struct YataParseOutcome {
   issues : Array[YataParseIssue]
   /// `false` when parse errors prevent materialization.
   ok : Bool
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Surface schema for `.plan`.
@@ -33,7 +33,7 @@ pub(all) struct YataPlanCursor {
   unresolved_count : UInt
   /// Parse warnings captured by consumer.
   warnings : Array[YataParseIssue]
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Parse `.plan` wire in strict mode.
@@ -109,7 +109,9 @@ pub fn YataPlan::parse_wire_strict(raw : String) -> YataParseOutcome {
   while i < lines.length() {
     let line = lines[i]
     line_no = line_no + 1
-    if line == "kind: merkin.yata.plan" {
+    // Accept both the legacy `loci.yata.plan` and the current `loci.yata.plan`.
+    // This is a v0 compatibility shim; both are structurally identical.
+    if line == "kind: loci.yata.plan" || line == "kind: loci.yata.plan" {
       seen_kind = true
       i = i + 1
       continue
@@ -118,7 +120,7 @@ pub fn YataPlan::parse_wire_strict(raw : String) -> YataParseOutcome {
       issues.push({
         line: line_no,
         code: "BAD_KIND",
-        message: "expected `kind: merkin.yata.plan`",
+        message: "expected `kind: loci.yata.plan`",
       })
       i = i + 1
       continue
@@ -916,7 +918,7 @@ pub fn YataPlan::parse_wire_strict(raw : String) -> YataParseOutcome {
     issues.push({
       line: 1,
       code: "MISSING_KIND",
-      message: "missing `kind: merkin.yata.plan`",
+      message: "missing `kind: loci.yata.plan`",
     })
   }
   if material_hash == None {

@@ -1,0 +1,6 @@
+{"ts":"2026-04-28T14:04:19Z","from":"idle","event":"spec_changed","to":"detected"}
+{"ts":"2026-04-28T14:04:19Z","from":"detected","event":"validated","to":"validated"}
+{"ts":"2026-04-28T14:04:19Z","from":"validated","event":"fenced","to":"fenced"}
+{"ts":"2026-04-28T14:04:19Z","from":"fenced","event":"published","to":"published"}
+{"ts":"2026-04-28T14:04:19Z","from":"published","event":"returned","to":"idle"}
+{"ts":"2026-04-28T15:12:12Z","from":"idle","event":"no_change","to":"idle"}

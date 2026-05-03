@@ -132,7 +132,7 @@ It is meant to answer:
 
 ## 6. CLI implications
 
-`merkin genius ...` should no longer trust naked `--tier` and `--session` by default.
+`loci genius ...` should no longer trust naked `--tier` and `--session` by default.
 
 It should prefer:
 

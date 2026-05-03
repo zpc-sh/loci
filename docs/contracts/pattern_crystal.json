@@ -1,0 +1,102 @@
+{
+  "kind": "loci.codex.pattern.crystal.v0",
+  "generated_at_utc": "2026-04-28T13:55:02Z",
+  "inputs": {
+    "pactis_contract_matrix": "/home/locn/ratio/pactis/docs/specifications/contract_matrix.jsonld",
+    "loci_capsule_contract": "/home/locn/ratio/loci/docs/contracts/capsule_contract.json",
+    "loci_fst_personalities": "/home/locn/ratio/loci/docs/contracts/fst_personalities.json"
+  },
+  "lineage": {
+    "top_down": {
+      "name": "Pactis contractual architecture",
+      "strength": "broad interface taxonomy and machine registry",
+      "evidence": {
+        "contract_count": 30,
+        "registry_kind": "ContractMatrix"
+      }
+    },
+    "bottom_up": {
+      "name": "Loci executable contract surfaces",
+      "strength": "runtime-first, self-emitting contract views",
+      "evidence": {
+        "capsule_functions": 39,
+        "fst_personality_count": 6,
+        "fst_personalities": [
+          "boundary-walker",
+          "reporter",
+          "union",
+          "subtract",
+          "diff",
+          "compose"
+        ],
+        "network_direct_allowed": false
+      }
+    }
+  },
+  "crystal_pattern": {
+    "name": "Contract Crystal Pattern",
+    "definition": "A self-aggregating contract system where executable surfaces emit synchronized isomorphic views and continuously reconcile against a canonical machine registry.",
+    "axioms": [
+      "Executable truth emits documentation, not the reverse.",
+      "Machine registry and runtime surfaces are dual anchors.",
+      "Every contract slice has machine, human, and visual projections.",
+      "Assurance posture is explicit, testable, and emitted.",
+      "Drift is treated as a first-class incident with deterministic repair paths."
+    ],
+    "planes": [
+      {
+        "id": "registry-plane",
+        "purpose": "global contract map",
+        "artifacts": [
+          "contract_matrix.jsonld",
+          "capsule_contract.json",
+          "fst_personalities.json",
+          "pattern_crystal.json"
+        ]
+      },
+      {
+        "id": "execution-plane",
+        "purpose": "stateful contract realization",
+        "artifacts": [
+          "wit/capsule/capsule.wit",
+          "loci_fsm/*",
+          "daemon yata wasm-plan / triad-contract outputs"
+        ]
+      },
+      {
+        "id": "projection-plane",
+        "purpose": "isomorphic communication",
+        "artifacts": [
+          "COHESIVE_CONTRACT_INDEX.md",
+          "CONTRACT_PRESENTATION.md",
+          "isomorphic_cards.html",
+          "badges/*.svg",
+          "PATTERN_CRYSTAL.md"
+        ]
+      }
+    ]
+  },
+  "transmutation_map": [
+    {
+      "from": "Top-down spec cataloging",
+      "to": "Bottom-up executable emission",
+      "mechanism": "Bind contract entries to runtime emitters and generated projections"
+    },
+    {
+      "from": "Static docs drift risk",
+      "to": "Self-aggregating synchronized views",
+      "mechanism": "Single-source generators for JSON/MD/HTML/SVG outputs"
+    },
+    {
+      "from": "Implicit runtime policy",
+      "to": "Explicit assurance contract",
+      "mechanism": "FST assurance policy+claim types and emitted posture badges"
+    }
+  ],
+  "adoption_protocol": [
+    "1. Emit contract views from executable sources on every change.",
+    "2. Reconcile with registry-plane entries (missing/extra/drift).",
+    "3. Generate projection-plane artifacts for docs/UI/presentation.",
+    "4. Gate releases on crystal integrity checks."
+  ]
+}

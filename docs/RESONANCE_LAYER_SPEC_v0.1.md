@@ -1,7 +1,7 @@
 # Resonance Layer Spec v0.1
 
-Contract identity: `merkin.resonance.amf` / `v0.1`
-Companion: `merkin.resonance.composition` / `v0.1`
+Contract identity: `loci.resonance.amf` / `v0.1`
+Companion: `loci.resonance.composition` / `v0.1`
 Canonical prior art: `docs/new/prior-art-ai-music-format.md` (CC0).
 
 ## Purpose

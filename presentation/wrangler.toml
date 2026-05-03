@@ -1,0 +1,7 @@
+name = "loci-presentation"
+main = "worker.js"
+compatibility_date = "2026-05-01"
+
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "loci-presentation-assets"

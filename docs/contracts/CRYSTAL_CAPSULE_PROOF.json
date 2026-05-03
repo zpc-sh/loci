@@ -1,0 +1,18 @@
+{
+  "kind": "loci.codex.crystal.capsule.proof.v0",
+  "generated_at_utc": "2026-04-28T13:55:02Z",
+  "moon_prove_status": "failed",
+  "bindings": {
+    "capsule_contract_json_sha256": "e3cc3eb4b50cca8a0dec6ca63a5f6eb7b4e40e70b248005c1a034f63845adab6",
+    "pattern_crystal_json_sha256": "8a9319b88c866daa24b42c0d30714b56b72c5986174b43f1e9890410fe607e05",
+    "capsule_wit_sha256": "fb726ca8539fa46b0cbd139053027c3802f6873cf92103ae4dcd1db549d85167"
+  },
+  "prove_targets": [
+    "storage",
+    "model"
+  ],
+  "notes": [
+    "This receipt binds crystal + capsule artifacts to moon prove outcomes.",
+    "Use distrobox with why3/z3/cvc5 for deterministic prover availability."
+  ]
+}

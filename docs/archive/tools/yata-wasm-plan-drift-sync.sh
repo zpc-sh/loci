@@ -3,7 +3,7 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Emit finger.plan.wasm drift surface from sparse Merkin tree and two peer repos.
+Emit finger.plan.wasm drift surface from sparse Loci tree and two peer repos.
 
 Usage:
   tools/yata-wasm-plan-drift-sync.sh [options]
@@ -121,7 +121,7 @@ fi
     --seal "$SEAL" >"$raw_output_file"
 )
 
-awk 'BEGIN { emit = 0 } /^kind: merkin.yata.plan$/ { emit = 1 } emit { print }' \
+awk 'BEGIN { emit = 0 } /^kind: loci.yata.plan$/ { emit = 1 } emit { print }' \
   "$raw_output_file" >"$plan_file"
 
 if [[ ! -s "$plan_file" ]]; then

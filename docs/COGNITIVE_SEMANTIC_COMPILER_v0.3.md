@@ -2,13 +2,13 @@
 
 > Status: archived/de-scoped. This document is not part of the active implementation roadmap.
 
-This document defines a `v0.3` cognitive semantic compiler for Merkin.
+This document defines a `v0.3` cognitive semantic compiler for Loci.
 
 The goal is to stay ahead of active AI work by compiling runtime signals (compiler diagnostics, Yata state, delegation status, provenance, embeddings) into a deterministic semantic control plane.
 
 ## 1. Core idea
 
-Treat the compiler as a **coordinator of finite state machines (FSMs)** walking the Merkin tree and Yata graph.
+Treat the compiler as a **coordinator of finite state machines (FSMs)** walking the Loci tree and Yata graph.
 
 Each FSM has one role:
 
@@ -23,9 +23,9 @@ Together they form a closed loop:
 
 `observe -> contract -> delegate -> resolve -> embed -> lookahead -> observe`
 
-## 2. Why Merkin-native
+## 2. Why Loci-native
 
-- Merkin tree provides route-local context (path neighborhood + sparse/diff shape).
+- Loci tree provides route-local context (path neighborhood + sparse/diff shape).
 - Yata provides typed gaps and replay-safe ids (`hole_id`).
 - `.plan` provides deterministic, timestamp-light exchange.
 - Git envelope provides branch/head provenance where needed.
@@ -110,7 +110,7 @@ Canonical record shape:
 
 ```json
 {
-  "kind": "merkin.cognitive.ir.entry",
+  "kind": "loci.cognitive.ir.entry",
   "version": "0.3",
   "track": "program",
   "hole_id": "sha256:...",
@@ -127,7 +127,7 @@ Canonical record shape:
   "callbacks": { "...": "..." },
   "deferral": { "...": "..." },
   "git": { "...": "..." },
-  "merkin": {
+  "loci": {
     "route": ["model", "x.mbt"],
     "probabilistic": true
   }

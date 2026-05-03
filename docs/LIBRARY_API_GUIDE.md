@@ -1,10 +1,10 @@
 # Library API Guide
 
-This guide organizes Merkin as a library, with practical entrypoints.
+This guide organizes Loci as a library, with practical entrypoints.
 
 ## Quick orientation
 
-If you're embedding Merkin into another project, there are two common paths:
+If you're embedding Loci into another project, there are two common paths:
 
 1. **Lazy tree path** (minimum moving parts)
 2. **Full substrate path** (envelopes, policy, daemon, conversation)
@@ -106,16 +106,16 @@ Core operations:
 
 ## 6) Triad contract import path
 
-If another repo needs machine-readable synchronization state for `merkin` + `mu` + `lang`, import:
+If another repo needs machine-readable synchronization state for `loci` + `mu` + `lang`, import:
 
-- `zpc/merkin/triad`
+- `zploc/loci/triad`
 
 Dependency wiring example:
 
 ```json
 {
   "deps": {
-    "zpc/merkin": { "path": "../merkin" }
+    "zploc/loci": { "path": "../loci" }
   }
 }
 ```
@@ -124,7 +124,7 @@ Package import:
 
 ```moonbit
 import {
-  "zpc/merkin/triad" @triad,
+  "zploc/loci/triad" @triad,
 }
 ```
 
@@ -139,7 +139,7 @@ Minimal example:
 
 ```moonbit
 let pins = @triad.TriadRepoPins::new(
-  "merkin-head",
+  "loci-head",
   "mu-head",
   "lang-head",
   "main",

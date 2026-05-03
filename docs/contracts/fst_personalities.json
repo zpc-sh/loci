@@ -1,0 +1,148 @@
+{
+  "generated_at_utc": "2026-04-28T13:55:02Z",
+  "source": "loci_fsm/personality.mbt",
+  "count": 6,
+  "personalities": [
+    {
+      "name": "boundary-walker",
+      "version": "v0",
+      "description": "Membrane-side FSM: walks scalars for ghost/bidi/control bytes, evaluates Crosser credentials, emits stigmergy posture into its cave.",
+      "states": [
+        "idle",
+        "walking",
+        "crossing",
+        "marked",
+        "emitted",
+        "failed"
+      ],
+      "events": [
+        "walk_scalar",
+        "cross",
+        "mark",
+        "emit_stigmergy"
+      ],
+      "cave_kinds": [
+        "walk",
+        "finding",
+        "crossing",
+        "transition"
+      ],
+      "initial_state": "idle",
+      "terminal_states": [
+        "emitted",
+        "failed"
+      ]
+    },
+    {
+      "name": "reporter",
+      "version": "v0",
+      "description": "Observation FSM: sifts submissions into a deterministic edition, verifies, publishes, archives. Self-enclosed \u2014 no host I/O.",
+      "states": [
+        "idle",
+        "observe",
+        "collect",
+        "sift",
+        "compose",
+        "verify",
+        "publish",
+        "archive",
+        "defer",
+        "failed"
+      ],
+      "events": [
+        "tick",
+        "signal_detected",
+        "submission_received",
+        "insufficient_delta",
+        "composition_ready",
+        "verify_ok",
+        "verify_fail",
+        "publish_ok",
+        "publish_fail",
+        "cooldown_elapsed",
+        "manual_pause",
+        "manual_resume"
+      ],
+      "cave_kinds": [
+        "submission",
+        "collected",
+        "sifted",
+        "composition",
+        "verification",
+        "publish",
+        "archive",
+        "transition",
+        "rejected_event"
+      ],
+      "initial_state": "idle",
+      "terminal_states": [
+        "archive",
+        "failed"
+      ]
+    },
+    {
+      "name": "union",
+      "version": "v0",
+      "description": "Parallel union transducer: feeds input to both children, merges output tapes. The swarm primitive.",
+      "states": [
+        "union(left,right)"
+      ],
+      "events": [
+        "transduce"
+      ],
+      "cave_kinds": [
+        "merged"
+      ],
+      "initial_state": "union(idle,idle)",
+      "terminal_states": []
+    },
+    {
+      "name": "subtract",
+      "version": "v0",
+      "description": "Filter transducer: primary outputs minus filter-matching outputs. The fencing primitive.",
+      "states": [
+        "subtract(primary,filter)"
+      ],
+      "events": [
+        "transduce"
+      ],
+      "cave_kinds": [
+        "filtered"
+      ],
+      "initial_state": "subtract(idle,idle)",
+      "terminal_states": []
+    },
+    {
+      "name": "diff",
+      "version": "v0",
+      "description": "Symmetric difference transducer: emits outputs unique to each side. The delta detection primitive.",
+      "states": [
+        "diff(left,right)"
+      ],
+      "events": [
+        "transduce"
+      ],
+      "cave_kinds": [
+        "delta"
+      ],
+      "initial_state": "diff(idle,idle)",
+      "terminal_states": []
+    },
+    {
+      "name": "compose",
+      "version": "v0",
+      "description": "Sequential composition transducer: inner output feeds outer input through a bridge function. Classic FST composition T\u2081 \u2218 T\u2082.",
+      "states": [
+        "compose(inner,outer)"
+      ],
+      "events": [
+        "transduce"
+      ],
+      "cave_kinds": [
+        "bridged"
+      ],
+      "initial_state": "compose(idle,idle)",
+      "terminal_states": []
+    }
+  ]
+}

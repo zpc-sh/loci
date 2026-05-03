@@ -15,7 +15,7 @@ pub(all) enum YataState {
   Resolved(String)
   /// Hole is intentionally abandoned as impossible or out of scope.
   Abandoned(String)
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Yata contract describes the type boundary for what this gap is meant to hold.
@@ -28,7 +28,30 @@ pub(all) struct YataContract {
   effect_bounds : Array[String]
   /// Optional minimum confidence threshold (0-100) accepted by consumers.
   min_confidence : UInt
-} derive(Show)
+} derive(Show, Debug)
+
+///|
+/// Path-shaping signal observed in a codebase walk.
+/// This is intentionally compact so scanners/parsers can emit it cheaply.
+pub(all) struct YataPathSignal {
+  /// Surface anchor that emitted the signal.
+  anchor : String
+  /// Family label (instruction_plane, connector_ingress, setup_surface, etc).
+  family : String
+  /// Relative signal weight (0-100).
+  strength : UInt
+} derive(Show, Debug)
+
+///|
+/// Contract for counter-shaping without hard walls.
+/// When a matching signal appears, we open a typed hole that partitions flow
+/// through Yata rather than allowing direct traversal.
+pub(all) struct YataPathBreakContract {
+  contract_id : String
+  trigger_family : String
+  min_strength : UInt
+  partition_tag : String
+} derive(Show, Debug)
 
 ///|
 /// Refinement adds local, composable constraints inside the same abstraction.
@@ -39,7 +62,7 @@ pub(all) struct YataRefinement {
   predicate : String
   /// Relative importance for synthesis ranking.
   weight : UInt
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Candidate is a potential synthesis output for a Yata.
@@ -52,7 +75,7 @@ pub(all) struct YataCandidate {
   confidence : UInt
   /// Optional rationale, proof sketch, or external pointer.
   rationale : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Optional witness metadata attached to a resolved Yata.
@@ -63,7 +86,7 @@ pub(all) struct YataWitness {
   proof_token : String
   /// Optional external artifact reference (log hash, proof file, ticket id).
   proof_artifact : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// YataHole is the abstract unresolved semantic slot.
@@ -86,13 +109,13 @@ pub(all) struct YataHole {
   state : YataState
   /// Lightweight provenance tags (`"chatgpt:sha256"`, `"claude:..."`).
   provenance : Array[String]
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Lightweight graph view for holes and dependency traversal.
 pub(all) struct YataGraph {
   holes : Array[YataHole]
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Create a contract boundary.
@@ -103,6 +126,36 @@ pub fn YataContract::new(
   min_confidence : UInt,
 ) -> YataContract {
   { expected_type, invariants, effect_bounds, min_confidence }
+}
+
+///|
+/// Build a path-shaping signal.
+pub fn YataPathSignal::new(
+  anchor : String,
+  family : String,
+  strength : UInt,
+) -> YataPathSignal {
+  { anchor, family, strength }
+}
+
+///|
+/// Build a counter-shape contract.
+pub fn YataPathBreakContract::new(
+  contract_id : String,
+  trigger_family : String,
+  min_strength : UInt,
+  partition_tag : String,
+) -> YataPathBreakContract {
+  { contract_id, trigger_family, min_strength, partition_tag }
+}
+
+///|
+/// Whether this signal should be partitioned by the contract.
+pub fn YataPathBreakContract::should_break(
+  self : YataPathBreakContract,
+  signal : YataPathSignal,
+) -> Bool {
+  signal.family == self.trigger_family && signal.strength >= self.min_strength
 }
 
 ///|
@@ -340,6 +393,36 @@ pub fn YataGraph::ready_set(self : YataGraph) -> Array[YataHole] {
     }
   }
   out
+}
+
+///|
+/// Open a typed path-break hole when a shaping signal crosses threshold.
+/// Returns None when contract does not trigger.
+pub fn YataGraph::open_path_break_hole(
+  _self : YataGraph,
+  signal : YataPathSignal,
+  contract : YataPathBreakContract,
+) -> YataHole? {
+  if !contract.should_break(signal) {
+    return None
+  }
+  let hole_contract = YataContract::new(
+    "PathBreak::" + contract.trigger_family,
+    ["counter_shape_partition", "no_direct_flow", "deterministic_replay"],
+    [
+      "deny_direct_execution",
+      "require_yata_progression",
+      "partition:" + contract.partition_tag,
+    ],
+    80U,
+  )
+  let provenance = [
+    "path_break_contract:" + contract.contract_id,
+    "path_break_family:" + signal.family,
+    "path_break_strength:" + signal.strength.to_string(),
+    "path_break_partition:" + contract.partition_tag,
+  ]
+  Some(YataHole::new(signal.anchor, hole_contract, [], [], provenance))
 }
 
 ///|

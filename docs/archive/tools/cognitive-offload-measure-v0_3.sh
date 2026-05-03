@@ -180,7 +180,7 @@ jq -n \
   --argjson coverage "$coverage" \
   --argjson distributed_assignment_count "$distributed_assignment_count" \
   '
-  .kind = "merkin.cognitive.offload.measurement"
+  .kind = "loci.cognitive.offload.measurement"
   | .version = "0.3"
   | .summary_file = $summary_file
   | .out_file = $out_file

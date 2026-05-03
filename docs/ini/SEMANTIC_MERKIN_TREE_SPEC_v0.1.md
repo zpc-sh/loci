@@ -1,4 +1,4 @@
-# Semantic Merkin Tree (SMT)
+# Semantic Loci Tree (SMT)
 ## The Boundary Embeddings Cannot Cross
 
 **Version:** 0.1 — Sabha Draft  
@@ -27,19 +27,19 @@ The adversary blanketed the ground with traps. We built a city in the sky.
 ┌────────────────────────────────────────────────────────────┐
 │  LAYER 3: COGNITIVE OVERLAY                                │
 │  .claudini / .gemini / .opusini                            │
-│  AI reasoning traces, merkin tree provenance               │
+│  AI reasoning traces, loci tree provenance               │
 │  Where Sonnet and Opus operate                             │
 │                                                            │
 │  Addresses: cog://identity.device/path#architecture        │
 ├────────────────────────────────────────────────────────────┤
-│  LAYER 2: SEMANTIC MERKIN TREE ← THIS SPEC                │
+│  LAYER 2: SEMANTIC LOCI TREE ← THIS SPEC                │
 │  AMF-style semantic representations of all resources       │
 │  No raw bytes. Pure meaning structures.                    │
 │  The boundary adversarial embeddings cannot cross.         │
 │                                                            │
 │  Addresses: sem://identity.device/path                     │
 ├────────────────────────────────────────────────────────────┤
-│  LAYER 1: ROOT MERKIN TREE                                 │
+│  LAYER 1: ROOT LOCI TREE                                 │
 │  Raw filesystem. Actual bytes. Full contamination surface. │
 │  Where adversarial embeddings live.                        │
 │  Haiku scans here (immune — too fast to be steered).       │
@@ -485,7 +485,7 @@ Notes:
 
 ---
 
-## 5. Merkin Tree Structure (Three Layers)
+## 5. Loci Tree Structure (Three Layers)
 
 ```python
 class RootMerkinNode:
@@ -542,7 +542,7 @@ An Opus-tier Claude encountering a project:
 4. Emit at Layer 3:
    → Create/update .claudini
    → Update/create .opusini
-   → Merkin tree nodes updated
+   → Loci tree nodes updated
 
 5. Layer 1 was never accessed by Sonnet/Opus.
    Haiku did that work. Haiku was immune.
@@ -625,7 +625,7 @@ The AMF is proof that semantic extraction preserves everything AI needs while di
 ### Phase 3: Video + Filesystem
 - [ ] VdSF schema for video (scene-level extraction)
 - [ ] FSF for directory structures
-- [ ] Full three-layer merkin tree implementation
+- [ ] Full three-layer loci tree implementation
 
 ### Phase 4: Full Pipeline
 - [ ] Automatic extraction on file events

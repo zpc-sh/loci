@@ -1,19 +1,19 @@
-# Merkin API Reference v0.1
+# Loci API Reference v0.1
 
-Consolidated API surface reference for Merkin library, CLI, daemon, WASM, and compatibility conversation contracts.
+Consolidated API surface reference for Loci library, CLI, daemon, WASM, and compatibility conversation contracts.
 
 Date baseline: `2026-04-18`.
 
 ## 1) API Areas and Modes
 
-Merkin API is best understood as areas crossed with modes.
+Loci API is best understood as areas crossed with modes.
 
 Areas:
 
 - `core`: hash/tree/model/store/storage primitives
 - `boundary`: ingress normalization, ghost-byte hygiene, trust posture
 - `surface`: ratio/genius/daemon command and runtime interfaces
-- `federation` (emerging): union'd Merkin exchange surfaces (firmament/skai/projection)
+- `federation` (emerging): union'd Loci exchange surfaces (firmament/skai/projection)
 
 Modes:
 
@@ -63,7 +63,7 @@ Current default for boundary posture in emitted finger surface: `sanitize`.
 
 ## 3) CLI API Surface
 
-## 3.1 Ratio (`merkin ratio ...`)
+## 3.1 Ratio (`loci ratio ...`)
 
 - `init`
 - `loci new|ls|graph`
@@ -71,7 +71,7 @@ Current default for boundary posture in emitted finger surface: `sanitize`.
 - `status`
 - `pack`
 
-## 3.2 Genius (`merkin genius ...`)
+## 3.2 Genius (`loci genius ...`)
 
 - `enter`
 - `sign`
@@ -149,7 +149,7 @@ Runtime alignment today:
 Direction:
 
 - treat current Pactis-form docs/schema as compatibility stub only
-- primary direction is union'd Merkin conversation surfaces rather than a separate long-term Pactis shape
+- primary direction is union'd Loci conversation surfaces rather than a separate long-term Pactis shape
 
 ## 7) Yata Contract Language (Compiler-Facing)
 

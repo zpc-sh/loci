@@ -13,9 +13,9 @@ test "Yata addresses expose cognitic overlays and are parseable across schemes" 
   match @model.YataAddress::parse(cog) {
     Some(addr) => {
       assert_true(addr.scheme == "cog")
-      assert_eq(addr.overlay, "chatgpt")
-      assert_eq(addr.track, @model.Program)
-      assert_eq(addr.view, "overlay")
+      @test.assert_eq(addr.overlay, "chatgpt")
+      @test.assert_eq(addr.track, @model.Program)
+      @test.assert_eq(addr.view, "overlay")
     }
     None => assert_true(false)
   }
@@ -23,7 +23,7 @@ test "Yata addresses expose cognitic overlays and are parseable across schemes" 
   match @model.YataAddress::parse(substrate) {
     Some(addr) => {
       assert_true(addr.scheme == "substrate")
-      assert_eq(addr.anchor, "notes/address.md")
+      @test.assert_eq(addr.anchor, "notes/address.md")
     }
     None => assert_true(false)
   }
@@ -43,11 +43,11 @@ test "Yata CAS uri roundtrips for hole-centric addressing" {
   let cas = hole.to_cas_uri("loc.machine", hint, @model.Program, "blake3")
   match @model.YataAddress::parse(cas) {
     Some(addr) => {
-      assert_eq(addr.scheme, "cas")
-      assert_eq(addr.cas_alg, "blake3")
-      assert_eq(addr.anchor, "notes/cas/address.md")
-      assert_eq(addr.overlay, "chatgpt")
-      assert_eq(addr.peer, "claude")
+      @test.assert_eq(addr.scheme, "cas")
+      @test.assert_eq(addr.cas_alg, "blake3")
+      @test.assert_eq(addr.anchor, "notes/cas/address.md")
+      @test.assert_eq(addr.overlay, "chatgpt")
+      @test.assert_eq(addr.peer, "claude")
     }
     None => assert_true(false)
   }
@@ -57,12 +57,12 @@ test "Yata CAS uri roundtrips for hole-centric addressing" {
 test "Yata address strict parser normalizes slash-heavy routes" {
   let raw = "cog://loc.machine////notes///agenda.md/?overlay=chatgpt&peer=chatgpt&mode=surface&gap=1&track=program&id=abc#overlay"
   let outcome = @model.YataAddress::parse_strict(raw)
-  assert_eq(outcome.ok, true)
+  @test.assert_eq(outcome.ok, true)
   match outcome.address {
     Some(addr) => {
-      assert_eq(addr.anchor, "notes/agenda.md")
-      assert_eq(addr.gap, 1U)
-      assert_eq(
+      @test.assert_eq(addr.anchor, "notes/agenda.md")
+      @test.assert_eq(addr.gap, 1U)
+      @test.assert_eq(
         addr.uri,
         "cog://loc.machine/notes/agenda.md?overlay=chatgpt&peer=chatgpt&mode=surface&gap=1&track=program&id=abc#overlay",
       )
@@ -75,13 +75,13 @@ test "Yata address strict parser normalizes slash-heavy routes" {
 test "Yata CAS parser allows digest-only target without anchor" {
   let raw = "cas://loc.machine/blake3/abc123?overlay=chatgpt&peer=chatgpt&mode=surface&gap=1&track=program#overlay"
   let outcome = @model.YataAddress::parse_strict(raw)
-  assert_eq(outcome.ok, true)
+  @test.assert_eq(outcome.ok, true)
   match outcome.address {
     Some(addr) => {
-      assert_eq(addr.scheme, "cas")
-      assert_eq(addr.cas_alg, "blake3")
-      assert_eq(addr.cas_digest, "abc123")
-      assert_eq(addr.anchor, "")
+      @test.assert_eq(addr.scheme, "cas")
+      @test.assert_eq(addr.cas_alg, "blake3")
+      @test.assert_eq(addr.cas_digest, "abc123")
+      @test.assert_eq(addr.anchor, "")
     }
     None => assert_true(false)
   }
@@ -92,7 +92,7 @@ test "Yata address canonicalize helper rewrites slash-heavy uri" {
   let raw = "substrate://loc.machine////notes///state.md/?overlay=chatgpt&peer=chatgpt&mode=surface&gap=3&track=git&id=abc#overlay"
   match @model.YataAddress::canonicalize(raw) {
     Some(canonical) =>
-      assert_eq(
+      @test.assert_eq(
         canonical, "substrate://loc.machine/notes/state.md?overlay=chatgpt&peer=chatgpt&mode=surface&gap=3&track=git&id=abc#overlay",
       )
     None => assert_true(false)
@@ -108,12 +108,12 @@ test "Yata address supports perspective-relative parse and projection" {
   let raw = "../summary.md?overlay=claude&peer=claude&mode=defense&gap=2#overlay"
   match @model.YataAddress::parse_in_context(raw, context) {
     Some(addr) => {
-      assert_eq(addr.authority, "loc.machine")
-      assert_eq(addr.anchor, "notes/summary.md")
-      assert_eq(addr.overlay, "claude")
-      assert_eq(addr.peer, "claude")
-      assert_eq(addr.track, @model.Program)
-      assert_eq(addr.view, "overlay")
+      @test.assert_eq(addr.authority, "loc.machine")
+      @test.assert_eq(addr.anchor, "notes/summary.md")
+      @test.assert_eq(addr.overlay, "claude")
+      @test.assert_eq(addr.peer, "claude")
+      @test.assert_eq(addr.track, @model.Program)
+      @test.assert_eq(addr.view, "overlay")
     }
     None => assert_true(false)
   }
@@ -123,7 +123,7 @@ test "Yata address supports perspective-relative parse and projection" {
 test "Yata address strict parser emits unknown-query issue for unsupported keys" {
   let raw = "cog://loc.device/notes/abc?overlay=chatgpt&peer=chatgpt&mode=surface&gap=1&track=program&extra=1#overlay"
   let outcome = @model.YataAddress::parse_strict(raw)
-  assert_eq(outcome.ok, false)
+  @test.assert_eq(outcome.ok, false)
   let mut has_unknown = false
   for issue in outcome.issues {
     if issue.code == "UNKNOWN_QUERY_KEY" {

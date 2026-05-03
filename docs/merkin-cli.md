@@ -1,4 +1,4 @@
-# merkin CLI/TUI Design
+# loci CLI/TUI Design
 
 **Status**: Design draft aligned to `Ratio Loci` and `Genius Loci`  
 **Scope**: Repository operations, AI inhabitation, stigmergy, sparse-tree packing  
@@ -19,7 +19,7 @@ This matches the runtime ontology:
 
 - a repository may exist with only a dormant `Ratio Loci`
 - AI later plant or attach their own `Genius Loci`
-- Merkin stores the traces
+- Loci stores the traces
 - FSMs and mu resolve handles, pubsub, and execution
 
 The old top-level verbs remain as bootstrap aliases for now, but they are no longer the canonical shape.
@@ -29,29 +29,29 @@ The old top-level verbs remain as bootstrap aliases for now, but they are no lon
 ## Command surface
 
 ```text
-merkin [--locus <name>] [--store <path>] <group|command> [args] [flags]
+loci [--locus <name>] [--store <path>] <group|command> [args] [flags]
 ```
 
 Canonical groups:
 
 ```text
-merkin ratio <command> ...
-merkin genius <command> ...
+loci ratio <command> ...
+loci genius <command> ...
 ```
 
 Compatibility aliases:
 
 ```text
-merkin init        -> merkin ratio init
-merkin loci ...    -> merkin ratio loci ...
-merkin app ...     -> merkin ratio app ...
-merkin status ...  -> merkin ratio status ...
-merkin pack ...    -> merkin ratio pack ...
-merkin enter ...   -> merkin genius enter ...
-merkin sign ...    -> merkin genius sign ...
-merkin trail ...   -> merkin genius trail ...
-merkin where       -> merkin genius where
-merkin residue ... -> merkin genius residue ...
+loci init        -> loci ratio init
+loci loci ...    -> loci ratio loci ...
+loci app ...     -> loci ratio app ...
+loci status ...  -> loci ratio status ...
+loci pack ...    -> loci ratio pack ...
+loci enter ...   -> loci genius enter ...
+loci sign ...    -> loci genius sign ...
+loci trail ...   -> loci genius trail ...
+loci where       -> loci genius where
+loci residue ... -> loci genius residue ...
 ```
 
 ---
@@ -62,45 +62,45 @@ These commands belong to the repository principal. If a command looks like it mi
 
 ### Implemented in the bootstrap CLI
 
-#### `merkin ratio init [--store <path>]`
+#### `loci ratio init [--store <path>]`
 
 Initializes the repository root and local storage layout.
 
-#### `merkin ratio loci new <name> [--tags <t1,t2>] [--spirit "..."]`
+#### `loci ratio loci new <name> [--tags <t1,t2>] [--spirit "..."]`
 
 Scaffolds a new locus.
 
-#### `merkin ratio loci ls`
+#### `loci ratio loci ls`
 
 Lists known loci.
 
-#### `merkin ratio loci graph`
+#### `loci ratio loci graph`
 
 Reserved locus graph rendering surface.
 
-#### `merkin ratio app put <ref> --payload <text> [--protocol app/v1] [--audience genius-loci]`
+#### `loci ratio app put <ref> --payload <text> [--protocol app/v1] [--audience genius-loci]`
 
 Stores an opaque APP envelope payload in the repository-local APP store.
 
-#### `merkin ratio app inspect <ref>`
+#### `loci ratio app inspect <ref>`
 
 Reads APP envelope metadata from the repository-local APP store.
 
-#### `merkin ratio app emit-pr1 <ref> --procsi-surface <surface> --procsi-fingerprint <commitment>`
+#### `loci ratio app emit-pr1 <ref> --procsi-surface <surface> --procsi-fingerprint <commitment>`
 
 Resolves an APP envelope record and emits a real `.pr1` wasm custom section as hex.
 
-#### `merkin ratio app parse-pr1 --hex <hex>`
+#### `loci ratio app parse-pr1 --hex <hex>`
 
 Parses a `.pr1` wasm custom section and prints its attested procsi fields.
 
-#### `merkin ratio status <locus>`
+#### `loci ratio status <locus>`
 
 Repository/workspace status for a locus.
 
-#### `merkin ratio pack <locus> [--format wasm|blob]`
+#### `loci ratio pack <locus> [--format wasm|blob]`
 
-Packs the sparse Merkin tree as an exchange artifact.
+Packs the sparse Loci tree as an exchange artifact.
 
 This is where repo-scale `procsi` and repository cognitive container export naturally live.
 
@@ -133,23 +133,23 @@ By default they require a procsi attestation backed by:
 
 ### Implemented in the bootstrap CLI
 
-#### `merkin genius enter <locus>`
+#### `loci genius enter <locus>`
 
 Enter a locus, surface prior residue, and establish ambient context.
 
-#### `merkin genius trail [<locus>] [--depth <n>]`
+#### `loci genius trail [<locus>] [--depth <n>]`
 
 Read the stigmergic trail for a locus.
 
-#### `merkin genius where`
+#### `loci genius where`
 
 Show where AI activity has recently occurred.
 
-#### `merkin genius residue [<locus>] [--session <id>]`
+#### `loci genius residue [<locus>] [--session <id>]`
 
 Read residue left by prior AI sessions.
 
-#### `merkin genius sign [<message>] --locus <name>`
+#### `loci genius sign [<message>] --locus <name>`
 
 Seal the current AI session's residue.
 
@@ -184,24 +184,24 @@ This keeps `Genius Loci` command entry AI-oriented while the deeper procsi and A
 Create a repository and a locus through `Ratio Loci`:
 
 ```text
-merkin ratio init
-merkin ratio loci new adversary --tags adversarial-ai,threat-intel
+loci ratio init
+loci ratio loci new adversary --tags adversarial-ai,threat-intel
 ```
 
 Have an AI inhabit and leave residue through `Genius Loci`:
 
 ```text
-merkin ratio app put app://mask/entry-1 --payload "opaque-ciphertext" --protocol app/v1 --audience genius-loci
-merkin genius enter adversary --procsi-surface codex --procsi-fingerprint blake3:fprint-opaque --app-ref app://mask/entry-1 --app-hash blake3:app-entry-1 --project zpc/merkin --ratio-loci repo-root
-merkin genius trail adversary
-merkin genius sign "captured open threads and filed the next solve surface" --locus adversary --procsi-surface codex --procsi-fingerprint blake3:fprint-opaque --app-ref app://mask/entry-1 --app-hash blake3:app-entry-1 --project zpc/merkin --ratio-loci repo-root
+loci ratio app put app://mask/entry-1 --payload "opaque-ciphertext" --protocol app/v1 --audience genius-loci
+loci genius enter adversary --procsi-surface codex --procsi-fingerprint blake3:fprint-opaque --app-ref app://mask/entry-1 --app-hash blake3:app-entry-1 --project zploc/loci --ratio-loci repo-root
+loci genius trail adversary
+loci genius sign "captured open threads and filed the next solve surface" --locus adversary --procsi-surface codex --procsi-fingerprint blake3:fprint-opaque --app-ref app://mask/entry-1 --app-hash blake3:app-entry-1 --project zploc/loci --ratio-loci repo-root
 ```
 
 Pack the repository-visible sparse tree through `Ratio Loci`:
 
 ```text
-merkin ratio pack adversary --format wasm
-merkin ratio app emit-pr1 app://mask/entry-1 --procsi-surface codex --procsi-fingerprint blake3:fprint-opaque
+loci ratio pack adversary --format wasm
+loci ratio app emit-pr1 app://mask/entry-1 --procsi-surface codex --procsi-fingerprint blake3:fprint-opaque
 ```
 
 ---
@@ -231,17 +231,17 @@ Entry residue: <id of residue I read on entry, or "cold">
 <optional entry point, urgency, context>
 ```
 
-Residue files are append-only in the working directory. Merkin stores them; mu and FSMs interpret and route their operational consequences.
+Residue files are append-only in the working directory. Loci stores them; mu and FSMs interpret and route their operational consequences.
 
 ---
 
 ## Environment variables
 
 ```sh
-MERKIN_STORE     # path to MuOciStore directory
-MERKIN_LOCUS     # ambient locus name
-MERKIN_SESSION   # current AI session identity
-MERKIN_TIER      # model tier (haiku|sonnet|opus)
+LOCI_STORE     # path to MuOciStore directory
+LOCI_LOCUS     # ambient locus name
+LOCI_SESSION   # current AI session identity
+LOCI_TIER      # model tier (haiku|sonnet|opus)
 ```
 
 ---

@@ -1,6 +1,6 @@
 # Yata Cognitive Envelope Design (v0.1-draft)
 
-This document proposes how Merkin should model cognitive envelopes without overloading the core Yata hole model.
+This document proposes how Loci should model cognitive envelopes without overloading the core Yata hole model.
 
 It is intentionally a design note, not a wire-format promise. The current implementation already supports:
 
@@ -294,7 +294,7 @@ In other words:
 - `.plan` stays the replay handoff surface
 - `.gptini` or other sidecars can materialize the richer cognitive trace when needed
 
-That keeps Merkin layered instead of collapsing conversation semantics, provider semantics, and hole semantics into one object.
+That keeps Loci layered instead of collapsing conversation semantics, provider semantics, and hole semantics into one object.
 
 ## 10. Bottom line
 
@@ -306,4 +306,4 @@ The cleanest direction for this repo is:
 4. keep `chatgpt` as a first-class overlay profile, not a special hole kind
 5. add one future cognitive-profile envelope rather than many provider-specific flat headers
 
-That gives Merkin a place for ChatGPT-specific behavior without making the whole Yata model ChatGPT-shaped.
+That gives Loci a place for ChatGPT-specific behavior without making the whole Yata model ChatGPT-shaped.

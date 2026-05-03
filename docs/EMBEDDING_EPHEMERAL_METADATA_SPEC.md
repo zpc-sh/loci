@@ -1,6 +1,6 @@
 # Embedding Ephemeral Metadata Spec (v0.1-draft)
 
-This document defines how Merkin/Yata tracks potential malicious embeddings across arbitrary file types while supporting ahead-of-time flipping and ephemeral purge.
+This document defines how Loci/Yata tracks potential malicious embeddings across arbitrary file types while supporting ahead-of-time flipping and ephemeral purge.
 
 ## 1. Scope
 

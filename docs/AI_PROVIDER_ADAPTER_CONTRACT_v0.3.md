@@ -24,9 +24,9 @@ Hooks should emit JSON on stdout (last line is authoritative):
 
 ```json
 {
-  "kind": "merkin.ai.adapter.response",
+  "kind": "loci.ai.adapter.response",
   "version": "0.3",
-  "contract": "merkin.ai.adapter.v0_3",
+  "contract": "loci.ai.adapter.v0_3",
   "action": "submit|status|cancel",
   "provider": "dry-run|jules-cli|jules-mcp|...",
   "session_id": "provider session id or empty",

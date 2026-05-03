@@ -4,8 +4,8 @@
 /// Format: loci/<name>/residue/<tier>-<session-short-id>-exit.md
 ///
 /// The residue file is append-only in the working directory.
-/// Merkin never modifies an existing residue. They are sealed into
-/// the Provenance SMT layer on `merkin push`.
+/// Loci never modifies an existing residue. They are sealed into
+/// the Provenance SMT layer on `loci push`.
 pub(all) struct Residue {
   /// Locus this residue belongs to.
   locus : String
@@ -23,7 +23,7 @@ pub(all) struct Residue {
   what_i_left_open : Array[String]
   /// Optional recommendation for the next agent.
   recommendation : String?
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Create a new residue record.

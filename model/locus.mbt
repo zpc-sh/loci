@@ -74,5 +74,5 @@ pub fn Locus::add_affordance(self : Locus, hash_ref : @hash.Hash) -> Locus {
 ///|
 /// Standard locus directory names.
 pub fn locus_subdirs() -> Array[String] {
-  ["affordances", "membranes", "schemas", "yata", "residue"]
+  ["affordances", "membranes", "schemas", "yata", "residue", "fst"]
 }

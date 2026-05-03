@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "loci.sparse-tree.v0",
+  "type": "object",
+  "required": ["kind", "root", "nodes"],
+  "properties": {
+    "kind": { "const": "loci.sparse-tree.v0" },
+    "root": { "type": "string", "minLength": 1 },
+    "nodes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "label", "children"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "children": { "type": "array", "items": { "type": "string" } },
+          "meta": { "type": "object" },
+          "composition": {
+            "type": "object",
+            "properties": {
+              "precedence": { "type": "integer" },
+              "source": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

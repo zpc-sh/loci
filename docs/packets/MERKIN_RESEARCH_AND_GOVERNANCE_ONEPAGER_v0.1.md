@@ -1,12 +1,12 @@
-# Merkin Research and Governance One-Pager v0.1
+# Loci Research and Governance One-Pager v0.1
 
 Date: `2026-04-19`
 
 ## Project
 
-Merkin is a deterministic substrate boundary system for AI-era repository and workflow safety, built around:
+Loci is a deterministic substrate boundary system for AI-era repository and workflow safety, built around:
 
-- `merkin-in-merkin` local containment
+- `loci-in-loci` local containment
 - `ratio_loci` shared coordination contracts
 - FSM-based attention forensics and boundary stigmergy
 

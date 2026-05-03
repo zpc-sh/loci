@@ -1,6 +1,6 @@
 # Pactis Git-Parity Function Map (v0.1)
 
-This document lists the Git-equivalent surface needed for Pactis to compete as a practical replacement, while preserving Merkin/Yata-native behavior.
+This document lists the Git-equivalent surface needed for Pactis to compete as a practical replacement, while preserving Loci/Yata-native behavior.
 
 ## 1. Scope
 

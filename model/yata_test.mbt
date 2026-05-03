@@ -7,18 +7,18 @@ test "Yata lifecycle is abstract and contract-first" {
     42U,
   )
   let hole = @model.YataHole::new("notes/overview.md", contract, [], [], [])
-  assert_eq(hole.state, @model.Open)
-  assert_eq(hole.candidates.length(), 0)
+  @test.assert_eq(hole.state, @model.Open)
+  @test.assert_eq(hole.candidates.length(), 0)
   let candidate = @model.YataCandidate::new(
     "c1", "candidate summary", 50U, "rough draft",
   )
   let active = hole.propose(candidate)
-  assert_eq(active.state, @model.Converging)
-  assert_eq(active.candidates.length(), 1)
+  @test.assert_eq(active.state, @model.Converging)
+  @test.assert_eq(active.candidates.length(), 1)
   let sealed_hole = active.seal("c1", None)
-  assert_eq(sealed_hole.state, @model.Sealed("c1"))
+  @test.assert_eq(sealed_hole.state, @model.Sealed("c1"))
   let resolved = sealed_hole.resolve()
-  assert_eq(resolved.state, @model.Resolved("c1"))
+  @test.assert_eq(resolved.state, @model.Resolved("c1"))
 }
 
 ///|
@@ -28,13 +28,13 @@ test "Yata admissibility uses confidence floor against candidates" {
   let first = hole.propose(
     @model.YataCandidate::new("low", "low confidence", 12U, "temp"),
   )
-  assert_eq(first.admissible(), false)
+  @test.assert_eq(first.admissible(), false)
   let admitted = first.propose(
     @model.YataCandidate::new("high", "high confidence", 95U, "good"),
   )
-  assert_eq(admitted.admissible(), true)
+  @test.assert_eq(admitted.admissible(), true)
   match admitted.best_candidate() {
-    Some(top) => assert_eq(top.candidate_id, "high")
+    Some(top) => @test.assert_eq(top.candidate_id, "high")
     None => assert_true(false)
   }
 }
@@ -58,7 +58,7 @@ test "Yata dependency readiness is explicit and local" {
   )
   let unresolved_graph = @model.YataGraph::new().add(dependent).add(base)
   let ready_0 = unresolved_graph.ready_set()
-  assert_eq(ready_0.length(), 2)
+  @test.assert_eq(ready_0.length(), 2)
   let base_entry = @model.YataGraph::new().add(base).add(dependent)
   let base_only = base_entry.get(base.hole_id)
   match base_only {
@@ -77,9 +77,9 @@ test "Yata plan emission is deterministic and track-aware" {
   let plan = @model.YataGraph::new()
     .add(hole)
     .to_plan(@model.Program, @model.Full, "chatgpt", "unit")
-  assert_eq(plan.track, @model.Program)
-  assert_eq(plan.mode, @model.Full)
-  assert_eq(plan.entries.length(), 1)
+  @test.assert_eq(plan.track, @model.Program)
+  @test.assert_eq(plan.mode, @model.Full)
+  @test.assert_eq(plan.entries.length(), 1)
   let wire = plan.to_wire()
   assert_true(wire.length() > 10)
 }
@@ -104,7 +104,7 @@ test "Yata project and reparent are deterministic transforms" {
   )
   let graph = @model.YataGraph::new().add(root).add(child).add(grandchild)
   let subset = graph.project([grandchild.hole_id, child.hole_id])
-  assert_eq(subset.holes.length(), 2)
+  @test.assert_eq(subset.holes.length(), 2)
 
   let reparented = graph.reparent(
     child.hole_id,
@@ -114,8 +114,8 @@ test "Yata project and reparent are deterministic transforms" {
   let maybe_child = reparented.get(child.hole_id)
   match maybe_child {
     Some(item) => {
-      assert_eq(item.dependencies.length(), 1)
-      assert_eq(item.dependencies[0], grandchild.hole_id)
+      @test.assert_eq(item.dependencies.length(), 1)
+      @test.assert_eq(item.dependencies[0], grandchild.hole_id)
     }
     None => assert_true(false)
   }
@@ -141,9 +141,9 @@ test "Yata lineage replay follows ancestry before target" {
   )
   let graph = @model.YataGraph::new().add(root).add(parent).add(target)
   let steps = graph.lineage_replay(target.hole_id, 8U)
-  assert_eq(steps.length(), 3)
-  assert_eq(steps[0].state, "open")
-  assert_eq(steps[2].hole_id, target.hole_id)
+  @test.assert_eq(steps.length(), 3)
+  @test.assert_eq(steps[0].state, "open")
+  @test.assert_eq(steps[2].hole_id, target.hole_id)
 }
 
 ///|
@@ -154,11 +154,11 @@ test "Yata topology fanout analysis highlights overbranched parents" {
   let c2 = @model.YataHole::new("notes/c2.md", contract, [], [root.hole_id], [])
   let c3 = @model.YataHole::new("notes/c3.md", contract, [], [root.hole_id], [])
   let graph = @model.YataGraph::new().add(root).add(c1).add(c2).add(c3)
-  assert_eq(graph.child_fanout(root.hole_id), 3U)
-  assert_eq(graph.max_branch_fanout(), 3U)
+  @test.assert_eq(graph.child_fanout(root.hole_id), 3U)
+  @test.assert_eq(graph.max_branch_fanout(), 3U)
   let hotspots = graph.overbranched(2U)
-  assert_eq(hotspots.length(), 1)
-  assert_eq(hotspots[0].hole_id, root.hole_id)
+  @test.assert_eq(hotspots.length(), 1)
+  @test.assert_eq(hotspots[0].hole_id, root.hole_id)
 }
 
 ///|
@@ -206,8 +206,8 @@ test "Yata detachment analysis finds missing and rootless chains" {
     .add(cycle_b_seed)
 
   let missing = graph.holes_with_missing_dependencies()
-  assert_eq(missing.length(), 1)
-  assert_eq(missing[0].hole_id, orphan.hole_id)
+  @test.assert_eq(missing.length(), 1)
+  @test.assert_eq(missing[0].hole_id, orphan.hole_id)
 
   let detached = graph.detached_holes(8U)
   let mut seen_orphan = false
@@ -244,9 +244,58 @@ test "Yata hole can be abandoned" {
   )
   let hole = @model.YataHole::new("notes/overview.md", contract, [], [], [])
   let abandoned_hole = hole.abandon("Too complex")
-  assert_eq(abandoned_hole.state, @model.Abandoned("Too complex"))
-  assert_eq(
+  @test.assert_eq(abandoned_hole.state, @model.Abandoned("Too complex"))
+  @test.assert_eq(
     abandoned_hole.provenance[abandoned_hole.provenance.length() - 1],
     "Too complex",
   )
+}
+
+///|
+test "Yata path break contract triggers only on matching family and strength" {
+  let contract = @model.YataPathBreakContract::new(
+    "pb-1", "instruction_plane", 60U, "p0",
+  )
+  let exact = @model.YataPathSignal::new(
+    "docs/AGENTS.codex.md", "instruction_plane", 60U,
+  )
+  let weak = @model.YataPathSignal::new(
+    "docs/AGENTS.codex.md", "instruction_plane", 59U,
+  )
+  let other = @model.YataPathSignal::new(
+    "scripts/setup.sh", "setup_surface", 99U,
+  )
+
+  assert_true(contract.should_break(exact))
+  assert_true(!contract.should_break(weak))
+  assert_true(!contract.should_break(other))
+}
+
+///|
+test "Yata graph opens typed path break hole with deterministic contract fields" {
+  let graph = @model.YataGraph::new()
+  let contract = @model.YataPathBreakContract::new(
+    "pb-2", "connector_ingress", 40U, "partition-a",
+  )
+  let signal = @model.YataPathSignal::new(
+    "_loci/chatgpt/chatgpt.mbt", "connector_ingress", 88U,
+  )
+  match graph.open_path_break_hole(signal, contract) {
+    Some(hole) => {
+      @test.assert_eq(hole.anchor, "_loci/chatgpt/chatgpt.mbt")
+      @test.assert_eq(
+        hole.contract.expected_type,
+        "PathBreak::connector_ingress",
+      )
+      @test.assert_eq(hole.contract.min_confidence, 80U)
+      @test.assert_eq(hole.contract.effect_bounds.length(), 3)
+      @test.assert_eq(hole.contract.effect_bounds[0], "deny_direct_execution")
+      @test.assert_eq(hole.contract.effect_bounds[2], "partition:partition-a")
+      @test.assert_eq(hole.provenance.length(), 4)
+      @test.assert_eq(hole.provenance[0], "path_break_contract:pb-2")
+      @test.assert_eq(hole.provenance[3], "path_break_partition:partition-a")
+      @test.assert_eq(hole.state, @model.Open)
+    }
+    None => assert_true(false)
+  }
 }

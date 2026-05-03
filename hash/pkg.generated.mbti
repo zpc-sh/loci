@@ -1,5 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/hash"
+package "zploc/loci/hash"
+
+import {
+  "moonbitlang/core/debug",
+}
 
 // Values
 
@@ -9,7 +13,7 @@ package "zpc/genius/hash"
 pub(all) struct Hash {
   alg : HashAlg
   digest : Bytes
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 pub fn Hash::digest_len(Self) -> Int
 pub fn Hash::key(Self) -> String
 pub fn Hash::matches(Self, Self) -> Bool
@@ -19,7 +23,7 @@ pub fn Hash::semantic(Self, Bytes) -> Self
 pub(all) enum HashAlg {
   Fnv1a
   Blake3
-} derive(Eq, Show)
+} derive(Eq, Show, @debug.Debug)
 
 // Type aliases
 

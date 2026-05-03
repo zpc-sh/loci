@@ -16,7 +16,7 @@ pub(all) struct LocusConfig {
   loci_root : String
   /// Store path (default: "~/.merkin/store")
   store_path : String
-} derive(Show)
+} derive(Debug)
 
 ///|
 pub fn LocusConfig::default() -> LocusConfig {
@@ -28,7 +28,7 @@ pub fn LocusConfig::default() -> LocusConfig {
 pub(all) struct LocusRuntime {
   config : LocusConfig
   session : @model.SessionIdentity
-} derive(Show)
+} derive(Debug)
 
 ///|
 /// Create a new LocusRuntime.

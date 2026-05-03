@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "zpc/genius/api"
+package "zploc/loci/api"
 
 // Values
 pub fn bloom_add(String) -> Unit

@@ -22,7 +22,7 @@ Options:
   --emit-distributed          Also emit distributed planner artifacts
   --distributed-out-dir <dir> Distributed planner output dir (default: <out-dir>/distributed)
   --distributed-cluster-name  Cluster name for distributed planner
-                             (default: merkin-cognitive-v0_3)
+                             (default: loci-cognitive-v0_3)
   --distributed-shards <n>    Shard count passed to distributed planner (default: 16)
   --distributed-replicas <n>  Replica factor passed to distributed planner (default: 2)
   --distributed-max-inflight-per-shard <n>
@@ -66,7 +66,7 @@ COMPILER_MODE="markup"
 SUBMIT_HOOK=""
 EMIT_DISTRIBUTED=false
 DISTRIBUTED_OUT_DIR=""
-DISTRIBUTED_CLUSTER_NAME="merkin-cognitive-v0_3"
+DISTRIBUTED_CLUSTER_NAME="loci-cognitive-v0_3"
 DISTRIBUTED_SHARDS=16
 DISTRIBUTED_REPLICAS=2
 DISTRIBUTED_MAX_INFLIGHT_PER_SHARD=64
@@ -272,7 +272,7 @@ if [[ "$COMPILER_MODE" == "active" && -n "$submit_results_file" && -f "$submit_r
 fi
 
 jq -n '{
-  kind: "merkin.cognitive.fsm.registry",
+  kind: "loci.cognitive.fsm.registry",
   version: "0.3",
   mode: $mode,
   machines: [
@@ -291,7 +291,7 @@ jq -c \
   --arg callbacks_file "$callbacks_file" \
   --arg pipeline_summary "$pipeline_summary" \
   '{
-    kind: "merkin.cognitive.ir.entry",
+    kind: "loci.cognitive.ir.entry",
     version: "0.3",
     mode: $mode,
     track: "program",
@@ -307,7 +307,7 @@ jq -c \
     callbacks: .resolution,
     deferral: .deferral,
     git: (.git // null),
-    merkin: {
+    loci: {
       route: (.diagnostic.path | split("/")),
       probabilistic: true
     },
@@ -366,7 +366,7 @@ jq -c \
   }' "$tasks_source_file" > "$IR_FILE"
 
 jq -c '{
-  kind: "merkin.cognitive.fsm.workitem",
+  kind: "loci.cognitive.fsm.workitem",
   version: "0.3",
   mode: .mode,
   hole_id: .hole_id,
@@ -407,7 +407,7 @@ delegate_queue_count="$(jq -s 'map(select(.queue == "delegate")) | length' "$WOR
 poll_count="$(jq -s 'map(select(.queue == "poll")) | length' "$WORKLIST_FILE")"
 
 {
-  printf 'kind=merkin.cognitive.semantic.compiler\n'
+  printf 'kind=loci.cognitive.semantic.compiler\n'
   printf 'version=0.3\n'
   printf 'mode=%s\n' "$COMPILER_MODE"
   printf 'pipeline_summary=%s\n' "$pipeline_summary"

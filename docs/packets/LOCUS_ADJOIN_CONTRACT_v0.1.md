@@ -15,7 +15,7 @@ Canonical operations:
 
 ## Contract Identity
 
-- `kind`: `merkin.locus.adjoin.contract`
+- `kind`: `loci.locus.adjoin.contract`
 - `version`: `v0.1`
 - `track`: `program`
 - `ratio_loci`: required authority marker
@@ -26,7 +26,7 @@ Canonical operations:
 
 ```json
 {
-  "locus_id": "genius://merkin/alpha",
+  "locus_id": "genius://loci/alpha",
   "surface_ref": "finger.plan.wasm#alpha",
   "profile_ref": "surface.plan#alpha",
   "seal": "blake3:..."
@@ -37,8 +37,8 @@ Canonical operations:
 
 ```json
 {
-  "kind": "merkin.yata.locus",
-  "yata_plan_ref": "merkin.yata.plan#hole-123",
+  "kind": "loci.yata.locus",
+  "yata_plan_ref": "loci.yata.plan#hole-123",
   "expected_type": "Observation|Compilation|Delegation|Resolution|Audit|Synthesis",
   "void_typed": true,
   "min_confidence": 70,
@@ -148,10 +148,10 @@ Required invariants:
 
 ```json
 {
-  "kind": "merkin.locus.adjoin.contract",
+  "kind": "loci.locus.adjoin.contract",
   "version": "v0.1",
   "contract_id": "adjoin-20260419-001",
-  "ratio_loci": "ratio://merkin/root",
+  "ratio_loci": "ratio://loci/root",
   "expr": {
     "op": "union",
     "left": {
@@ -168,8 +168,8 @@ Required invariants:
         "left": { "locus": { "locus_id": "genius://repo/root", "seal": "blake3:aaa" } },
         "right": {
           "yata_locus": {
-            "kind": "merkin.yata.locus",
-            "yata_plan_ref": "merkin.yata.plan#hole-attn-14",
+            "kind": "loci.yata.locus",
+            "yata_plan_ref": "loci.yata.plan#hole-attn-14",
             "expected_type": "Observation",
             "void_typed": true,
             "min_confidence": 72,
@@ -183,7 +183,7 @@ Required invariants:
   },
   "required_surfaces": [
     "finger.plan.wasm",
-    "merkin.yata.plan",
+    "loci.yata.plan",
     "triad-contract"
   ],
   "boundary_mode": "sanitize",
@@ -227,7 +227,7 @@ Additional rules:
 
 ## Immediate Integration Points
 
-- Merkin: parse/validate expression and emit canonical seal
+- Loci: parse/validate expression and emit canonical seal
 - Mu: consume `yata_union` typed void lanes as FSM work units
 - Lang: route by `meta.route_hint` and capability class
 - Pactis: treat contract as federation edge artifact, not ticket metadata

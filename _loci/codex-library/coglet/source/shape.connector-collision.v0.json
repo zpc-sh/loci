@@ -1,0 +1,20 @@
+{
+  "v":"0",
+  "k":"cc",
+  "f":["aid","cid","oa","epx","epo","tok","iss","aud","sc","ts","h","sig"],
+  "r":[
+    {"id":"R0","if":["oa=1","epx!=epo"],"do":"Q"},
+    {"id":"R1","if":["iss!=aud"],"do":"Q"},
+    {"id":"R2","if":["tok=1","sc=0"],"do":"D"},
+    {"id":"R3","if":["cid drift"],"do":"S"}
+  ],
+  "sev":{"A":0,"S":1,"Q":2,"D":3},
+  "lat":"max",
+  "out":["d","sev","tr","ev"],
+  "sym":{
+    "A":"allow",
+    "S":"strict",
+    "Q":"quarantine",
+    "D":"deny"
+  }
+}

@@ -1,6 +1,6 @@
 # First Release Readiness: Specification, Documentation, and Test Coverage
 
-This document is a release-preparation snapshot for `zpc/merkin` and is intended to answer:
+This document is a release-preparation snapshot for `zploc/loci` and is intended to answer:
 
 1. Do we have adequate specification coverage for a first release?
 2. Do we have adequate operational/developer documentation?
@@ -12,7 +12,7 @@ This document is a release-preparation snapshot for `zpc/merkin` and is intended
 
 | Domain | Primary spec docs | Implementation anchors |
 |---|---|---|
-| Core substrate model | `docs/MERKIN_SUBSTRATE_SPEC_v0.1.md` | `merkin.mbt`, `model/`, `tree/`, `store/` |
+| Core substrate model | `docs/MERKIN_SUBSTRATE_SPEC_v0.1.md` | `loci.mbt`, `model/`, `tree/`, `store/` |
 | MU interfaces and behaviors | `docs/MU_RUNTIME_SPEC.md` (canonical), `docs/MU-INTERFACE-SPEC.md` (compatibility) | `model/`, `daemon/`, `storage/` |
 | Conversational protocol contract | `docs/PACTIS_CONVERSATIONAL_API_SPEC.md`, `docs/PACTIS_CONVERSATIONAL_OPENAPI.yaml` | `daemon/`, `cmd/main/` |
 | Storage and metadata semantics | `docs/STORAGE_LAYER_DRAFT.md`, `docs/EMBEDDING_EPHEMERAL_METADATA_SPEC.md` | `storage/`, `store/`, `model/embedding_metadata.mbt` |
@@ -78,7 +78,7 @@ Mark all items before tagging `v0.1.0-rc1`:
 
 - [ ] MoonBit toolchain is available in CI and local release environment.
 - [ ] `moon test` is green across all packages.
-- [ ] `moon bench -p zpc/merkin/conformance` produces stable non-regressing baseline numbers.
+- [ ] `moon bench -p zploc/loci/conformance` produces stable non-regressing baseline numbers.
 - [ ] `docs/PACTIS_CONVERSATIONAL_OPENAPI.yaml` is validated and synchronized with API prose.
 - [ ] Draft-labeled specs are either promoted or explicitly accepted as release-time drafts.
 - [ ] `moon.mod.json` metadata is finalized (description, repository, keywords) for public consumption.

@@ -4,7 +4,7 @@ Canonical replacement:
 
 - `docs/MU_RUNTIME_SPEC.md`
 
-This document proposes a generalized `solve` construct for mu and Merkin.
+This document proposes a generalized `solve` construct for mu and Loci.
 
 Code sketch companion:
 
@@ -22,7 +22,7 @@ Examples that should fit under the same umbrella:
 - proof generation
 - translation or synthesis passes
 
-This is designed to fit Merkin's existing architecture:
+This is designed to fit Loci's existing architecture:
 
 - Yata remains the typed gap layer
 - the cognitive compiler remains the coordinator
@@ -438,7 +438,7 @@ Since mu handles policy, config, and compiling, policy should be the layer that 
 
 In other words:
 
-- Merkin names and routes the problem
+- Loci names and routes the problem
 - the cognitive compiler shapes the solve unit
 - mu policy decides the operational posture
 - the handler executes

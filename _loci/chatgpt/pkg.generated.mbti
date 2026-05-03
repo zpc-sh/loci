@@ -1,0 +1,213 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "zploc/loci/_loci/chatgpt"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) enum BoundaryMode {
+  Local
+  Canonical
+  PublicMirror
+} derive(Eq, @debug.Debug)
+
+pub(all) enum ChatgptStage {
+  Form
+  Fruition
+  Aperture
+  Seal
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ComponentizationReport {
+  plans : Array[ModuleComponentPlan]
+} derive(Eq, @debug.Debug)
+pub fn ComponentizationReport::add_plan(Self, ModuleComponentPlan) -> Self
+pub fn ComponentizationReport::is_boundary_safe(Self) -> Bool
+pub fn ComponentizationReport::new() -> Self
+pub fn ComponentizationReport::ready_count(Self) -> Int
+
+pub(all) enum ComponentizationStatus {
+  Planned
+  Scoped
+  Extracted
+  Verified
+  Integrated
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ContractBinding {
+  contract_id : String
+  test_result_ref : String?
+  coverage_ref : String?
+  proof_ref : String?
+  coverage_status : CoverageStatus
+  side_effect_status : SideEffectStatus
+  obligations : Array[ProofObligation]
+} derive(Eq, @debug.Debug)
+pub fn ContractBinding::actionable_obligations(Self) -> Array[ProofObligation]
+pub fn ContractBinding::can_seal(Self) -> Bool
+pub fn ContractBinding::can_seal_with_solver(Self, SolverReceipt?) -> Bool
+pub fn ContractBinding::is_bound(Self) -> Bool
+pub fn ContractBinding::new(String, String?, String?, String?, CoverageStatus, SideEffectStatus, Array[ProofObligation]) -> Self
+pub fn ContractBinding::required_open_count(Self) -> Int
+
+pub(all) struct ContractDirectiveMini {
+  contract_id : String
+  pattern : String
+  claim : String
+  ready : Bool
+  oracle : String
+  solver : String?
+  solver_job : String?
+  solver_status : SolverStatus
+  solver_receipt : String?
+} derive(Eq, @debug.Debug)
+pub fn ContractDirectiveMini::from_directive_lines(Array[String]) -> Self?
+pub fn ContractDirectiveMini::new(String, String, String, Bool, String, solver? : String?, solver_job? : String?, solver_status? : SolverStatus, solver_receipt? : String?) -> Self
+pub fn ContractDirectiveMini::ready_gate(Self) -> Bool
+pub fn ContractDirectiveMini::to_solver_receipt(Self, String?) -> SolverReceipt?
+
+pub(all) enum CoverageStatus {
+  Covered
+  Uncovered
+  Unreachable
+  Exempt
+  Unknown
+  Partial
+} derive(Eq, @debug.Debug)
+
+pub(all) struct CrossingRecord {
+  source_locus : String
+  target_locus : String
+  artifact_ref : String
+  intent : String
+  mode : BoundaryMode
+  seal : String?
+} derive(Eq, @debug.Debug)
+pub fn CrossingRecord::is_complete(Self) -> Bool
+pub fn CrossingRecord::new(String, String, String, String, BoundaryMode, seal? : String?) -> Self
+
+pub(all) struct ModuleComponentPlan {
+  module_name : String
+  source_contract_id : String
+  source_paths : Array[String]
+  target_package : String
+  spec_file : String
+  test_files : Array[String]
+  status : ComponentizationStatus
+} derive(Eq, @debug.Debug)
+pub fn ModuleComponentPlan::is_ready_for_extract(Self) -> Bool
+pub fn ModuleComponentPlan::new(String, String, Array[String], String, String, Array[String], status? : ComponentizationStatus) -> Self
+pub fn ModuleComponentPlan::to_contract_lines(Self) -> Array[String]
+
+pub(all) struct ModuleExtractionTemplate {
+  target_package_root : String
+  spec_file : String
+  easy_test_file : String
+  mid_test_file : String
+  difficult_test_file : String
+  default_status : ComponentizationStatus
+} derive(Eq, @debug.Debug)
+pub fn ModuleExtractionTemplate::chatgpt_default() -> Self
+pub fn ModuleExtractionTemplate::instantiate(Self, String, String, Array[String], String, status? : ComponentizationStatus?) -> ModuleComponentPlan
+pub fn ModuleExtractionTemplate::required_test_files(Self) -> Array[String]
+
+pub(all) struct ProofObligation {
+  obligation_id : String
+  required : Bool
+  status : ProofStatus
+} derive(Eq, @debug.Debug)
+pub fn ProofObligation::is_discharged(Self) -> Bool
+pub fn ProofObligation::new(String, Bool, ProofStatus) -> Self
+
+pub(all) enum ProofStatus {
+  Open
+  Proved
+  CoveredByEvidence
+  Reviewed
+  Waived
+  Blocked
+  Failed
+} derive(Eq, @debug.Debug)
+
+pub(all) enum SideEffectStatus {
+  Observed
+  BlockedEffect
+  NotRequired
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SolverClientResult {
+  contract_id : String
+  solver : String
+  solver_job : String
+  solver_status : SolverStatus
+  solver_receipt_ref : String?
+  proof_artifact_ref : String?
+} derive(Eq, @debug.Debug)
+pub fn SolverClientResult::from_koan_payload(Array[(String, String)], contract_id? : String?) -> Self?
+pub fn SolverClientResult::new(String, String, String, SolverStatus, String?, String?) -> Self
+pub fn SolverClientResult::to_solver_receipt(Self) -> SolverReceipt
+
+pub(all) struct SolverIngestResult {
+  accepted : Bool
+  can_seal_now : Bool
+  reason : String?
+  kv_key : String?
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SolverReceipt {
+  solver : String
+  solver_job : String
+  status : SolverStatus
+  receipt_ref : String?
+  proof_artifact_ref : String?
+} derive(Eq, @debug.Debug)
+pub fn SolverReceipt::is_verified(Self) -> Bool
+pub fn SolverReceipt::new(String, String, SolverStatus, String?, String?) -> Self
+
+pub(all) struct SolverResultHandler {
+  dropbox : Array[SolverReceipt]
+  kv_store : Array[(String, SolverReceipt)]
+} derive(Eq, @debug.Debug)
+pub fn SolverResultHandler::dropbox_count(Self) -> Int
+pub fn SolverResultHandler::ingest(Self, ContractBinding, String, SolverReceipt, route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::ingest_client_result(Self, ContractBinding, SolverClientResult, route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::ingest_http_directive_lines(Self, ContractBinding, Array[String], route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::ingest_koan_payload(Self, ContractBinding, Array[(String, String)], contract_id? : String?, route? : SolverResultRoute) -> (Self, SolverIngestResult)
+pub fn SolverResultHandler::kv_count(Self) -> Int
+pub fn SolverResultHandler::kv_get(Self, String) -> SolverReceipt?
+pub fn SolverResultHandler::new() -> Self
+
+pub(all) enum SolverResultRoute {
+  DropboxOnly
+  KvOnly
+  DropboxAndKv
+} derive(Eq, @debug.Debug)
+
+pub(all) enum SolverStatus {
+  NotRequested
+  Queued
+  Running
+  Completed
+  Failed
+  TimedOut
+  InvalidInput
+  Unsupported
+} derive(Eq, @debug.Debug)
+
+pub(all) struct WorkCycle {
+  stage : ChatgptStage
+  history : Array[ChatgptStage]
+} derive(Eq, @debug.Debug)
+pub fn WorkCycle::advance(Self) -> Self
+pub fn WorkCycle::is_cycle_closed(Self) -> Bool
+pub fn WorkCycle::new() -> Self
+
+// Type aliases
+
+// Traits
+

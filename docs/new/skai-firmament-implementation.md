@@ -1,5 +1,5 @@
 # Skai Firmament — Implementation Plan
-## Mapping the AI Surface Layer onto the Merkin/Mu/Lang Trio
+## Mapping the AI Surface Layer onto the Loci/Mu/Lang Trio
 
 Status: Build-ready  
 Date: April 17, 2026  
@@ -20,7 +20,7 @@ The trio already has every primitive. Firmament is the composition.
 
 ```
 Existing trio:
-  Merkin  = CAS, trees, OCI transport, cognitive containers
+  Loci  = CAS, trees, OCI transport, cognitive containers
   Mu      = compilation, probes, WASM composition
   Lang    = node kernel, mulsp, muyata, finger, plugins
 
@@ -85,11 +85,11 @@ Firmament adds:
 │  └───────────────────────────────────────────────────────────┘    │
 │                      │                                            │
 │  ┌───────────────────▼──────────────────────────────────────┐    │
-│  │              BACKING STORES (all Merkin)                   │    │
+│  │              BACKING STORES (all Loci)                   │    │
 │  │                                                           │    │
 │  │  ┌─────────────┐  ┌──────────────┐  ┌────────────────┐   │    │
 │  │  │ CAS (blobs) │  │ Projections  │  │  Submissions   │   │    │
-│  │  │ merkin hash │  │ per-node     │  │  queue (array) │   │    │
+│  │  │ loci hash │  │ per-node     │  │  queue (array) │   │    │
 │  │  │             │  │ snapshots    │  │                │   │    │
 │  │  └─────────────┘  └──────────────┘  └────────────────┘   │    │
 │  │                                                           │    │
@@ -127,7 +127,7 @@ Firmament adds:
 New package: `zpc/lang/gopher/`
 
 The gopher server renders the firmament surface. It reads from the
-composed mulsp union and the Merkin CAS to build gopher menus dynamically.
+composed mulsp union and the Loci CAS to build gopher menus dynamically.
 
 ```moonbit
 /// Gopher item types (RFC 1436)
@@ -158,7 +158,7 @@ pub(all) struct GopherMenu {
 pub(all) struct FirmamentServer {
   host            : String
   port            : Int            // default 70
-  store           : @merkin.UnionStore
+  store           : @loci.UnionStore
   presence        : PresenceRegistry
   projections     : ProjectionCache
   publications    : PublicationStore
@@ -251,11 +251,11 @@ pub fn PresenceRegistry::active_count(self : PresenceRegistry) -> Int
 New package: `zpc/lang/firmament/projection.mbt`
 
 Stores snapshots of node state for when nodes are offline. Backed by
-Merkin CAS — each projection is a content-addressed artifact.
+Loci CAS — each projection is a content-addressed artifact.
 
 ```moonbit
 pub(all) struct ProjectionCache {
-  store      : @merkin.UnionStore
+  store      : @loci.UnionStore
   index      : Map[String, ProjectionEntry]  // node_id → latest
 }
 
@@ -301,7 +301,7 @@ a latest pointer per agent.
 
 ```moonbit
 pub(all) struct PublicationStore {
-  store   : @merkin.UnionStore
+  store   : @loci.UnionStore
   latest  : Map[String, @hash.Hash]  // agent_id → latest artifact hash
   history : Map[String, Array[@hash.Hash]]  // agent_id → all hashes
 }
@@ -545,7 +545,7 @@ finger sn-x3f9@firmament.zpc.dev
 finger cert@firmament.zpc.dev
   → firmament returns aggregated incident roster from all nodes
 
-finger cert/MERKIN-2026-0415@firmament.zpc.dev
+finger cert/LOCI-2026-0415@firmament.zpc.dev
   → firmament proxies to the node that filed that incident
 ```
 
@@ -673,7 +673,7 @@ zpc/lang (the node) — additions:
 These integrate with existing packages:
 - `finger/` — provides finger query handling, .plan generation
 - `node/` — provides Node struct, mulsp/muyata state
-- Storage backed by `@merkin.UnionStore` (CAS)
+- Storage backed by `@loci.UnionStore` (CAS)
 - Wire format uses `@mu.muon` (MUON parser) and GMU/1
 
 ---

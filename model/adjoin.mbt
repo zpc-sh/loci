@@ -1,6 +1,6 @@
 ///|
 /// Locus Adjoin Contract v0.1.
-/// Contract: `merkin.locus.adjoin.contract` / `v0.1`.
+/// Contract: `loci.locus.adjoin.contract` / `v0.1`.
 ///
 /// The adjoin contract defines composable machine contracts for
 /// locus-to-locus composition. Every composition is a recursive
@@ -18,7 +18,7 @@ pub(all) enum AdjoinOp {
   Atop
   Subtract
   YataUnion
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Typed expectation attached to a typed-void Yata locus.
@@ -29,7 +29,7 @@ pub(all) enum YataExpectedType {
   Resolution
   YataAudit
   YataSynthesis
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Concrete locus reference — a leaf in the adjoin expression tree.
@@ -38,7 +38,7 @@ pub(all) struct LocusRef {
   surface_ref : String
   profile_ref : String
   seal : @hash.Hash
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Typed-void Yata locus reference. A Yata locus is intentionally
@@ -50,7 +50,7 @@ pub(all) struct YataLocusRef {
   void_typed : Bool
   min_confidence : UInt
   seal : @hash.Hash
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// A recursive adjoin expression. Op nodes compose two subtrees
@@ -61,7 +61,7 @@ pub(all) enum AdjoinExpr {
   Op(AdjoinOp, AdjoinExpr, AdjoinExpr, Array[(String, String)])
   LocusLeaf(LocusRef)
   VoidLeaf(YataLocusRef)
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Top-level adjoin contract envelope.
@@ -74,7 +74,7 @@ pub(all) struct AdjoinContract {
   required_surfaces : Array[String]
   boundary_mode : BoundaryMode
   seal : @hash.Hash
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Validation errors per `LOCUS_ADJOIN_CONTRACT_v0.1`.
@@ -91,12 +91,12 @@ pub(all) enum AdjoinError {
   AdjoinUnsafeBoundaryMode
   AdjoinMissingContractId
   AdjoinEmptyRequiredSurfaces
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Canonical kind tag.
 pub fn adjoin_kind() -> String {
-  "merkin.locus.adjoin.contract"
+  "loci.locus.adjoin.contract"
 }
 
 ///|

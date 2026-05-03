@@ -91,9 +91,9 @@ if ! jq -e . >/dev/null 2>&1 <<<"$payload"; then
 fi
 
 jq_check='(
-  (.kind == "merkin.ai.adapter.response") and
+  (.kind == "loci.ai.adapter.response") and
   (.version == "0.3") and
-  (.contract == "merkin.ai.adapter.v0_3") and
+  (.contract == "loci.ai.adapter.v0_3") and
   (.action | type == "string") and
   (.provider | type == "string") and
   (.session_id | type == "string") and

@@ -14,7 +14,7 @@ Options:
   --manifest <path>     Manifest file listing relative doc paths
                         (default: docs/MU_LANG_COMPILER_HANDOFF_MANIFEST.txt)
   --archive-name <name> Archive name
-                        (default: merkin-mu-lang-compiler-docs.tar.gz)
+                        (default: loci-mu-lang-compiler-docs.tar.gz)
   -h, --help            Show this help
 
 Notes:
@@ -26,7 +26,7 @@ EOF
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="$ROOT_DIR/_build/handoff/mu-lang-compiler-docs/latest"
 MANIFEST="$ROOT_DIR/docs/MU_LANG_COMPILER_HANDOFF_MANIFEST.txt"
-ARCHIVE_NAME="merkin-mu-lang-compiler-docs.tar.gz"
+ARCHIVE_NAME="loci-mu-lang-compiler-docs.tar.gz"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

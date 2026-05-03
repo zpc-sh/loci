@@ -583,7 +583,7 @@ The stomping compiler feeds into the Cognitive INI Framework:
 3. Haiku processes stomped version → emits .claudini
 4. If diff report contains findings → .aewf wrapper created
 5. .aewf referenced in .claudini anomaly flags
-6. Merkin tree updated with provenance
+6. Loci tree updated with provenance
 ```
 
 The `.claudini` for a stomped file might include:
@@ -653,7 +653,7 @@ A sophisticated attacker who knows about stomping could potentially craft embedd
 ├─────────────────────────────────────────────────────┤
 │  3. CIF OVERLAY (cognitive navigation)              │
 │     .claudini trails above stomped substrate        │
-│     Merkin tree for probabilistic trust             │
+│     Loci tree for probabilistic trust             │
 ├─────────────────────────────────────────────────────┤
 │  4. SIGN INVERSION (residual defense)               │
 │     Negate any remaining control vectors detected   │

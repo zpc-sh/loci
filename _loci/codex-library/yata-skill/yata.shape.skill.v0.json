@@ -1,0 +1,57 @@
+{
+  "v": "0",
+  "id": "yata.shape.skill",
+  "goal": "reduce_complexity_explosion_to_sparse_reasonable_shape",
+  "io": {
+    "in": ["chg", "tok", "ctx", "pol"],
+    "out": ["tree", "q", "att", "rep"]
+  },
+  "sym": {
+    "chg": "change_surface",
+    "tok": "token_stream",
+    "ctx": "local_context",
+    "pol": "policy",
+    "tree": "sparse_loci_tree",
+    "q": "promotion_queue",
+    "att": "attestation_bundle",
+    "rep": "scan_report"
+  },
+  "fst": [
+    "pc",
+    "wf",
+    "tc",
+    "cb",
+    "cc"
+  ],
+  "fst_sym": {
+    "pc": "PathCollisionFST",
+    "wf": "WorkflowIngressFST",
+    "tc": "TextContamFST",
+    "cb": "ComplexityBurstFST",
+    "cc": "ConnectorCollisionFST"
+  },
+  "dec": ["A", "S", "Q", "D"],
+  "lat": "A<S<Q<D",
+  "rules": [
+    {"id": "R0", "if": ["pc=hit"], "do": "Q"},
+    {"id": "R1", "if": ["wf=hit"], "do": "S"},
+    {"id": "R2", "if": ["tc=exec_zone"], "do": "Q"},
+    {"id": "R3", "if": ["cc=oa_ep_mismatch"], "do": "D"},
+    {"id": "R4", "if": ["cb=burst"], "do": "Q"}
+  ],
+  "tree_shape": {
+    "root": "incident",
+    "lanes": ["allow", "review", "blocked"],
+    "node": ["id", "path", "fst", "dec", "h", "ev"],
+    "edge": ["from", "to", "why"]
+  },
+  "queue_shape": {
+    "allowlist": "dec<=S",
+    "review": "dec=S|Q + att_needed",
+    "blocked": "dec>=Q"
+  },
+  "att_shape": {
+    "f": ["id", "who", "when", "why", "evidence_hash", "scope"],
+    "sig": "ed25519?"
+  }
+}

@@ -35,7 +35,7 @@ set -e
 if [ $prove_exit -eq 0 ]; then
   cat > "$status_file" <<JSON
 {
-  "kind": "merkin.sat_smt.offload.status",
+  "kind": "loci.sat_smt.offload.status",
   "sat_smt_offloaded": true,
   "solve_kind": "smt",
   "solve_report_offloaded_to": "mu.local.z3",
@@ -52,7 +52,7 @@ fi
 if rg -q "no configured provers are available" "$tmp_output"; then
   cat > "$status_file" <<JSON
 {
-  "kind": "merkin.sat_smt.offload.status",
+  "kind": "loci.sat_smt.offload.status",
   "sat_smt_offloaded": true,
   "solve_kind": "smt",
   "solve_report_offloaded_to": "mu.local.z3",

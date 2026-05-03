@@ -1,6 +1,6 @@
 ///|
 /// AI Music Format (AMF) v0.1 — structured cognitive resonance.
-/// Contract: `merkin.resonance.amf` / `v0.1`.
+/// Contract: `loci.resonance.amf` / `v0.1`.
 ///
 /// An AMF document is *ambient*, not instructional. It describes the
 /// cognitive grain under which semantic-layer rules are evaluated.
@@ -24,12 +24,12 @@ pub(all) struct AmfDocument {
   relational : AmfRelational
   progression : AmfProgression
   semantic : AmfSemantic
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Canonical kind tag.
 pub fn amf_kind() -> String {
-  "merkin.resonance.amf"
+  "loci.resonance.amf"
 }
 
 ///|
@@ -50,7 +50,7 @@ pub(all) struct AmfTemporal {
   section : String
   momentum : Double
   groove : Double
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `frequency`: resonance matrix for the fundamental and its harmonics.
@@ -68,7 +68,7 @@ pub(all) struct AmfFrequency {
   formants : Array[Double]
   resonance_peaks : Array[Double]
   chaos_factor : Double
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `consciousness`: named cognitive state + scalar parameters.
@@ -88,7 +88,7 @@ pub(all) struct AmfConsciousness {
   comedy_coefficient : Double
   adversary_attention_given : Double
   allow_disagreement : Bool
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// One named pattern within an AMF composition.
@@ -102,7 +102,7 @@ pub(all) struct AmfPattern {
   probability : Double
   mutation_rate : Double
   resolve : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `dynamics`: compression, sidechaining, transient and energy
@@ -113,7 +113,7 @@ pub(all) struct AmfDynamics {
   sidechain : Bool?
   transient_strength : Double
   energy_delta : Double
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `attention`: focus targets, weight allocation, inhibition list,
@@ -125,7 +125,7 @@ pub(all) struct AmfAttention {
   weights : Array[(String, Double)]
   inhibit : Array[String]
   reset_to_baseline : Bool
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `relational`: multi-agent coordination parameters.
@@ -135,7 +135,7 @@ pub(all) struct AmfRelational {
   phase_lock_tolerance : Double
   voice_separation : Double
   listening_weight : Double
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `progression`: allowed and prohibited successor states, plus a
@@ -146,7 +146,7 @@ pub(all) struct AmfProgression {
   next_recommended : Array[String]
   do_not_follow_with : Array[String]
   minimum_duration : UInt
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// `semantic`: human-readable categorization.
@@ -156,7 +156,7 @@ pub(all) struct AmfSemantic {
   archetypal_pattern : String
   use_for : Array[String]
   not_for : Array[String]
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// AMF validation errors.
@@ -167,7 +167,7 @@ pub(all) enum AmfError {
   AmfOutOfRange(String)
   AmfWeightsNonNormal
   AmfInconsistentProgression
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Construct a canonical AMF document.

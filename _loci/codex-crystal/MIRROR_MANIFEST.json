@@ -1,0 +1,18 @@
+{
+  "kind": "loci.codex.crystal.mirror.v0",
+  "generated_at_utc": "2026-04-28T13:55:02Z",
+  "source_dir": "docs/contracts",
+  "files": [
+    "_loci/codex-crystal/COHESIVE_CONTRACT_INDEX.md",
+    "_loci/codex-crystal/CONTRACT_PRESENTATION.md",
+    "_loci/codex-crystal/PATTERN_CRYSTAL.md",
+    "_loci/codex-crystal/badges/capsule-version.svg",
+    "_loci/codex-crystal/badges/fst-network.svg",
+    "_loci/codex-crystal/badges/fst-personalities.svg",
+    "_loci/codex-crystal/capsule_contract.json",
+    "_loci/codex-crystal/fst_personalities.json",
+    "_loci/codex-crystal/isomorphic_cards.html",
+    "_loci/codex-crystal/pattern_crystal.json"
+  ],
+  "note": "Mirror only. Canonical generated sources remain under docs/contracts."
+}

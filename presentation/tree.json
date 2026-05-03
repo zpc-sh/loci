@@ -1,0 +1,37 @@
+{
+  "kind": "loci.sparse-tree.v0",
+  "root": "repo:loci",
+  "nodes": {
+    "repo:loci": {
+      "id": "repo:loci",
+      "label": "loci",
+      "children": ["surface:_loci", "surface:model", "surface:presentation"],
+      "meta": {"tier": "root"}
+    },
+    "surface:_loci": {
+      "id": "surface:_loci",
+      "label": "_loci",
+      "children": ["locus:chatgpt", "locus:claude", "locus:codex-crystal"],
+      "meta": {"role": "canonical-locus-root"}
+    },
+    "surface:model": {
+      "id": "surface:model",
+      "label": "model",
+      "children": ["compose:resonance", "compose:adjoin"],
+      "meta": {"role": "composition-kernel"}
+    },
+    "surface:presentation": {
+      "id": "surface:presentation",
+      "label": "presentation",
+      "children": ["asset:index", "asset:tree"],
+      "meta": {"role": "edge-view"}
+    },
+    "locus:chatgpt": {"id": "locus:chatgpt", "label": "chatgpt", "children": [], "meta": {"state": "active"}},
+    "locus:claude": {"id": "locus:claude", "label": "claude", "children": [], "meta": {"state": "active"}},
+    "locus:codex-crystal": {"id": "locus:codex-crystal", "label": "codex-crystal", "children": [], "meta": {"state": "active"}},
+    "compose:resonance": {"id": "compose:resonance", "label": "resonance_composition", "children": [], "meta": {"mode": "deterministic"}},
+    "compose:adjoin": {"id": "compose:adjoin", "label": "adjoin", "children": [], "meta": {"mode": "deterministic"}},
+    "asset:index": {"id": "asset:index", "label": "index.html", "children": [], "meta": {"served": true}},
+    "asset:tree": {"id": "asset:tree", "label": "tree.json", "children": [], "meta": {"served": true}}
+  }
+}

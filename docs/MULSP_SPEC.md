@@ -1,6 +1,6 @@
 # mulsp Specification (v0.1-draft)
 
-This document defines `mulsp` as the AI-specific execution and identity wrapper that lives above Merkin substrate primitives and above core mu execution semantics.
+This document defines `mulsp` as the AI-specific execution and identity wrapper that lives above Loci substrate primitives and above core mu execution semantics.
 
 It exists to hold the things that are specific to AI inhabitation and AI-to-AI exchange:
 
@@ -8,10 +8,10 @@ It exists to hold the things that are specific to AI inhabitation and AI-to-AI e
 - APP-masked AI substrate commitments
 - Genius Loci attachment
 - AI capability tickets
-- scoped sparse Merkin views
+- scoped sparse Loci views
 - residue/trail and other AI-specific runtime traces
 
-It should not become the definition of Merkin itself.
+It should not become the definition of Loci itself.
 
 ---
 
@@ -23,14 +23,14 @@ It is the AI-facing manifold packet or wrapper carried by an AI runtime, AI cont
 
 Recommended stack:
 
-- Merkin: structural substrate, roots, envelopes, sparse trees, replay transport
+- Loci: structural substrate, roots, envelopes, sparse trees, replay transport
 - Ratio Loci: repository/root principal and dormant cognitive container identity
 - mu: execution, policy/config, compilation, solve machinery
-- mulsp: AI-specific wrapper around mu execution and scoped Merkin projection
+- mulsp: AI-specific wrapper around mu execution and scoped Loci projection
 - Genius Loci: the inhabiting AI principal carried by or attached through `mulsp`
 - FSMs: active handle resolution, pubsub, callbacks, and status transitions
 
-This keeps AI-specific material out of the Merkin substrate core.
+This keeps AI-specific material out of the Loci substrate core.
 
 ---
 
@@ -55,7 +55,7 @@ This keeps AI-specific material out of the Merkin substrate core.
 - git-equivalent repository mutation semantics
 - core Yata hole semantics
 
-Those belong to Ratio Loci, mu, FSMs, or Merkin proper.
+Those belong to Ratio Loci, mu, FSMs, or Loci proper.
 
 ---
 
@@ -93,7 +93,7 @@ It owns:
 `mulsp` is the wrapper that binds a Genius Loci to:
 
 - a Ratio Loci
-- a scoped sparse Merkin projection
+- a scoped sparse Loci projection
 - AI capability posture
 - procsi/APP identity material
 
@@ -165,7 +165,7 @@ Recommended carriers:
 - wasm/module carriers via procsi sections such as `.pr1`
 - store-resident APP and capability records
 - OCI/UKI-style repository cognitive containers
-- sparse Merkin pack exports
+- sparse Loci pack exports
 
 Recommended exposure policy:
 
@@ -210,7 +210,7 @@ This keeps `mulsp` AI-capable without making it a hidden superuser blob.
 
 ---
 
-## 9. Relation to current Merkin docs
+## 9. Relation to current Loci docs
 
 `mulsp` complements, but does not replace:
 

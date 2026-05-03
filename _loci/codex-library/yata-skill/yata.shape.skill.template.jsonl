@@ -1,0 +1,3 @@
+{"id":"n001","path":"_loci/chatgpt/chatgpt.mbt","fst":["pc","cb"],"dec":"Q","h":"sha256:...","ev":"artifact://fst_security_scan.json#n001"}
+{"id":"n002","path":"scripts/loci_sparse_boundary_eval.py","fst":["wf"],"dec":"S","h":"sha256:...","ev":"artifact://fst_security_scan.json#n002"}
+{"id":"n003","path":".github/workflows/release-cli.yml","fst":["wf","cb"],"dec":"Q","h":"sha256:...","ev":"artifact://fst_security_scan.json#n003"}

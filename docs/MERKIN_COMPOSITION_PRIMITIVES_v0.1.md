@@ -1,15 +1,15 @@
-# Merkin Composition Primitives (Next-Version Draft, v0.2 target)
+# Loci Composition Primitives (Next-Version Draft, v0.2 target)
 
 Status: design draft for the next version.
 
-This document defines four core Merkin composition maneuvers:
+This document defines four core Loci composition maneuvers:
 
 - `consume`
 - `union`
 - `atop` (hierarchical overlay)
 - `subtraction` (delta-emission and structural difference primitive)
 
-The goal is compositional closure: higher systems should be expressible as recursive compositions of Merkin blocks while preserving deterministic contracts.
+The goal is compositional closure: higher systems should be expressible as recursive compositions of Loci blocks while preserving deterministic contracts.
 
 Date baseline: `2026-04-18`.
 
@@ -17,14 +17,14 @@ Date baseline: `2026-04-18`.
 
 This primitive set aligns existing repo direction:
 
-- `Ratio Loci` / `Genius Loci` split (`docs/merkin-cli.md`, `cmd/main/cli_commands.mbt`)
+- `Ratio Loci` / `Genius Loci` split (`docs/loci-cli.md`, `cmd/main/cli_commands.mbt`)
 - Pactis conversation-first substrate (`docs/PACTIS_CONVERSATIONAL_API_SPEC.md`)
 - Yata `.plan` / drift and triad surfaces (`api/api.mbt`, `docs/TRIAD_CONTRACT_SPEC.md`)
 - L-OCI composition framing (`docs/new/rfc-3027-loci.md`)
 
 ## 2) Core Terms
 
-- `Merkin block`: a bounded Merkin runtime/domain with identity, policy, state, and exported surfaces.
+- `Loci block`: a bounded Loci runtime/domain with identity, policy, state, and exported surfaces.
 - `Outer`: the composing block.
 - `Inner`: the composed block.
 - `Contract seal`: deterministic hash/attestation over composition material.
@@ -111,7 +111,7 @@ Intent:
 Typical use:
 
 - emit "only what changed" for cross-loci sync
-- compare one Merkin block to another and emit proofable difference
+- compare one Loci block to another and emit proofable difference
 - structure Yata branches from explicit delta units instead of full replays
 
 Required invariants:
@@ -139,7 +139,7 @@ Minimum machine surfaces:
 
 ## 8) Security and Session-Bound Secret Semantics
 
-Merkin SHOULD model sensitive runtime material as session-bound capability state, not long-lived static secrets.
+Loci SHOULD model sensitive runtime material as session-bound capability state, not long-lived static secrets.
 
 Guidance:
 

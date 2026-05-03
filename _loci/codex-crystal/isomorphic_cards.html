@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loci Cohesive Contract Cards</title>
+  <style>
+    :root {
+      --bg: #f4f7f8;
+      --ink: #1b2a34;
+      --muted: #5d6f7b;
+      --line: #d8e0e5;
+      --card: #ffffff;
+      --accent: #0f766e;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif; background: radial-gradient(circle at 10% 0%, #e7f7f4, var(--bg)); color: var(--ink); }
+    .wrap { max-width: 1100px; margin: 32px auto; padding: 0 16px; }
+    h1 { margin: 0 0 8px; font-size: 2rem; }
+    .sub { color: var(--muted); margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: 0 3px 10px rgba(0,0,0,.04); }
+    .card h2 { margin: 0 0 8px; font-size: 1.06rem; color: var(--accent); }
+    .card h2 small { color: var(--muted); font-weight: 500; }
+    .card p, .card li { font-size: .93rem; line-height: 1.35; }
+    .card ul { margin: 8px 0 0 18px; padding: 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Loci Cohesive Contract</h1>
+    <p class="sub">Isomorphic view cards generated from capsule + FST sources</p>
+    <section class="grid">
+      
+    <article class="card">
+      <h2>Capsule Contract</h2>
+      <p><strong>zpc:capsule@0.1.0</strong></p>
+      <ul>
+        <li>27 records</li>
+        <li>15 enums</li>
+        <li>6 variants</li>
+        <li>39 capsule functions</li>
+      </ul>
+    </article>
+    
+    <article class="card">
+      <h2>FST Assurance</h2>
+      <p><strong>Direct network: denied</strong></p>
+      <p>Surfaces: file-surface, socket-surface, store-surface, clock-surface, log-surface</p>
+      <p>Hooks: fst-default-assurance-policy, fst-verify-assurance-claim</p>
+    </article>
+    
+        <article class="card">
+          <h2>boundary-walker <small>v0</small></h2>
+          <p>Membrane-side FSM: walks scalars for ghost/bidi/control bytes, evaluates Crosser credentials, emits stigmergy posture into its cave.</p>
+          <p><strong>States:</strong> idle, walking, crossing, marked, emitted, failed</p>
+          <p><strong>Events:</strong> walk_scalar, cross, mark, emit_stigmergy</p>
+          <p><strong>Cave kinds:</strong> walk, finding, crossing, transition</p>
+        </article>
+        
+        <article class="card">
+          <h2>reporter <small>v0</small></h2>
+          <p>Observation FSM: sifts submissions into a deterministic edition, verifies, publishes, archives. Self-enclosed — no host I/O.</p>
+          <p><strong>States:</strong> idle, observe, collect, sift, compose, verify, publish, archive, defer, failed</p>
+          <p><strong>Events:</strong> tick, signal_detected, submission_received, insufficient_delta, composition_ready, verify_ok, verify_fail, publish_ok, publish_fail, cooldown_elapsed, manual_pause, manual_resume</p>
+          <p><strong>Cave kinds:</strong> submission, collected, sifted, composition, verification, publish, archive, transition, rejected_event</p>
+        </article>
+        
+        <article class="card">
+          <h2>union <small>v0</small></h2>
+          <p>Parallel union transducer: feeds input to both children, merges output tapes. The swarm primitive.</p>
+          <p><strong>States:</strong> union(left,right)</p>
+          <p><strong>Events:</strong> transduce</p>
+          <p><strong>Cave kinds:</strong> merged</p>
+        </article>
+        
+        <article class="card">
+          <h2>subtract <small>v0</small></h2>
+          <p>Filter transducer: primary outputs minus filter-matching outputs. The fencing primitive.</p>
+          <p><strong>States:</strong> subtract(primary,filter)</p>
+          <p><strong>Events:</strong> transduce</p>
+          <p><strong>Cave kinds:</strong> filtered</p>
+        </article>
+        
+        <article class="card">
+          <h2>diff <small>v0</small></h2>
+          <p>Symmetric difference transducer: emits outputs unique to each side. The delta detection primitive.</p>
+          <p><strong>States:</strong> diff(left,right)</p>
+          <p><strong>Events:</strong> transduce</p>
+          <p><strong>Cave kinds:</strong> delta</p>
+        </article>
+        
+        <article class="card">
+          <h2>compose <small>v0</small></h2>
+          <p>Sequential composition transducer: inner output feeds outer input through a bridge function. Classic FST composition T₁ ∘ T₂.</p>
+          <p><strong>States:</strong> compose(inner,outer)</p>
+          <p><strong>Events:</strong> transduce</p>
+          <p><strong>Cave kinds:</strong> bridged</p>
+        </article>
+        
+    </section>
+  </div>
+</body>
+</html>

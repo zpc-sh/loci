@@ -8,11 +8,11 @@ Replace APB-style global broadcast with decentralized, agency-preserving news fl
 
 - loci-to-loci orientation exchange
 - semantic aggregation over time
-- optional one-way ingress into protected Merkin surfaces
+- optional one-way ingress into protected Loci surfaces
 
 ## Core Model
 
-- Every intelligence/surface keeps its own Merkin (`merkin-in-merkin`).
+- Every intelligence/surface keeps its own Loci (`loci-in-loci`).
 - A small `codecave` lane receives edition artifacts.
 - Edition artifacts are advisory context, not execution directives.
 

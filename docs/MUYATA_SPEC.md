@@ -506,7 +506,7 @@ Recommended boundary:
 
 ---
 
-## 15. Relation to current Merkin docs
+## 15. Relation to current Loci docs
 
 `muyata` complements:
 

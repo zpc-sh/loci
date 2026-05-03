@@ -1,0 +1,242 @@
+// locus.wit — locus composition and WASI-extended contract (Level 2)
+//
+// A locus is a capsule + WASI capabilities. Locus composition
+// (union/consume/atop/subtract/yata-union) maps to component
+// composition via wasm-tools compose.
+
+package zpc:locus@0.1.0;
+
+
+/// Locus composition algebra — the recursive adjoin contract.
+interface adjoin {
+    use zpc:capsule/types@0.1.0.{hash};
+
+    enum adjoin-op {
+        %union,
+        consume,
+        atop,
+        subtract,
+        yata-union,
+    }
+
+    enum yata-expected-type {
+        observation,
+        compilation,
+        delegation,
+        resolution,
+        yata-audit,
+        yata-synthesis,
+    }
+
+    enum adjoin-boundary-mode {
+        adjoin-observe,
+        adjoin-sanitize,
+        adjoin-strict,
+        adjoin-quarantine,
+    }
+
+    record locus-ref {
+        locus-id: string,
+        surface-ref: string,
+        profile-ref: string,
+        seal: hash,
+    }
+
+    record yata-locus-ref {
+        yata-plan-ref: string,
+        expected-type: yata-expected-type,
+        void-typed: bool,
+        min-confidence: u32,
+        seal: hash,
+    }
+
+    record adjoin-op-node {
+        op: adjoin-op,
+        left-idx: u32,
+        right-idx: u32,
+        meta: list<tuple<string, string>>,
+    }
+
+    variant adjoin-node {
+        locus-leaf(locus-ref),
+        void-leaf(yata-locus-ref),
+        op-node(adjoin-op-node),
+    }
+
+    record adjoin-contract {
+        contract-id: string,
+        ratio-loci: string,
+        nodes: list<adjoin-node>,
+        root-idx: u32,
+        required-surfaces: list<string>,
+        boundary-mode: adjoin-boundary-mode,
+        seal: hash,
+    }
+
+    validate: func(contract: adjoin-contract) -> result<_, string>;
+    compute-seal: func(contract: adjoin-contract) -> hash;
+    reseal: func(contract: adjoin-contract) -> adjoin-contract;
+}
+
+
+/// Codecave — one-way ingest membrane for news/resonance.
+interface codecave {
+    use zpc:capsule/types@0.1.0.{hash};
+
+    enum lane { news, resonance }
+
+    variant ingest-result {
+        verified(hash),
+        quarantined(string),
+    }
+
+    record boot-context {
+        news-edition-hash: option<hash>,
+        news-context-block: string,
+        resonance-signature: option<hash>,
+        resonance-summary: string,
+    }
+
+    create: func(guarded: bool) -> codecave-handle;
+    offer: func(handle: borrow<codecave-handle>, lane: lane, data: list<u8>) -> ingest-result;
+    drain: func(handle: borrow<codecave-handle>);
+    boot-hook: func(handle: borrow<codecave-handle>) -> boot-context;
+    mark-read: func(handle: borrow<codecave-handle>);
+
+    resource codecave-handle;
+}
+
+
+/// Daemon node — service runtime for OCI and index operations.
+interface daemon {
+    use zpc:capsule/types@0.1.0.{hash};
+
+    enum daemon-mode { receiver, proxy, pass-through, hybrid }
+
+    record oci-facility {
+        can-receive: bool,
+        can-proxy: bool,
+        can-passthrough: bool,
+    }
+
+    record oci-put-request {
+        payload: list<u8>,
+        path: list<string>,
+        sealed-epoch: bool,
+    }
+
+    enum oci-disposition { stored, forwarded, bypassed, rejected }
+
+    record oci-put-result {
+        disposition: oci-disposition,
+        digest: hash,
+        reason: option<string>,
+    }
+
+    create: func(node-id: string, mode: daemon-mode) -> daemon-handle;
+    capabilities: func(handle: borrow<daemon-handle>) -> oci-facility;
+    handle-oci-put: func(handle: borrow<daemon-handle>, request: oci-put-request) -> oci-put-result;
+    handle-get: func(handle: borrow<daemon-handle>, digest: hash) -> option<list<u8>>;
+    sparse-view: func(handle: borrow<daemon-handle>, tokens: list<string>) -> string;
+    diff-from-sparse: func(handle: borrow<daemon-handle>, baseline: string, tokens: list<string>) -> string;
+    indexed-node-count: func(handle: borrow<daemon-handle>) -> u32;
+
+    resource daemon-handle;
+}
+
+
+/// Conversation host — Saba/Pactis thread management.
+interface conversation {
+    use zpc:capsule/types@0.1.0.{hash};
+
+    enum actor-role { ai, human, system }
+    enum conv-track { program, git }
+
+    record turn-request {
+        actor-overlay: string,
+        role: actor-role,
+        content: string,
+        idempotency-key: string,
+    }
+
+    record conversation-issue {
+        code: string,
+        message: string,
+    }
+
+    record turn-outcome {
+        accepted: bool,
+        turn-id: option<string>,
+        turn-seq: option<u32>,
+        checkpoint-id: option<string>,
+        issues: list<conversation-issue>,
+        canonical-addresses: list<string>,
+    }
+
+    record replay-request {
+        from-seq: u32,
+        to-seq: option<u32>,
+        length-guard-enforced: bool,
+    }
+
+    record replay-outcome {
+        ok: bool,
+        replayed-count: u32,
+        non-replayable-count: u32,
+        issues: list<conversation-issue>,
+    }
+
+    create: func() -> conversation-handle;
+    create-hall: func(handle: borrow<conversation-handle>, name: string, policy-profile: string) -> string;
+    create-thread: func(handle: borrow<conversation-handle>, hall-id: string, topic: string, track: conv-track) -> option<string>;
+    append-turn: func(handle: borrow<conversation-handle>, thread-id: string, request: turn-request) -> turn-outcome;
+    replay: func(handle: borrow<conversation-handle>, thread-id: string, request: replay-request) -> replay-outcome;
+    create-checkpoint: func(handle: borrow<conversation-handle>, thread-id: string, label: string) -> option<string>;
+
+    resource conversation-handle;
+}
+
+
+/// Locus metadata — named workspace context.
+interface locus-meta {
+    use zpc:capsule/types@0.1.0.{hash};
+
+    record locus-def {
+        name: string,
+        spirit: string,
+        tags: list<string>,
+        membrane-refs: list<hash>,
+        affordance-refs: list<hash>,
+        trail-depth: u32,
+        last-push-hash: option<hash>,
+    }
+
+    record residue {
+        tier: string,
+        session-short-id: string,
+        timestamp: string,
+        picked-up-from: option<string>,
+        what-i-did: list<string>,
+        what-i-left-open: list<string>,
+        recommendation: option<string>,
+    }
+
+    new-locus: func(name: string, spirit: string) -> locus-def;
+    scaffold-paths: func(locus-name: string, loci-root: string) -> list<string>;
+    record-push: func(def: locus-def, push-hash: hash) -> locus-def;
+    format-trail: func(locus-name: string, residues: list<residue>) -> string;
+}
+
+
+/// The locus world — extends capsule with WASI + composition.
+world locus-world {
+    import zpc:capsule/host@0.1.0;
+    import zpc:capsule/types@0.1.0;
+    export zpc:capsule/capsule@0.1.0;
+
+    export adjoin;
+    export codecave;
+    export daemon;
+    export conversation;
+    export locus-meta;
+}

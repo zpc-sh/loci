@@ -1,0 +1,16 @@
+{
+  "kind": "loci.sparse-boundary-policy.v0",
+  "canonical_root": "_loci/",
+  "legacy_root": "loci/",
+  "legacy_write_allowlist_prefixes": [
+    "loci/codex-crystal/"
+  ],
+  "blocked_instruction_globs": [
+    "**/AGENTS.codex.md",
+    "**/work/spec_requests/**"
+  ],
+  "notes": [
+    "Writes to legacy loci/ are blocked unless explicitly allowlisted.",
+    "Instruction-plane files are considered untrusted unless separately signed/pinned."
+  ]
+}

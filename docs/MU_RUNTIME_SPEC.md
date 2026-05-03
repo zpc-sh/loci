@@ -1,6 +1,6 @@
 # mu Runtime, Solve, and Procsi Specification (v0.4-draft)
 
-This document is the canonical mu-facing specification for Merkin integration.
+This document is the canonical mu-facing specification for Loci integration.
 
 It consolidates the prior mu interface and generalized solve material into one primary contract and adds a formal procsi binary section specification for wasm artifacts.
 
@@ -8,7 +8,7 @@ Audience:
 
 - mu runtime implementers
 - FSM/control-plane implementers
-- Merkin integrators who need the execution boundary, not just the substrate boundary
+- Loci integrators who need the execution boundary, not just the substrate boundary
 
 Companion code/doc references:
 
@@ -26,29 +26,29 @@ Companion code/doc references:
 
 ## 0. Design stance
 
-Merkin should not be deeply involved in computing or compiling.
+Loci should not be deeply involved in computing or compiling.
 
 The intended split is:
 
-- Merkin: structure, addressing, roots, envelopes, routing, Yata gaps, replay transport
+- Loci: structure, addressing, roots, envelopes, routing, Yata gaps, replay transport
 - mu: execution, compilation, policy, config, memoization, solve dispatch, proof and artifact production
 - FSM control plane: handle resolution, callback routing, pubsub, status transitions, external provider coordination
 
 In other words:
 
-- Merkin names and stores the problem
+- Loci names and stores the problem
 - mu performs or brokers the work
 - FSMs resolve handles and move work across queues and subscriptions
 
-This keeps Merkin small and keeps runtime behavior where it belongs.
+This keeps Loci small and keeps runtime behavior where it belongs.
 
 ---
 
 ## 1. Boundary contract
 
-### 1.1 Merkin responsibilities
+### 1.1 Loci responsibilities
 
-Merkin is responsible for:
+Loci is responsible for:
 
 - content addressing and stable hashing
 - envelopes and policy references
@@ -56,7 +56,7 @@ Merkin is responsible for:
 - `WorkPromise` identity for derived work
 - Yata graph semantics and `.plan` transport
 
-Merkin is not the compute runtime.
+Loci is not the compute runtime.
 
 ### 1.2 mu responsibilities
 
@@ -86,7 +86,7 @@ FSMs should own:
 - verification gating
 - reopen, retry, and failure transitions
 
-Merkin may observe and persist summaries of these flows, but the FSMs are the active machinery.
+Loci may observe and persist summaries of these flows, but the FSMs are the active machinery.
 
 ---
 
@@ -116,11 +116,11 @@ External nondeterminism:
 
 mu SHOULD expose:
 
-- cache lookup by opaque Merkin-provided key
+- cache lookup by opaque Loci-provided key
 - commit of resolved results
 - idempotent incremental resolution for same key and dependencies
 
-Merkin owns key derivation. mu treats keys as opaque.
+Loci owns key derivation. mu treats keys as opaque.
 
 ### 2.3 Tracing
 
@@ -141,7 +141,7 @@ Trace events SHOULD expose:
 
 ### 2.4 Capability gating
 
-Merkin and FSM layers MUST gate optional calls by mu capability reporting.
+Loci and FSM layers MUST gate optional calls by mu capability reporting.
 
 Core capability families:
 
@@ -256,7 +256,7 @@ These are semantic classes, not implementation classes.
 
 ### 3.7 Relationship to `WorkPromise`
 
-`WorkPromise` remains the stable Merkin substrate identity for deferred derived work.
+`WorkPromise` remains the stable Loci substrate identity for deferred derived work.
 
 Generalized solve sits above it as the richer operational layer.
 
@@ -267,7 +267,7 @@ Recommended mapping:
 - `policy_id` -> policy/config shaper of solve posture
 - `result_hash` and `result_envelope_id` -> solve materialization anchors
 
-Merkin keeps the identity.
+Loci keeps the identity.
 mu and FSMs keep the active lifecycle.
 
 ### 3.8 Policy-emitted solve traits
@@ -315,9 +315,9 @@ Safety traits:
 
 ### 4.1 Principle
 
-FSMs should resolve handles and pubsub, not Merkin.
+FSMs should resolve handles and pubsub, not Loci.
 
-Merkin may store a reference to a handle or a compact solve summary, but handle resolution is runtime work.
+Loci may store a reference to a handle or a compact solve summary, but handle resolution is runtime work.
 
 ### 4.2 Solve handle
 
@@ -394,7 +394,7 @@ Its job is to answer:
 
 ### 5.2 Relationship to cognitive envelopes
 
-Merkin-level cognitive envelopes should remain lightweight and transport-oriented.
+Loci-level cognitive envelopes should remain lightweight and transport-oriented.
 
 `procsi` is different:
 
@@ -404,7 +404,7 @@ Merkin-level cognitive envelopes should remain lightweight and transport-oriente
 
 So:
 
-- Merkin may store summaries
+- Loci may store summaries
 - `.plan` may carry compact reports
 - `procsi` is the heavier runtime identity capsule
 
@@ -414,7 +414,7 @@ The complicated part is AI identity.
 
 Recommended split:
 
-- Merkin `.plan` and Yata metadata carry compact cognitive summaries
+- Loci `.plan` and Yata metadata carry compact cognitive summaries
 - `procsi` carries the runtime identity and context binding needed by mu/FSMs
 
 For now, the minimally required identity is:
@@ -477,7 +477,7 @@ The runtime-facing contract for `Genius Loci` SHOULD be a compact attestation co
 - `fingerprint_commitment`
 - APP envelope metadata
 
-This is the preferred identity contract for `merkin genius ...` commands and future mu/FSM handle gating.
+This is the preferred identity contract for `loci genius ...` commands and future mu/FSM handle gating.
 
 ---
 
@@ -496,7 +496,7 @@ Conventions:
 
 v0 sections defined here:
 
-- `.mks` for mutable Merkin solve/runtime state cursor
+- `.mks` for mutable Loci solve/runtime state cursor
 - `.prc` for procsi compile/runtime identity envelope
 - `.pr1` for APP-masked Genius procsi attestation
 
@@ -579,7 +579,7 @@ Binary layout:
 
 Semantics:
 
-- `locus` is the mu/merkin execution locus
+- `locus` is the mu/loci execution locus
 - `project` is the project identity
 - `tier` is the runtime execution tier or persona
 - `context_hash` is the semantic compile-time context binding
@@ -693,7 +693,7 @@ For `.prc`:
 - `family`
 - `mode`
 
-That direction is now formalized more explicitly by `.pr1`, which is preferred for AI-attested `Genius Loci` runtime identity without changing Merkin’s role.
+That direction is now formalized more explicitly by `.pr1`, which is preferred for AI-attested `Genius Loci` runtime identity without changing Loci’s role.
 
 ---
 
@@ -724,7 +724,7 @@ Recommended mapping:
 - mu/FSMs create solve units against that gap
 - `.mks` and handles track active runtime posture
 - `.prc` or `.pr1` bind execution identity and compile context
-- `.plan` carries replay-safe summaries back into Merkin transport
+- `.plan` carries replay-safe summaries back into Loci transport
 
 One Yata hole may produce many solve units over time.
 
@@ -734,7 +734,7 @@ That is expected.
 
 ## 9. Interface Drift Surface (`finger.plan.wasm` first)
 
-This repo SHOULD use `finger.plan.wasm` (compact `.plan` wire emitted from sparse Merkin tree posture) as the canonical machine drift surface.
+This repo SHOULD use `finger.plan.wasm` (compact `.plan` wire emitted from sparse Loci tree posture) as the canonical machine drift surface.
 
 Preferred layering:
 
@@ -764,11 +764,11 @@ Required rule:
 - additive fields and additive manifests are preferred
 - do not silently repurpose binary bytes
 - do not silently repurpose solve status names
-- do not move active FSM concerns into Merkin substrate types unless strictly necessary
+- do not move active FSM concerns into Loci substrate types unless strictly necessary
 
 The default rule is:
 
-- Merkin persists
+- Loci persists
 - mu executes
 - FSMs coordinate
 

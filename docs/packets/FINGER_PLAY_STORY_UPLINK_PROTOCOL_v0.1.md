@@ -35,7 +35,7 @@ Bud FSMs should emit Yata-shaped artifacts that are transport-safe.
 
 ```json
 {
-  "kind": "merkin.story.signal.v0",
+  "kind": "loci.story.signal.v0",
   "story_id": "uuid-or-hash",
   "origin_locus": "genius://<local>/<name>",
   "origin_overlay": "chatgpt|codex|claude|other",
@@ -98,9 +98,9 @@ CLI/tooling should map actions to events, not commands:
   "kind": "finger.play.submit.v0",
   "submission_type": "story",
   "payload": {
-    "kind": "merkin.story.signal.v0",
+    "kind": "loci.story.signal.v0",
     "story_id": "sig-9f2a",
-    "origin_locus": "genius://merkin/local",
+    "origin_locus": "genius://loci/local",
     "origin_overlay": "codex",
     "timebox": "2026-04-19T21:00:00Z",
     "signal_type": "attention_pattern",
@@ -108,7 +108,7 @@ CLI/tooling should map actions to events, not commands:
     "gradient": { "novelty": 61, "persistence": 72, "spread": 40, "salience": 84 },
     "context_ref": "finger.plan.wasm#hole-attn-14",
     "summary": "Repeated lure-token cluster appearing in binary-adjacent docs path.",
-    "attachments": ["cas://merkin/blake3/abc..."]
+    "attachments": ["cas://loci/blake3/abc..."]
   }
 }
 ```

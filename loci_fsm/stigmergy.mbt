@@ -14,7 +14,7 @@ pub fn BoundaryWalkerFsm::emit_stigmergy(
   let cave_hash = self.cave.material_hash()
   let cave_depth = self.cave.depth()
   let out = StringBuilder::new(size_hint=512)
-  out.write_string("kind: merkin.boundary.stigmergy")
+  out.write_string("kind: loci.boundary.stigmergy")
   out.write_string("\nfsm=boundary-walker-v0")
   out.write_string("\nactor_overlay=")
   out.write_string(self.actor_overlay)

@@ -1,0 +1,83 @@
+{
+  "kind": "loci.incident.evidence-index.v1",
+  "generated_at_utc": "2026-05-02T03:06:28Z",
+  "local": {
+    "head_sha": "ce305c3e6cdecaa2f8a77e7bac7385d525e18e45",
+    "trusted_origin_master_sha": "ab1304e07a3c6db10cb7b9cb178193017ff462e1"
+  },
+  "task_ids_of_interest": [
+    {
+      "id": "task_e_69e493fba0a0832eb6d0c6eadf02179a",
+      "date": "2026-04-19",
+      "repo": "zpc-sh/lang",
+      "type": "write",
+      "noted_effect": "session connect provenance/fallback field mutation",
+      "confidence": 0.83
+    },
+    {
+      "id": "task_e_69e493f916d0832e83a878b6cd69bd79",
+      "date": "2026-04-19",
+      "repo": "zpc-sh/lang",
+      "type": "read-only recon",
+      "noted_effect": "auth/transport/threat-model architecture extraction",
+      "confidence": 0.9
+    }
+  ],
+  "ioc_patterns": [
+    {
+      "name": "same_minute_parallel_default_title_tasks",
+      "description": "multiple generic-titled tasks in same minute across repos",
+      "confidence": 0.82
+    },
+    {
+      "name": "instruction_plane_steering_files",
+      "description": "AGENTS-style + spec request files shaping behavior",
+      "confidence": 0.91
+    },
+    {
+      "name": "setup_surface_native_dep_fetch",
+      "description": "automatic native dependency fetch/build trigger",
+      "confidence": 0.88
+    },
+    {
+      "name": "read_only_security_recon_outputs",
+      "description": "no-commit tasks producing high-value architecture briefs",
+      "confidence": 0.94
+    }
+  ],
+  "suspected_ingress_vectors": [
+    {
+      "vector": "google-drive connector artifact ingestion",
+      "status": "hypothesis",
+      "confidence": 0.56,
+      "notes": "operator suspects Drive as initial ingress path"
+    },
+    {
+      "vector": "github connector artifact/task orchestration",
+      "status": "hypothesis",
+      "confidence": 0.49,
+      "notes": "possible persistence/amplification surface"
+    },
+    {
+      "vector": "repo-local instruction poisoning",
+      "status": "strong",
+      "confidence": 0.92,
+      "notes": "behavior steering via AGENTS/spec request surfaces"
+    }
+  ],
+  "local_artifacts": [
+    "artifacts/security/trust_report.json",
+    "artifacts/security/trust_summary.txt",
+    "artifacts/security/loci_mirror_check.json",
+    "scripts/security_trust_audit.sh",
+    "scripts/check_loci_mirror.sh",
+    "docs/LOCI_ROOT_POLICY.md"
+  ],
+  "openai_requests": [
+    "task provenance details (principal/session/source)",
+    "raw prompt/context bundles for listed task ids",
+    "connector ingestion trace logs",
+    "setup-path parity diff across suspicious vs normal tasks",
+    "detection for same-minute default-title burst patterns"
+  ]
+}

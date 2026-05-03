@@ -59,9 +59,9 @@ If a full history rewrite is required:
 
 Treat these as coordinated maintenance windows, not ad-hoc shell actions.
 
-## 6) Merkin-Specific Alignment
+## 6) Loci-Specific Alignment
 
-Merkin triad contract generation already includes byte-level ghost audit for:
+Loci triad contract generation already includes byte-level ghost audit for:
 
 - `U+200B`
 - `U+200C`

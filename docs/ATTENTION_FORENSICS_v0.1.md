@@ -1,6 +1,6 @@
 # Attention Forensics v0.1
 
-First take for a neutral, typed signal model of AI attention pressure in Merkin boundary walks.
+First take for a neutral, typed signal model of AI attention pressure in Loci boundary walks.
 
 Date baseline: `2026-04-19`.
 

@@ -1,0 +1,331 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "zploc/loci/loci_fsm"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn boundary_status_text(BoundaryStatus) -> String
+
+pub fn boundary_walk_wire(String, String, String, String) -> String
+
+pub fn boundary_walker_personality() -> Personality
+
+pub fn compose_personality() -> Personality
+
+pub fn cross_result_tag(CrossResult) -> String
+
+pub fn diff_personality() -> Personality
+
+pub fn extract_cave_outputs(FsmCave, UInt) -> Array[TransducerOutput]
+
+pub fn parse_scalar_csv(String) -> Array[(String, String)]
+
+pub fn parse_submissions_csv(String) -> Array[Submission]
+
+pub fn personality_by_name(String) -> Personality?
+
+pub fn personality_registry() -> Array[Personality]
+
+pub fn reporter_event_parse(String) -> ReporterEvent?
+
+pub fn reporter_event_text(ReporterEvent) -> String
+
+pub fn reporter_personality() -> Personality
+
+pub fn reporter_run_wire(String, String, String) -> String
+
+pub fn reporter_state_text(ReporterState) -> String
+
+pub fn reporter_summary_wire(String, String, String) -> String
+
+pub fn subtract_personality() -> Personality
+
+pub fn[T : Transducer] transduce_batch(T, Array[TransducerInput]) -> (T, Array[TransducerOutput])
+
+pub fn[T : Transducer] transduce_to_result(T, TransducerInput) -> (T, TransduceResult)
+
+pub fn union_personality() -> Personality
+
+// Errors
+
+// Types and methods
+pub(all) struct BoundaryFinding {
+  field_key : String
+  raw_value : String
+  canonical_value : String
+  raw_hex : String
+  ghost_u200b : UInt
+  ghost_u200c : UInt
+  ghost_ufeff : UInt
+  bidi_controls : UInt
+  ascii_controls : UInt
+  suspicious : Bool
+} derive(@debug.Debug)
+
+pub(all) enum BoundaryFsmState {
+  Idle
+  Walking
+  Crossing
+  Marked
+  Emitted
+  Failed
+} derive(Eq, @debug.Debug)
+pub impl Show for BoundaryFsmState
+
+pub(all) enum BoundaryStatus {
+  Clean
+  Attention
+  Containment
+} derive(Eq, @debug.Debug)
+pub impl Show for BoundaryStatus
+
+pub(all) struct BoundaryWalkerFsm {
+  actor_overlay : String
+  ratio_loci : String
+  state : BoundaryFsmState
+  walked_scalars : UInt
+  findings : Array[BoundaryFinding]
+  sanitized_scalars : UInt
+  ghost_u200b : UInt
+  ghost_u200c : UInt
+  ghost_ufeff : UInt
+  bidi_controls : UInt
+  ascii_controls : UInt
+  crossings : Array[CrossingReport]
+  locality_signatures : Map[String, String]
+  locality_field_values : Map[String, String]
+  locality_ingests : UInt
+  locality_dedup_hits : UInt
+  cave : FsmCave
+} derive(@debug.Debug)
+pub fn BoundaryWalkerFsm::attention_gradient(Self) -> String
+pub fn BoundaryWalkerFsm::attention_saturated(Self) -> Bool
+pub fn BoundaryWalkerFsm::attention_score(Self) -> UInt
+pub fn BoundaryWalkerFsm::attention_ticks(Self) -> UInt
+pub fn BoundaryWalkerFsm::cross(Self, &Crosser) -> Self
+pub fn BoundaryWalkerFsm::emit_stigmergy(Self, note? : String) -> String
+pub fn BoundaryWalkerFsm::ingest_locality_pattern(Self, String, Array[(String, String)]) -> (Self, LocalityIngestReport)
+pub fn BoundaryWalkerFsm::mark(Self) -> Self
+pub fn BoundaryWalkerFsm::new(String, String) -> Self
+pub fn BoundaryWalkerFsm::status(Self) -> BoundaryStatus
+pub fn BoundaryWalkerFsm::walk_scalar(Self, String, String) -> Self
+pub fn BoundaryWalkerFsm::walk_scalars(Self, Array[(String, String)]) -> Self
+pub impl Transducer for BoundaryWalkerFsm
+
+pub(all) struct CaveEntry {
+  seq : UInt
+  tick : UInt
+  from_state : String
+  to_state : String
+  kind : String
+  key : String
+  value : String
+  hash : String
+} derive(Eq, @debug.Debug)
+
+pub(all) enum CrossResult {
+  Admitted
+  Rejected(String)
+} derive(Eq, @debug.Debug)
+
+pub(all) struct CrossingReport {
+  passport_id : String
+  actor_overlay : String
+  target_locus : String
+  admitted : Bool
+  rejection : String?
+} derive(@debug.Debug)
+
+pub(all) struct FsmCave {
+  fsm_id : String
+  personality : String
+  entries : Array[CaveEntry]
+  next_seq : UInt
+  current_tick : UInt
+} derive(@debug.Debug)
+pub fn FsmCave::collect(Self, String) -> Array[CaveEntry]
+pub fn FsmCave::deposit(Self, kind~ : String, key~ : String, value~ : String, from_state? : String, to_state? : String) -> Self
+pub fn FsmCave::depth(Self) -> UInt
+pub fn FsmCave::drain(Self) -> (Self, Array[CaveEntry])
+pub fn FsmCave::emit(Self) -> String
+pub fn FsmCave::material_hash(Self) -> String
+pub fn FsmCave::new(String, String) -> Self
+pub fn FsmCave::since(Self, UInt) -> Array[CaveEntry]
+pub fn FsmCave::snapshot(Self) -> Array[CaveEntry]
+pub fn FsmCave::tick(Self) -> Self
+
+pub(all) struct LocalityIngestReport {
+  locality : String
+  field_total : UInt
+  stable_fields : UInt
+  changed_fields : UInt
+  new_fields : UInt
+  duplicate : Bool
+  inertia_percent : UInt
+  prior_signature : String
+  current_signature : String
+} derive(@debug.Debug)
+
+pub(all) struct MetabolicEnvelope {
+  birth_tick : UInt
+  last_tick : UInt
+  total_ticks : UInt
+  total_outputs : UInt
+  lifetime_cap : UInt
+  mu : UInt
+  omega : UInt
+  reaped : Bool
+} derive(@debug.Debug)
+pub fn MetabolicEnvelope::age(Self, UInt) -> UInt
+pub fn MetabolicEnvelope::effective_budget(Self) -> UInt
+pub fn MetabolicEnvelope::efficiency(Self) -> UInt
+pub fn MetabolicEnvelope::new(UInt) -> Self
+pub fn MetabolicEnvelope::reap(Self) -> Self
+pub fn MetabolicEnvelope::record_outputs(Self, UInt) -> Self
+pub fn MetabolicEnvelope::should_reap(Self, UInt) -> Bool
+pub fn MetabolicEnvelope::staleness(Self, UInt) -> UInt
+pub fn MetabolicEnvelope::tick(Self, UInt) -> Self
+pub fn MetabolicEnvelope::with_omega(UInt, UInt) -> Self
+pub fn MetabolicEnvelope::yield_rate(Self) -> UInt
+
+pub(all) struct Personality {
+  name : String
+  version : String
+  description : String
+  states : Array[String]
+  events : Array[String]
+  cave_kinds : Array[String]
+  initial_state : String
+  terminal_states : Array[String]
+} derive(@debug.Debug)
+
+pub(all) enum ReporterEvent {
+  Tick
+  SignalDetected
+  SubmissionReceived
+  InsufficientDelta
+  CompositionReady
+  VerifyOk
+  VerifyFail
+  PublishOk
+  PublishFail
+  CooldownElapsed
+  ManualPause
+  ManualResume
+} derive(Eq, @debug.Debug)
+pub impl Show for ReporterEvent
+
+pub(all) struct ReporterFsm {
+  fsm_id : String
+  topic : String
+  state : ReporterState
+  cave : FsmCave
+  pending : Array[Submission]
+  collected : Array[Submission]
+  composed : String
+  verified : Bool
+  published : Bool
+} derive(@debug.Debug)
+pub fn ReporterFsm::drain(Self) -> (Self, Array[CaveEntry])
+pub fn ReporterFsm::drive_to_archive(Self) -> Self
+pub fn ReporterFsm::emit_summary(Self) -> String
+pub fn ReporterFsm::new(String, String) -> Self
+pub fn ReporterFsm::send(Self, ReporterEvent) -> Self
+pub fn ReporterFsm::submit(Self, Submission) -> Self
+pub impl Transducer for ReporterFsm
+
+pub(all) enum ReporterState {
+  RIdle
+  RObserve
+  RCollect
+  RSift
+  RCompose
+  RVerify
+  RPublish
+  RArchive
+  RDefer
+  RFailed
+} derive(Eq, @debug.Debug)
+pub impl Show for ReporterState
+
+pub(all) struct Submission {
+  source : String
+  kind : String
+  content : String
+} derive(@debug.Debug)
+
+pub(all) struct TransduceResult {
+  state_tag : String
+  outputs : Array[TransducerOutput]
+  accepting : Bool
+} derive(@debug.Debug)
+
+pub(all) struct TransducerCompose[A, B] {
+  inner : A
+  outer : B
+  bridge : (TransducerOutput) -> TransducerInput?
+  envelope : MetabolicEnvelope
+}
+pub fn[A, B] TransducerCompose::new(A, B, (TransducerOutput) -> TransducerInput?, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerCompose[A, B]
+
+pub(all) struct TransducerDiff[A, B] {
+  left : A
+  right : B
+  envelope : MetabolicEnvelope
+} derive(@debug.Debug)
+pub fn[A, B] TransducerDiff::new(A, B, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerDiff[A, B]
+
+pub(all) enum TransducerInput {
+  Scalar(String, String)
+  SubmitWork(Submission)
+  Event(String)
+  Tick
+  RawBytes(Bytes)
+} derive(@debug.Debug)
+
+pub(all) enum TransducerOutput {
+  CaveDeposit(CaveEntry)
+  Signal(String, String)
+  Emission(String)
+  Spawn(String, TransducerInput)
+  Reap(String)
+} derive(@debug.Debug)
+
+pub(all) struct TransducerSubtract[A, B] {
+  primary : A
+  filter : B
+  envelope : MetabolicEnvelope
+} derive(@debug.Debug)
+pub fn[A, B] TransducerSubtract::new(A, B, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerSubtract[A, B]
+
+pub(all) struct TransducerUnion[A, B] {
+  left : A
+  right : B
+  envelope : MetabolicEnvelope
+} derive(@debug.Debug)
+pub fn[A, B] TransducerUnion::new(A, B, UInt) -> Self[A, B]
+pub impl[A : Transducer, B : Transducer] Transducer for TransducerUnion[A, B]
+
+// Type aliases
+
+// Traits
+pub(open) trait Crosser {
+  scalars(Self) -> Array[(String, String)]
+  validate(Self) -> CrossResult
+  passport_id(Self) -> String
+  actor_overlay(Self) -> String
+  target_locus(Self) -> String
+}
+
+pub(open) trait Transducer {
+  transduce(Self, TransducerInput) -> (Self, Array[TransducerOutput])
+  state_tag(Self) -> String
+  accepting(Self) -> Bool
+  personality_name(Self) -> String
+}
+

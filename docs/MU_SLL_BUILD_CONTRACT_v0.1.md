@@ -21,7 +21,7 @@ Fields:
   see `docs/SLL_REFERENCE_v0.1.md`)
 - `target` — `BuildTarget { family, model, mobility, movement }`
 - `boundary_mode` — `observe | sanitize | strict | quarantine`
-  (from `merkin.locus.crossing.passport.v0.1`)
+  (from `loci.locus.crossing.passport.v0.1`)
 - `composition_mode` — `layered | sequenced | live` (mirrors
   `ResonanceOp` for compile-time grain when multiple Semanticfiles
   are composed)

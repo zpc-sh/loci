@@ -1,6 +1,6 @@
 # Semantic Router Contract v0.1 (stub)
 
-Contract identity: `merkin.semantic.router.contract.v0`
+Contract identity: `loci.semantic.router.contract.v0`
 
 ## Status
 
@@ -21,7 +21,7 @@ the same inputs, the same decision can be reproduced (audit-safe).
 
 ```
 RouterInputs {
-  passport          : merkin.locus.crossing.passport.v0.1
+  passport          : loci.locus.crossing.passport.v0.1
   target_profile    : target locus policy profile (opaque ref)
   boundary_findings : summary from boundary walker FSM
   capability_ticket : capability class + budget state
@@ -58,7 +58,7 @@ router is thus resonance-aware by construction.
 
 ```
 RouterDecision {
-  kind             : "merkin.semantic.router.decision.v0"
+  kind             : "loci.semantic.router.decision.v0"
   version          : "v0"
   decision_id      : stable identifier
   passport_id      : referenced passport

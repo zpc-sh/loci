@@ -1,6 +1,6 @@
 # Yata `.plan` Specification (v0.4-draft)
 
-This document defines the `.plan` wire contract used by Merkin Yata for replay, audit, and AI collaboration handoff.
+This document defines the `.plan` wire contract used by Loci Yata for replay, audit, and AI collaboration handoff.
 
 ## 1. Purpose
 
@@ -47,7 +47,7 @@ This document defines the `.plan` wire contract used by Merkin Yata for replay, 
 ### 3.1 Header + entry lines
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=<program|git>
 mode=<full|compact>
 generator=<text>
@@ -121,7 +121,7 @@ Unknown non-empty lines are rejected.
 
 ### 4.1 Required fields
 
-- `kind: merkin.yata.plan`
+- `kind: loci.yata.plan`
 - `track=...`
 - `mode=...`
 - `generator=...`
@@ -219,7 +219,7 @@ Signed integer required for:
 ### 7.1 Program track with self report
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=program
 mode=full
 generator=chatgpt
@@ -238,7 +238,7 @@ self_report_view=overlay
 ### 7.2 Git track with git report
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=git
 mode=full
 generator=chatgpt
@@ -257,7 +257,7 @@ git_report_refs=abc123,def456
 ### 7.3 Program track with temporal delta and embedding report
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=program
 mode=full
 generator=chatgpt
@@ -280,7 +280,7 @@ embedding_report_strategy=flip-aot
 ### 7.4 Program track with solve report
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=program
 mode=full
 generator=chatgpt
@@ -298,22 +298,22 @@ solve_report_count=4
 ### 7.5 Finger plan with procsi and capability disclosure
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=program
 mode=compact
 generator=codex
 note=finger
 material_hash=blake3:...
 procsi_report=1
-procsi_report_project=zpc-sh/merkin
-procsi_report_ratio_loci=ratio://merkin/root
+procsi_report_project=zpc-sh/loci
+procsi_report_ratio_loci=ratio://loci/root
 procsi_report_surface=codex
 procsi_report_fingerprint_commitment=blake3:...
 procsi_report_app_ref=app://repo/ai/codex
-procsi_report_app_audience=ratio.loci.merkin
+procsi_report_app_audience=ratio.loci.loci
 procsi_report_masked=true
 capability_report=1
-capability_report_authority=ratio://merkin/root
+capability_report_authority=ratio://loci/root
 capability_report_ticket_kind=service
 capability_report_scope=genius.write
 capability_report_status=issued

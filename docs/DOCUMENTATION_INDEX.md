@@ -1,16 +1,17 @@
-# Merkin Documentation Index
+# Loci Documentation Index
 
-This file is the top-level map for Merkin documentation.
+This file is the top-level map for Loci documentation.
 
 Active scope and de-scoped tracks: `docs/ROADMAP_SCOPE.md`.
 
 Current-state anchors:
 
-- `docs/MERKIN_MASTER_DOCUMENT.md` — cohesive "what Merkin does now" reference
+- `docs/AI_CAPABILITY_GUIDE_v0.1.md` — canonical AI-facing entrypoint for v0.1 (capability map, recipes, command matrix, deterministic preflight)
+- `docs/MERKIN_MASTER_DOCUMENT.md` — cohesive "what Loci does now" reference
 - `docs/MERKIN_USER_MANUAL.md` — practical operator/developer manual
 - `docs/MERKIN_PACK_STANDARD_v0.1.md` — current pack-standard position (WASM-first + OCI context)
 - `docs/GIT_GHOST_HARDENING_RUNBOOK.md` — hidden-byte and hostile-history git hygiene runbook
-- `docs/RATIO_BOUNDARY_SHIM_SPEC_v0.1.md` — git-to-Merkin boundary filtering and security signaling design
+- `docs/RATIO_BOUNDARY_SHIM_SPEC_v0.1.md` — git-to-Loci boundary filtering and security signaling design
 - `docs/MERKIN_COMPOSITION_PRIMITIVES_v0.1.md` — formal `consume|union|atop` composition contracts
 - `docs/MERKIN_API_REFERENCE_v0.1.md` — consolidated API surface and implementation-status matrix
 - `docs/YATA_CONTRACT_LANGUAGE_PROFILE_v0.1.md` — compiler-facing Yata wire/parse contract profile
@@ -52,7 +53,7 @@ Actions include:
 - Yata topology diagnostics (`--action yata-topology`)
 - moon compiler bug ingestion into Yata + Jules tasks
 - WASM `finger.plan` emission for cross-repo drift coordination (`--action yata-wasm-plan`)
-- triad contract emission for Merkin/Mu/lang coordination (`--action yata-triad-contract`)
+- triad contract emission for Loci/Mu/lang coordination (`--action yata-triad-contract`)
 
 ### I need protocol/spec contracts
 
@@ -82,7 +83,7 @@ Use:
 
 The generated transfer bundle lands at:
 
-- `_build/handoff/mu-lang-compiler-docs/latest/merkin-mu-lang-compiler-docs.tar.gz`
+- `_build/handoff/mu-lang-compiler-docs/latest/loci-mu-lang-compiler-docs.tar.gz`
 
 ---
 
@@ -96,7 +97,7 @@ The generated transfer bundle lands at:
 - `store/` — basic in-memory artifact store
 - `storage/` — policy, queue, OCI, union store
 - `daemon/` — daemon runtime and conversation host
-- `triad/` — import-friendly triad contract wrapper for Merkin/Mu/lang sync
+- `triad/` — import-friendly triad contract wrapper for Loci/Mu/lang sync
 - `conformance/` — core and optional profile tests/bench
 
 ---
@@ -125,6 +126,10 @@ Detailed examples: `docs/LIBRARY_API_GUIDE.md`.
 - `docs/TESTING_AND_BENCHMARKING.md`
 - `docs/FIRST_RELEASE_READINESS.md`
 - `docs/YATA_RELEASE_CHECKLIST.md`
+- `docs/FST_CAPSULE_RUNBOOK.md`
+- `docs/contracts/COHESIVE_CONTRACT_INDEX.md` (generated via `python3 docs/emit_contract_views.py`)
+- `docs/contracts/PATTERN_CRYSTAL.md` (generated via `python3 docs/emit_pattern_crystal.py`)
+- `docs/runtime-bridge/loci-lang-specs/README.md` (synced via `./scripts/sync_lang_loci_specs.sh`)
 
 ---
 

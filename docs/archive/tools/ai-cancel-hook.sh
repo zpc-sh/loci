@@ -6,7 +6,7 @@ TASK_INDEX="${2:?missing task index}"
 
 AI_PROVIDER="${AI_PROVIDER:-}"
 AI_JULES_MCP_CANCEL_CMD="${AI_JULES_MCP_CANCEL_CMD:-}"
-ADAPTER_CONTRACT="merkin.ai.adapter.v0_3"
+ADAPTER_CONTRACT="loci.ai.adapter.v0_3"
 
 now_utc() {
   date -u +"%Y-%m-%dT%H:%M:%SZ"
@@ -28,7 +28,7 @@ emit_response() {
     --arg state "$state" \
     --arg detail "$detail" \
     '{
-      kind: "merkin.ai.adapter.response",
+      kind: "loci.ai.adapter.response",
       version: "0.3",
       contract: $contract,
       action: "cancel",

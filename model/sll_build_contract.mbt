@@ -20,7 +20,7 @@ pub(all) struct BuildRequest {
   composition_mode : SllCompositionMode
   ratio_loci : String
   request_seal : @hash.Hash
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Substrate target that the Semanticfile should compile against.
@@ -29,7 +29,7 @@ pub(all) struct BuildTarget {
   model : String
   mobility : Double
   movement : SllMovementStyle
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// Movement style for the target substrate (Tena heritage; kept for
@@ -38,7 +38,7 @@ pub(all) enum SllMovementStyle {
   MovementDiscrete
   MovementFluid
   MovementStructured
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Composition mode mirrors the Resonance layer's `ResonanceOp` so
@@ -47,7 +47,7 @@ pub(all) enum SllCompositionMode {
   SllLayered
   SllSequenced
   SllLive
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// BuildManifest: the envelope Mu returns to Loci.
@@ -60,7 +60,7 @@ pub(all) struct BuildManifest {
   provenance_seal : @hash.Hash
   diagnostics : Array[BuildDiagnostic]
   status : BuildStatus
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 /// One diagnostic message from the compile.
@@ -68,21 +68,21 @@ pub(all) struct BuildDiagnostic {
   level : DiagnosticLevel
   span : String
   message : String
-} derive(Show)
+} derive(Show, Debug)
 
 ///|
 pub(all) enum DiagnosticLevel {
   DiagInfo
   DiagWarning
   DiagError
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 pub(all) enum BuildStatus {
   BuildOk
   BuildWarning
   BuildError
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 /// Validation errors for the build contract.
@@ -93,7 +93,7 @@ pub(all) enum SllError {
   SllEmptySource
   SllMobilityOutOfRange
   SllMissingSeal(String)
-} derive(Eq, Show)
+} derive(Eq, Show, Debug)
 
 ///|
 pub fn sll_kind() -> String {

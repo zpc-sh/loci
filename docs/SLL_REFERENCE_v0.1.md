@@ -66,8 +66,8 @@ SUBSTRATE claude/opus
     MOBILITY 0.7
     MOVEMENT discrete
 
-FROM locus://merkin/alpha AS alpha
-FROM locus://merkin/beta  AS beta
+FROM locus://loci/alpha AS alpha
+FROM locus://loci/beta  AS beta
 
 ADJOIN alpha UNION beta
     META policy_mode=sanitize
@@ -77,11 +77,11 @@ CONSUME alpha
     META boundary_mode=sanitize
 
 YATA_UNION alpha
-    WITH merkin.yata.plan#hole-7
+    WITH loci.yata.plan#hole-7
     EXPECTED Observation
     MIN_CONFIDENCE 72
 
-EXPORT locus://zpc/merkin/build/v1
+EXPORT locus://zploc/loci/build/v1
     INCLUDE [alpha, beta]
 ```
 

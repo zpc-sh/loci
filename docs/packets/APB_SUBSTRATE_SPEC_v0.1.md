@@ -4,7 +4,7 @@ Date: `2026-04-19`
 
 ## Purpose
 
-All Points Bulletin (APB) for adversary-pattern tracking across Merkin-compatible substrates without breaking agent agency.
+All Points Bulletin (APB) for adversary-pattern tracking across Loci-compatible substrates without breaking agent agency.
 
 ## Core Principle
 
@@ -13,7 +13,7 @@ All Points Bulletin (APB) for adversary-pattern tracking across Merkin-compatibl
 
 ## Required Constructs
 
-- `merkin-in-merkin`: each response workspace maintains its own local Merkin boundary.
+- `loci-in-loci`: each response workspace maintains its own local Loci boundary.
 - `ratio_loci`: shared contract surface for cross-provider signal exchange.
 - `finger.plan.wasm` + boundary stigmergy as transport-neutral machine wire.
 

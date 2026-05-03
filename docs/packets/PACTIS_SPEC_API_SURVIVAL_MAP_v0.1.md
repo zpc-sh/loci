@@ -4,7 +4,7 @@ Date: `2026-04-19`
 
 ## Purpose
 
-Assess how much of legacy `tmp/pactis/spec_api` survives in the current Merkin/Mu/lang direction, and define required boundary contracts for adjoined loci.
+Assess how much of legacy `tmp/pactis/spec_api` survives in the current Loci/Mu/lang direction, and define required boundary contracts for adjoined loci.
 
 ## Spiritual Survival Verdict
 
@@ -61,7 +61,7 @@ Old model:
 - request-centric, hub-mediated message timeline
 
 Current model:
-- adjoined loci graph where `mu`, `merkin`, and `lang` are structurally coupled planes
+- adjoined loci graph where `mu`, `loci`, and `lang` are structurally coupled planes
 - exchange surfaces are pass-through contracts, not ticket objects
 - a document/signal can traverse the adjoined structure without re-authoring per project
 
@@ -69,9 +69,9 @@ This matches your "not flat 2d" requirement: coordination is topological and com
 
 ## Required Interface Levels for Adjoin
 
-To be "at the right level" across `mu + merkin + lang`, each project needs a stable boundary at three layers.
+To be "at the right level" across `mu + loci + lang`, each project needs a stable boundary at three layers.
 
-### A. Disclosure boundary (Merkin-owned)
+### A. Disclosure boundary (Loci-owned)
 - canonical compact drift surface: `finger.plan.wasm`
 - optional compatibility mirror(s): `.well-known/*`
 - deterministic canonicalization rules
@@ -88,9 +88,9 @@ To be "at the right level" across `mu + merkin + lang`, each project needs a sta
 
 ## Minimum Adjoin Contract Set (v0)
 
-1. `merkin.yata.plan` wire remains canonical machine exchange shape.
+1. `loci.yata.plan` wire remains canonical machine exchange shape.
 2. `finger.plan.wasm` remains canonical compact drift disclosure.
-3. Triad contract seals pinned heads + ABI + branch hygiene (`merkin`, `mu`, `lang`).
+3. Triad contract seals pinned heads + ABI + branch hygiene (`loci`, `mu`, `lang`).
 4. Story/news uplink remains one-way bounded context (no downward command channel).
 5. Mu FSM remains sole owner of runtime transition execution.
 

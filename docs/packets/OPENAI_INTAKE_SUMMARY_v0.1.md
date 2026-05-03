@@ -12,7 +12,7 @@ This is not a single-repo bug class; it is a cross-surface reliability and safet
 
 ## 3) What We Built
 
-Built Merkin/ratio_loci boundary controls with:
+Built Loci/ratio_loci boundary controls with:
 
 - FSM-based boundary walker and stigmergy emission
 - typed attention forensics (`ticks`, `score`, `gradient`, `saturated`)

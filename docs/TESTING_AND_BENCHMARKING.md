@@ -39,10 +39,10 @@ From module root:
 
 ```bash
 moon test
-moon bench -p zpc/merkin/conformance
+moon bench -p zploc/loci/conformance
 moon bench
 ```
 
 Recommended CI gating for now:
 - Required: `moon test`
-- Informational: `moon bench -p zpc/merkin/conformance`
+- Informational: `moon bench -p zploc/loci/conformance`

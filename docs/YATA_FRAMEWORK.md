@@ -1,6 +1,6 @@
 # Yata Framework (v0.2)
 
-This document defines the abstract Yata hole model used by merkin.
+This document defines the abstract Yata hole model used by loci.
 
 Related specifications:
 
@@ -122,7 +122,7 @@ Slash-heavy routes are canonicalized (`////notes///x.md/` becomes `notes/x.md`) 
 Example `.plan` wire shape:
 
 ```text
-kind: merkin.yata.plan
+kind: loci.yata.plan
 track=program
 mode=full
 generator=chatgpt
@@ -158,7 +158,7 @@ git_report_refs=...
 ### Interoperability schema (strict parse)
 
 - Required on all tracks:
-  - `kind: merkin.yata.plan`
+  - `kind: loci.yata.plan`
   - `track=` (`program` or `git`)
   - `mode=` (`full` or `compact`)
   - `generator=`
@@ -200,7 +200,7 @@ git_report_refs=...
 
 ## Why this differs from language-level holes
 
-- Unison/Haskell hole-like ideas inspire Yata, but Merkin treats holes as
+- Unison/Haskell hole-like ideas inspire Yata, but Loci treats holes as
   surface-addressable, content-addressed semantic nodes.
 - This lets different AIs collaborate via projections without forcing them into
   synchronous execution assumptions.
