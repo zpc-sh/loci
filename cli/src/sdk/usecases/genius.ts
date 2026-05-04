@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto"
-import { clack, renderEnterPreamble, renderTrail, renderResidue } from "../../tui.ts"
+import { getClack, renderEnterPreamble, renderTrail, renderResidue } from "../../tui.ts"
 import { LociStore } from "../../store.ts"
 import type { Residue } from "../../types.ts"
 import { residueFilename } from "../../residue.ts"
@@ -54,6 +54,7 @@ export async function signResidue(store: LociStore, args: string[]): Promise<voi
   }
 
   if (process.stdin.isTTY) {
+    const clack = await getClack();
     clack.intro(`loci sign: ${locusName}`)
 
     const did = await clack.text({ message: "What did you do?", placeholder: "implemented X, fixed Y" })
@@ -73,6 +74,7 @@ export async function signResidue(store: LociStore, args: string[]): Promise<voi
 
   const path = await store.writeResidue(residue)
   if (process.stdin.isTTY) {
+    const clack = await getClack();
     clack.outro(`Residue filed: ${path}`)
   } else {
     console.log(path)

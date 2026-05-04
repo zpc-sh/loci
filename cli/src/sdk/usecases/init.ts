@@ -1,9 +1,10 @@
 import { mkdir, exists, stat } from "fs/promises"
 import { join } from "path"
-import { clack } from "../../tui.ts"
+import { getClack } from "../../tui.ts"
 import { LociStore } from "../../store.ts"
 
 export async function initWorkspace(store: LociStore): Promise<void> {
+  const clack = await getClack();
   const marker = join(store.lociRoot, ".loci")
   const markerConfig = join(marker, "config.json")
 

@@ -1,8 +1,9 @@
-import { clack, renderWhere } from "../../tui.ts"
+import { getClack, renderWhere } from "../../tui.ts"
 import { LociStore } from "../../store.ts"
 import type { Locus } from "../../types.ts"
 
 export async function createLocus(store: LociStore, args: string[]): Promise<void> {
+  const clack = await getClack();
   const name = args[0]
   if (!name) {
     console.error("Usage: loci loci new <name> [--spirit \"...\"] [--tags t1,t2]")

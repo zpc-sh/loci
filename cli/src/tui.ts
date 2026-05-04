@@ -33,7 +33,13 @@ async function loadClack(): Promise<ClackLike> {
   }
 }
 
-export const clack = await loadClack()
+let _clackPromise: Promise<ClackLike> | null = null;
+// ⚡ Bolt Optimization: Lazy load the heavy @clack/prompts dependency.
+// This prevents ~40-60ms of top-level await latency from impacting non-interactive CLI commands.
+export function getClack(): Promise<ClackLike> {
+  if (!_clackPromise) _clackPromise = loadClack();
+  return _clackPromise;
+}
 
 import type { Residue } from "./types.ts"
 import { residueFilename } from "./residue.ts"
