@@ -109,36 +109,25 @@ fn bytes_concat(a : Bytes, b : Bytes) -> Bytes {
 
 ///|
 /// Convert bytes to lowercase hex text.
+/// Optimized: uses `write_char` and avoids `String` allocations per nibble.
 fn bytes_to_hex(data : Bytes) -> String {
   let b = StringBuilder::new(size_hint=data.length() * 2)
   for i = 0; i < data.length(); i = i + 1 {
     let val = data[i].to_uint()
     let hi = val >> 4
     let lo = val & 0x0FU
-    b.write_string(nibble_to_hex(hi))
-    b.write_string(nibble_to_hex(lo))
+    b.write_char(nibble_to_hex_char(hi))
+    b.write_char(nibble_to_hex_char(lo))
   }
   b.to_string()
 }
 
 ///|
-fn nibble_to_hex(n : UInt) -> String {
-  match n.reinterpret_as_int() {
-    0 => "0"
-    1 => "1"
-    2 => "2"
-    3 => "3"
-    4 => "4"
-    5 => "5"
-    6 => "6"
-    7 => "7"
-    8 => "8"
-    9 => "9"
-    10 => "a"
-    11 => "b"
-    12 => "c"
-    13 => "d"
-    14 => "e"
-    _ => "f"
+fn nibble_to_hex_char(n : UInt) -> Char {
+  let val = n.reinterpret_as_int()
+  if val < 10 {
+    (48 + val).unsafe_to_char() // '0' is 48
+  } else {
+    (87 + val).unsafe_to_char() // 'a' is 97, 97 - 10 = 87
   }
 }
