@@ -67,9 +67,11 @@ export async function bootMulspAtDir(opts: BootMulspOptions): Promise<BootMulspR
   const specApi = opts.specApi?.trim() || "docs/MULSP_SPEC.md"
   const description = opts.description?.trim() || "spawn mulsp packet, bind codex locus, emit finger.plan for cross-repo pickup"
 
-  await mkdir(nucleantsDir, { recursive: true })
-  await mkdir(fingerDir, { recursive: true })
-  await mkdir(fsmLocalityDir, { recursive: true })
+  await Promise.all([
+    mkdir(nucleantsDir, { recursive: true }),
+    mkdir(fingerDir, { recursive: true }),
+    mkdir(fsmLocalityDir, { recursive: true })
+  ])
 
   const nucleantPath = join(nucleantsDir, `${id}.json`)
   const existing = await loadNucleant(nucleantPath)
