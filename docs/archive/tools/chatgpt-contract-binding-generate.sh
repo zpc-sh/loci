@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 OUT_ROOT="${1:-$ROOT_DIR/loci/chatgpt}"
-STAMP="${2:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}"
+RUN_REF="${2:-material-ref-unspecified}"
 
 TESTS_DIR="$OUT_ROOT/tests"
 PROOFS_DIR="$OUT_ROOT/proofs"
@@ -31,7 +31,8 @@ kind: :loci_contract_test_results
 version: "v0"
 result_id: "loci.chatgpt.chatgpt_contracts.results.autogen"
 manifest_ref: "loci/chatgpt/tests/chatgpt-contracts.tests.muon"
-ran_at_utc: "$STAMP"
+run_ref: "$RUN_REF"
+chronology: :redacted
 results: [
   { test_id: "test-contract-graph-shape", status: :passed, runner: "chatgpt.autogen" }
   { test_id: "test-d3-projection-shape", status: :passed, runner: "chatgpt.autogen" }
@@ -80,7 +81,9 @@ MUON
 cat >"$OUT_ROOT/GENERATED_CONTRACT_BINDING.md" <<MD
 # Generated Contract Binding Artifacts
 
-Generated at: \`$STAMP\`
+Generation ref: \`$RUN_REF\`
+
+Chronology: \`:redacted\`
 
 Generator: \`docs/archive/tools/chatgpt-contract-binding-generate.sh\`
 
@@ -103,4 +106,5 @@ MD
 
 echo "generated_muon_contract_binding=1"
 echo "out_root=$OUT_ROOT"
-echo "generated_at_utc=$STAMP"
+echo "generation_ref=$RUN_REF"
+echo "chronology=redacted"

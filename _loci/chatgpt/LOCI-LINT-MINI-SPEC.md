@@ -95,10 +95,15 @@ Repository organization (for arblock evolution):
 - do not require parser-core format changes until macro-prepass behavior is stable
 ```text
 Name: Loci Lint
-Kind: repository-local semantic linter / kernel walker
+Kind: repository-local semantic linter / nucleant walker
 Purpose: transmute fenced conversational/code fragments into dense kernel objects,
          project them into CAS, and plant them into a sparse Loci tree.
 ```
+
+Terminology note:
+
+- In this profile, prefer `nucleant` for the competition carve-out surface.
+- Reserve `kernel` for the dedicated runtime/module carve-out lane in `loci`.
 
 ## 1. Core idea
 

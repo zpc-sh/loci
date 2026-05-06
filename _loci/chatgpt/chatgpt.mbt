@@ -271,6 +271,26 @@ pub fn ContractDirectiveMini::ready_gate(
 }
 
 ///|
+pub fn ContractDirectiveMini::seal_gate_with_binding(
+  self : ContractDirectiveMini,
+  binding : ContractBinding,
+) -> Bool where {
+  proof_ensure: result => !result || binding.can_seal(),
+} {
+  if self.contract_id != binding.contract_id {
+    return false
+  }
+  if !self.ready_gate() {
+    return false
+  }
+  if !self.ready {
+    return false
+  }
+  let solver_receipt = self.to_solver_receipt(binding.proof_ref)
+  binding.can_seal_with_solver(solver_receipt)
+}
+
+///|
 pub fn ContractDirectiveMini::from_directive_lines(
   lines : Array[String],
 ) -> ContractDirectiveMini? {

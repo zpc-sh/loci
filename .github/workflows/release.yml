@@ -36,7 +36,7 @@ jobs:
       - name: Run tests
         run: |
           moon test --target wasm-gc
-          moon test --target native --package zpc/merkin/simd
+          moon test --target native --package zploc/loci/simd
 
       - name: Build release artifacts
         run: docs/archive/tools/release.sh --version ${{ github.ref_name }} --zig-target native --skip-tests

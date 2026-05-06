@@ -1,0 +1,9 @@
+kind: :nucleant_completeness
+run_id: "20260504T084704Z"
+source_boundary: "loci/chatgpt"
+stages:
+  plan: { total: 6, ready: 6, completeness_pct: 100 }
+  implementation: { signal: :green, based_on: "plan_ready_contract_ratio" }
+  testing: { total: 30, passed: 30, failed: 0, blocked: 0, completeness_pct: 100 }
+overall:
+  score_pct: 100

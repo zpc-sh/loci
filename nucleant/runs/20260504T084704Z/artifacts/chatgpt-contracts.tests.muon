@@ -1,0 +1,11 @@
+kind: :loci_contract_test_manifest
+version: "v0"
+manifest_id: "loci.chatgpt.chatgpt_contracts.tests.v1.muon"
+source_graph: "loci/chatgpt/graphs/chatgpt-contracts.graph.json"
+tests: [
+  { id: "test-contract-graph-shape", kind: :GraphInvariantTest, lane: :local, deterministic: true, target: "loci/chatgpt/graphs/chatgpt-contracts.graph.json" }
+  { id: "test-d3-projection-shape", kind: :GraphInvariantTest, lane: :local, deterministic: true, target: "loci/chatgpt/graphs/chatgpt-contracts.d3.json" }
+  { id: "test-mermaid-projection-present", kind: :ParseTest, lane: :local, deterministic: true, target: "loci/chatgpt/graphs/chatgpt-contracts.mermaid.md" }
+  { id: "test-chatgpt-contracts-plan-shape", kind: :PlanStrictnessTest, lane: :local, deterministic: true, target: "loci/chatgpt/chatgpt-contracts.plan" }
+  { id: "test-repo-yata-suite", kind: :CommandCheck, lane: :repo, deterministic: false, command: "just test-yata" }
+]

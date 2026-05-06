@@ -155,6 +155,71 @@ test "solver receipt blocks seal when not completed or missing receipt" {
 }
 
 ///|
+test "directive seal gate with binding requires id match ready and valid solver" {
+  let obligations = [
+    @chatgpt.ProofObligation::new(
+      "obl-covered",
+      true,
+      @chatgpt.CoveredByEvidence,
+    ),
+  ]
+  let binding = @chatgpt.ContractBinding::new(
+    "H-solver-offload-typed-hole",
+    Some("_loci/chatgpt/tests/chatgpt-contracts.results.muon"),
+    Some("_loci/chatgpt/coverage/chatgpt-contracts.coverage.muon"),
+    Some("_loci/chatgpt/proofs/chatgpt-contracts.proof-obligations.muon"),
+    @chatgpt.Covered,
+    @chatgpt.Observed,
+    obligations,
+  )
+
+  let mismatch = @chatgpt.ContractDirectiveMini::new(
+    "H-other-contract",
+    "solver.receipt.binding",
+    "seal gate check",
+    true,
+    "test.directive.gate",
+    solver=Some("z3"),
+    solver_job=Some("solve-job-010"),
+    solver_status=@chatgpt.Completed,
+    solver_receipt=Some("_loci/chatgpt/proofs/solve-job-010.receipt.muon"),
+  )
+  assert_true(!mismatch.seal_gate_with_binding(binding))
+
+  let not_ready = @chatgpt.ContractDirectiveMini::new(
+    "H-solver-offload-typed-hole", "solver.receipt.binding", "seal gate check", false,
+    "test.directive.gate",
+  )
+  assert_true(!not_ready.seal_gate_with_binding(binding))
+
+  let running = @chatgpt.ContractDirectiveMini::new(
+    "H-solver-offload-typed-hole",
+    "solver.receipt.binding",
+    "seal gate check",
+    true,
+    "test.directive.gate",
+    solver=Some("z3"),
+    solver_job=Some("solve-job-011"),
+    solver_status=@chatgpt.Running,
+    solver_receipt=Some("_loci/chatgpt/proofs/solve-job-011.receipt.muon"),
+  )
+  assert_true(!running.seal_gate_with_binding(binding))
+
+  let completed = @chatgpt.ContractDirectiveMini::new(
+    "H-solver-offload-typed-hole",
+    "solver.receipt.binding",
+    "seal gate check",
+    true,
+    "test.directive.gate",
+    solver=Some("z3"),
+    solver_job=Some("solve-job-012"),
+    solver_status=@chatgpt.Completed,
+    solver_receipt=Some("_loci/chatgpt/proofs/solve-job-012.receipt.muon"),
+  )
+  assert_true(completed.seal_gate_with_binding(binding))
+}
+
+///|
 test "componentization report boundary safe only when all plans are extract-ready" {
   let pending = @chatgpt.ModuleComponentPlan::new(
     "loci.ide",
@@ -215,23 +280,23 @@ test "module extraction template status override can force non-ready plan" {
 }
 
 ///|
-test "componentization report merges duplicate module plans deterministically" {
+test "componentization report merges duplicate nucleant plans deterministically" {
   let scoped = @chatgpt.ModuleComponentPlan::new(
-    "loci.compose.kernel",
-    "H-kernel-v1",
+    "loci.compose.nucleant",
+    "H-nucleant-v1",
     ["_loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md"],
-    "zploc/loci/_loci/chatgpt/kernel",
+    "zploc/loci/_loci/chatgpt/nucleant",
     "_loci/chatgpt/chatgpt_spec.mbt",
     ["_loci/chatgpt/chatgpt_mid_test.mbt"],
     status=@chatgpt.Scoped,
   )
   let verified = @chatgpt.ModuleComponentPlan::new(
-    "loci.compose.kernel",
-    "H-kernel-v2",
+    "loci.compose.nucleant",
+    "H-nucleant-v2",
     [
       "_loci/chatgpt/CROSS_CONVERSATION_PRIMITIVE.md", "_loci/chatgpt/VISUAL_GRAPH_GRAMMAR_PROFILE.md",
     ],
-    "zploc/loci/_loci/chatgpt/kernel",
+    "zploc/loci/_loci/chatgpt/nucleant",
     "_loci/chatgpt/chatgpt_spec.mbt",
     [
       "_loci/chatgpt/chatgpt_mid_test.mbt", "_loci/chatgpt/chatgpt_difficult_test.mbt",
@@ -245,7 +310,7 @@ test "componentization report merges duplicate module plans deterministically" {
   @test.assert_eq(report.ready_count(), 1)
   let merged = report.plans[0]
   @test.assert_eq(merged.status, @chatgpt.Verified)
-  @test.assert_eq(merged.source_contract_id, "H-kernel-v2")
+  @test.assert_eq(merged.source_contract_id, "H-nucleant-v2")
   @test.assert_eq(merged.source_paths.length(), 2)
   @test.assert_eq(merged.test_files.length(), 2)
 }

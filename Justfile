@@ -25,14 +25,14 @@ default: wasm-gc
 # wasm-gc: entry (_start + exports) and lib (no _start)
 [group('build')]
 wasm-gc:
-    moon build --target wasm-gc --release --package zpc/genius/wasm_entry
-    moon build --target wasm-gc --release --package zpc/genius/wasm_lib
+    moon build --target wasm-gc --release --package zploc/loci/wasm_entry
+    moon build --target wasm-gc --release --package zploc/loci/wasm_lib
 
 # Standard wasm (WasmEdge / wasmex linear-memory)
 [group('build')]
 wasm:
-    moon build --target wasm --release --package zpc/genius/wasm_entry
-    moon build --target wasm --release --package zpc/genius/wasm_lib
+    moon build --target wasm --release --package zploc/loci/wasm_entry
+    moon build --target wasm --release --package zploc/loci/wasm_lib
 
 # Both wasm variants
 [group('build')]
@@ -41,7 +41,7 @@ wasm-all: wasm-gc wasm
 # Native CLI binary → ./loci
 [group('build')]
 cli:
-    moon build --target native --release --package zpc/genius/cmd/main
+    moon build --target native --release --package zploc/loci/cmd/main
     cp {{native_exe}} loci
     @echo "CLI: ./loci  ($(du -sh loci | cut -f1))"
 
@@ -75,20 +75,20 @@ test-wasm:
 # Native SIMD package only
 [group('test')]
 test-simd:
-    moon test --target native --package zpc/genius/simd
+    moon test --target native --package zploc/loci/simd
 
 # Focused Yata verification suite
 [group('test')]
 test-yata:
-    moon test --target wasm-gc --package zpc/genius/model
+    moon test --target wasm-gc --package zploc/loci/model
 
 # Contract-focused suite: chatgpt + daemon + locus + conformance
 [group('test')]
 test-contracts:
-    moon test --target wasm-gc --package zpc/genius/loci/chatgpt
-    moon test --target wasm-gc --package zpc/genius/daemon
-    moon test --target wasm-gc --package zpc/genius/locus
-    moon test --target wasm-gc --package zpc/genius/conformance
+    moon test --target wasm-gc --package zploc/loci/loci/chatgpt
+    moon test --target wasm-gc --package zploc/loci/daemon
+    moon test --target wasm-gc --package zploc/loci/locus
+    moon test --target wasm-gc --package zploc/loci/conformance
 
 # Coverage analysis: instrument run then emit report
 [group('test')]
@@ -186,6 +186,11 @@ chatgpt-dialogue-append:
 [group('tools')]
 chatgpt-mulsp-handoff-verify:
     docs/archive/tools/chatgpt-mulsp-handoff-verify.sh
+
+# Recursive competition walk: emit bounded docs/tests/proofs/isomorphic views
+[group('tools')]
+nucleant-walk:
+    docs/archive/tools/nucleant-walk.sh
 
 # ── misc ──────────────────────────────────────────────────────────────────────
 

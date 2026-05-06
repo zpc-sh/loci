@@ -1,0 +1,20 @@
+kind: :loci_append_only_muonlog
+version: "v1"
+locus: "loci/chatgpt"
+participants: [:chatgpt :codex]
+branching: :forbidden
+policy: :append_only
+identity_policy: :loci_marks_actor
+
+entry: {
+  seq: 1
+  prev: null
+  speaker: :codex
+  loci_mark: { actor: :codex repo: "loci" source: :loci }
+  kind: :contract_spec_proof_design
+  topic: "codex-codex-foundation"
+  refs: []
+  content: "seeded-dialogue-spec-and-yata-hole-protocol;next=extract-api-candidates"
+  nucleant: { id: "N-codex-dialogue-foundation" repo: "loci" status: :converging }
+  merge_replacement: { mode: :nucleant_chain key: "N-codex-dialogue-foundation:loci:1" }
+}

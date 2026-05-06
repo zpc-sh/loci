@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "bun run src/index.ts",
     "build": "bun build src/index.ts --outfile dist/loci --target bun --minify",
-    "wasm": "cd .. && moon build --target wasm --package zpc/genius/wasm_entry",
+    "wasm": "cd .. && moon build --target wasm --package zploc/loci/wasm_entry",
     "link": "bun link",
     "test": "bun test",
     "spec": "bun run src/index.ts spec",

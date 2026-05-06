@@ -69,6 +69,7 @@ pub(all) struct ContractDirectiveMini {
 pub fn ContractDirectiveMini::from_directive_lines(Array[String]) -> Self?
 pub fn ContractDirectiveMini::new(String, String, String, Bool, String, solver? : String?, solver_job? : String?, solver_status? : SolverStatus, solver_receipt? : String?) -> Self
 pub fn ContractDirectiveMini::ready_gate(Self) -> Bool
+pub fn ContractDirectiveMini::seal_gate_with_binding(Self, ContractBinding) -> Bool
 pub fn ContractDirectiveMini::to_solver_receipt(Self, String?) -> SolverReceipt?
 
 pub(all) enum CoverageStatus {

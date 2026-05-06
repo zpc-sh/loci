@@ -299,6 +299,15 @@ pub fn ContractDirectiveMini::ready_gate(self : ContractDirectiveMini) -> Bool {
 
 ///|
 #declaration_only
+pub fn ContractDirectiveMini::seal_gate_with_binding(
+  self : ContractDirectiveMini,
+  binding : ContractBinding,
+) -> Bool {
+  ...
+}
+
+///|
+#declaration_only
 pub fn ContractDirectiveMini::from_directive_lines(
   lines : Array[String],
 ) -> ContractDirectiveMini? {

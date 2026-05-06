@@ -34,7 +34,7 @@ identity_policy: :loci_marks_actor
 ```muon
 entry: {
   seq: 42
-  ts: "2026-04-26T07:30:00Z"
+  prev: "N-loci-ide-socket:koan:41"
   speaker: :codex
   loci_mark: { actor: :codex repo: "koan" source: :loci }
   kind: :contract_spec_proof_design
@@ -56,6 +56,7 @@ entry: {
 6. When `nucleant` is present, `merge_replacement.mode` MUST be `:nucleant_chain`.
 7. `merge_replacement` entries are the canonical PR/MR replacement surface for this workflow.
 8. References SHOULD point at concrete repo artifacts.
+9. Entries MUST NOT use dates or timestamps as proof inputs; causal ordering is `seq`, `prev`, refs, and deterministic merge keys.
 
 ## Nucleant Mapping (PR/MR Replacement)
 

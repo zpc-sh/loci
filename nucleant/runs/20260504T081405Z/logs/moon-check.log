@@ -1,0 +1,1422 @@
+Warning: [0029]
+   ╭─[ /mnt/@datasets/ratio/loci/api/moon.pkg:5:3 ]
+   │
+ 5 │   "zploc/loci/model" @model,
+   │   ─────────┬────────  
+   │            ╰────────── Warning (unused_package): Unused package 'zploc/loci/model'
+───╯
+Warning: [0029]
+   ╭─[ /mnt/@datasets/ratio/loci/api/moon.pkg:5:22 ]
+   │
+ 5 │   "zploc/loci/model" @model,
+   │                      ───┬──  
+   │                         ╰──── Warning (unused_package): Unused package alias 'model'
+───╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/bloom/bloom.mbt:7:10 ]
+   │
+ 7 │ } derive(Show)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0029]
+    ╭─[ /mnt/@datasets/ratio/loci/conformance/moon.pkg:10:3 ]
+    │
+ 10 │   "zploc/loci/loci/chatgpt" @chatgpt,
+    │   ────────────┬────────────  
+    │               ╰────────────── Warning (unused_package): Unused package 'zploc/loci/loci/chatgpt'
+────╯
+Warning: [0029]
+    ╭─[ /mnt/@datasets/ratio/loci/conformance/moon.pkg:10:29 ]
+    │
+ 10 │   "zploc/loci/loci/chatgpt" @chatgpt,
+    │                             ────┬───  
+    │                                 ╰───── Warning (unused_package): Unused package alias 'chatgpt'
+────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:6:14 ]
+   │
+ 6 │ } derive(Eq, Show)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:14:14 ]
+    │
+ 14 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:22:14 ]
+    │
+ 22 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:31:10 ]
+    │
+ 31 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:48:10 ]
+    │
+ 48 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:56:10 ]
+    │
+ 56 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:65:10 ]
+    │
+ 65 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:79:10 ]
+    │
+ 79 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:87:10 ]
+    │
+ 87 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:104:10 ]
+     │
+ 104 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:113:10 ]
+     │
+ 113 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:130:14 ]
+     │
+ 130 │   turn_seq : UInt?
+     │              ──┬──  
+     │                ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:131:19 ]
+     │
+ 131 │   checkpoint_id : String?
+     │                   ───┬───  
+     │                      ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:134:10 ]
+     │
+ 134 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:139:12 ]
+     │
+ 139 │   to_seq : UInt?
+     │            ──┬──  
+     │              ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:141:10 ]
+     │
+ 141 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:154:10 ]
+     │
+ 154 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/daemon/conversation.mbt:169:10 ]
+     │
+ 169 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:8:14 ]
+   │
+ 8 │ } derive(Eq, Show)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:16:14 ]
+    │
+ 16 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:35:14 ]
+    │
+ 35 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:44:10 ]
+    │
+ 44 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:61:13 ]
+    │
+ 61 │   receipt : @storage.ReplicationReceipt?
+    │             ──────────────┬─────────────  
+    │                           ╰─────────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:62:12 ]
+    │
+ 62 │   reason : String?
+    │            ───┬───  
+    │               ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/daemon/daemon.mbt:63:10 ]
+    │
+ 63 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/gaussian/gaussian.mbt:7:14 ]
+   │
+ 7 │ } derive(Eq, Show)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/hash/hash.mbt:9:14 ]
+   │
+ 9 │ } derive(Eq, Show, Debug)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/hash/hash.mbt:16:14 ]
+    │
+ 16 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0029]
+   ╭─[ /mnt/@datasets/ratio/loci/hash/moon.pkg:2:27 ]
+   │
+ 2 │   "moonbitlang/core/test" @test,
+   │                           ──┬──  
+   │                             ╰──── Warning (unused_package): Unused package alias 'test'
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/adjoin.mbt:21:14 ]
+    │
+ 21 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/adjoin.mbt:32:14 ]
+    │
+ 32 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/adjoin.mbt:41:10 ]
+    │
+ 41 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/adjoin.mbt:64:10 ]
+    │
+ 64 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/adjoin.mbt:77:10 ]
+    │
+ 77 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/adjoin.mbt:94:14 ]
+    │
+ 94 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/anchor.mbt:16:22 ]
+    │
+ 16 │   akash_leaf_index : UInt64?
+    │                      ───┬───  
+    │                         ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/anchor.mbt:17:21 ]
+    │
+ 17 │   akash_root_hash : @hash.Hash?
+    │                     ─────┬─────  
+    │                          ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/anchor.mbt:20:17 ]
+    │
+ 20 │   anchored_at : String? // RFC3339 timestamp, optional/lazy
+    │                 ───┬───  
+    │                    ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/anchor.mbt:22:10 ]
+    │
+ 22 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/model/artifact.mbt:6:10 ]
+   │
+ 6 │ } derive(Show, Debug)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/artifact.mbt:14:10 ]
+    │
+ 14 │   mime : String?
+    │          ───┬───  
+    │             ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/artifact.mbt:16:10 ]
+    │
+ 16 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/boundary_fsm.mbt:14:14 ]
+    │
+ 14 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/boundary_fsm.mbt:22:14 ]
+    │
+ 22 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/boundary_fsm.mbt:46:15 ]
+    │
+ 46 │   rejection : String?
+    │               ───┬───  
+    │                  ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/embedding_metadata.mbt:17:10 ]
+    │
+ 17 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/envelope.mbt:15:14 ]
+    │
+ 15 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/envelope.mbt:32:19 ]
+    │
+ 32 │   semantic_hash : @hash.Hash?
+    │                   ─────┬─────  
+    │                        ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/envelope.mbt:36:16 ]
+    │
+ 36 │   provenance : String?
+    │                ───┬───  
+    │                   ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/envelope.mbt:39:10 ]
+    │
+ 39 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/imprint.mbt:12:14 ]
+    │
+ 12 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/imprint.mbt:40:20 ]
+    │
+ 40 │   parent_imprint : @hash.Hash?
+    │                    ─────┬─────  
+    │                         ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/imprint.mbt:74:10 ]
+    │
+ 74 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/news_edition.mbt:21:15 ]
+    │
+ 21 │   signature : @hash.Hash?
+    │               ─────┬─────  
+    │                    ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/news_edition.mbt:25:10 ]
+    │
+ 25 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/news_edition.mbt:33:14 ]
+    │
+ 33 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/news_edition.mbt:42:10 ]
+    │
+ 42 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/news_edition.mbt:52:10 ]
+    │
+ 52 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/news_edition.mbt:72:14 ]
+    │
+ 72 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:32:10 ]
+    │
+ 32 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:46:10 ]
+    │
+ 46 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:54:10 ]
+    │
+ 54 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:62:10 ]
+    │
+ 62 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:70:10 ]
+    │
+ 70 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:83:14 ]
+    │
+ 83 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:105:14 ]
+     │
+ 105 │ } derive(Eq, Show, Debug)
+     │              ──┬─  
+     │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:114:14 ]
+     │
+ 114 │ } derive(Eq, Show, Debug)
+     │              ──┬─  
+     │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/passport.mbt:128:14 ]
+     │
+ 128 │ } derive(Eq, Show, Debug)
+     │              ──┬─  
+     │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/procsi_identity.mbt:29:25 ]
+    │
+ 29 │   resonance_signature : @hash.Hash?
+    │                         ─────┬─────  
+    │                              ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/procsi_identity.mbt:59:11 ]
+    │
+ 59 │   locus : String?
+    │           ───┬───  
+    │              ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/model/procsi_sections.mbt:7:10 ]
+   │
+ 7 │ } derive(Show, Debug)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/residue.mbt:25:20 ]
+    │
+ 25 │   recommendation : String?
+    │                    ───┬───  
+    │                       ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/residue.mbt:26:10 ]
+    │
+ 26 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:47:9 ]
+    │
+ 47 │   bpm : Double?
+    │         ───┬───  
+    │            ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:53:10 ]
+    │
+ 53 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:63:23 ]
+    │
+ 63 │   spectral_centroid : Double?
+    │                       ───┬───  
+    │                          ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:78:20 ]
+    │
+ 78 │   base_frequency : Double?
+    │                    ───┬───  
+    │                       ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:91:10 ]
+    │
+ 91 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:105:10 ]
+     │
+ 105 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:113:15 ]
+     │
+ 113 │   sidechain : Bool?
+     │               ──┬──  
+     │                 ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:116:10 ]
+     │
+ 116 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:128:10 ]
+     │
+ 128 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:138:10 ]
+     │
+ 138 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:159:10 ]
+     │
+ 159 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/resonance.mbt:170:14 ]
+     │
+ 170 │ } derive(Eq, Show, Debug)
+     │              ──┬─  
+     │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance_composition.mbt:17:14 ]
+    │
+ 17 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance_composition.mbt:39:14 ]
+    │
+ 39 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/resonance_composition.mbt:46:14 ]
+    │
+ 46 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/semantic_router.mbt:18:25 ]
+    │
+ 18 │   resonance_signature : @hash.Hash?
+    │                         ─────┬─────  
+    │                              ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/semantic_router.mbt:19:10 ]
+    │
+ 19 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/semantic_router.mbt:31:10 ]
+    │
+ 31 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/semantic_router.mbt:43:25 ]
+    │
+ 43 │   resonance_signature : @hash.Hash?
+    │                         ─────┬─────  
+    │                              ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/semantic_router.mbt:47:10 ]
+    │
+ 47 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/semantic_router.mbt:56:14 ]
+    │
+ 56 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/session.mbt:15:11 ]
+    │
+ 15 │   locus : String?
+    │           ───┬───  
+    │              ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:23:10 ]
+    │
+ 23 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:41:14 ]
+    │
+ 41 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:50:14 ]
+    │
+ 50 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:59:14 ]
+    │
+ 59 │   wasm_ref : String?
+    │              ───┬───  
+    │                 ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:63:10 ]
+    │
+ 63 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:71:10 ]
+    │
+ 71 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:78:14 ]
+    │
+ 78 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:85:14 ]
+    │
+ 85 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/sll_build_contract.mbt:96:14 ]
+    │
+ 96 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/model/solve.mbt:7:14 ]
+   │
+ 7 │ } derive(Eq, Show, Debug)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/solve.mbt:23:14 ]
+    │
+ 23 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/solve.mbt:37:10 ]
+    │
+ 37 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/solve.mbt:58:24 ]
+    │
+ 58 │   result_envelope_id : @hash.Hash?
+    │                        ─────┬─────  
+    │                             ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/solve.mbt:59:17 ]
+    │
+ 59 │   witness_ref : String?
+    │                 ───┬───  
+    │                    ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/solve.mbt:61:10 ]
+    │
+ 61 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/work_promise.mbt:10:14 ]
+    │
+ 10 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/work_promise.mbt:22:24 ]
+    │
+ 22 │   result_envelope_id : @hash.Hash?
+    │                        ─────┬─────  
+    │                             ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/work_promise.mbt:23:15 ]
+    │
+ 23 │   cost_hint : UInt?
+    │               ──┬──  
+    │                 ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/work_promise.mbt:24:10 ]
+    │
+ 24 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:18:14 ]
+    │
+ 18 │ } derive(Eq, Show, Debug)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:43:10 ]
+    │
+ 43 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:65:10 ]
+    │
+ 65 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:78:10 ]
+    │
+ 78 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:89:10 ]
+    │
+ 89 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:107:24 ]
+     │
+ 107 │   selected_candidate : String?
+     │                        ───┬───  
+     │                           ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:112:10 ]
+     │
+ 112 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata.mbt:118:10 ]
+     │
+ 118 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/model/yata_addressing.mbt:9:10 ]
+   │
+ 9 │ } derive(Show, Debug)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_addressing.mbt:28:10 ]
+    │
+ 28 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_addressing.mbt:42:13 ]
+    │
+ 42 │   address : YataAddress?
+    │             ──────┬─────  
+    │                   ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_addressing.mbt:45:10 ]
+    │
+ 45 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:8:14 ]
+   │
+ 8 │ } derive(Eq, Show, Debug)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:25:24 ]
+    │
+ 25 │   selected_candidate : String?
+    │                        ───┬───  
+    │                           ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:27:10 ]
+    │
+ 27 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:37:24 ]
+    │
+ 37 │   selected_candidate : String?
+    │                        ───┬───  
+    │                           ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:40:10 ]
+    │
+ 40 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:57:10 ]
+    │
+ 57 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:68:10 ]
+    │
+ 68 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:88:10 ]
+    │
+ 88 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:98:10 ]
+    │
+ 98 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:110:10 ]
+     │
+ 110 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:121:10 ]
+     │
+ 121 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:131:10 ]
+     │
+ 131 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:141:17 ]
+     │
+ 141 │   self_report : YataPlanSelfReport?
+     │                 ─────────┬─────────  
+     │                          ╰─────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:142:16 ]
+     │
+ 142 │   git_report : YataPlanGitReport?
+     │                ─────────┬────────  
+     │                         ╰────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:143:20 ]
+     │
+ 143 │   temporal_delta : YataPlanTemporalDelta?
+     │                    ───────────┬──────────  
+     │                               ╰──────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:144:22 ]
+     │
+ 144 │   embedding_report : YataPlanEmbeddingReport?
+     │                      ────────────┬───────────  
+     │                                  ╰───────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:145:18 ]
+     │
+ 145 │   solve_report : YataPlanSolveReport?
+     │                  ──────────┬─────────  
+     │                            ╰─────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:146:19 ]
+     │
+ 146 │   procsi_report : YataPlanProcsiReport?
+     │                   ──────────┬──────────  
+     │                             ╰──────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:147:23 ]
+     │
+ 147 │   capability_report : YataPlanCapabilityReport?
+     │                       ────────────┬────────────  
+     │                                   ╰────────────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/model/yata_lineage.mbt:149:10 ]
+     │
+ 149 │ } derive(Show, Debug)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_protocol.mbt:10:10 ]
+    │
+ 10 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_protocol.mbt:16:10 ]
+    │
+ 16 │   plan : YataPlan?
+    │          ────┬────  
+    │              ╰────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_protocol.mbt:21:10 ]
+    │
+ 21 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/model/yata_protocol.mbt:36:10 ]
+    │
+ 36 │ } derive(Show, Debug)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/scan/scan.mbt:26:14 ]
+    │
+ 26 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/scan/scan.mbt:39:10 ]
+    │
+ 39 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/container.mbt:75:10 ]
+    │
+ 75 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/container.mbt:99:15 ]
+    │
+ 99 │   mks_state : Bytes? // optional .mks solve cursor bytes
+    │               ───┬──  
+    │                  ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/container.mbt:100:10 ]
+     │
+ 100 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/container.mbt:138:10 ]
+     │
+ 138 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/container.mbt:261:10 ]
+     │
+ 261 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0020]
+   ╭─[ /mnt/@datasets/ratio/loci/storage/oci_http.mbt:7:10 ]
+   │
+ 7 │   body : Bytes?
+   │          ───┬──  
+   │             ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+───╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/storage/oci_http.mbt:8:10 ]
+   │
+ 8 │ } derive(Show)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/oci_http.mbt:14:10 ]
+    │
+ 14 │   body : Bytes?
+    │          ───┬──  
+    │             ╰──── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/oci_http.mbt:15:10 ]
+    │
+ 15 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/oci_test.mbt:73:3 ]
+    │
+ 73 │   assert_eq(reg.get_blob("repo/b", "non-existent-digest"), None)
+    │   ────┬────  
+    │       ╰────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/oci_test.mbt:74:3 ]
+    │
+ 74 │   assert_eq(reg.resolve_tag("repo/b", "non-existent-tag"), None)
+    │   ────┬────  
+    │       ╰────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:10:14 ]
+    │
+ 10 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:18:14 ]
+    │
+ 18 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:28:14 ]
+    │
+ 28 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:37:14 ]
+    │
+ 37 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:45:14 ]
+    │
+ 45 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:53:14 ]
+    │
+ 53 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:60:14 ]
+    │
+ 60 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:71:10 ]
+    │
+ 71 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:80:10 ]
+    │
+ 80 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:99:10 ]
+    │
+ 99 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:116:10 ]
+     │
+ 116 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:130:10 ]
+     │
+ 130 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:150:10 ]
+     │
+ 150 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:165:10 ]
+     │
+ 165 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:347:14 ]
+     │
+ 347 │ } derive(Eq, Show)
+     │              ──┬─  
+     │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/policy.mbt:359:10 ]
+     │
+ 359 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/storage/queue.mbt:8:14 ]
+   │
+ 8 │ } derive(Eq, Show)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/queue.mbt:19:10 ]
+    │
+ 19 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/queue.mbt:25:10 ]
+    │
+ 25 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/storage/storage.mbt:99:14 ]
+    │
+ 99 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/storage.mbt:106:12 ]
+     │
+ 106 │   digest : @hash.Hash?
+     │            ─────┬─────  
+     │                 ╰─────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/storage.mbt:107:10 ]
+     │
+ 107 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+     ╭─[ /mnt/@datasets/ratio/loci/storage/storage.mbt:117:10 ]
+     │
+ 117 │ } derive(Show)
+     │          ──┬─  
+     │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+─────╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/tree/diff.mbt:7:10 ]
+   │
+ 7 │ } derive(Show)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0029]
+   ╭─[ /mnt/@datasets/ratio/loci/tree/moon.pkg:5:36 ]
+   │
+ 5 │   "moonbitlang/core/encoding/utf8" @utf8,
+   │                                    ──┬──  
+   │                                      ╰──── Warning (unused_package): Unused package alias 'utf8'
+───╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/tree/node.mbt:8:14 ]
+   │
+ 8 │ } derive(Eq, Show)
+   │              ──┬─  
+   │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/tree/node.mbt:14:14 ]
+    │
+ 14 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/tree/node.mbt:20:14 ]
+    │
+ 20 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/tree/node.mbt:26:14 ]
+    │
+ 26 │ } derive(Eq, Show)
+    │              ──┬─  
+    │                ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/tree/node.mbt:40:10 ]
+    │
+ 40 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0020]
+   ╭─[ /mnt/@datasets/ratio/loci/tree/sparse.mbt:4:14 ]
+   │
+ 4 │   root_key : String?
+   │              ───┬───  
+   │                 ╰───── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+───╯
+Warning: [0027]
+   ╭─[ /mnt/@datasets/ratio/loci/tree/sparse.mbt:6:10 ]
+   │
+ 6 │ } derive(Show)
+   │          ──┬─  
+   │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+───╯
+Warning: [0020]
+    ╭─[ /mnt/@datasets/ratio/loci/tree/tree_test.mbt:67:3 ]
+    │
+ 67 │   assert_eq(tree.active_root_key(), None)
+    │   ────┬────  
+    │       ╰────── Warning (deprecated): Use Debug instead of Show for debugging purposes.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/triad/triad.mbt:23:10 ]
+    │
+ 23 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Warning: [0027]
+    ╭─[ /mnt/@datasets/ratio/loci/triad/triad.mbt:60:10 ]
+    │
+ 60 │ } derive(Show)
+    │          ──┬─  
+    │            ╰─── Warning (deprecated_syntax): `derive(Show)` is deprecated. Use `derive(Debug)` or manually implement the `Show` trait instead.
+────╯
+Finished. moon: ran 15 tasks, now up to date (203 warnings, 0 errors)

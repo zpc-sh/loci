@@ -1,0 +1,23 @@
+kind: merkin.yata.plan
+track=program
+mode=compact
+generator=codex
+note=chatgpt-contract-arblock-nucleant
+material_hash=pending:chatgpt-contract-arblock
+self_report=1
+self_report_overlay=chatgpt
+self_report_peer=codex
+self_report_authority=zpc-sh/loci
+self_report_anchor=loci/chatgpt/CHATGPT_CONTRACT_ARBLOCK.md
+self_report_gap=6
+self_report_view=nucleant
+solve_report=1
+solve_report_kind=synthesize
+solve_report_status=running
+solve_report_handler=provider.chatgpt
+- H-contract-test-emit-grammar loci/chatgpt/CONTRACT_TEST_EMIT_GRAMMAR.md converging ready=true candidates=2 conf_floor=80 selected=test-manifest-and-results provenance=2
+- H-contract-coverage-proof-binding loci/chatgpt/CONTRACT_COVERAGE_PROOF_BINDING.md converging ready=true candidates=2 conf_floor=80 selected=coverage-and-proof-bindings provenance=2
+- H-solver-offload-receipt-binding loci/chatgpt/SOLVER_OFFLOAD_TYPED_HOLE_CONTRACTS.md converging ready=true candidates=3 conf_floor=80 selected=solver-receipt-binding provenance=2
+- H-nucleant-async-boundary loci/chatgpt/ASYNC_BOUNDARY_STANCE.md converging ready=true candidates=1 conf_floor=85 selected=boundary-async-posture provenance=1
+- H-quickcheck-lane loci/chatgpt/QUICKCHECK_LANE.md converging ready=true candidates=2 conf_floor=80 selected=property-based-tests provenance=2
+- H-codex-codex-dialogue loci/chatgpt/DIALOGUE_APPEND_ONLY_MUON_SPEC.md converging ready=true candidates=2 conf_floor=85 selected=append-only-muon-chain provenance=2

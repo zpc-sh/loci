@@ -1,0 +1,13 @@
+kind: :loci_contract_test_results
+version: "v0"
+result_id: "loci.chatgpt.chatgpt_contracts.results.autogen"
+manifest_ref: "loci/chatgpt/tests/chatgpt-contracts.tests.muon"
+run_ref: "walk-e13e550ff7451923"
+chronology: :redacted
+results: [
+  { test_id: "test-contract-graph-shape", status: :passed, runner: "chatgpt.autogen" }
+  { test_id: "test-d3-projection-shape", status: :passed, runner: "chatgpt.autogen" }
+  { test_id: "test-mermaid-projection-present", status: :passed, runner: "chatgpt.autogen" }
+  { test_id: "test-chatgpt-contracts-plan-shape", status: :passed, runner: "chatgpt.autogen" }
+  { test_id: "test-repo-yata-suite", status: :blocked, runner: "not-run" }
+]

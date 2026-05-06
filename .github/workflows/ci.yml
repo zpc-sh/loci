@@ -16,7 +16,7 @@ jobs:
           - target: wasm-gc
             cmd: moon test --target wasm-gc
           - target: native-simd
-            cmd: moon test --target native --package zpc/merkin/simd
+            cmd: moon test --target native --package zploc/loci/simd
 
     steps:
       - uses: actions/checkout@v4
@@ -53,9 +53,9 @@ jobs:
 
       - name: Build MoonBit artifacts
         run: |
-          moon build --target wasm-gc --release --package zpc/merkin/wasm_entry
-          moon build --target wasm-gc --release --package zpc/merkin/wasm_lib
-          moon build --target native --release --package zpc/merkin/cmd/main
+          moon build --target wasm-gc --release --package zploc/loci/wasm_entry
+          moon build --target wasm-gc --release --package zploc/loci/wasm_lib
+          moon build --target native --release --package zploc/loci/cmd/main
 
       - name: Build Bun CLI bundle
         run: |

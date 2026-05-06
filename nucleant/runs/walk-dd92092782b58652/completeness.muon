@@ -1,0 +1,12 @@
+kind: :nucleant_completeness
+run_id: "walk-dd92092782b58652"
+source_boundary: "loci/chatgpt"
+stages:
+  plan: { total: 6, ready: 6, completeness_pct: 100 }
+  implementation: { signal: :green, based_on: "plan_ready_contract_ratio" }
+  testing: { total: 30, passed: 30, failed: 0, blocked: 0, completeness_pct: 100 }
+  proof: { total: 3, covered: 1, open: 1, blocked: 1, failed: 0, sealed: false }
+overall:
+  evidence_score_pct: 100
+  seal_posture: :amber
+  proof_sealed: false

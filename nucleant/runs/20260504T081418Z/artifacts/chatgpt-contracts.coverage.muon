@@ -1,0 +1,9 @@
+kind: :loci_contract_coverage_binding
+version: "v0"
+coverage_id: "loci.chatgpt.chatgpt_contracts.coverage.v1.muon"
+source: "moon coverage analyze"
+surfaces: [
+  { surface: "cmd/main/main.mbt", contract: "H-cross-conversation-primitive", coverage_status: :unknown, action: "add command test or mark unreachable" }
+  { surface: "daemon/conversation.mbt", contract: "H-cross-conversation-primitive", coverage_status: :unknown, action: "bind replay command checks" }
+  { surface: "loci/chatgpt/chatgpt.mbt", contract: "H-contract-coverage-proof-binding", coverage_status: :covered, action: "keep test gate green" }
+]

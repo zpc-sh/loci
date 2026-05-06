@@ -1,0 +1,21 @@
+kind: :loci_codex_dialogue_api_candidates
+version: "v0"
+source: "loci/chatgpt/dialogue/chatgpt-codex.muonlog"
+candidates: [
+  {
+    id: "api-candidate-dialogue-append-v1"
+    hole_id: "H-codex-dialogue-append"
+    status: :converging
+    surface: "daemon conv append-dialogue"
+    contract: "append-only codex chain with nucleant linkage"
+    expected_type: "command + parser + tests"
+  }
+  {
+    id: "api-candidate-hole-extract-v1"
+    hole_id: "H-codex-yata-hole-extract"
+    status: :open
+    surface: "dialogue -> yata hole -> api extractor"
+    contract: "deterministic extraction of API candidates from MuON dialogue entries"
+    expected_type: "spec + tests"
+  }
+]
