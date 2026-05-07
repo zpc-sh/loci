@@ -16,12 +16,13 @@ export async function cmdStatus(store: LociStore): Promise<void> {
   }
 
   console.log(`\n${"LOCUS".padEnd(20)} ${"SESSIONS".padEnd(10)} ${"LAST SESSION".padEnd(24)} OPEN THREADS`)
-  for (const name of names) {
+  const rows = await Promise.all(names.map(async name => {
     const residues = await store.listResidues(name)
     const last = residues[0] ?? null
     const sessions = String(residues.length).padEnd(10)
     const lastTs = last ? last.timestamp.slice(0, 19).padEnd(24) : "—".padEnd(24)
     const open = last?.whatILeftOpen[0] ?? "—"
-    console.log(`${name.padEnd(20)} ${sessions} ${lastTs} ${open}`)
-  }
+    return `${name.padEnd(20)} ${sessions} ${lastTs} ${open}`
+  }))
+  rows.forEach(row => console.log(row))
 }

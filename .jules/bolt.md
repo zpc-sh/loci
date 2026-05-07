@@ -5,3 +5,7 @@
 ## 2024-05-19 - Fast BFS Propagation for Tree Projections
 **Learning:** In MoonBit, an O(N^2) loop checking presence in an expanding Map (`included.get(...) is Some(_)`) is very slow (12s for 2000 depth). Replacing it with an O(E) precomputation pass to map child-to-parent and an O(N) queue-based BFS propagation dramatically drops the time (to 0.12s).
 **Action:** Always favor explicit work queues and adjacency maps over repeated N-passes for graph/tree propagation logic.
+
+## 2024-05-07 - Parallelizing Async I/O inside Bun TS scripts
+**Learning:** Sequential async file IO operations, such as inside `store.ts` via `for (const x of items) { await fs.read(x) }`, cause noticeable slowdown in both tests and CLI interactions (like `loci status`).
+**Action:** Always replace sequential arrays of promises for independent file I/O operations with `Promise.all(arr.map(x => fs.read(x)))`.
