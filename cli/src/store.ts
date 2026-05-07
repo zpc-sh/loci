@@ -42,7 +42,7 @@ export class LociStore {
   async initLocus(locus: Locus): Promise<string[]> {
     const root = this.locusPath(locus.name)
     const paths: string[] = [root, ...LOCUS_SUBDIRS.map(s => join(root, s))]
-    for (const p of paths) await mkdir(p, { recursive: true })
+    await Promise.all(paths.map(p => mkdir(p, { recursive: true })))
     const readmePath = join(root, "README.md")
     await Bun.write(readmePath, scaffoldReadme(locus))
     return [...paths, readmePath]
@@ -73,12 +73,10 @@ export class LociStore {
     const dir = this.residueDir(locusName)
     if (!await exists(dir)) return []
     const files = (await readdir(dir)).filter(f => f.endsWith(".md")).sort().reverse()
-    const residues: Residue[] = []
-    for (const f of files) {
-      const r = fromMarkdown(locusName, await Bun.file(join(dir, f)).text())
-      if (r) residues.push(r)
-    }
-    return residues
+    const parsed = await Promise.all(
+      files.map(async f => fromMarkdown(locusName, await Bun.file(join(dir, f)).text()))
+    )
+    return parsed.filter((r): r is Residue => r !== null)
   }
 
   async latestResidue(locusName: string): Promise<Residue | null> {
@@ -96,8 +94,10 @@ export class LociStore {
   }
 
   async initStore(): Promise<void> {
-    await mkdir(join(this.storePath, "blobs"), { recursive: true })
-    await mkdir(join(this.storePath, "refs"), { recursive: true })
+    await Promise.all([
+      mkdir(join(this.storePath, "blobs"), { recursive: true }),
+      mkdir(join(this.storePath, "refs"), { recursive: true })
+    ])
   }
 
   async putBlob(data: Uint8Array): Promise<string> {
