@@ -1367,13 +1367,15 @@ fn split_after(raw : String, prefix : String) -> String {
   if chunks.length() == 1 {
     return chunks[0]
   }
-  let mut out = chunks[1]
+  let builder = StringBuilder::new()
+  builder.write_string(chunks[1])
   let mut i : Int = 2
   while i < chunks.length() {
-    out = out + prefix + chunks[i]
+    builder.write_string(prefix)
+    builder.write_string(chunks[i])
     i = i + 1
   }
-  out
+  builder.to_string()
 }
 
 ///|

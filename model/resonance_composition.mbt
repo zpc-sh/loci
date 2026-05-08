@@ -384,13 +384,14 @@ fn merge_patterns(active : Array[AmfDocument]) -> Array[AmfPattern] {
 }
 
 ///|
+/// Optimized string concatenation using StringBuilder to replace O(N^2) loop.
 fn composition_doc_id(active : Array[AmfDocument]) -> String {
-  let mut out = ""
+  let builder = StringBuilder::new()
   for i = 0; i < active.length(); i = i + 1 {
     if i > 0 {
-      out = out + "+"
+      builder.write_string("+")
     }
-    out = out + active[i].doc_id
+    builder.write_string(active[i].doc_id)
   }
-  out
+  builder.to_string()
 }
