@@ -402,15 +402,18 @@ fn hash_is_empty(h : @hash.Hash) -> Bool {
 }
 
 ///|
+/// Optimized string concatenation using StringBuilder to replace O(N^2) loop.
 fn join_surfaces(surfaces : Array[String]) -> String {
   if surfaces.length() == 0 {
     return ""
   }
-  let mut out = surfaces[0]
+  let builder = StringBuilder::new()
+  builder.write_string(surfaces[0])
   for i = 1; i < surfaces.length(); i = i + 1 {
-    out = out + "," + surfaces[i]
+    builder.write_string(",")
+    builder.write_string(surfaces[i])
   }
-  out
+  builder.to_string()
 }
 
 ///|

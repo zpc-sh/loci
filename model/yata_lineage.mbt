@@ -820,15 +820,18 @@ fn YataGraph::collect_ancestry(
 }
 
 ///|
+/// Optimized string concatenation using StringBuilder to replace O(N^2) loop.
 fn join_by(items : Array[String], sep : String) -> String {
   if items.length() == 0 {
     return ""
   }
-  let mut out = items[0]
+  let builder = StringBuilder::new()
+  builder.write_string(items[0])
   for i = 1; i < items.length(); i = i + 1 {
-    out = out + sep + items[i]
+    builder.write_string(sep)
+    builder.write_string(items[i])
   }
-  out
+  builder.to_string()
 }
 
 ///|
