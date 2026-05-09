@@ -1,0 +1,3 @@
+## 2024-05-09 - Multi-prompt CLI cancellation handling
+**Learning:** In multi-step CLI prompts using `@clack/prompts`, failing to explicitly check for cancellation (e.g. `Ctrl+C`) at each step using `clack.isCancel()` can lead to the CLI proceeding with partial/empty data instead of exiting cleanly. Additionally, `clack.cancel()` should always be provided with a message (like "Cancelled.") to prevent strict typing errors and improve UX.
+**Action:** Always check `clack.isCancel()` after every prompt in a sequence and call `clack.cancel("Cancelled.")` followed by `process.exit(0)` to properly abort the flow.
