@@ -1,0 +1,3 @@
+## 2024-05-10 - Provide Feedback on TUI Prompt Cancellations
+**Learning:** When using `@clack/prompts`, calling `clack.cancel()` without a string message can lead to poor UX (a silent exit) or strict typing runtime errors. Additionally, in multi-prompt sequences, each step must explicitly check `clack.isCancel()` and call `process.exit(0)` to properly abort the flow on Ctrl+C, otherwise the CLI will incorrectly proceed to the next prompt.
+**Action:** Always provide a string message (e.g., `clack.cancel('Cancelled')`) and consistently exit the process (`process.exit(0)`) immediately upon detecting cancellation (`clack.isCancel(...)`) to ensure a smooth and robust terminal user experience.
