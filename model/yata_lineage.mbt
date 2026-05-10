@@ -731,9 +731,9 @@ pub fn YataPlan::to_wire(self : YataPlan) -> String {
   for entry in self.entries {
     b.write_string("- ")
     b.write_string(entry.hole_id.key())
-    b.write_string(" ")
+    b.write_char(' ')
     b.write_string(entry.anchor)
-    b.write_string(" ")
+    b.write_char(' ')
     b.write_string(entry.state)
     b.write_string(" ready=")
     if entry.ready {

@@ -173,36 +173,36 @@ fn adjoin_expr_write(b : StringBuilder, e : AdjoinExpr) -> Unit {
     LocusLeaf(leaf) => {
       b.write_string("locus(")
       b.write_string(leaf.locus_id)
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(leaf.surface_ref)
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(leaf.profile_ref)
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(leaf.seal.key())
-      b.write_string(")")
+      b.write_char(')')
     }
     VoidLeaf(leaf) => {
       b.write_string("yata(")
       b.write_string(leaf.yata_plan_ref)
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(yata_expected_type_tag(leaf.expected_type))
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(if leaf.void_typed { "1" } else { "0" })
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(leaf.min_confidence.to_string())
-      b.write_string(",")
+      b.write_char(',')
       b.write_string(leaf.seal.key())
-      b.write_string(")")
+      b.write_char(')')
     }
     Op(op, left, right, meta) => {
       b.write_string(adjoin_op_tag(op))
-      b.write_string("(")
+      b.write_char('(')
       adjoin_expr_write(b, left)
-      b.write_string("|")
+      b.write_char('|')
       adjoin_expr_write(b, right)
       b.write_string("|meta=")
       adjoin_meta_write(b, meta)
-      b.write_string(")")
+      b.write_char(')')
     }
   }
 }
@@ -216,17 +216,17 @@ fn adjoin_meta_write(b : StringBuilder, meta : Array[(String, String)]) -> Unit 
     b.write_string("{}")
     return
   }
-  b.write_string("{")
+  b.write_char('{')
   b.write_string(sorted[0].0)
-  b.write_string("=")
+  b.write_char('=')
   b.write_string(sorted[0].1)
   for i = 1; i < sorted.length(); i = i + 1 {
-    b.write_string(",")
+    b.write_char(',')
     b.write_string(sorted[i].0)
-    b.write_string("=")
+    b.write_char('=')
     b.write_string(sorted[i].1)
   }
-  b.write_string("}")
+  b.write_char('}')
 }
 
 ///|
@@ -264,11 +264,11 @@ pub fn AdjoinContract::compute_seal(
 ) -> @hash.Hash {
   let b = StringBuilder::new(size_hint=512)
   b.write_string(kind)
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(version)
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(contract_id)
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(ratio_loci)
   b.write_string("|expr=")
   b.write_string(expr.seal().key())
@@ -276,7 +276,7 @@ pub fn AdjoinContract::compute_seal(
   let sorted = adjoin_surfaces_sorted(required_surfaces)
   for i = 0; i < sorted.length(); i = i + 1 {
     if i > 0 {
-      b.write_string(",")
+      b.write_char(',')
     }
     b.write_string(sorted[i])
   }
