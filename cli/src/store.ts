@@ -42,7 +42,10 @@ export class LociStore {
   async initLocus(locus: Locus): Promise<string[]> {
     const root = this.locusPath(locus.name)
     const paths: string[] = [root, ...LOCUS_SUBDIRS.map(s => join(root, s))]
-    for (const p of paths) await mkdir(p, { recursive: true })
+
+    // Performance optimization: Parallelize directory creation to avoid sequential Event Loop blocking
+    await Promise.all(paths.map(p => mkdir(p, { recursive: true })))
+
     const readmePath = join(root, "README.md")
     await Bun.write(readmePath, scaffoldReadme(locus))
     return [...paths, readmePath]
@@ -74,10 +77,14 @@ export class LociStore {
     if (!await exists(dir)) return []
     const files = (await readdir(dir)).filter(f => f.endsWith(".md")).sort().reverse()
     const residues: Residue[] = []
-    for (const f of files) {
-      const r = fromMarkdown(locusName, await Bun.file(join(dir, f)).text())
+
+    // Performance optimization: Parallelize reading of residue files
+    const texts = await Promise.all(files.map(f => Bun.file(join(dir, f)).text()))
+    for (const text of texts) {
+      const r = fromMarkdown(locusName, text)
       if (r) residues.push(r)
     }
+
     return residues
   }
 
@@ -96,8 +103,11 @@ export class LociStore {
   }
 
   async initStore(): Promise<void> {
-    await mkdir(join(this.storePath, "blobs"), { recursive: true })
-    await mkdir(join(this.storePath, "refs"), { recursive: true })
+    // Performance optimization: Parallelize store directory creation
+    await Promise.all([
+      mkdir(join(this.storePath, "blobs"), { recursive: true }),
+      mkdir(join(this.storePath, "refs"), { recursive: true })
+    ])
   }
 
   async putBlob(data: Uint8Array): Promise<string> {
