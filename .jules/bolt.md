@@ -5,3 +5,7 @@
 ## 2024-05-19 - Fast BFS Propagation for Tree Projections
 **Learning:** In MoonBit, an O(N^2) loop checking presence in an expanding Map (`included.get(...) is Some(_)`) is very slow (12s for 2000 depth). Replacing it with an O(E) precomputation pass to map child-to-parent and an O(N) queue-based BFS propagation dramatically drops the time (to 0.12s).
 **Action:** Always favor explicit work queues and adjacency maps over repeated N-passes for graph/tree propagation logic.
+
+## 2024-05-19 - Fast Parallel I/O Operations in Bun
+**Learning:** When performing multiple independent I/O operations like directory creation in the Bun runtime, sequential `await` calls in a loop are slower than running them in parallel.
+**Action:** Always parallelize independent I/O operations using `Promise.all(...)` instead of sequential `await` loops for better performance.
