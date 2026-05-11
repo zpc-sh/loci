@@ -1,0 +1,3 @@
+## 2025-02-17 - TUI Cancellation Handling
+**Learning:** When building TUI experiences with `@clack/prompts`, failing to check `clack.isCancel()` at every step of a multi-prompt sequence can lead to the sequence continuing unexpectedly or erroring when the user tries to cancel. Additionally, `clack.cancel()` should always receive a string argument (e.g., `'Cancelled.'`) to ensure proper rendering and prevent runtime typing errors.
+**Action:** Always check `if (clack.isCancel(input))` after each prompt in a sequence, and if true, execute `clack.cancel('Cancelled.'); process.exit(0)` to cleanly abort the interaction.
