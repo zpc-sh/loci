@@ -173,9 +173,9 @@ pub fn BuildRequest::new(
 pub fn BuildRequest::seal_material(self : BuildRequest) -> @hash.Hash {
   let b = StringBuilder::new(size_hint=1024)
   b.write_string(self.kind)
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(self.version)
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(self.request_id)
   b.write_string("|target=")
   b.write_string(self.target.family)
@@ -262,7 +262,7 @@ pub fn BuildManifest::compute_provenance(
   let b = StringBuilder::new(size_hint=256)
   b.write_string("provenance|")
   b.write_string(request_seal.key())
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(adjoin_seal.key())
   b.write_string("|wasm=")
   match wasm_ref {
