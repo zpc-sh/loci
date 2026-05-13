@@ -42,7 +42,8 @@ export class LociStore {
   async initLocus(locus: Locus): Promise<string[]> {
     const root = this.locusPath(locus.name)
     const paths: string[] = [root, ...LOCUS_SUBDIRS.map(s => join(root, s))]
-    for (const p of paths) await mkdir(p, { recursive: true })
+    // ⚡ Bolt: parallelize directory creation for better performance
+    await Promise.all(paths.map(p => mkdir(p, { recursive: true })))
     const readmePath = join(root, "README.md")
     await Bun.write(readmePath, scaffoldReadme(locus))
     return [...paths, readmePath]
@@ -96,8 +97,11 @@ export class LociStore {
   }
 
   async initStore(): Promise<void> {
-    await mkdir(join(this.storePath, "blobs"), { recursive: true })
-    await mkdir(join(this.storePath, "refs"), { recursive: true })
+    // ⚡ Bolt: parallelize directory creation for better performance
+    await Promise.all([
+      mkdir(join(this.storePath, "blobs"), { recursive: true }),
+      mkdir(join(this.storePath, "refs"), { recursive: true })
+    ])
   }
 
   async putBlob(data: Uint8Array): Promise<string> {
