@@ -1,0 +1,3 @@
+## 2025-02-18 - Clack Prompts Cancellation UX
+**Learning:** In multi-prompt sequences using `@clack/prompts`, failing to explicitly handle `clack.isCancel()` at each step allows users to unexpectedly bypass prompts with Ctrl+C, breaking the intended linear flow. Furthermore, calling `clack.cancel()` without a string message results in poor visual feedback (just a line break instead of an explicit cancellation notice).
+**Action:** Always check `clack.isCancel()` for every interactive prompt. When cancelling, always provide a descriptive message like `clack.cancel('Operation cancelled.')` before exiting.
