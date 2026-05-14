@@ -385,12 +385,12 @@ fn merge_patterns(active : Array[AmfDocument]) -> Array[AmfPattern] {
 
 ///|
 fn composition_doc_id(active : Array[AmfDocument]) -> String {
-  let mut out = ""
+  let b = StringBuilder::new()
   for i = 0; i < active.length(); i = i + 1 {
     if i > 0 {
-      out = out + "+"
+      b.write_string("+")
     }
-    out = out + active[i].doc_id
+    b.write_string(active[i].doc_id)
   }
-  out
+  b.to_string()
 }
