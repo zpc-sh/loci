@@ -612,13 +612,15 @@ fn join_from_index(
   if parts.length() <= index {
     ""
   } else {
-    let mut out = parts[index]
+    let b = StringBuilder::new()
+    b.write_string(parts[index])
     let mut i = index + 1
     while i < parts.length() {
-      out = out + separator + parts[i]
+      b.write_string(separator)
+      b.write_string(parts[i])
       i = i + 1
     }
-    out
+    b.to_string()
   }
 }
 
@@ -758,13 +760,15 @@ fn resolve_relative_anchor(base_anchor : String, route : String) -> String {
   if resolved.length() == 0 {
     ""
   } else {
-    let mut out = resolved[0]
+    let b = StringBuilder::new()
+    b.write_string(resolved[0])
     let mut r : Int = 1
     while r < resolved.length() {
-      out = out + "/" + resolved[r]
+      b.write_string("/")
+      b.write_string(resolved[r])
       r = r + 1
     }
-    out
+    b.to_string()
   }
 }
 
@@ -780,13 +784,15 @@ fn split_after_raw(raw : String, prefix : String) -> String {
   if chunks.length() == 1 {
     return chunks[0]
   }
-  let mut out = chunks[1]
+  let b = StringBuilder::new()
+  b.write_string(chunks[1])
   let mut i : Int = 2
   while i < chunks.length() {
-    out = out + prefix + chunks[i]
+    b.write_string(prefix)
+    b.write_string(chunks[i])
     i = i + 1
   }
-  out
+  b.to_string()
 }
 
 ///|
