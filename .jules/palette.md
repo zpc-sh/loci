@@ -1,0 +1,3 @@
+## 2026-05-15 - TUI Cancellation Handling
+**Learning:** Calling `clack.cancel()` without a string argument in multi-step prompts leads to strict-typing runtime errors and a poor user experience. Additionally, failing to explicitly check for `clack.isCancel()` at each step of a multi-prompt sequence forces users into an un-cancellable state.
+**Action:** Always pass a clear cancellation message to `clack.cancel()` (e.g., `clack.cancel("Cancelled.")`) and always wrap each step in a multi-prompt sequence with an explicit `if (clack.isCancel(...)) { ...; process.exit(0) }` check to ensure the user can Ctrl+C at any time.
