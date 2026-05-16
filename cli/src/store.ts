@@ -42,7 +42,8 @@ export class LociStore {
   async initLocus(locus: Locus): Promise<string[]> {
     const root = this.locusPath(locus.name)
     const paths: string[] = [root, ...LOCUS_SUBDIRS.map(s => join(root, s))]
-    for (const p of paths) await mkdir(p, { recursive: true })
+    // Bolt Optimization: Run independent IO operations in parallel instead of sequential await
+    await Promise.all(paths.map(p => mkdir(p, { recursive: true })))
     const readmePath = join(root, "README.md")
     await Bun.write(readmePath, scaffoldReadme(locus))
     return [...paths, readmePath]
@@ -73,12 +74,12 @@ export class LociStore {
     const dir = this.residueDir(locusName)
     if (!await exists(dir)) return []
     const files = (await readdir(dir)).filter(f => f.endsWith(".md")).sort().reverse()
-    const residues: Residue[] = []
-    for (const f of files) {
-      const r = fromMarkdown(locusName, await Bun.file(join(dir, f)).text())
-      if (r) residues.push(r)
-    }
-    return residues
+
+    // Bolt Optimization: Read multiple files in parallel to reduce IO wait time
+    const parsedResidues = await Promise.all(
+      files.map(async f => fromMarkdown(locusName, await Bun.file(join(dir, f)).text()))
+    )
+    return parsedResidues.filter((r): r is Residue => Boolean(r))
   }
 
   async latestResidue(locusName: string): Promise<Residue | null> {
