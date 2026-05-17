@@ -1,0 +1,3 @@
+## 2025-02-27 - clack.cancel handling in multi-prompt sequences
+**Learning:** In the TUI interface utilizing `@clack/prompts`, failing to explicitly catch `clack.isCancel()` on every prompt allows the sequence to fall through instead of aborting the operation. Furthermore, calling `clack.cancel()` without a string message yields poor terminal UX and strict typing errors.
+**Action:** Always provide a string message to `clack.cancel()` (e.g., `clack.cancel('Cancelled')`). Additionally, in multi-prompt sequences, ensure `clack.isCancel()` is checked for *every* individual prompt followed by `process.exit(0)` to properly handle user cancellation.
