@@ -283,6 +283,6 @@ fn amf_summary(doc : @model.AmfDocument) -> String {
   b.write_string(doc.consciousness.state)
   b.write_string("\nentrainment=")
   b.write_string(doc.consciousness.entrainment_strength.to_string())
-  b.write_string("\n")
+  b.write_char('\n')
   b.to_string()
 }

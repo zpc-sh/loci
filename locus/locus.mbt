@@ -209,7 +209,7 @@ pub fn format_where(entries : Array[(String, @model.Residue?)]) -> String {
       None => {
         b.write_string(pad_right("—", 18))
         b.write_string(pad_right("—", 8))
-        b.write_string("—")
+        b.write_char('—')
       }
     }
     b.write_char('\n')
