@@ -160,13 +160,13 @@ fn compute_router_seal(
 ) -> @hash.Hash {
   let b = StringBuilder::new(size_hint=512)
   b.write_string(router_kind())
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(router_version())
-  b.write_string("|")
+  b.write_char('|')
   b.write_string(decision_id)
   b.write_string("|passport=")
   b.write_string(passport_id)
-  b.write_string(";")
+  b.write_char(';')
   b.write_string(passport_seal.key())
   b.write_string("|resonance=")
   match resonance_signature {
@@ -175,18 +175,18 @@ fn compute_router_seal(
   }
   b.write_string("|action=")
   b.write_string(router_action_tag(action))
-  b.write_string(";")
+  b.write_char(';')
   match action {
-    RouteAllow => b.write_string("-")
+    RouteAllow => b.write_char('-')
     RouteNarrow(surfaces, cap) => {
       let sorted = router_surfaces_sorted(surfaces)
       for i = 0; i < sorted.length(); i = i + 1 {
         if i > 0 {
-          b.write_string(",")
+          b.write_char(',')
         }
         b.write_string(sorted[i])
       }
-      b.write_string("@")
+      b.write_char('@')
       b.write_string(capability_class_tag(cap))
     }
     RouteSandbox(lane) => b.write_string(lane)
