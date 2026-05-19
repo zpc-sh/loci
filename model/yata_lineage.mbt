@@ -727,13 +727,13 @@ pub fn YataPlan::to_wire(self : YataPlan) -> String {
     }
     None => ()
   }
-  b.write_string("\n")
+  b.write_char('\n')
   for entry in self.entries {
     b.write_string("- ")
     b.write_string(entry.hole_id.key())
-    b.write_string(" ")
+    b.write_char(' ')
     b.write_string(entry.anchor)
-    b.write_string(" ")
+    b.write_char(' ')
     b.write_string(entry.state)
     b.write_string(" ready=")
     if entry.ready {
@@ -752,7 +752,7 @@ pub fn YataPlan::to_wire(self : YataPlan) -> String {
     }
     b.write_string(" provenance=")
     b.write_string(entry.provenance.length().to_string())
-    b.write_string("\n")
+    b.write_char('\n')
   }
   b.to_string()
 }
