@@ -1,0 +1,3 @@
+## 2025-02-27 - Properly handle cancellations in @clack/prompts multi-prompt sequences
+**Learning:** In multi-prompt sequences using the '@clack/prompts' library, if a user hits Ctrl+C on a subsequent prompt, the script will simply skip the assignment and fall through to the next prompt if the cancellation isn't explicitly handled, leading to unexpected behavior. Also, `clack.cancel()` requires a string message to avoid runtime strict typing errors and provide a better UX.
+**Action:** Always check `clack.isCancel(result)` for *every* individual prompt in a multi-prompt sequence. Inside the if statement, call `clack.cancel("Operation cancelled")` with a message and immediately call `process.exit(0)` to properly exit the process.
