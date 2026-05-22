@@ -62,9 +62,9 @@ pub fn YataHole::to_cog_uri(
   let b = StringBuilder::new()
   b.write_string("cog://")
   b.write_string(authority)
-  b.write_string("/")
+  b.write_char('/')
   b.write_string(normalize_anchor_path(self.anchor))
-  b.write_string("?")
+  b.write_char('?')
   b.write_string("overlay=")
   if hint.overlay.length() > 0 {
     b.write_string(hint.overlay)
@@ -82,7 +82,7 @@ pub fn YataHole::to_cog_uri(
   b.write_string("&id=")
   b.write_string(self.hole_id.key())
   if hint.view.length() > 0 {
-    b.write_string("#")
+    b.write_char('#')
     b.write_string(hint.view)
   } else {
     b.write_string("#overlay")
@@ -101,9 +101,9 @@ pub fn YataHole::to_substrate_uri(
   let b = StringBuilder::new()
   b.write_string("substrate://")
   b.write_string(authority)
-  b.write_string("/")
+  b.write_char('/')
   b.write_string(normalize_anchor_path(self.anchor))
-  b.write_string("?")
+  b.write_char('?')
   b.write_string("overlay=")
   if hint.overlay.length() > 0 {
     b.write_string(hint.overlay)
@@ -121,7 +121,7 @@ pub fn YataHole::to_substrate_uri(
   b.write_string("&id=")
   b.write_string(self.hole_id.key())
   if hint.view.length() > 0 {
-    b.write_string("#")
+    b.write_char('#')
     b.write_string(hint.view)
   } else {
     b.write_string("#overlay")
@@ -152,11 +152,11 @@ pub fn YataHole::to_cas_uri(
   let b = StringBuilder::new()
   b.write_string("cas://")
   b.write_string(authority)
-  b.write_string("/")
+  b.write_char('/')
   b.write_string(alg)
-  b.write_string("/")
+  b.write_char('/')
   b.write_string(digest)
-  b.write_string("?")
+  b.write_char('?')
   b.write_string("overlay=")
   if hint.overlay.length() > 0 {
     b.write_string(hint.overlay)
@@ -178,7 +178,7 @@ pub fn YataHole::to_cas_uri(
     b.write_string(normalized_anchor)
   }
   if hint.view.length() > 0 {
-    b.write_string("#")
+    b.write_char('#')
     b.write_string(hint.view)
   } else {
     b.write_string("#overlay")
@@ -641,10 +641,10 @@ fn build_canonical_uri(
   b.write_string(scheme)
   b.write_string("://")
   b.write_string(authority)
-  b.write_string("/")
+  b.write_char('/')
   if scheme == "cas" {
     b.write_string(cas_alg)
-    b.write_string("/")
+    b.write_char('/')
     b.write_string(cas_digest)
   } else {
     b.write_string(anchor)
@@ -667,7 +667,7 @@ fn build_canonical_uri(
     b.write_string("&anchor=")
     b.write_string(anchor)
   }
-  b.write_string("#")
+  b.write_char('#')
   if view == "" {
     b.write_string("overlay")
   } else {
