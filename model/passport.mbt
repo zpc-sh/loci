@@ -406,11 +406,13 @@ fn join_surfaces(surfaces : Array[String]) -> String {
   if surfaces.length() == 0 {
     return ""
   }
-  let mut out = surfaces[0]
+  let out = StringBuilder::new()
+  out.write_string(surfaces[0])
   for i = 1; i < surfaces.length(); i = i + 1 {
-    out = out + "," + surfaces[i]
+    out.write_char(',')
+    out.write_string(surfaces[i])
   }
-  out
+  out.to_string()
 }
 
 ///|
