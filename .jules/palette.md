@@ -1,0 +1,3 @@
+## 2025-02-23 - Handle Cancellation Properly in Multi-Prompt Sequences
+**Learning:** When using `@clack/prompts`, failing to check `clack.isCancel()` and immediately call `process.exit(0)` on *every* individual prompt in a sequence causes a jarring UX bug where pressing `Ctrl+C` falls through to the next prompt instead of gracefully exiting the CLI. Furthermore, TypeScript strict typing requires passing a message to `clack.cancel()`.
+**Action:** In multi-prompt sequences, ensure `clack.isCancel()` is checked for every individual prompt and call `process.exit(0)` to properly handle Ctrl+C cancellations, preventing the sequence from incorrectly falling through. Always provide a string message to `clack.cancel()` (e.g., `clack.cancel('Cancelled')`).
