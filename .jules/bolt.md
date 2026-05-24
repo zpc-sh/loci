@@ -5,3 +5,7 @@
 ## 2024-05-19 - Fast BFS Propagation for Tree Projections
 **Learning:** In MoonBit, an O(N^2) loop checking presence in an expanding Map (`included.get(...) is Some(_)`) is very slow (12s for 2000 depth). Replacing it with an O(E) precomputation pass to map child-to-parent and an O(N) queue-based BFS propagation dramatically drops the time (to 0.12s).
 **Action:** Always favor explicit work queues and adjacency maps over repeated N-passes for graph/tree propagation logic.
+
+## 2024-05-19 - Using StringBuilder instead of '+' for string concatenation inside loops
+**Learning:** In MoonBit, appending strings inside a loop using the '+' operator results in O(N^2) complexity because strings are immutable, creating a new allocation each iteration. This impacts multiple modules like model/imprint, model/yata_lineage, model/yata_addressing, model/yata_protocol, and model/resonance_composition.
+**Action:** Replace `out = out + ...` inside loops with `StringBuilder::new()`, `builder.write_string(...)`, and finally `builder.to_string()` for O(N) performance.
