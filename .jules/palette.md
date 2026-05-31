@@ -1,0 +1,3 @@
+## 2024-05-31 - Handle @clack/prompts multi-prompt cancellations properly
+**Learning:** When using `@clack/prompts`, failing to check `clack.isCancel()` on every prompt in a sequence, or calling `clack.cancel()` without a message (e.g., `clack.cancel()`), leads to bad UX. Without a message, strict typing or internal rendering errors can occur, and missing checks cause the sequence to fall through instead of exiting cleanly.
+**Action:** Always provide a string message to `clack.cancel()` (e.g., `clack.cancel("Cancelled.")`). In multi-prompt sequences, ensure `clack.isCancel()` is checked for *every* individual prompt, immediately followed by `process.exit(0)` to prevent falling through to subsequent prompts.
